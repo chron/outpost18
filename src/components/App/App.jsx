@@ -8,7 +8,7 @@ import './App.scss';
 const DEBUG_MODE = true;
 
 function App() {
-  const baseStats = { name: 'Station Core', mode: 'base', defense: 5, draws: 1 };
+  const baseStats = { name: 'Station Core', mode: 'base', shields: 5, draws: 1 };
   const deck = shuffle(cards.map(c => c.name));
 
   const fakeState = {

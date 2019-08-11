@@ -1,10 +1,36 @@
 @import "../../stylesheets/variables.scss";
 
 .base {
+  display: flex;
+
   width: 200px;
   height: 120px;
-  padding: 10px;
-  background-color: black;
-  border: 2px solid $upgrade-border-color;
+  color: $card-foreground-color;
+  background-color: $card-background-color;
   border-radius: 8px;
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    margin: 5px;
+    padding: 5px;
+
+    text-align: center;
+  }
+
+  &__name {
+    &--reverse {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__image {
+    flex-grow: 1;
+    background-color: $ship-background-color;
+    border-radius: 5px;
+    border: 2px solid $upgrade-border-color;
+  }
 }

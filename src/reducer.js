@@ -49,17 +49,30 @@ function attack(state, playerName, cardName) {
   return { ...state, players: newPlayers };
 }
 
+function beginTurn(state, playerName) {
+  const player = state.players.find(p => p.name === playerName);
+  const { inPlay } = player;
+
+  const newInPlay = inPlay.map(i => ({ ...i, canAttack: true }));
+  const changes = { plays: 1, inPlay: newInPlay };
+
+  // TODO: discard down to 3 somehow
+
+  return updatePlayer(state, player, changes);
+}
+
 function endTurn(state, playerName) {
   const player = state.players.find(p => p.name === playerName);
   const { inPlay } = player;
 
   const attackers = inPlay.filter(s => s.attacking);
   const nonAttackers = inPlay.filter(s => !s.attacking);
-  const newInPlay = nonAttackers.map(i => ({ ...i, canAttack: true }));
 
-  const changes = { attackPool: 0, plays: 1, inPlay: newInPlay };
+  const changes = { attackPool: 0, inPlay: nonAttackers };
 
   const newDiscards = state.discards.concat(attackers);
+
+  // TODO: Draw cards equal to draws, shuffle discards if necessary
 
   return { ...updatePlayer(state, player, changes), discards: newDiscards };
 }

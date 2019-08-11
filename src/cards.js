@@ -2,14 +2,14 @@ const cards = [
   {
     name: "Centurion",
     attack: 2,
-    defense: 3,
+    shields: 3,
     ore: 1,
     draws: 1,
   },
   {
     name: "Ionblazer",
     attack: 2,
-    defense: 2,
+    shields: 2,
     ore: 1,
     ion: 1,
     labour: 1,
@@ -18,7 +18,7 @@ const cards = [
   {
     name: "Battlestar",
     attack: 2,
-    defense: 3,
+    shields: 3,
     defender: true,
     ore: 1,
     labour: 1,
@@ -26,14 +26,14 @@ const cards = [
   {
     name: "Epoch",
     attack: 2,
-    defense: 3,
+    shields: 3,
     ore: 1,
     labour: 1,
   },
   {
     name: "Dreadnought",
     attack: 1,
-    defense: 2,
+    shields: 2,
     ore: 1,
     ion: 1,
     labour: 1,
@@ -41,7 +41,7 @@ const cards = [
   {
     name: "Destroyer",
     attack: 1,
-    defense: 3,
+    shields: 3,
     defender: true,
     ore: 1,
     labour: 1,
@@ -49,14 +49,14 @@ const cards = [
   {
     name: "Helix",
     attack: 1,
-    defense: 3,
+    shields: 3,
     defender: true,
     ore: 1,
   },
   {
     name: "Freighter",
     attack: 1,
-    defense: 3,
+    shields: 3,
     ore: 1,
     ion: 1,
     shipOre: 1,
@@ -64,14 +64,14 @@ const cards = [
   {
     name: "Falcon",
     attack: 1,
-    defense: 3,
+    shields: 3,
     defender: true,
     ion: 2,
   },
   {
     name: "Lotus",
     attack: 1,
-    defense: 3,
+    shields: 3,
     ion: 1,
     draws: 1,
     shipIon: 1,
@@ -81,7 +81,7 @@ const cards = [
   {
     name: "Junkrig",
     attack: 1,
-    defense: 3,
+    shields: 3,
     defender: 3,
     labour: 1,
     draws: 1,
@@ -89,14 +89,14 @@ const cards = [
   {
     name: "Jackhammer",
     attack: 1,
-    defense: 2,
+    shields: 2,
     ore: 2,
     ion: 1,
   },
   {
     name: "Sparkwraith",
     attack: 1,
-    defense: 2,
+    shields: 2,
     ore: 2,
     ion: 2,
     hyperdrive: true,
@@ -104,7 +104,7 @@ const cards = [
   {
     name: "Rockbreaker",
     attack: 2,
-    defense: 2,
+    shields: 2,
     ore: 1,
     labour: 1,
     ion: 1,
@@ -112,7 +112,7 @@ const cards = [
   {
     name: "Magnet",
     attack: 2,
-    defense: 4,
+    shields: 4,
     defender: true,
     ion: 1,
     ship_ion: 1,
@@ -120,7 +120,7 @@ const cards = [
   {
     name: "Vessel",
     attack: 2,
-    defense: 2,
+    shields: 2,
     labour: 2,
     ion: 1,
     ship_labour: 1,

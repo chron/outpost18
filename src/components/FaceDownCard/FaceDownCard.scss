@@ -1,0 +1,12 @@
+@import "../../stylesheets/variables.scss";
+.pile-count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  background-color: crimson;
+  border-radius: 50%;
+}

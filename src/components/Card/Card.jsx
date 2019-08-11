@@ -8,7 +8,7 @@ function Card({ playerName, cardName }) {
   const { name } = cards.find(c => c.name === cardName);
 
   return (
-    <div className="card" >
+    <div className={`card ${plays > 0 ? 'playable' : ''}`} >
       {name}
 
       <div className="card__controls">
@@ -17,14 +17,14 @@ function Card({ playerName, cardName }) {
           disabled={plays <= 0}
           onClick={() => dispatch({ type: 'play', playerName, cardName, mode: 'ship' })}
         >
-          Ship
+          🚀
         </button>
         <button
           className="card__control"
           disabled={plays <= 0}
           onClick={() => dispatch({ type: 'play', playerName, cardName, mode: 'upgrade' })}
         >
-          Upgrade
+          🏠
         </button>
       </div>
     </div>

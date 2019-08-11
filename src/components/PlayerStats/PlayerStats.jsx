@@ -6,11 +6,12 @@ import { resources, sumResourceForPlayer } from '../../utils';
 
 import './PlayerStats.scss';
 
-function PlayerStats() {
-  const { currentPlayer: { inPlay, name, plays, attackPool }} = useContext(GameContext);
+function PlayerStats({ playerName, position = 'bottom' }) {
+  const { players } = useContext(GameContext);
+  const { inPlay, name, plays, attackPool } = players.find(p => p.name === playerName);
 
   return (
-    <div className="player-stats">
+    <div className={`player-stats player-stats--${position}`}>
       <div className="player-stats__name">{name}</div>
       <div className="player-stats__stat">Plays: {plays}</div>
       <div className="player-stats__stat">Attack: {attackPool}</div>

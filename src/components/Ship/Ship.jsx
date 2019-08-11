@@ -4,12 +4,13 @@ import GameContext from '../../GameContext';
 import './Ship.scss';
 
 function Ship({ playerName, cardName, attacking, canAttack }) {
-  const { cards, dispatch } = useContext(GameContext);
+  const { cards, dispatch, currentPlayer } = useContext(GameContext);
   const { name, attack } = cards.find(c => c.name === cardName);
+  const enemy = playerName !== currentPlayer.name;
 
   return (
     <div
-      className={`ship ${attacking && 'ship--attacking'} ${canAttack && 'ship--ready'}`}
+      className={`ship ${attacking ? 'ship--attacking' : ''} ${canAttack ? 'ship--ready' : ''} ${enemy ? 'ship--enemy' : ''}`}
       onClick={() => dispatch({ type: 'attack', playerName, cardName })}
     >
       {name}
