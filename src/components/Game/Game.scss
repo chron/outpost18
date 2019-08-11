@@ -1,0 +1,19 @@
+.game {
+  height: 100%;
+}
+
+.lanes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.lane {
+  display: flex;
+  justify-content: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  width: 100%;
+  border: 1px solid gray;
+}

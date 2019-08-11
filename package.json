@@ -1,0 +1,27 @@
+{
+  "name": "outpost18",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "parcel-bundler": "^1.12.3",
+    "sass": "^1.22.9"
+  },
+  "dependencies": {
+    "lodash.shuffle": "^4.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-normalize": "^0.4.3",
+    "src": "^1.1.2"
+  },
+  "scripts": {
+    "start": "parcel src/index.html"
+  }
+}

@@ -1,0 +1,44 @@
+@import "../../stylesheets/variables.scss";
+
+.upgrade {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 40px;
+  height: 120px;
+  padding: 5px;
+  background-color: black;
+  border: 2px solid $upgrade-border-color;
+  border-radius: 8px;
+  margin-right: 2px;
+
+  &__defense {
+    font-size: 18px;
+    margin: 3px 0 0 0;
+
+    &--defender {
+      color: $defender-text-color;
+    }
+
+    &--reverse {
+      margin: 0 0 3px 0;
+      transform: rotate(180deg);
+    }
+  }
+
+  .upgrade__powers {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    flex-grow: 1;
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .upgrade__power {
+
+  }
+}

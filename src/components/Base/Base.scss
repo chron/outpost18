@@ -1,0 +1,10 @@
+@import "../../stylesheets/variables.scss";
+
+.base {
+  width: 200px;
+  height: 120px;
+  padding: 10px;
+  background-color: black;
+  border: 2px solid $upgrade-border-color;
+  border-radius: 8px;
+}

@@ -1,0 +1,15 @@
+@import "../../stylesheets/variables.scss";
+
+.player-stats {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  display: flex;
+  flex-direction: column;
+  float: right;
+
+  &__name {
+    font-size: 20px;
+  }
+}
