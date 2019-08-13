@@ -9,10 +9,11 @@
   border: 1px solid $card-border-color;
   border-radius: 4px;
   margin: 0 5px;
-  cursor: pointer;
+  box-shadow: $card-shadow;
 
   &--ready {
     border-color: yellow;
+    cursor: pointer;
   }
 
   &--attacking {

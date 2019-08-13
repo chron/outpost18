@@ -8,10 +8,13 @@ import './App.scss';
 const DEBUG_MODE = true;
 
 function App() {
+  // TODO: make this an actual card instead of this weird inline thing
   const baseStats = { name: 'Station Core', mode: 'base', shields: 5, draws: 1 };
   const deck = shuffle(cards.map(c => c.name));
 
   const fakeState = {
+    gameState: 'main',
+    activePlayer: 'me',
     cards,
     deck,
     discards: [],
@@ -20,7 +23,7 @@ function App() {
         name,
         plays: DEBUG_MODE ? 100 : 1,
         attackPool: 0,
-        hand: deck.splice(0, DEBUG_MODE ? 10 : 3),
+        hand: deck.splice(0, DEBUG_MODE ? 5 : 3),
         inPlay: [{ ...baseStats }],
       }
     }),

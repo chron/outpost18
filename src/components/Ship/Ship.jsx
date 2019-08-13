@@ -11,7 +11,7 @@ function Ship({ playerName, cardName, attacking, canAttack }) {
   return (
     <div
       className={`ship ${attacking ? 'ship--attacking' : ''} ${canAttack ? 'ship--ready' : ''} ${enemy ? 'ship--enemy' : ''}`}
-      onClick={() => dispatch({ type: 'attack', playerName, cardName })}
+      onClick={() => canAttack && !attacking && dispatch({ type: 'attack', playerName, cardName })}
     >
       {name}
       {attack}
