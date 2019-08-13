@@ -12,6 +12,12 @@
 
   &__name {
     font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  &__stat {
+    display: flex;
+    justify-content: space-between;
   }
 
   &--top {

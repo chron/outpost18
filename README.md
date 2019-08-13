@@ -8,6 +8,7 @@
 1. Destroying upgrades sends them to your hand!
 1. Attack and other card abilities
 1. Undo and "are you sure?" warnings
+1. Event log?
 1. Tooltips and viewing the contents of the discard pile (make sure top is face-up)
 1. Card art, human-friendly text, and layout
 1. Animations!

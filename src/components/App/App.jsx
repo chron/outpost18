@@ -5,8 +5,6 @@ import Game from '../Game';
 import cards from '../../cards';
 import './App.scss';
 
-const DEBUG_MODE = true;
-
 function App() {
   // TODO: make this an actual card instead of this weird inline thing
   const baseStats = { name: 'Station Core', mode: 'base', shields: 5, draws: 1 };
@@ -21,9 +19,9 @@ function App() {
     players: ['me', 'opponent'].map(name => {
       return {
         name,
-        plays: DEBUG_MODE ? 100 : 1,
+        plays: name === 'me' ? 1 : 0,
         attackPool: 0,
-        hand: deck.splice(0, DEBUG_MODE ? 5 : 3),
+        hand: deck.splice(0, 3),
         inPlay: [{ ...baseStats }],
       }
     }),

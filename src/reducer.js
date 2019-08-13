@@ -66,27 +66,48 @@ function beginTurn(state, playerName) {
 
   // TODO: discard down to 3 somehow
 
-  return { ...updatePlayer(state, playerName, changes), gameState: 'main', activePlayer: playerName };
+  let newState = updatePlayer(state, playerName, changes);
+  newState = { ...newState, gameState: 'main', activePlayer: playerName };
+
+  if (playerName === 'opponent') { // TODO: put an actual flag or something for AI
+    newState = robotTurn(newState, playerName);
+  }
+
+  return newState;
+}
+
+function robotTurn(state, playerName) {
+  const player = state.players.find(p => p.name === playerName);
+  const cardToPlay = player.hand[0];
+
+  let newState = state;
+
+  if (cardToPlay) {
+    newState = play(newState, playerName, cardToPlay, Math.random() < 0.5 ? 'ship' : 'upgrade');
+  }
+
+  newState = endTurn(newState, playerName);
+
+  return newState;
 }
 
 function endTurn(state, playerName) {
   let newState = state;
   const player = state.players.find(p => p.name === playerName);
-  const { inPlay } = player;
 
   // Move ships that attacked to the discard pile
-  const attackers = inPlay.filter(s => s.attacking);
-  const nonAttackers = inPlay.filter(s => !s.attacking);
+  const attackers = player.inPlay.filter(s => s.attacking);
+  const nonAttackers = player.inPlay.filter(s => !s.attacking);
   const newDiscards = state.discards.concat(attackers.map(c => c.cardName));
   newState = { ...newState, discards: newDiscards };
-  newState = updatePlayer(newState, playerName, { attackPool: 0, inPlay: nonAttackers });
+  newState = updatePlayer(newState, playerName, { attackPool: 0, plays: 0, inPlay: nonAttackers });
 
   // Draw cards equal to your draws stat
   const draws = sumResourceForPlayer(state, 'draws', player);
   newState = drawCards(newState, playerName, draws);
 
   // Begin turn for next player
-  const opponent = state.players.find(p => p.name === playerName); // TODO: actually move to second player
+  const opponent = state.players.find(p => p.name !== playerName);
   newState = beginTurn(newState, opponent.name);
 
   return newState;
@@ -99,6 +120,7 @@ function drawCards(state, playerName, num) {
 
   if (cardsToDraw.length < num) {
     // If the deck is empty, shuffle discards to make a new deck
+    // TODO: store PRNG seed so this can be reproduced
     newDeck = newDeck.concat(shuffle(state.discards));
     cardsToDraw = cardsToDraw.concat(newDeck.splice(0, num));
     newState = { ...newState, discards: [] };

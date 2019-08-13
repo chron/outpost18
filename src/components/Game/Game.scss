@@ -11,8 +11,10 @@
 
 .lane {
   display: flex;
-  justify-content: center;
   flex-basis: 0;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   padding: 10px;
 
