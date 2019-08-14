@@ -10,6 +10,12 @@ const cards = [
     shields: 3,
     ore: 1,
     draws: 1,
+    abilities: [
+      {
+        threshold: { labour: 2 },
+        effect: { plays: 2 },
+      },
+    ],
   },
   {
     name: "Ionblazer",

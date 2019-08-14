@@ -8,7 +8,7 @@ function Card({ playerName, cardName }) {
   const { name } = cards.find(c => c.name === cardName);
 
   return (
-    <div className={`card ${plays > 0 ? 'playable' : ''}`} >
+    <div className={`card ${plays > 0 ? 'playable' : ''}`} tabIndex={1}>
       <div className="card__title">
         {name}
       </div>

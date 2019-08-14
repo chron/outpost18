@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import GameContext from '../../GameContext';
 import EndTurnButton from '../EndTurnButton';
 import { resources, sumResourceForPlayer } from '../../utils';
@@ -10,6 +9,7 @@ function PlayerStats({ playerName, position = 'bottom' }) {
   const state = useContext(GameContext);
   const player = state.players.find(p => p.name === playerName);
   const { name, hand, plays, attackPool } = player;
+
 
   return (
     <div className={`player-stats player-stats--${position}`}>
@@ -37,13 +37,10 @@ function PlayerStats({ playerName, position = 'bottom' }) {
           </div>
         );
       })}
-      <EndTurnButton />
+
+      {state.currentPlayer.name === playerName && <EndTurnButton />}
     </div>
   );
 }
-
-PlayerStats.propTypes = {
-  card: PropTypes.object,
-};
 
 export default PlayerStats;
