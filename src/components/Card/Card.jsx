@@ -9,7 +9,9 @@ function Card({ playerName, cardName }) {
 
   return (
     <div className={`card ${plays > 0 ? 'playable' : ''}`} >
-      {name}
+      <div className="card__title">
+        {name}
+      </div>
 
       <div className="card__controls">
         <button

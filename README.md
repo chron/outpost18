@@ -13,3 +13,7 @@
 1. Real-time comms — Pusher?
 1. Auth / Login?
 1. Game lobby / join code
+
+## Thanks etc
+
+PixelMix font by Andrew Tyler (CC by-sa Attribution Share Alike)
