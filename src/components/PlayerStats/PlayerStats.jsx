@@ -10,7 +10,6 @@ function PlayerStats({ playerName, position = 'bottom' }) {
   const player = state.players.find(p => p.name === playerName);
   const { name, hand, plays, attackPool } = player;
 
-
   return (
     <div className={`player-stats player-stats--${position}`}>
       <div className="player-stats__name">{name}</div>
@@ -27,16 +26,18 @@ function PlayerStats({ playerName, position = 'bottom' }) {
         {attackPool}
       </div>
 
-      {resources.map(r => {
-        const amount = sumResourceForPlayer(state, r, player);
-        if (amount <= 0 ) { return null; }
-        return (
-          <div key={r} className="player-stats__stat player-stats__stat--resource">
-            <div className="player-stats__label">{r}</div>
-            {amount}
-          </div>
-        );
-      })}
+      <div className="player-stats__resources">
+        {Object.entries(resources).map(([resource, { icon }]) => {
+          const amount = sumResourceForPlayer(state, resource, player);
+          if (amount <= 0 ) { return null; }
+          return (
+            <div key={resource} className="player-stats__resource">
+              <div className="player-stats__resource-amount">{amount}</div>
+              <div className="player-stats__resource-icon">{icon}</div>
+            </div>
+          );
+        })}
+      </div>
 
       {state.currentPlayer.name === playerName && <EndTurnButton />}
     </div>

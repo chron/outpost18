@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import GameContext from '../../GameContext';
+import { resources } from '../../utils';
 import './Upgrade.scss';
 
 function Upgrade({ cardName, playerName }) {
@@ -22,9 +23,9 @@ function Upgrade({ cardName, playerName }) {
       </div>
 
       <div className="upgrade__powers">
-        {Array(ion || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">🔋</div>)}
-        {Array(labour || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">🔧</div>)}
-        {Array(ore || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">💎</div>)}
+        {Array(ion || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">{resources.ion.icon}</div>)}
+        {Array(labour || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">{resources.labour.icon}</div>)}
+        {Array(ore || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">{resources.ore.icon}</div>)}
         {defender ? <div className="upgrade__power">Def</div> : ''}
         {Array(draws || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">+<br />Draw</div>)}
       </div>

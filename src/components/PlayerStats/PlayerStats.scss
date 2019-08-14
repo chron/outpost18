@@ -11,6 +11,7 @@
   border: 1px solid $card-border-color;
 
   &__name {
+    font-family: $title-font-stack;
     font-size: 20px;
     margin-bottom: 10px;
   }
@@ -26,5 +27,30 @@
 
   &--bottom {
     bottom: 10px;
+  }
+
+  &__resources {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  &__resource {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 1;
+    width: 30px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__resource-amount {
+    font-family: $title-font-stack;
+    font-size: 20px;
+  }
+
+  &__resource-icon {
+    margin-top: 5px;
+    font-size: 10px;
   }
 }
