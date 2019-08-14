@@ -1,5 +1,10 @@
 const cards = [
   {
+    name: "Station Core",
+    shields: 5,
+    draws: 1,
+  },
+  {
     name: "Centurion",
     attack: 2,
     shields: 3,

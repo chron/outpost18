@@ -3,9 +3,6 @@
 ## TODO
 
 1. Start of turn discard
-1. Using attack pool and associated targeting restrictions
-1. Victory condition
-1. Destroying upgrades sends them to your hand!
 1. Attack and other card abilities
 1. Undo and "are you sure?" warnings
 1. Event log?

@@ -100,7 +100,7 @@ function endTurn(state, playerName) {
   const nonAttackers = player.inPlay.filter(s => !s.attacking);
   const newDiscards = state.discards.concat(attackers.map(c => c.cardName));
   newState = { ...newState, discards: newDiscards };
-  newState = updatePlayer(newState, playerName, { attackPool: 0, plays: 0, inPlay: nonAttackers });
+  newState = updatePlayer(newState, playerName, { attackPool: 6, plays: 0, inPlay: nonAttackers }); // TODO
 
   // Draw cards equal to your draws stat
   const draws = sumResourceForPlayer(state, 'draws', player);
@@ -145,33 +145,43 @@ function updatePlayer(state, playerName, changes) {
 }
 
 function destroy(state, playerName, cardName) {
-  if (state.gameState !== 'main') { return state; }
-  if (state.activePlayer !== playerName) { return state; }
+  const { gameState, activePlayer, cards, players } = state;
 
-  const playerIndex = state.players.findIndex(p => p.name === playerName);
-  const player = state.players[playerIndex];
-  const opponentIndex = state.players.findIndex(p => p.name !== playerName);
-  const opponent = state.players[opponentIndex];
+  if (gameState !== 'main') { return state; }
+  if (activePlayer !== playerName) { return state; }
+
+  const playerIndex = players.findIndex(p => p.name === playerName);
+  const player = players[playerIndex];
+  const opponentIndex = players.findIndex(p => p.name !== playerName);
+  const opponent = players[opponentIndex];
 
   const { attackPool, hand } = player;
   const { inPlay } = opponent;
 
-  const targetIndex = inPlay.findIndex(s => s.cardName === cardName && s.mode == 'upgrade'); // TODO: or 'base'
+  const targetIndex = inPlay.findIndex(s => s.cardName === cardName && ['upgrade', 'base'].includes(s.mode));
   const target = inPlay[targetIndex]
-  const card = state.cards.find(c => c.name === target.cardName);
+  const card = cards.find(c => c.name === target.cardName);
+  const defenders = inPlay
+    .filter(s => s.mode === 'upgrade')
+    .map(s => cards.find(c => s.cardName === c.name))
+    .filter(c => c.defender);
 
   if (!target) { return state; }
-  // defenders
   if (card.shields > attackPool) { return state; }
+  if (!card.defender && defenders.length > 0) { return state; }
 
-  const newOpponentInPlay = inPlay.slice();
-  newOpponentInPlay.splice(targetIndex, 1);
-  const newOpponent = { ...opponent, inPlay: newOpponentInPlay };
-  const newHand = hand.concat(card.name);
-  const newPlayer = { ...player, hand: newHand, attackPool: attackPool - card.shields };
-  const newPlayers = [newPlayer, newOpponent] // TODO: does this mess with order? Do we care?
+  if (card.name === 'Station Core') {
+    return { ...state, gameState: 'finished' };
+  } else {
+    const newOpponentInPlay = inPlay.slice();
+    newOpponentInPlay.splice(targetIndex, 1);
+    const newOpponent = { ...opponent, inPlay: newOpponentInPlay };
+    const newHand = hand.concat(card.name);
+    const newPlayer = { ...player, hand: newHand, attackPool: attackPool - card.shields };
+    const newPlayers = [newPlayer, newOpponent] // TODO: does this mess with order? Do we care?
 
-  return { ...state, players: newPlayers };
+    return { ...state, players: newPlayers };
+  }
 }
 
 export default function reducer(state, action) {

@@ -6,9 +6,8 @@ import cards from '../../cards';
 import './App.scss';
 
 function App() {
-  // TODO: make this an actual card instead of this weird inline thing
-  const baseStats = { name: 'Station Core', mode: 'base', shields: 5, draws: 1 };
-  const deck = shuffle(cards.map(c => c.name));
+  const baseStats = { cardName: 'Station Core', mode: 'base' };
+  const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
 
   const fakeState = {
     gameState: 'main',

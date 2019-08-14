@@ -5,6 +5,7 @@ import Base from '../Base';
 import FaceDownCard from '../FaceDownCard';
 import Card from '../Card';
 import Ship from '../Ship';
+import Alert from '../Alert';
 import Upgrade from '../Upgrade';
 import PlayerStats from '../PlayerStats';
 
@@ -22,16 +23,25 @@ const Game = ({ initialGameState, playerName }) => {
     opponent,
   };
 
-  const base = currentPlayer.inPlay.find(s => s.mode === 'base');
   const upgrades = currentPlayer.inPlay.filter(s => s.mode === 'upgrade');
   const ships = currentPlayer.inPlay.filter(s => s.mode === 'ship');
-  const enemyBase = opponent.inPlay.find(s => s.mode === 'base');
   const enemyUpgrades = opponent.inPlay.filter(s => s.mode === 'upgrade');
   const enemyShips = opponent.inPlay.filter(s => s.mode === 'ship');
+
+  let alert;
+
+  if (gameState.gameState === 'finished') {
+    if (gameState.activePlayer === playerName) {
+      alert = "You win! Congratulations.";
+    } else {
+      alert = "The game is over. You lost.";
+    }
+  }
 
   return (
     <GameContext.Provider value={gameStateValue}>
       <div className="game">
+        {alert && <Alert message={alert} />}
         <div className="lanes">
           <div className="lane">
             {Array(opponent.hand.length).fill(1).map((_, i) => <FaceDownCard key={i} />)}
@@ -46,7 +56,7 @@ const Game = ({ initialGameState, playerName }) => {
                 cardName={cardName}
               />
             })}
-            <Base stats={enemyBase} />
+            <Base cardName="Station Core" playerName={opponent.name} />
           </div>
           <div className="lane">
             <div className="fleet">
@@ -90,7 +100,7 @@ const Game = ({ initialGameState, playerName }) => {
                 cardName={cardName}
               />
             })}
-            <Base stats={base} />
+            <Base cardName="Station Core" playerName={currentPlayer.name} />
           </div>
           <div className="lane">
             {currentPlayer.hand.map(c => <Card key={c} playerName={currentPlayer.name} cardName={c} />)}
