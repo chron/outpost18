@@ -25,6 +25,12 @@ const cards = [
     ion: 1,
     labour: 1,
     hyperdrive: true,
+    abilities: [
+      {
+        threshold: { ion: 2 },
+        effect: { todo: 'destroy any ship, then discard' },
+      },
+    ],
   },
   {
     name: "Battlestar",
@@ -33,6 +39,12 @@ const cards = [
     defender: true,
     ore: 1,
     labour: 1,
+    abilities: [
+      {
+        threshold: { ion: 3 },
+        effect: { todo: 'all ships get +1 this turn' },
+      },
+    ],
   },
   {
     name: "Epoch",
@@ -40,6 +52,16 @@ const cards = [
     shields: 3,
     ore: 1,
     labour: 1,
+    abilities: [
+      {
+        threshold: { labour: 1 },
+        effect: { plays: 1 },
+      },
+      {
+        threshold: { labour: 2 },
+        effect: { attack: 1 },
+      },
+    ],
   },
   {
     name: "Dreadnought",
@@ -48,6 +70,12 @@ const cards = [
     ore: 1,
     ion: 1,
     labour: 1,
+    abilities: [
+      {
+        threshold: { todo: 'discard up to 3' },
+        effect: { todo: '1 attack per discard' },
+      },
+    ]
   },
   {
     name: "Destroyer",
@@ -56,6 +84,16 @@ const cards = [
     defender: true,
     ore: 1,
     labour: 1,
+    abilities: [
+      {
+        threshold: { ore: 1, labour: 2 },
+        effect: { attack: 2 },
+      },
+      {
+        threshold: { ore: 1, ion: 2 },
+        effect: { attack: 2 },
+      },
+    ],
   },
   {
     name: "Helix",
@@ -63,6 +101,16 @@ const cards = [
     shields: 3,
     defender: true,
     ore: 1,
+    abilities: [
+      {
+        threshold: { ore: 2 },
+        effect: { attack: 2 },
+      },
+      {
+        threshold: { ore: 3 },
+        effect: { todo: 'return to hand' },
+      },
+    ],
   },
   {
     name: "Freighter",
@@ -71,6 +119,12 @@ const cards = [
     ore: 1,
     ion: 1,
     shipOre: 1,
+    abilities: [
+      {
+        threshold: { labour: 1, ion: 1 },
+        effect: { attack: 2 },
+      },
+    ]
   },
   {
     name: "Falcon",
@@ -78,6 +132,11 @@ const cards = [
     shields: 3,
     defender: true,
     ion: 2,
+    abilities: [
+      {
+        effect: { todo: '1 attack per ion generated' },
+      },
+    ],
   },
   {
     name: "Lotus",
@@ -88,6 +147,12 @@ const cards = [
     shipIon: 1,
     shipLabour: 1,
     shipOre: 1,
+    abilities: [
+      {
+        threshold: { todo: '0 cards in hand' },
+        effect: { attack: 1 },
+      },
+    ],
   },
   {
     name: "Junkrig",
@@ -96,6 +161,15 @@ const cards = [
     defender: 3,
     labour: 1,
     draws: 1,
+    abilities: [
+      {
+        effect: { todo: '1 attack per opponent upgrade' },
+      },
+      {
+        threshold: { labour: 2 },
+        effect: { plays: 1 },
+      },
+    ],
   },
   {
     name: "Jackhammer",
@@ -103,6 +177,16 @@ const cards = [
     shields: 2,
     ore: 2,
     ion: 1,
+    abilities: [
+      {
+        threshold: { ore: 2 },
+        effect: { attack: 2 },
+      },
+      {
+        threshold: { ore: 3 },
+        effect: { attack: 3 },
+      },
+    ],
   },
   {
     name: "Sparkwraith",
@@ -111,6 +195,12 @@ const cards = [
     ore: 2,
     ion: 2,
     hyperdrive: true,
+    abilities: [
+      {
+        threshold: { ion: 2 },
+        effect: { attack: 2 },
+      },
+    ],
   },
   {
     name: "Rockbreaker",
@@ -119,6 +209,16 @@ const cards = [
     ore: 1,
     labour: 1,
     ion: 1,
+    abilities: [
+      {
+        threshold: { ore: 3 },
+        effect: { attack: 2 },
+      },
+      {
+        threshold: { labour: 2 },
+        effect: { plays: 1 },
+      },
+    ],
   },
   {
     name: "Magnet",
@@ -126,7 +226,13 @@ const cards = [
     shields: 4,
     defender: true,
     ion: 1,
-    ship_ion: 1,
+    shipIon: 1,
+    abilities: [
+      {
+        threshold: { labour: 1, ore: 1 },
+        effect: { todo: 'return opponent ship to hand' },
+      },
+    ],
   },
   {
     name: "Vessel",
@@ -134,7 +240,13 @@ const cards = [
     shields: 2,
     labour: 2,
     ion: 1,
-    ship_labour: 1,
+    shipLabour: 1,
+    abilities: [
+      {
+        threshold: { ion: 1, ore: 1 },
+        effect: { plays: 1 },
+      },
+    ],
   }
 ];
 

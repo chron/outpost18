@@ -8,9 +8,9 @@ function Base({ cardName, playerName }) {
       <Upgrade cardName={cardName} playerName={playerName} />
 
       <div className="base__main">
-        <div className="base__name">{name}</div>
+        <div className="base__name">{cardName}</div>
         <div className="base__image"></div>
-        <div className="base__name base__name--reverse">{name}</div>
+        <div className="base__name base__name--reverse">{cardName}</div>
       </div>
     </div>
   );

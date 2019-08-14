@@ -34,7 +34,8 @@
     margin: 3px 0 -2px 0;
     border: 2px solid $upgrade-border-color;
     border-radius: 5px;
-    font-size: 18px;
+    font-family: $title-font-stack;
+    font-size: 16px;
 
     &--defender {
       color: $defender-text-color;

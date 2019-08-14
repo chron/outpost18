@@ -21,7 +21,7 @@ const Game = ({ initialGameState, playerName }) => {
   const gameStateValue = {
     ...gameState,
     // Possible gotcha: the KeyMap below receives the original dispatch function NOT this one
-    dispatch: e => { dispatch(e); console.log('focus'); domRef.current.focus(); console.log(domRef.current, document.activeElement) },
+    dispatch: e => { dispatch(e); domRef.current.focus(); },
     currentPlayer,
     opponent,
   };
