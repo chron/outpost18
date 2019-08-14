@@ -20,6 +20,11 @@
     transform: rotate(180deg);
   }
 
+  &--destroyable {
+    border-color: crimson;
+    cursor: pointer;
+  }
+
   &__shields {
     display: flex;
     align-items: center;
@@ -38,6 +43,10 @@
     &--reverse {
       margin: -2px 0 3px 0;
       transform: rotate(180deg);
+    }
+
+    .upgrade--destroyable & {
+      border-color: crimson;
     }
   }
 

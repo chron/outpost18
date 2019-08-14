@@ -144,6 +144,36 @@ function updatePlayer(state, playerName, changes) {
   return { ...state, players: newPlayers };
 }
 
+function destroy(state, playerName, cardName) {
+  if (state.gameState !== 'main') { return state; }
+  if (state.activePlayer !== playerName) { return state; }
+
+  const playerIndex = state.players.findIndex(p => p.name === playerName);
+  const player = state.players[playerIndex];
+  const opponentIndex = state.players.findIndex(p => p.name !== playerName);
+  const opponent = state.players[opponentIndex];
+
+  const { attackPool, hand } = player;
+  const { inPlay } = opponent;
+
+  const targetIndex = inPlay.findIndex(s => s.cardName === cardName && s.mode == 'upgrade'); // TODO: or 'base'
+  const target = inPlay[targetIndex]
+  const card = state.cards.find(c => c.name === target.cardName);
+
+  if (!target) { return state; }
+  // defenders
+  if (card.shields > attackPool) { return state; }
+
+  const newOpponentInPlay = inPlay.slice();
+  newOpponentInPlay.splice(targetIndex, 1);
+  const newOpponent = { ...opponent, inPlay: newOpponentInPlay };
+  const newHand = hand.concat(card.name);
+  const newPlayer = { ...player, hand: newHand, attackPool: attackPool - card.shields };
+  const newPlayers = [newPlayer, newOpponent] // TODO: does this mess with order? Do we care?
+
+  return { ...state, players: newPlayers };
+}
+
 export default function reducer(state, action) {
   console.log(action);
 
@@ -152,6 +182,8 @@ export default function reducer(state, action) {
       return play(state, action.playerName, action.cardName, action.mode);
     case 'attack':
       return attack(state, action.playerName, action.cardName);
+    case 'destroy':
+      return destroy(state, action.playerName, action.cardName);
     case 'endTurn':
       return endTurn(state, action.playerName);
     default:

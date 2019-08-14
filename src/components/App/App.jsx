@@ -21,7 +21,7 @@ function App() {
         name,
         plays: name === 'me' ? 1 : 0,
         attackPool: 0,
-        hand: deck.splice(0, 3),
+        hand: deck.splice(0, name === 'me' ? 2 : 3),
         inPlay: [{ ...baseStats }],
       }
     }),
