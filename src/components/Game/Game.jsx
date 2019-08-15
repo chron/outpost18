@@ -1,7 +1,7 @@
 import React, { useReducer, useRef } from 'react';
 import GameProvider from '../GameProvider';
 import KeyMap from '../KeyMap';
-import reducer from '../../reducer.js';
+import reducer from '../../reducer';
 import Base from '../Base';
 import FaceDownCard from '../FaceDownCard';
 import Card from '../Card';

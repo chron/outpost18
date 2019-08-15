@@ -12,7 +12,7 @@ function App() {
       method: 'POST',
       body: JSON.stringify({ test: 'yeet' }),
     }).then(response => response.json())
-    .then(data => setGameState({ ...data, cards }));
+      .then(data => setGameState({ ...data, cards }));
   }, []);
 
   return (

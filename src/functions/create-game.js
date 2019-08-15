@@ -1,5 +1,5 @@
-import cards from '../cards';
 import shuffle from 'lodash.shuffle';
+import cards from '../cards';
 
 exports.handler = function(event, context, callback) {
   const baseStats = { cardName: 'Station Core', mode: 'base' };

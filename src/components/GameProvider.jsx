@@ -8,6 +8,6 @@ function GameProvider({ value, children }) {
       {children}
     </GameContext.Provider>
   );
-};
+}
 
 export default GameProvider;

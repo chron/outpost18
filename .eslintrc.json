@@ -17,7 +17,7 @@
   },
   "plugins": [
     "react",
-    "react-hooks",
+    "react-hooks"
   ],
   "rules": {
     "react-hooks/rules-of-hooks": "error",

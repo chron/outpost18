@@ -1,5 +1,7 @@
 # Unofficial Digital Outpost 18
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7ca17db6-f3f8-492f-ba65-403d810ab3c2/deploy-status)](https://app.netlify.com/sites/outpost18/deploys)
+
 ## TODO
 
 1. Show resources as 0 instead of leaving them out
@@ -18,3 +20,4 @@
 ## Thanks etc
 
 PixelMix font by Andrew Tyler (CC by-sa Attribution Share Alike)
+Background SVG tile from Steve Schoger's [Hero Patterns](https://www.heropatterns.com/)

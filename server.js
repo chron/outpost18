@@ -3,11 +3,11 @@ const ParcelProxyServer = require('parcel-proxy-server');
 const server = new ParcelProxyServer({
   entryPoint: 'src/index.html',
   parcelOptions: {
-    https: false
+    https: false,
   },
   proxies: {
     '/.netlify/functions/': {
-      target: 'http://localhost:9000/'
+      target: 'http://localhost:9000/',
     }
   }
 });
