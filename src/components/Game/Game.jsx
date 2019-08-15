@@ -1,5 +1,5 @@
 import React, { useReducer, useRef } from 'react';
-import GameContext from '../../GameContext';
+import GameProvider from '../GameProvider';
 import KeyMap from '../KeyMap';
 import reducer from '../../reducer.js';
 import Base from '../Base';
@@ -42,7 +42,7 @@ const Game = ({ initialGameState, playerName }) => {
   }
 
   return (
-    <GameContext.Provider value={gameStateValue}>
+    <GameProvider value={gameStateValue}>
       <KeyMap dispatch={dispatch} playerName={currentPlayer.name}>
         <div className="game" ref={domRef} tabIndex={-1}>
           {alert && <Alert message={alert} />}
@@ -113,7 +113,7 @@ const Game = ({ initialGameState, playerName }) => {
           <PlayerStats playerName={currentPlayer.name} />
         </div>
       </KeyMap>
-    </GameContext.Provider>
+    </GameProvider>
   );
 };
 

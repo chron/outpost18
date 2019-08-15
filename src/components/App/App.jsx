@@ -1,35 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Normalize from 'react-normalize';
-import shuffle from 'lodash.shuffle';
 import Game from '../Game';
 import cards from '../../cards';
 import './App.scss';
 
 function App() {
-  const baseStats = { cardName: 'Station Core', mode: 'base' };
-  const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
+  const [gameState, setGameState] = useState(null);
 
-  const fakeState = {
-    gameState: 'main',
-    activePlayer: 'me',
-    cards,
-    deck,
-    discards: [],
-    players: ['me', 'opponent'].map(name => {
-      return {
-        name,
-        plays: name === 'me' ? 1 : 0,
-        attackPool: 0,
-        hand: deck.splice(0, name === 'me' ? 2 : 3),
-        inPlay: [{ ...baseStats }],
-      }
-    }),
-  };
+  useEffect(() => {
+    fetch('/.netlify/functions/create-game', {
+      method: 'POST',
+      body: JSON.stringify({ test: 'yeet' }),
+    }).then(response => response.json())
+    .then(data => setGameState({ ...data, cards }));
+  }, []);
 
   return (
     <React.Fragment>
       <Normalize />
-      <Game initialGameState={fakeState} playerName="me"/>
+
+      {gameState && <Game initialGameState={gameState} playerName="me"/>}
     </React.Fragment>
   );
 }
