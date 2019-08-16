@@ -21,6 +21,9 @@
   ],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "arrow-parens": "off",
+    "arrow-body-style": "off",
+    "import/prefer-default-export": "off"
   }
 }
