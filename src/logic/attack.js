@@ -1,0 +1,52 @@
+import cards from '../cards';
+import { resourceTotalsForPlayer } from '../utils';
+
+export default function attack(state, playerId, cardName) {
+  if (state.gameState !== 'main') { return state; }
+  if (state.activePlayer !== playerId) { return state; }
+
+  const playerIndex = state.players.findIndex(p => p.playerId === playerId);
+  const player = state.players[playerIndex];
+  const { inPlay, attackPool } = player;
+  const ship = inPlay.find(s => s.cardName === cardName);
+
+  if (!ship) { return state; }
+  if (ship.mode !== 'ship') { return state; }
+  if (!ship.canAttack) { return state; }
+  if (ship.attacking) { return state; }
+
+  const card = cards.find(c => c.name === cardName);
+
+  const shipIndex = inPlay.indexOf(ship);
+  const newInPlay = inPlay.slice();
+  newInPlay[shipIndex] = { ...ship, attacking: true };
+  const newAttackPool = attackPool + card.attack;
+  let newPlayer = { ...player, inPlay: newInPlay, attackPool: newAttackPool };
+
+  // Possible gotcha: checking here assumes these totals won't change as a result of
+  // activating attack abilities (currently true)
+  const resourceTotals = resourceTotalsForPlayer(player);
+
+  // Check and apply the ship's attack abilities
+  card.abilities.forEach(({ threshold, effect }) => {
+    if (threshold) {
+      if (threshold.todo) { return; }
+
+      const failedThreshold = Object.entries(threshold).find(([stat, amount]) => {
+        return (resourceTotals[stat] || 0) < amount;
+      });
+
+      if (failedThreshold) { return; }
+    }
+
+    if (effect.todo) { return; }
+
+    Object.entries(effect).forEach(([stat, amount]) => {
+      newPlayer[stat === 'attack' ? 'attackPool' : stat] += amount;
+    });
+  });
+
+  const newPlayers = state.players.slice();
+  newPlayers[playerIndex] = newPlayer;
+  return { ...state, players: newPlayers };
+}

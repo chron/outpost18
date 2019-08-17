@@ -3,7 +3,7 @@ import shuffle from 'lodash.shuffle';
 import cards from '../cards';
 import { createGame } from '../database';
 
-export function handler(event, context, callback) {
+export function handler(event, _context, callback) {
   const { playerId, playerName } = JSON.parse(event.body);
 
   if (!playerId || !playerName) {
@@ -20,13 +20,14 @@ export function handler(event, context, callback) {
     discards: [],
     // TODO: later we'll just load one player here and start the game in a 'waiting' state
     // TODO: randomize which player is the starting player
-    players: [[playerId, playerName], ['opponent', 'opponent']].map(([id, name], i) => {
+    players: [[playerId, playerName], ['opponent', 'The Worst AI']].map(([id, name], i) => {
       return {
         playerId: id,
         name,
         plays: i === 0 ? 1 : 0,
         attackPool: 0,
         hand: deck.splice(0, i === 0 ? 2 : 3),
+        aiControlled: i === 1,
         inPlay: [{ ...baseStats }],
       };
     }),

@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import { loadGame, saveGame } from '../database';
-import reducer from '../reducer';
+import reducer from '../logic/reducer';
 
 export function handler(event, _context, callback) {
   const { playerId, gameId, action } = JSON.parse(event.body);
