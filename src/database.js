@@ -1,9 +1,9 @@
-import faunadb from 'faunadb';
+import { query, Client } from 'faunadb';
 
-const { Create, Collection } = faunadb.query;
+const { Create, Collection, Get, Ref } = query;
 
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
-const client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET_KEY });
+const client = new Client({ secret: process.env.FAUNADB_SECRET_KEY });
 const COLLECTION_NAME = 'games';
 
 // Returns a promise that resolves to the gameId
@@ -11,10 +11,12 @@ export function createGame(data) {
   return client
     .query(Create(Collection(COLLECTION_NAME), { data }))
     .then(response => response.ref.id)
-    .catch(e => console.log(e)); // TODO: error handling, bugsnag or something here?
+    .catch(e => console.error(e)); // TODO: error handling, bugsnag or something here?
 }
 
 export function loadGame(gameId) {
-  console.log('TODO');
-  return {};
+  return client
+    .query(Get(Ref(Collection(COLLECTION_NAME), gameId)))
+    .then(r => r.data)
+    .catch(e => console.error(e));
 }

@@ -73,8 +73,6 @@ function attack(state, playerName, cardName) {
     });
   });
 
-  console.log(newPlayer);
-
   const newPlayers = state.players.slice();
   newPlayers[playerIndex] = newPlayer;
   return { ...state, players: newPlayers };
@@ -210,15 +208,17 @@ function destroy(state, playerName, cardName) {
 export default function reducer(state, action) {
   console.log(action);
 
+  const playerName = 'Player Name' // TODO: replace this with id and grab it from somewhere
+
   switch(action.type) {
     case 'play':
-      return play(state, action.playerName, action.cardName, action.mode);
+      return play(state, playerName, action.cardName, action.mode);
     case 'attack':
-      return attack(state, action.playerName, action.cardName);
+      return attack(state, playerName, action.cardName);
     case 'destroy':
-      return destroy(state, action.playerName, action.cardName);
+      return destroy(state, playerName, action.cardName);
     case 'endTurn':
-      return endTurn(state, action.playerName);
+      return endTurn(state, playerName);
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }

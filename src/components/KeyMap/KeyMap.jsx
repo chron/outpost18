@@ -5,9 +5,9 @@ const keyMap = {
   END_TURN: "e",
 };
 
-const KeyMap = ({ children, dispatch, playerName }) => {
+const KeyMap = ({ children, dispatch }) => {
   const handlers = {
-    END_TURN: () => { dispatch({ type: 'endTurn', playerName }) },
+    END_TURN: () => { dispatch({ type: 'endTurn' }) },
   };
 
   return (

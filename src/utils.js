@@ -3,7 +3,7 @@ export const resources = {
   labour: { name: 'Labour', icon: '🔧' },
   ion: { name: 'Ion', icon: '🔋' },
   draws: { name: 'Draws', icon: 'Draws' },
-}
+};
 
 export function inPlayCardsOfType(state, inPlayCards, modes) {
   return inPlayCards

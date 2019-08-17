@@ -2,10 +2,10 @@ import React from 'react';
 import Upgrade from '../Upgrade';
 import './Base.scss';
 
-function Base({ cardName, playerName }) {
+function Base({ cardName, owner }) {
   return (
     <div className="base">
-      <Upgrade cardName={cardName} playerName={playerName} />
+      <Upgrade cardName={cardName} owner={owner} />
 
       <div className="base__main">
         <div className="base__name">{cardName}</div>

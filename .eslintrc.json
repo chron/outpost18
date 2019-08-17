@@ -26,6 +26,9 @@
     "arrow-body-style": "off",
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "comma-dangle": ["always-multiline", {
+      "functions": "never"
+    }]
   }
 }

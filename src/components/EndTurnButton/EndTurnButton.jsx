@@ -9,7 +9,7 @@ function PlayerStats() {
   // todo: warnings about leftover plays / pool?
 
   return (
-    <button className="end-turn" onClick={()=> dispatch({ type: 'endTurn', playerName: name })}>
+    <button className="end-turn" onClick={()=> dispatch({ type: 'endTurn' })}>
       End Turn
     </button>
   );

@@ -5,9 +5,8 @@ import { resources, sumResourceForPlayer } from '../../utils';
 
 import './PlayerStats.scss';
 
-function PlayerStats({ playerName, position = 'bottom' }) {
+function PlayerStats({ player, position = 'bottom' }) {
   const state = useContext(GameContext);
-  const player = state.players.find(p => p.name === playerName);
   const { name, hand, plays, attackPool } = player;
 
   return (
@@ -39,7 +38,7 @@ function PlayerStats({ playerName, position = 'bottom' }) {
         })}
       </div>
 
-      {state.currentPlayer.name === playerName && <EndTurnButton />}
+      {state.currentPlayer.playerId === player.playerId && <EndTurnButton />}
     </div>
   );
 }

@@ -12,11 +12,11 @@ import PlayerStats from '../PlayerStats';
 
 import './Game.scss';
 
-const Game = ({ initialGameState, playerName }) => {
+const Game = ({ initialGameState, playerId }) => {
   const [gameState, dispatch] = useReducer(reducer, initialGameState);
   const domRef = useRef(null);
-  const currentPlayer = gameState.players.find(p => p.name === playerName);
-  const opponent = gameState.players.find(p => p.name !== playerName);
+  const currentPlayer = gameState.players.find(p => p.playerId === playerId);
+  const opponent = gameState.players.find(p => p.playerId !== playerId);
 
   const gameStateValue = {
     ...gameState,
@@ -34,40 +34,40 @@ const Game = ({ initialGameState, playerName }) => {
   let alert;
 
   if (gameState.gameState === 'finished') {
-    if (gameState.activePlayer === playerName) {
-      alert = "You win! Congratulations.";
+    if (gameState.activePlayer === playerId) {
+      alert = 'You win! Congratulations.';
     } else {
-      alert = "The game is over. You lost.";
+      alert = 'The game is over. You lost.';
     }
   }
 
   return (
     <GameProvider value={gameStateValue}>
-      <KeyMap dispatch={dispatch} playerName={currentPlayer.name}>
+      <KeyMap dispatch={dispatch}>
         <div className="game" ref={domRef} tabIndex={-1}>
           {alert && <Alert message={alert} />}
           <div className="lanes">
             <div className="lane">
               {Array(opponent.hand.length).fill(1).map((_, i) => <FaceDownCard key={i} />)}
 
-              <PlayerStats playerName={opponent.name} position="top"/>
+              <PlayerStats player={opponent} position="top" />
             </div>
             <div className="lane">
               {enemyUpgrades.map(({ cardName }) => {
                 return <Upgrade
                   key={cardName}
-                  playerName={opponent.name}
+                  owner={opponent}
                   cardName={cardName}
                 />
               })}
-              <Base cardName="Station Core" playerName={opponent.name} />
+              <Base cardName="Station Core" owner={opponent} />
             </div>
             <div className="lane">
               <div className="fleet">
                 {enemyShips.map(({ cardName, canAttack, attacking }) => {
                   return <Ship
                     key={cardName}
-                    playerName={opponent.name}
+                    owner={opponent}
                     cardName={cardName}
                     canAttack={canAttack}
                     attacking={attacking}
@@ -84,7 +84,7 @@ const Game = ({ initialGameState, playerName }) => {
                 {ships.map(({ cardName, canAttack, attacking }) => {
                   return <Ship
                     key={cardName}
-                    playerName={currentPlayer.name}
+                    owner={currentPlayer}
                     cardName={cardName}
                     canAttack={canAttack}
                     attacking={attacking}
@@ -100,17 +100,17 @@ const Game = ({ initialGameState, playerName }) => {
               {upgrades.map(({ cardName }) => {
                 return <Upgrade
                   key={cardName}
-                  playerName={currentPlayer.name}
+                  owner={currentPlayer}
                   cardName={cardName}
                 />
               })}
-              <Base cardName="Station Core" playerName={currentPlayer.name} />
+              <Base cardName="Station Core" owner={currentPlayer} />
             </div>
             <div className="lane">
-              {currentPlayer.hand.map(c => <Card key={c} playerName={currentPlayer.name} cardName={c} />)}
+              {currentPlayer.hand.map(c => <Card key={c} cardName={c} />)}
             </div>
           </div>
-          <PlayerStats playerName={currentPlayer.name} />
+          <PlayerStats player={currentPlayer} />
         </div>
       </KeyMap>
     </GameProvider>

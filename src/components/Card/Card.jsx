@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import GameContext from '../../GameContext';
 import { resources } from '../../utils';
 
@@ -18,13 +17,13 @@ function effectToIcons(effect) {
   if (!effect) { return ''; }
 
   return '=>'; // TODO
-};
+}
 
 function resourceToIcons(resource, amount = 1) {
   return Array(amount).fill(1).map(() => resources[resource].icon).join(' ');
 }
 
-function Card({ playerName, cardName }) {
+function Card({ cardName }) {
   const { currentPlayer: { plays }, cards, dispatch } = useContext(GameContext);
   const { name, attack, abilities, hyperdrive, shipOre, shipIon, shipLabour } = cards.find(c => c.name === cardName);
 
@@ -78,14 +77,14 @@ function Card({ playerName, cardName }) {
         <button
           className="card__control"
           disabled={plays <= 0}
-          onClick={() => dispatch({ type: 'play', playerName, cardName, mode: 'ship' })}
+          onClick={() => dispatch({ type: 'play', cardName, mode: 'ship' })}
         >
           🚀
         </button>
         <button
           className="card__control"
           disabled={plays <= 0}
-          onClick={() => dispatch({ type: 'play', playerName, cardName, mode: 'upgrade' })}
+          onClick={() => dispatch({ type: 'play', cardName, mode: 'upgrade' })}
         >
           🏠
         </button>
@@ -93,9 +92,5 @@ function Card({ playerName, cardName }) {
     </div>
   );
 }
-
-Card.propTypes = {
-  card: PropTypes.object,
-};
 
 export default Card;
