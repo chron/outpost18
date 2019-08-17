@@ -5,7 +5,7 @@
 ## TODO
 
 1. Real-time comms — Pusher?
-1. Show resources as 0 instead of leaving them out
+1. `react-dnd` for putting cards into play (and discards?)
 1. Start of turn discard
 1. Complicated function abilities
 1. Undo and "are you sure?" warnings
@@ -20,8 +20,9 @@
 
 1. `yarn install`
 1. `npm install netlify-cli -g`
+1. `netlify init` and login so you'll have access to the environment variables
 1. `netlify dev`
-1. Browse to http://localhost:8888 t
+1. Browse to http://localhost:8888
 
 ## Environment Variables
 

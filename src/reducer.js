@@ -41,7 +41,7 @@ function attack(state, playerId, cardName) {
   const ship = inPlay.find(s => s.cardName === cardName);
 
   if (!ship) { return state; }
-  if (!ship.mode === 'ship') { return state; }
+  if (ship.mode !== 'ship') { return state; }
   if (!ship.canAttack) { return state; }
   if (ship.attacking) { return state; }
 
@@ -59,13 +59,15 @@ function attack(state, playerId, cardName) {
 
   // Check and apply the ship's attack abilities
   card.abilities.forEach(({ threshold, effect }) => {
-    if (threshold.todo) { console.warn('TODO threshold'); return; }
+    if (threshold) {
+      if (threshold.todo) { console.warn('TODO threshold'); return; }
 
-    const failedThreshold = Object.entries(threshold).find(([stat, amount]) => {
-      return (resourceTotals[stat] || 0) < amount;
-    });
+      const failedThreshold = Object.entries(threshold).find(([stat, amount]) => {
+        return (resourceTotals[stat] || 0) < amount;
+      });
 
-    if (failedThreshold) { return; }
+      if (failedThreshold) { return; }
+    }
 
     if(effect.todo) { console.warn('TODO effect'); return; }
 
