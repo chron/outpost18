@@ -52,8 +52,7 @@ function Card({ cardName }) {
 
   return (
     <div
-      className={`card ${plays > 0 ? 'card--playable' : ''}`}
-      tabIndex={1}
+      className={`card ${plays > 0 ? 'card--playable' : ''} ${isDragging ? 'card--dragging' : ''}`}
       ref={dragRef}
     >
       <div className="card__ship">

@@ -8,7 +8,7 @@ import './Lane.scss';
 function Lane({ type, owner, children }) {
   const { dispatch, currentPlayer } = useContext(GameContext);
 
-  const [{ canDrop }, dropRef] = useDrop({
+  const [{ isOver, canDrop }, dropRef] = useDrop({
     accept: ItemTypes.CARD,
     drop: item => dispatch({
       type: 'play',
@@ -18,11 +18,16 @@ function Lane({ type, owner, children }) {
     canDrop: item => owner.playerId === currentPlayer.playerId && type !== 'hand',
     collect: monitor => ({
       canDrop: !!monitor.canDrop(),
+      isOver: !!monitor.isOver(),
     }),
   });
 
   return (
-    <div ref={dropRef} className={`lane lane--${type} ${canDrop ? 'lane--active' : ''}`}>
+    <div
+      ref={dropRef}
+      className={`lane lane--${type} ${isOver ? 'lane--hovering' : ''} ${canDrop ? 'lane--active' : ''}`}
+      data-hint={`Drop card here to play it as ${type === 'ship' ? 'a ship' : 'an upgrade'}`}
+    >
       { children }
     </div>
   );

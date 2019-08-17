@@ -22,24 +22,36 @@
   }
 
   &--active::after {
-    content: ' ';
-    display: block;
-    position: absolute;
+    content: attr(data-hint);
 
-    opacity: 0.4;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
     width: 100%;
     height: 100%;
+    color: white;
+  }
+
+  &--ship.lane--active::after {
+    background: rgba(0, 128, 128, 0.4);
+  }
+
+  &--ship.lane--hovering::after {
+    background: rgba(0, 128, 128, 0.8);
+  }
+
+  &--upgrade.lane--active::after {
+    background: rgba(30, 144, 255, 0.4);
+  }
+
+  &--upgrade.lane--hovering::after {
+  background: rgba(30, 144, 255, 0.8);
   }
 }
 
-.lane--ship.lane--active::after {
-  background: teal;
-}
 
-.lane--upgrade.lane--active::after {
-  background: dodgerblue;
-;
-}
 
 .fleet {
   display: flex;
