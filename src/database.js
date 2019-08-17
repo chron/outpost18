@@ -1,6 +1,6 @@
 import { query, Client } from 'faunadb';
 
-const { Create, Collection, Get, Ref } = query;
+const { Collection, Ref, Create, Get, Replace } = query;
 
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
 const client = new Client({ secret: process.env.FAUNADB_SECRET_KEY });
@@ -17,6 +17,13 @@ export function createGame(data) {
 export function loadGame(gameId) {
   return client
     .query(Get(Ref(Collection(COLLECTION_NAME), gameId)))
+    .then(r => r.data)
+    .catch(e => console.error(e));
+}
+
+export function saveGame(gameId, data) {
+  return client
+    .query(Replace(Ref(Collection(COLLECTION_NAME), gameId), { data }))
     .then(r => r.data)
     .catch(e => console.error(e));
 }

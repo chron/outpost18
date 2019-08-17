@@ -27,7 +27,7 @@ function PlayerStats({ player, position = 'bottom' }) {
 
       <div className="player-stats__resources">
         {Object.entries(resources).map(([resource, { icon }]) => {
-          const amount = sumResourceForPlayer(state, resource, player);
+          const amount = sumResourceForPlayer(resource, player);
           if (amount <= 0) { return null; }
           return (
             <div key={resource} className="player-stats__resource">

@@ -1,7 +1,7 @@
-import React, { useReducer, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import GameProvider from '../GameProvider';
 import KeyMap from '../KeyMap';
-import reducer from '../../reducer';
+import { gameAction } from '../../apiClient';
 import Base from '../Base';
 import FaceDownCard from '../FaceDownCard';
 import Card from '../Card';
@@ -12,14 +12,20 @@ import PlayerStats from '../PlayerStats';
 
 import './Game.scss';
 
-const Game = ({ initialGameState, playerId }) => {
-  const [gameState, dispatch] = useReducer(reducer, initialGameState);
+const Game = ({ initialGameState, gameId, playerId, cards }) => {
+  const [gameState, setGameState] = useState(initialGameState);
+  const dispatch = (action) => {
+    console.log(playerId, action);
+    gameAction(playerId, gameId, action).then(newState => setGameState(newState));
+  }
+
   const domRef = useRef(null);
   const currentPlayer = gameState.players.find(p => p.playerId === playerId);
   const opponent = gameState.players.find(p => p.playerId !== playerId);
 
   const gameStateValue = {
     ...gameState,
+    cards,
     // Possible gotcha: the KeyMap below receives the original dispatch function NOT this one
     dispatch: e => { dispatch(e); domRef.current.focus(); },
     currentPlayer,

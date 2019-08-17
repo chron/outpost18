@@ -4,7 +4,6 @@
 
 ## TODO
 
-1. Move the game logic from reducer.js to the server side
 1. Real-time comms — Pusher?
 1. Show resources as 0 instead of leaving them out
 1. Start of turn discard

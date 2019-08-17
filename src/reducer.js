@@ -1,15 +1,16 @@
 import { resourceTotalsForPlayer, sumResourceForPlayer } from './utils';
+import cards from './cards';
 import shuffle from 'lodash.shuffle';
 
-function lookupCard(state, cardName) {
-  return state.cards.find(c => c.name === cardName);
+function lookupCard(cardName) {
+  return cards.find(c => c.name === cardName);
 }
 
-function play(state, playerName, cardName, mode) {
+function play(state, playerId, cardName, mode) {
   if (state.gameState !== 'main') { return state; }
-  if (state.activePlayer !== playerName) { return state; }
+  if (state.activePlayer !== playerId) { return state; }
 
-  const playerIndex = state.players.findIndex(p => p.name === playerName);
+  const playerIndex = state.players.findIndex(p => p.playerId === playerId);
   const player = state.players[playerIndex];
 
   const { hand, inPlay, plays } = player;
@@ -18,7 +19,7 @@ function play(state, playerName, cardName, mode) {
   if (cardIndex < 0) { return state; }
   if (plays < 1) { return state; }
 
-  const card = lookupCard(state, cardName);
+  const card = lookupCard(cardName);
 
   const newHand = hand.slice()
   newHand.splice(cardIndex, 1);
@@ -30,11 +31,11 @@ function play(state, playerName, cardName, mode) {
   return { ...state, players: newPlayers };
 }
 
-function attack(state, playerName, cardName) {
+function attack(state, playerId, cardName) {
   if (state.gameState !== 'main') { return state; }
-  if (state.activePlayer !== playerName) { return state; }
+  if (state.activePlayer !== playerId) { return state; }
 
-  const playerIndex = state.players.findIndex(p => p.name === playerName);
+  const playerIndex = state.players.findIndex(p => p.playerId === playerId);
   const player = state.players[playerIndex];
   const { inPlay, attackPool } = player;
   const ship = inPlay.find(s => s.cardName === cardName);
@@ -44,7 +45,7 @@ function attack(state, playerName, cardName) {
   if (!ship.canAttack) { return state; }
   if (ship.attacking) { return state; }
 
-  const card = lookupCard(state, cardName);
+  const card = lookupCard(cardName);
 
   const shipIndex = inPlay.indexOf(ship);
   const newInPlay = inPlay.slice();
@@ -54,7 +55,7 @@ function attack(state, playerName, cardName) {
 
   // Possible gotcha: checking here assumes these totals won't change as a result of
   // activating attack abilities (currently true)
-  const resourceTotals = resourceTotalsForPlayer(state, player);
+  const resourceTotals = resourceTotalsForPlayer(player);
 
   // Check and apply the ship's attack abilities
   card.abilities.forEach(({ threshold, effect }) => {
@@ -79,62 +80,62 @@ function attack(state, playerName, cardName) {
 }
 
 // this gets called directly by endTurn, not by an action
-function beginTurn(state, playerName) {
-  const player = state.players.find(p => p.name === playerName);
+function beginTurn(state, playerId) {
+  const player = state.players.find(p => p.playerId === playerId);
 
   const newInPlay = player.inPlay.map(i => ({ ...i, canAttack: true }));
   const changes = { plays: 1, inPlay: newInPlay };
 
   // TODO: discard down to 3 somehow
 
-  let newState = updatePlayer(state, playerName, changes);
-  newState = { ...newState, gameState: 'main', activePlayer: playerName };
+  let newState = updatePlayer(state, playerId, changes);
+  newState = { ...newState, gameState: 'main', activePlayer: playerId };
 
-  if (playerName === 'opponent') { // TODO: put an actual flag or something for AI
-    newState = robotTurn(newState, playerName);
+  if (playerId === 'opponent') { // TODO: put an actual flag or something for AI
+    newState = robotTurn(newState, playerId);
   }
 
   return newState;
 }
 
-function robotTurn(state, playerName) {
-  const player = state.players.find(p => p.name === playerName);
+function robotTurn(state, playerId) {
+  const player = state.players.find(p => p.playerId === playerId);
   const cardToPlay = player.hand[0];
 
   let newState = state;
 
   if (cardToPlay) {
-    newState = play(newState, playerName, cardToPlay, Math.random() < 0.5 ? 'ship' : 'upgrade');
+    newState = play(newState, playerId, cardToPlay, Math.random() < 0.5 ? 'ship' : 'upgrade');
   }
 
-  newState = endTurn(newState, playerName);
+  newState = endTurn(newState, playerId);
 
   return newState;
 }
 
-function endTurn(state, playerName) {
+function endTurn(state, playerId) {
   let newState = state;
-  const player = state.players.find(p => p.name === playerName);
+  const player = state.players.find(p => p.playerId === playerId);
 
   // Move ships that attacked to the discard pile
   const attackers = player.inPlay.filter(s => s.attacking);
   const nonAttackers = player.inPlay.filter(s => !s.attacking);
   const newDiscards = state.discards.concat(attackers.map(c => c.cardName));
   newState = { ...newState, discards: newDiscards };
-  newState = updatePlayer(newState, playerName, { attackPool: 0, plays: 0, inPlay: nonAttackers });
+  newState = updatePlayer(newState, playerId, { attackPool: 0, plays: 0, inPlay: nonAttackers });
 
   // Draw cards equal to your draws stat
-  const draws = sumResourceForPlayer(state, 'draws', player);
-  newState = drawCards(newState, playerName, draws);
+  const draws = sumResourceForPlayer('draws', player);
+  newState = drawCards(newState, playerId, draws);
 
   // Begin turn for next player
-  const opponent = state.players.find(p => p.name !== playerName);
-  newState = beginTurn(newState, opponent.name);
+  const opponent = state.players.find(p => p.playerId !== playerId);
+  newState = beginTurn(newState, opponent.playerId);
 
   return newState;
 }
 
-function drawCards(state, playerName, num) {
+function drawCards(state, playerId, num) {
   let newState = state;
   let newDeck = newState.deck.slice();
   let cardsToDraw = newDeck.splice(0, num);
@@ -147,16 +148,16 @@ function drawCards(state, playerName, num) {
     newState = { ...newState, discards: [] };
   }
 
-  const player = newState.players.find(p => p.name === playerName);
+  const player = newState.players.find(p => p.playerId === playerId);
   const newHand = player.hand.concat(cardsToDraw);
   newState = { ...newState, deck: newDeck };
-  newState = updatePlayer(newState, playerName, { hand: newHand });
+  newState = updatePlayer(newState, playerId, { hand: newHand });
 
   return newState;
 }
 
-function updatePlayer(state, playerName, changes) {
-  const playerIndex = state.players.findIndex(p => p.name === playerName);
+function updatePlayer(state, playerId, changes) {
+  const playerIndex = state.players.findIndex(p => p.playerId === playerId);
   const player = state.players[playerIndex];
 
   const newPlayers = state.players.slice();
@@ -165,15 +166,15 @@ function updatePlayer(state, playerName, changes) {
   return { ...state, players: newPlayers };
 }
 
-function destroy(state, playerName, cardName) {
-  const { gameState, activePlayer, cards, players } = state;
+function destroy(state, playerId, cardName) {
+  const { gameState, activePlayer, players } = state;
 
   if (gameState !== 'main') { return state; }
-  if (activePlayer !== playerName) { return state; }
+  if (activePlayer !== playerId) { return state; }
 
-  const playerIndex = players.findIndex(p => p.name === playerName);
+  const playerIndex = players.findIndex(p => p.playerId === playerId);
   const player = players[playerIndex];
-  const opponentIndex = players.findIndex(p => p.name !== playerName);
+  const opponentIndex = players.findIndex(p => p.playerId !== playerId);
   const opponent = players[opponentIndex];
 
   const { attackPool, hand } = player;
@@ -181,7 +182,7 @@ function destroy(state, playerName, cardName) {
 
   const targetIndex = inPlay.findIndex(s => s.cardName === cardName && ['upgrade', 'base'].includes(s.mode));
   const target = inPlay[targetIndex]
-  const card = lookupCard(state, cardName);
+  const card = lookupCard(cardName);
   const defenders = inPlay
     .filter(s => s.mode === 'upgrade')
     .map(s => cards.find(c => s.cardName === c.name))
@@ -205,20 +206,16 @@ function destroy(state, playerName, cardName) {
   }
 }
 
-export default function reducer(state, action) {
-  console.log(action);
-
-  const playerName = 'Player Name' // TODO: replace this with id and grab it from somewhere
-
+export default function reducer(state, action, playerId) {
   switch(action.type) {
     case 'play':
-      return play(state, playerName, action.cardName, action.mode);
+      return play(state, playerId, action.cardName, action.mode);
     case 'attack':
-      return attack(state, playerName, action.cardName);
+      return attack(state, playerId, action.cardName);
     case 'destroy':
-      return destroy(state, playerName, action.cardName);
+      return destroy(state, playerId, action.cardName);
     case 'endTurn':
-      return endTurn(state, playerName);
+      return endTurn(state, playerId);
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }

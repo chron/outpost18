@@ -15,7 +15,7 @@ export function handler(event, context, callback) {
 
   const gameState = {
     gameState: 'main',
-    activePlayer: 'Player Name', // TODO: replace with id
+    activePlayer: playerId,
     deck,
     discards: [],
     // TODO: later we'll just load one player here and start the game in a 'waiting' state

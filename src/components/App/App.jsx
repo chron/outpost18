@@ -28,10 +28,10 @@ function App() {
 
     if (storedGameId) {
       loadGame(playerId, storedGameId)
-        .then(data => setGameState({ ...data, cards }));
+        .then(data => setGameState(data));
     } else {
       createGame(playerId, 'Player Name') // TODO: names
-        .then(data => setGameState({ ...data, cards }));
+        .then(data => setGameState(data));
     }
   }, [playerId, gameId, storedGameId]);
 
@@ -39,7 +39,7 @@ function App() {
     <React.Fragment>
       <Normalize />
 
-      {gameState.gameId && <Game initialGameState={gameState} playerId={playerId} />}
+      {gameState.gameId && <Game cards={cards} gameId={gameId} initialGameState={gameState} playerId={playerId} />}
     </React.Fragment>
   );
 }
