@@ -17,6 +17,12 @@
 1. Auth / Login?
 1. Game lobby / join code
 
+## Dev setup
+
+1. `yarn install`
+1. `npm install netlify-cli -g`
+1. `netlify dev`
+1. Browse to http://localhost:8888 t
 
 ## Environment Variables
 
@@ -24,5 +30,5 @@
 
 ## Thanks etc
 
-PixelMix font by Andrew Tyler (CC by-sa Attribution Share Alike)
-Background SVG tile from Steve Schoger's [Hero Patterns](https://www.heropatterns.com/)
+* PixelMix font by Andrew Tyler (CC by-sa Attribution Share Alike)
+* Background SVG tile from Steve Schoger's [Hero Patterns](https://www.heropatterns.com/)

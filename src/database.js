@@ -2,6 +2,7 @@ import faunadb from 'faunadb';
 
 const { Create, Collection } = faunadb.query;
 
+// TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
 const client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET_KEY });
 const COLLECTION_NAME = 'games';
 
