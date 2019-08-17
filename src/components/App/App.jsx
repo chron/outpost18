@@ -4,6 +4,8 @@ import Game from '../Game';
 import cards from '../../cards';
 import { useLocalStorage } from '../../hooks';
 import { createGame, loadGame } from '../../apiClient';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import './App.scss';
 
@@ -39,7 +41,9 @@ function App() {
     <React.Fragment>
       <Normalize />
 
-      {gameState.gameId && <Game cards={cards} gameId={gameId} initialGameState={gameState} playerId={playerId} />}
+      <DndProvider backend={HTML5Backend}>
+        {gameState.gameId && <Game cards={cards} gameId={gameId} initialGameState={gameState} playerId={playerId} />}
+      </DndProvider>
     </React.Fragment>
   );
 }

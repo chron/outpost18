@@ -5,7 +5,6 @@
 ## TODO
 
 1. Real-time comms — Pusher?
-1. `react-dnd` for putting cards into play (and discards?)
 1. Start of turn discard
 1. Complicated function abilities
 1. Undo and "are you sure?" warnings

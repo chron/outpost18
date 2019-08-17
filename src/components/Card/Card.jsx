@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import GameContext from '../../GameContext';
 import { resources } from '../../utils';
+import { useDrag } from 'react-dnd';
+import { ItemTypes } from '../../constants';
 
 import './Card.scss';
 
@@ -26,6 +28,13 @@ function resourceToIcons(resource, amount = 1) {
 function Card({ cardName }) {
   const { currentPlayer: { plays }, cards, dispatch } = useContext(GameContext);
   const { name, attack, abilities, hyperdrive, shipOre, shipIon, shipLabour } = cards.find(c => c.name === cardName);
+  const [{ isDragging }, dragRef] = useDrag({
+    item: { type: ItemTypes.CARD, cardName },
+    canDrag: () => plays > 0,
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
   let passiveAbility;
 
@@ -42,7 +51,11 @@ function Card({ cardName }) {
   }
 
   return (
-    <div className={`card ${plays > 0 ? 'playable' : ''}`} tabIndex={1}>
+    <div
+      className={`card ${plays > 0 ? 'card--playable' : ''}`}
+      tabIndex={1}
+      ref={dragRef}
+    >
       <div className="card__ship">
         <div className="card__image">
           &nbsp;
@@ -71,23 +84,6 @@ function Card({ cardName }) {
             );
           })}
         </div>
-      </div>
-
-      <div className="card__controls">
-        <button
-          className="card__control"
-          disabled={plays <= 0}
-          onClick={() => dispatch({ type: 'play', cardName, mode: 'ship' })}
-        >
-          🚀
-        </button>
-        <button
-          className="card__control"
-          disabled={plays <= 0}
-          onClick={() => dispatch({ type: 'play', cardName, mode: 'upgrade' })}
-        >
-          🏠
-        </button>
       </div>
     </div>
   );

@@ -18,7 +18,11 @@
   font-family: $title-font-stack;
 
   &--playable {
+    cursor: grab;
+  }
 
+  &--dragging {
+    cursor: grabbing;
   }
 
   &--face-down {
@@ -93,19 +97,5 @@
   &__passive + &__abilities {
     margin-top: -20px;
     padding-top: 10px;
-  }
-
-  &__controls {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__control {
-    padding: 5px;
-    border-radius: 2px;
-    text-align: center;
-    color: $card-foreground-color;
-    background-color: $card-background-color;
-    cursor: pointer;
   }
 }

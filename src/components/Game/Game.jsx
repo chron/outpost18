@@ -9,6 +9,7 @@ import Ship from '../Ship';
 import Alert from '../Alert';
 import Upgrade from '../Upgrade';
 import PlayerStats from '../PlayerStats';
+import Lane from '../Lane';
 
 import './Game.scss';
 
@@ -53,12 +54,12 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
         <div className="game" ref={domRef} tabIndex={-1}>
           {alert && <Alert message={alert} />}
           <div className="lanes">
-            <div className="lane">
+            <Lane owner={opponent} type={'hand'}>
               {Array(opponent.hand.length).fill(1).map((_, i) => <FaceDownCard key={i} />)}
 
               <PlayerStats player={opponent} position="top" />
-            </div>
-            <div className="lane">
+            </Lane>
+            <Lane owner={opponent} type={'upgrade'}>
               {enemyUpgrades.map(({ cardName }) => {
                 return <Upgrade
                   key={cardName}
@@ -67,8 +68,8 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
                 />
               })}
               <Base cardName="Station Core" owner={opponent} />
-            </div>
-            <div className="lane">
+            </Lane>
+            <Lane owner={opponent} type={'ship'}>
               <div className="fleet">
                 {enemyShips.map(({ cardName, canAttack, attacking }) => {
                   return <Ship
@@ -84,8 +85,8 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
               <div className="deck deck--discard">
                 <FaceDownCard count={gameState.discards.length} />
               </div>
-            </div>
-            <div className="lane">
+            </Lane>
+            <Lane owner={currentPlayer} type={'ship'}>
               <div className="fleet">
                 {ships.map(({ cardName, canAttack, attacking }) => {
                   return <Ship
@@ -101,8 +102,8 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
               <div className="deck">
                 <FaceDownCard count={gameState.deck.length} />
               </div>
-            </div>
-            <div className="lane">
+            </Lane>
+            <Lane owner={currentPlayer} type={'upgrade'}>
               {upgrades.map(({ cardName }) => {
                 return <Upgrade
                   key={cardName}
@@ -111,10 +112,10 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
                 />
               })}
               <Base cardName="Station Core" owner={currentPlayer} />
-            </div>
-            <div className="lane">
+            </Lane>
+            <Lane owner={currentPlayer} type={'hand'}>
               {currentPlayer.hand.map(c => <Card key={c} cardName={c} />)}
-            </div>
+            </Lane>
           </div>
           <PlayerStats player={currentPlayer} />
         </div>

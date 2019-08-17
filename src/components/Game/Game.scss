@@ -1,30 +1,3 @@
 .game {
   height: 100%;
 }
-
-.lanes {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-.lane {
-  display: flex;
-  flex-basis: 0;
-  flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 10px;
-
-  &:not(:first-child) {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-  }
-}
-
-.fleet {
-  display: flex;
-  justify-content: center;
-  flex-grow: 1;
-}
