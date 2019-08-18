@@ -1,23 +1,31 @@
 @import "../../stylesheets/variables.scss";
 
 .ship {
-  width: 100px;
-  height: 100px;
-  padding: 10px;
+  position: relative;
+  width: 140px;
   color: $card-foreground-color;
   background-color: $card-background-color;
-  border: 1px solid $card-border-color;
-  border-radius: 4px;
+  padding: 5px;
   margin: 0 5px;
   box-shadow: $card-shadow;
 
   &--ready {
-    border-color: yellow;
     cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+      transition: 0.1s ease-out;
+    }
+
+    .card__title {
+      color: yellow;
+      border-color: currentColor;
+    }
   }
 
-  &--attacking {
-    border-color: crimson;
+  &--attacking .card__title {
+    color: crimson;
+    border-color: currentColor;
   }
 
   &--enemy {

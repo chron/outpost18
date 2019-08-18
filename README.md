@@ -4,16 +4,17 @@
 
 ## TODO
 
-1. Real-time comms — Pusher?
 1. Start of turn discard
 1. Complicated function abilities
 1. Undo and "are you sure?" warnings
 1. Event log?
+1. Real-time comms — Pusher?
 1. Tooltips and viewing the contents of the discard pile (make sure top is face-up)
 1. Card art, human-friendly text, and layout
 1. Animations!
 1. Auth / Login?
 1. Game lobby / join code
+1. Highlight abilities where the threshold is met
 1. DragPreview for cards - remove opacity at least?
 1. Dragged cards take a split second before they disappear which looks weird
 

@@ -54,11 +54,6 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
         <div className="game" ref={domRef} tabIndex={-1}>
           {alert && <Alert message={alert} />}
           <div className="lanes">
-            <Lane owner={opponent} type={'hand'}>
-              {Array(opponent.hand.length).fill(1).map((_, i) => <FaceDownCard key={i} />)}
-
-              <PlayerStats player={opponent} position="top" />
-            </Lane>
             <Lane owner={opponent} type={'upgrade'}>
               {enemyUpgrades.map(({ cardName }) => {
                 return <Upgrade
@@ -68,6 +63,7 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
                 />
               })}
               <Base cardName="Station Core" owner={opponent} />
+              <PlayerStats player={opponent} position="top" />
             </Lane>
             <Lane owner={opponent} type={'ship'}>
               <div className="fleet">
