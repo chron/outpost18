@@ -26,7 +26,7 @@ export function handler(event, _context, callback) {
         name,
         plays: i === 0 ? 1 : 0,
         attackPool: 0,
-        hand: deck.splice(0, i === 0 ? 2 : 3),
+        hand: ['Junkrig'], //deck.splice(0, i === 0 ? 2 : 3),
         aiControlled: i === 1,
         inPlay: [{ ...baseStats }],
       };

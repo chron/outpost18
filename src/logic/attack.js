@@ -7,6 +7,7 @@ export default function attack(state, playerId, cardName) {
 
   const playerIndex = state.players.findIndex(p => p.playerId === playerId);
   const player = state.players[playerIndex];
+  const opponent = state.players.find(p => p.playerId !== playerId);
   const { inPlay, attackPool } = player;
   const ship = inPlay.find(s => s.cardName === cardName);
 
@@ -41,7 +42,10 @@ export default function attack(state, playerId, cardName) {
 
     if (effect.todo) { return; }
 
-    Object.entries(effect).forEach(([stat, amount]) => {
+    // Gotcha: if `function` key is provided all other keys are ignored
+    const effectResult = effect.function ? effect.function(state, player, opponent) : effect;
+
+    Object.entries(effectResult).forEach(([stat, amount]) => {
       newPlayer[stat === 'attack' ? 'attackPool' : stat] += amount;
     });
   });

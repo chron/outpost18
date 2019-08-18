@@ -1,3 +1,5 @@
+import { sumResourceForPlayer } from './utils';
+
 const cards = [
   {
     name: "Station Core",
@@ -134,7 +136,13 @@ const cards = [
     ion: 2,
     abilities: [
       {
-        effect: { todo: '1 attack per ion generated' },
+        effect: {
+          // TODO: use the symbols here
+          description: '+I per ion you generate.',
+          function: (_state, player) => {
+            return { attack: sumResourceForPlayer('ion', player) };
+          }
+        },
       },
     ],
   },
@@ -163,7 +171,13 @@ const cards = [
     draws: 1,
     abilities: [
       {
-        effect: { todo: '1 attack per opponent upgrade' },
+        effect: {
+          description: '+I for each Upgrade your opponent controls.',
+          function: (_state, _player, opponent) => {
+            const opponentUpgrades = opponent.inPlay.filter(c => c.mode === 'upgrade');
+            return { attack: opponentUpgrades.length };
+          }
+        },
       },
       {
         threshold: { labour: 2 },
