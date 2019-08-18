@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 
   width: 140px;
   height: 200px;
@@ -37,6 +38,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  &__ship {
+    width: 100%;
   }
 
   &__title {
@@ -90,6 +95,7 @@
 
   &__abilities {
     height: 60px;
+
     margin: -5px -2px 0 -2px;
     padding: 5px;
     border: 2px solid $card-border-color;

@@ -3,6 +3,7 @@ import GameContext from '../../GameContext';
 import { resources } from '../../utils';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants';
+import Upgrade from '../Upgrade';
 
 import './Card.scss';
 
@@ -12,7 +13,7 @@ function thresholdToIcons(threshold) {
   return Object.entries(threshold).map(([resource, amount]) => {
     if (resource === 'todo') { return '😱'; }
     return resourceToIcons(resource, amount);
-  }).join(' ');
+  }).join('');
 }
 
 function effectToIcons(effect) {
@@ -22,7 +23,7 @@ function effectToIcons(effect) {
 }
 
 function resourceToIcons(resource, amount = 1) {
-  return Array(amount).fill(1).map(() => resources[resource].icon).join(' ');
+  return Array(amount).fill(1).map(() => resources[resource].icon).join('');
 }
 
 function Card({ cardName }) {
@@ -78,12 +79,14 @@ function Card({ cardName }) {
           {abilities.map(({ threshold, effect }, i) => {
             return (
               <div key={i}>
-                ❂[ {thresholdToIcons(threshold)} ] {effectToIcons(effect)}
+                ❂[{thresholdToIcons(threshold)}] {effectToIcons(effect)}
               </div>
             );
           })}
         </div>
       </div>
+
+      <Upgrade cardName={cardName} inPlay={false} />
     </div>
   );
 }

@@ -14,6 +14,8 @@
 1. Animations!
 1. Auth / Login?
 1. Game lobby / join code
+1. DragPreview for cards - remove opacity at least?
+1. Dragged cards take a split second before they disappear which looks weird
 
 ## Dev setup
 

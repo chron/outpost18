@@ -3,19 +3,20 @@ import GameContext from '../../GameContext';
 import { resources } from '../../utils';
 import './Upgrade.scss';
 
-function Upgrade({ cardName, owner }) {
+// TODO: refactor out some "dumb" display components that don't use context etc
+function Upgrade({ cardName, owner, inPlay = true }) {
   const { currentPlayer, cards, dispatch } = useContext(GameContext);
   const { shields, defender, ion, labour, ore, draws } = cards.find(c => c.name === cardName);
 
-  const enemy = owner.playerId !== currentPlayer.playerId;
-  const ownerUpgrades = owner.inPlay.filter(s => s.mode === 'upgrade').map(s => cards.find(c => s.cardName === c.name));
+  const enemy = owner && owner.playerId !== currentPlayer.playerId;
+  const ownerUpgrades = owner ? owner.inPlay.filter(s => s.mode === 'upgrade').map(s => cards.find(c => s.cardName === c.name)) : [];
   const targetable = defender || ownerUpgrades.filter(c => c.defender).length === 0
   const destroyable = enemy && targetable && currentPlayer.attackPool >= shields;
 
   return (
     <div
-      className={`upgrade ${enemy ? 'upgrade--enemy' : ''} ${destroyable ? 'upgrade--destroyable' : ''}`}
-      onClick={() => destroyable && dispatch({ type: 'destroy', cardName }) }
+      className={`upgrade ${inPlay ? '' : 'upgrade--static'} ${enemy ? 'upgrade--enemy' : ''} ${destroyable ? 'upgrade--destroyable' : ''}`}
+      onClick={() => inPlay && destroyable && dispatch({ type: 'destroy', cardName }) }
     >
       <div className={`upgrade__shields upgrade__shields--reverse ${defender ? 'upgrade__shields--defender' : ''}`}>
         {shields}{defender ? '!' : ''}

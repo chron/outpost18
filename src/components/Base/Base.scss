@@ -9,6 +9,7 @@
   background-color: $card-background-color;
   border-radius: 8px;
   box-shadow: $card-shadow;
+  font-family: $title-font-stack;
 
   &__main {
     display: flex;
