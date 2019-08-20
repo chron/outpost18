@@ -8,9 +8,11 @@ const COLLECTION_NAME = 'games';
 
 // Returns a promise that resolves to the gameId
 export function createGame(data) {
+  console.log(process.env.FAUNADB_SECRET_KEY);
+
   return client
     .query(Create(Collection(COLLECTION_NAME), { data }))
-    .then(response => response.ref.id)
+    .then(response => { console.log(response); return response.ref.id; })
     .catch(e => console.error(e)); // TODO: error handling, bugsnag or something here?
 }
 
