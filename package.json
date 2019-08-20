@@ -17,11 +17,12 @@
     "base-64": "^0.1.0",
     "faunadb": "^2.7.0",
     "lodash.shuffle": "^4.2.0",
+    "netlify-lambda": "^1.6.2",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
+    "react": ">= 16.8",
     "react-dnd": "^9.3.4",
     "react-dnd-html5-backend": "^9.3.4",
-    "react-dom": "^16.8.6",
+    "react-dom": ">= 16.8",
     "react-hotkeys": "^2.0.0",
     "react-normalize": "^0.4.3",
     "src": "^1.1.2"
@@ -32,6 +33,18 @@
     "start:lambda": "parcel src/functions/* --out-dir dist/functions --target node --bundle-node-modules",
     "build": "run-p build:**",
     "build:app": "parcel build src/index.html",
-    "build:lambda": "parcel build src/functions/* --out-dir dist/functions --target node --bundle-node-modules"
-  }
+    "build:lambda": "parcel build src/functions/* --out-dir dist/functions --target node --bundle-node-modules",
+    "postbuild": "netlify-lambda install"
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 ChromeAndroid versions",
+    "last 2 Firefox versions",
+    "last 2 FirefoxAndroid versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 Edge versions",
+    "last 2 Opera versions",
+    "last 2 OperaMobile versions"
+  ]
 }
