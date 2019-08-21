@@ -17,6 +17,7 @@
     "base-64": "^0.1.0",
     "faunadb": "^2.7.0",
     "lodash.shuffle": "^4.2.0",
+    "netlify-lambda": "^1.6.2",
     "prop-types": "^15.7.2",
     "react": ">= 16.8",
     "react-dnd": "^9.3.4",
@@ -29,10 +30,10 @@
   "scripts": {
     "start": "run-p start:**",
     "start:app": "parcel src/index.html",
-    "start:lambda": "parcel src/functions/* --out-dir dist/functions --target node",
+    "start:lambda": "netlify-lambda -c webpack.config.js serve src/functions",
     "build": "run-p build:**",
     "build:app": "parcel build src/index.html",
-    "build:lambda": "parcel build src/functions/* --out-dir dist/functions --target node"
+    "build:lambda": "netlify-lambda -c webpack.config.js build src/functions"
   },
   "browserslist": [
     "last 2 Chrome versions",

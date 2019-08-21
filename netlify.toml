@@ -1,8 +1,8 @@
 [build]
   functions = "dist/functions"
-  publish = "dist"
   command = "yarn run build"
 
 [dev]
-  command = "yarn start"
+  publish = "dist"
+  command = "yarn run start"
   port = 1234
