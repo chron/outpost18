@@ -1,40 +1,6 @@
 /* eslint-disable consistent-return */
 import shuffle from 'lodash.shuffle';
-//import cards from '../cards';
-const cards = [{
-  name: "Station Core",
-  shields: 5,
-  draws: 1,
-},
-{
-  name: "Centurion",
-  attack: 2,
-  shields: 3,
-  ore: 1,
-  draws: 1,
-  abilities: [
-    {
-      threshold: { labour: 2 },
-      effect: { plays: 2 },
-    },
-  ],
-},
-{
-  name: "Ionblazer",
-  attack: 2,
-  shields: 2,
-  ore: 1,
-  ion: 1,
-  labour: 1,
-  hyperdrive: true,
-  abilities: [
-    {
-      threshold: { ion: 2 },
-      effect: { todo: 'destroy any ship, then discard' },
-    },
-  ],
-}];
-
+import cards from '../cards';
 import { createGame } from '../database';
 
 export function handler(event, _context, callback) {
