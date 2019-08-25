@@ -3,6 +3,10 @@ import { resources } from '../../utils';
 
 import './ShipCard.scss';
 
+function resourceToIcons(resource, amount = 1) {
+  return Array(amount).fill(1).map(() => resources[resource].icon).join('');
+}
+
 function thresholdToIcons(threshold) {
   if (!threshold) { return ''; }
 
@@ -19,22 +23,21 @@ function effectToIcons(effect) {
   return Object.entries(effect).map(([resource, amount]) => {
     if (resource === 'attack') {
       return (
-        <React.Fragment key={resource}>+
+        <React.Fragment key={resource}>
+          +
           <span className="power">
             {Array(amount).fill(1).map(() => 'I')}
           </span>
         </React.Fragment>
       );
-    } else if (resource === 'plays') {
-      return `Play +${amount} cards.`;
-    } else {
-      return '😱';
     }
-  });
-}
 
-function resourceToIcons(resource, amount = 1) {
-  return Array(amount).fill(1).map(() => resources[resource].icon).join('');
+    if (resource === 'plays') {
+      return `Play +${amount} cards.`;
+    }
+
+    return '😱';
+  });
 }
 
 function ShipCard({ card }) {

@@ -15,11 +15,14 @@ function Upgrade({ cardName, owner, inPlay = true }) {
 
   return (
     <div
+      role="button"
+      tabIndex="0"
       className={`upgrade ${inPlay ? '' : 'upgrade--static'} ${enemy ? 'upgrade--enemy' : ''} ${destroyable ? 'upgrade--destroyable' : ''}`}
       onClick={() => inPlay && destroyable && dispatch({ type: 'destroy', cardName }) }
     >
       <div className={`upgrade__shields upgrade__shields--reverse ${defender ? 'upgrade__shields--defender' : ''}`}>
-        {shields}{defender ? '!' : ''}
+        {shields}
+        {defender ? '!' : ''}
       </div>
 
       <div className="upgrade__powers">
@@ -31,7 +34,8 @@ function Upgrade({ cardName, owner, inPlay = true }) {
       </div>
 
       <div className={`upgrade__shields ${defender ? 'upgrade__shields--defender' : ''}`}>
-        {shields}{defender ? '!' : ''}
+        {shields}
+        {defender ? '!' : ''}
       </div>
     </div>
   );

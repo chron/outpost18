@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import GameContext from '../../GameContext';
 import ShipCard from '../ShipCard';
 
@@ -12,6 +11,8 @@ function Ship({ cardName, owner, attacking, canAttack }) {
 
   return (
     <div
+      role="button"
+      tabIndex="0"
       className={`ship ${attacking ? 'ship--attacking' : ''} ${canAttack && !enemy ? 'ship--ready' : ''} ${enemy ? 'ship--enemy' : ''}`}
       onClick={() => !enemy && canAttack && !attacking && dispatch({ type: 'attack', cardName })}
     >
@@ -19,9 +20,5 @@ function Ship({ cardName, owner, attacking, canAttack }) {
     </div>
   );
 }
-
-Ship.propTypes = {
-  card: PropTypes.object,
-};
 
 export default Ship;

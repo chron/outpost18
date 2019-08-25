@@ -15,7 +15,7 @@ function Lane({ type, owner, children }) {
       cardName: item.cardName,
       mode: type,
     }),
-    canDrop: item => owner.playerId === currentPlayer.playerId && type !== 'hand',
+    canDrop: _item => owner.playerId === currentPlayer.playerId && type !== 'hand',
     collect: monitor => ({
       canDrop: !!monitor.canDrop(),
       isOver: !!monitor.isOver(),

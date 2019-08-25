@@ -1,13 +1,13 @@
-import React, { useRef } from 'react';
-import { HotKeys } from "react-hotkeys";
+import React from 'react';
+import { HotKeys } from 'react-hotkeys';
 
 const keyMap = {
-  END_TURN: "e",
+  END_TURN: 'e',
 };
 
 const KeyMap = ({ children, dispatch }) => {
   const handlers = {
-    END_TURN: () => { dispatch({ type: 'endTurn' }) },
+    END_TURN: () => { dispatch({ type: 'endTurn' }); },
   };
 
   return (

@@ -1,21 +1,23 @@
 // Returns a promise that resolves to the new game state
-export function createGame(playerId, playerName) {
-  return fetch('/.netlify/functions/create-game', {
+export async function createGame(playerId, playerName) {
+  const response = await fetch('/.netlify/functions/create-game', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ playerId, playerName }),
-  }).then(response => response.json());
+  });
+  return response.json();
 }
 
-export function loadGame(playerId, gameId) {
-  return fetch(`/.netlify/functions/game-state?playerId=${playerId}&gameId=${gameId}`)
-    .then(response => response.json());
+export async function loadGame(playerId, gameId) {
+  const response = await fetch(`/.netlify/functions/game-state?playerId=${playerId}&gameId=${gameId}`);
+  return response.json();
 }
 
-export function gameAction(playerId, gameId, action) {
-  return fetch('/.netlify/functions/game-action', {
+export async function gameAction(playerId, gameId, action) {
+  const response = await fetch('/.netlify/functions/game-action', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ playerId, gameId, action }),
-  }).then(response => response.json());
+  });
+  return response.json();
 }

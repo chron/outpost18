@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import GameContext from '../../GameContext';
 import { useDrag } from 'react-dnd';
+import GameContext from '../../GameContext';
 import { ItemTypes } from '../../constants';
 import Upgrade from '../Upgrade';
 import ShipCard from '../ShipCard';
@@ -8,7 +8,7 @@ import ShipCard from '../ShipCard';
 import './Card.scss';
 
 function Card({ cardName }) {
-  const { currentPlayer: { plays }, cards, dispatch } = useContext(GameContext);
+  const { currentPlayer: { plays }, cards } = useContext(GameContext);
   const card = cards.find(c => c.name === cardName);
   const [{ isDragging }, dragRef] = useDrag({
     item: { type: ItemTypes.CARD, cardName },

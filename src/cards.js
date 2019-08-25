@@ -2,12 +2,12 @@ import { sumResourceForPlayer } from './utils';
 
 const cards = [
   {
-    name: "Station Core",
+    name: 'Station Core',
     shields: 5,
     draws: 1,
   },
   {
-    name: "Centurion",
+    name: 'Centurion',
     attack: 2,
     shields: 3,
     ore: 1,
@@ -20,7 +20,7 @@ const cards = [
     ],
   },
   {
-    name: "Ionblazer",
+    name: 'Ionblazer',
     attack: 2,
     shields: 2,
     ore: 1,
@@ -35,7 +35,7 @@ const cards = [
     ],
   },
   {
-    name: "Battlestar",
+    name: 'Battlestar',
     attack: 2,
     shields: 3,
     defender: true,
@@ -49,7 +49,7 @@ const cards = [
     ],
   },
   {
-    name: "Epoch",
+    name: 'Epoch',
     attack: 2,
     shields: 3,
     ore: 1,
@@ -66,7 +66,7 @@ const cards = [
     ],
   },
   {
-    name: "Dreadnought",
+    name: 'Dreadnought',
     attack: 1,
     shields: 2,
     ore: 1,
@@ -77,10 +77,10 @@ const cards = [
         threshold: { todo: 'discard up to 3' },
         effect: { todo: '1 attack per discard' },
       },
-    ]
+    ],
   },
   {
-    name: "Destroyer",
+    name: 'Destroyer',
     attack: 1,
     shields: 3,
     defender: true,
@@ -98,7 +98,7 @@ const cards = [
     ],
   },
   {
-    name: "Helix",
+    name: 'Helix',
     attack: 1,
     shields: 3,
     defender: true,
@@ -115,7 +115,7 @@ const cards = [
     ],
   },
   {
-    name: "Freighter",
+    name: 'Freighter',
     attack: 1,
     shields: 3,
     ore: 1,
@@ -126,10 +126,10 @@ const cards = [
         threshold: { labour: 1, ion: 1 },
         effect: { attack: 2 },
       },
-    ]
+    ],
   },
   {
-    name: "Falcon",
+    name: 'Falcon',
     attack: 1,
     shields: 3,
     defender: true,
@@ -147,7 +147,7 @@ const cards = [
     ],
   },
   {
-    name: "Lotus",
+    name: 'Lotus',
     attack: 1,
     shields: 3,
     ion: 1,
@@ -163,7 +163,7 @@ const cards = [
     ],
   },
   {
-    name: "Junkrig",
+    name: 'Junkrig',
     attack: 1,
     shields: 3,
     defender: 3,
@@ -176,7 +176,7 @@ const cards = [
           function: (_state, _player, opponent) => {
             const opponentUpgrades = opponent.inPlay.filter(c => c.mode === 'upgrade');
             return { attack: opponentUpgrades.length };
-          }
+          },
         },
       },
       {
@@ -186,7 +186,7 @@ const cards = [
     ],
   },
   {
-    name: "Jackhammer",
+    name: 'Jackhammer',
     attack: 1,
     shields: 2,
     ore: 2,
@@ -203,7 +203,7 @@ const cards = [
     ],
   },
   {
-    name: "Sparkwraith",
+    name: 'Sparkwraith',
     attack: 1,
     shields: 2,
     ore: 2,
@@ -217,7 +217,7 @@ const cards = [
     ],
   },
   {
-    name: "Rockbreaker",
+    name: 'Rockbreaker',
     attack: 2,
     shields: 2,
     ore: 1,
@@ -235,7 +235,7 @@ const cards = [
     ],
   },
   {
-    name: "Magnet",
+    name: 'Magnet',
     attack: 2,
     shields: 4,
     defender: true,
@@ -249,7 +249,7 @@ const cards = [
     ],
   },
   {
-    name: "Vessel",
+    name: 'Vessel',
     attack: 2,
     shields: 2,
     labour: 2,
@@ -261,7 +261,7 @@ const cards = [
         effect: { plays: 1 },
       },
     ],
-  }
+  },
 ];
 
 export default cards;

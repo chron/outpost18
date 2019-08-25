@@ -6,6 +6,7 @@
 
 1. Start of turn discard
 1. Complicated function abilities
+1. Use localStorage or something in dev mode instead of Fauna
 1. Undo and "are you sure?" warnings
 1. Event log?
 1. Real-time comms — Pusher?

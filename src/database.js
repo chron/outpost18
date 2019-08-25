@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { query, Client } from 'faunadb';
 
 const { Collection, Ref, Create, Get, Replace } = query;
@@ -6,26 +7,32 @@ const { Collection, Ref, Create, Get, Replace } = query;
 const client = new Client({ secret: process.env.FAUNADB_SECRET_KEY });
 const COLLECTION_NAME = 'games';
 
-// Returns a promise that resolves to the gameId
-export function createGame(data) {
+export async function createGame(data) {
   console.log(process.env.FAUNADB_SECRET_KEY);
 
-  return client
-    .query(Create(Collection(COLLECTION_NAME), { data }))
-    .then(response => { console.log(response); return response.ref.id; })
-    .catch(e => console.error(e)); // TODO: error handling, bugsnag or something here?
+  try {
+    const response = await client.query(Create(Collection(COLLECTION_NAME), { data }));
+    return response.ref.id;
+  } catch (e) {
+    // TODO: error handling, bugsnag or something here?
+    return console.error(e);
+  }
 }
 
-export function loadGame(gameId) {
-  return client
-    .query(Get(Ref(Collection(COLLECTION_NAME), gameId)))
-    .then(r => r.data)
-    .catch(e => console.error(e));
+export async function loadGame(gameId) {
+  try {
+    const r = await client.query(Get(Ref(Collection(COLLECTION_NAME), gameId)));
+    return r.data;
+  } catch (e) {
+    return console.error(e);
+  }
 }
 
-export function saveGame(gameId, data) {
-  return client
-    .query(Replace(Ref(Collection(COLLECTION_NAME), gameId), { data }))
-    .then(r => r.data)
-    .catch(e => console.error(e));
+export async function saveGame(gameId, data) {
+  try {
+    const r = await client.query(Replace(Ref(Collection(COLLECTION_NAME), gameId), { data }));
+    return r.data;
+  } catch (e) {
+    return console.error(e);
+  }
 }
