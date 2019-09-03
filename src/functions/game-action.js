@@ -12,6 +12,9 @@ export async function handler(event, _context) {
 
   const oldState = await loadGame(gameId);
   const newState = await reducer(oldState, action, playerId);
+
+  // TODO: diff old and new states and skip saving / notifications if they match
+
   await saveGame(gameId, newState);
 
   // Notify opponent of state update via websockets
