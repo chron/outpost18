@@ -120,7 +120,7 @@ const cards = [
     shields: 3,
     ore: 1,
     ion: 1,
-    shipOre: 1,
+    ship_ore: 1,
     abilities: [
       {
         threshold: { labour: 1, ion: 1 },
@@ -152,9 +152,9 @@ const cards = [
     shields: 3,
     ion: 1,
     draws: 1,
-    shipIon: 1,
-    shipLabour: 1,
-    shipOre: 1,
+    ship_ion: 1,
+    ship_labour: 1,
+    ship_ore: 1,
     abilities: [
       {
         threshold: { todo: '0 cards in hand' },
@@ -240,7 +240,7 @@ const cards = [
     shields: 4,
     defender: true,
     ion: 1,
-    shipIon: 1,
+    ship_ion: 1,
     abilities: [
       {
         threshold: { labour: 1, ore: 1 },
@@ -254,7 +254,7 @@ const cards = [
     shields: 2,
     labour: 2,
     ion: 1,
-    shipLabour: 1,
+    ship_labour: 1,
     abilities: [
       {
         threshold: { ion: 1, ore: 1 },

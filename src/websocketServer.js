@@ -9,6 +9,8 @@ const client = new Pusher({
 });
 
 export function gameStateUpdate(state, gameId, playerId) {
+  console.log('Firing gameStateUpdate', gameId, playerId);
+
   // TODO: we need to auth these so you can't listen on other people's channels
   const serialization = gameStatePresenter(state, gameId, playerId);
   client.trigger(`${playerId}-${gameId}`, 'gameStateUpdate', serialization);

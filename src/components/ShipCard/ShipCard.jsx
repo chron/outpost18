@@ -47,12 +47,12 @@ function ShipCard({ card }) {
 
   if (hyperdrive) {
     passiveAbility = 'Hyperdrive';
-  } else if (shipIon || shipLabour || shipOre) {
+  } else if (ship_ion || ship_labour || ship_ore) {
     // TODO: refactor this shipX resource nonsense
 
-    const icons = resourceToIcons('ion', shipIon || 0) +
-      resourceToIcons('labour', shipLabour || 0) +
-      resourceToIcons('ore', shipOre || 0);
+    const icons = resourceToIcons('ion', ship_ion || 0) +
+      resourceToIcons('labour', ship_labour || 0) +
+      resourceToIcons('ore', ship_ore || 0);
 
     passiveAbility = `Generates ${icons}`;
   }
