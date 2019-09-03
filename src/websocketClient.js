@@ -1,6 +1,6 @@
 import Pusher from 'pusher-js';
 
-const client = new Pusher(process.env.PUSHER_APP_KEY, {
+const client = new Pusher(process.env.PUSHER_KEY, {
   cluster: process.env.PUSHER_CLUSTER,
 });
 
