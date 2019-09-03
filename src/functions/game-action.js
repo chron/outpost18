@@ -20,11 +20,16 @@ export async function handler(event, _context) {
 
   await saveGame(gameId, newStateWithLog);
 
+  console.log('game-action - about to notify');
+  console.log(newStateWithLog.tick);
+
   // Notify opponent of state update via websockets
   const opponent = newStateWithLog.players.find(p => p.playerId !== playerId);
   if (opponent) {
     await gameStateUpdate(newStateWithLog, gameId, opponent.playerId);
   }
+
+  console.log('done');
 
   return {
     statusCode: 200,
