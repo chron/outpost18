@@ -33,6 +33,7 @@ export function initialGameState() {
     deck,
     discards: [],
     players: [],
+    log: [],
   };
 }
 

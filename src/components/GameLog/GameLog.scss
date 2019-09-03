@@ -1,0 +1,32 @@
+@import "../../stylesheets/variables.scss";
+
+.game-log {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 360px;
+  height: 250px;
+  padding: 5px;
+  border-radius: 2px;
+  overflow-y: auto;
+  background-color: black;
+  color: white;
+  z-index: 1;
+}
+
+.game-log__line {
+  display: flex;
+  font-family: monospace;
+  font-size: 8px;
+  white-space: nowrap;
+
+  > div {
+    padding-right: 5px;
+  }
+
+  > :nth-child(2) {
+    color: crimson;
+  }
+}

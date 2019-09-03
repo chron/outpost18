@@ -13,18 +13,21 @@ export async function handler(event, _context) {
   const oldState = await loadGame(gameId);
   const newState = await reducer(oldState, action, playerId);
 
+  // TODO: move this logging inside the reducer probably
+  const newStateWithLog = { ...newState, log: newState.log.concat({ playerId, action }) };
+
   // TODO: diff old and new states and skip saving / notifications if they match
 
-  await saveGame(gameId, newState);
+  await saveGame(gameId, newStateWithLog);
 
   // Notify opponent of state update via websockets
-  const opponent = newState.players.find(p => p.playerId !== playerId);
+  const opponent = newStateWithLog.players.find(p => p.playerId !== playerId);
   if (opponent) {
-    await gameStateUpdate(newState, gameId, opponent.playerId);
+    await gameStateUpdate(newStateWithLog, gameId, opponent.playerId);
   }
 
   return {
     statusCode: 200,
-    body: JSON.stringify(gameStatePresenter(newState, gameId, playerId)),
+    body: JSON.stringify(gameStatePresenter(newStateWithLog, gameId, playerId)),
   };
 }

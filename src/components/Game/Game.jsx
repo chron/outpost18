@@ -13,6 +13,7 @@ import Lane from '../Lane';
 import DiscardPile from '../DiscardPile';
 
 import './Game.scss';
+import GameLog from '../GameLog/GameLog';
 
 const Game = () => {
   const { currentPlayer, opponent, myTurn, gameState, dispatch, deckSize } = useGameState();
@@ -38,6 +39,7 @@ const Game = () => {
     <KeyMap dispatch={dispatch}>
       <div className="game" tabIndex={-1}>
         <Hint />
+        <GameLog />
         {alert && <Alert>{alert}</Alert>}
         <div className="lanes">
           <Lane owner={opponent} type="upgrade">
