@@ -10,6 +10,7 @@ import Alert from '../Alert';
 import Upgrade from '../Upgrade';
 import PlayerStats from '../PlayerStats';
 import Lane from '../Lane';
+import DiscardPile from '../DiscardPile';
 
 import './Game.scss';
 
@@ -18,7 +19,7 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
   const dispatch = (action) => {
     console.log(playerId, action);
     gameAction(playerId, gameId, action).then(newState => setGameState(newState));
-  }
+  };
 
   const domRef = useRef(null);
   const currentPlayer = gameState.players.find(p => p.playerId === playerId);
@@ -31,6 +32,7 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
     dispatch: e => { dispatch(e); domRef.current.focus(); },
     currentPlayer,
     opponent,
+    myTurn: playerId === gameState.activePlayer,
   };
 
   const upgrades = currentPlayer.inPlay.filter(s => s.mode === 'upgrade');
@@ -46,6 +48,10 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
     } else {
       alert = 'The game is over. You lost.';
     }
+  } else if (gameState.gameState === 'begin') {
+    alert = 'Discard down to 3 cards';
+  } else if (gameState.activePlayer !== playerId) {
+    alert = 'Waiting for opponent...';
   }
 
   return (
@@ -78,9 +84,7 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
                 ))}
               </div>
 
-              <div className="deck deck--discard">
-                <FaceDownCard count={gameState.discards.length} />
-              </div>
+              <DiscardPile />
             </Lane>
             <Lane owner={currentPlayer} type="ship">
               <div className="fleet">
@@ -110,7 +114,7 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
               <Base cardName="Station Core" owner={currentPlayer} />
             </Lane>
             <Lane owner={currentPlayer} type="hand">
-              {currentPlayer.hand.map(c => <Card key={c} cardName={c} />)}
+              {currentPlayer.hand.map(c => <Card inHand key={c} cardName={c} />)}
             </Lane>
           </div>
           <PlayerStats player={currentPlayer} />

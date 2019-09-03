@@ -6,7 +6,7 @@ import GameContext from '../../GameContext';
 import './Lane.scss';
 
 function Lane({ type, owner, children }) {
-  const { dispatch, currentPlayer } = useContext(GameContext);
+  const { dispatch, currentPlayer, activePlayer, gameState } = useContext(GameContext);
 
   const [{ isOver, canDrop }, dropRef] = useDrop({
     accept: ItemTypes.CARD,
@@ -15,7 +15,7 @@ function Lane({ type, owner, children }) {
       cardName: item.cardName,
       mode: type,
     }),
-    canDrop: _item => owner.playerId === currentPlayer.playerId && type !== 'hand',
+    canDrop: _item => currentPlayer.playerId === activePlayer && gameState === 'main' && owner.playerId === currentPlayer.playerId && type !== 'hand',
     collect: monitor => ({
       canDrop: !!monitor.canDrop(),
       isOver: !!monitor.isOver(),

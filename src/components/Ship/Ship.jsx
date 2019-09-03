@@ -5,16 +5,18 @@ import ShipCard from '../ShipCard';
 import './Ship.scss';
 
 function Ship({ cardName, owner, attacking, canAttack }) {
-  const { cards, dispatch, currentPlayer } = useContext(GameContext);
+  const { cards, dispatch, currentPlayer, myTurn, gameState } = useContext(GameContext);
   const card = cards.find(c => c.name === cardName);
   const enemy = owner.playerId !== currentPlayer.playerId;
+
+  const attackActive = !enemy && canAttack && myTurn && gameState === 'main';
 
   return (
     <div
       role="button"
-      tabIndex="0"
-      className={`ship ${attacking ? 'ship--attacking' : ''} ${canAttack && !enemy ? 'ship--ready' : ''} ${enemy ? 'ship--enemy' : ''}`}
-      onClick={() => !enemy && canAttack && !attacking && dispatch({ type: 'attack', cardName })}
+      tabIndex={attackActive ? 0 : null}
+      className={`ship ${attacking ? 'ship--attacking' : ''} ${attackActive ? 'ship--ready' : ''} ${enemy ? 'ship--enemy' : ''}`}
+      onClick={() => attackActive && !attacking && dispatch({ type: 'attack', cardName })}
     >
       <ShipCard card={card} />
     </div>

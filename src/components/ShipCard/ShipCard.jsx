@@ -83,7 +83,10 @@ function ShipCard({ card }) {
         {abilities.map(({ threshold, effect }, i) => {
           return (
             <div key={i}>
-              ❂[{thresholdToIcons(threshold)}]{' '}
+              ❂[
+              {thresholdToIcons(threshold)}
+              ]
+              {' '}
               {effectToIcons(effect)}
             </div>
           );

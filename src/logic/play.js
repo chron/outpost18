@@ -15,7 +15,7 @@ export default function play(state, playerId, cardName, mode) {
 
   const card = cards.find(c => c.name === cardName);
 
-  const newHand = hand.slice()
+  const newHand = hand.slice();
   newHand.splice(cardIndex, 1);
   const newPlays = plays - 1;
   const newInPlay = [...inPlay, { cardName, mode, canAttack: card.hyperdrive, attacking: false }];
