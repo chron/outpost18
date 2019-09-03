@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from '../../constants';
 import Card from '../Card';
+import FaceDownCard from '../FaceDownCard';
 import GameContext from '../../GameContext';
 
 import './DiscardPile.scss';
@@ -32,7 +33,7 @@ function DiscardPile() {
     >
       { topDiscard
         ? <Card cardName={topDiscard} />
-        : '' // TODO: placeholder
+        : <FaceDownCard /> // TODO: better placeholder
       }
     </div>
   );

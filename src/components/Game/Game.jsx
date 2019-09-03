@@ -11,6 +11,7 @@ import Upgrade from '../Upgrade';
 import PlayerStats from '../PlayerStats';
 import Lane from '../Lane';
 import DiscardPile from '../DiscardPile';
+import { useWebsocket } from '../../hooks';
 
 import './Game.scss';
 
@@ -20,6 +21,8 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
     console.log(playerId, action);
     gameAction(playerId, gameId, action).then(newState => setGameState(newState));
   };
+
+  useWebsocket(playerId, gameId, newState => setGameState(newState));
 
   const domRef = useRef(null);
   const currentPlayer = gameState.players.find(p => p.playerId === playerId);
@@ -48,10 +51,10 @@ const Game = ({ initialGameState, gameId, playerId, cards }) => {
     } else {
       alert = 'The game is over. You lost.';
     }
-  } else if (gameState.gameState === 'begin') {
-    alert = 'Discard down to 3 cards';
   } else if (gameState.activePlayer !== playerId) {
     alert = 'Waiting for opponent...';
+  } else if (gameState.gameState === 'begin') {
+    alert = 'Discard down to 3 cards';
   }
 
   return (

@@ -8,12 +8,12 @@ import ShipCard from '../ShipCard';
 import './Card.scss';
 
 function Card({ cardName, inHand = false }) {
-  const { activePlayer, gameState, currentPlayer: { playerId, plays }, cards } = useContext(GameContext);
+  const { myTurn, gameState, currentPlayer: { plays }, cards } = useContext(GameContext);
 
   const card = cards.find(c => c.name === cardName);
   const [{ isDragging }, dragRef] = useDrag({
     item: { type: ItemTypes.CARD, cardName },
-    canDrag: () => inHand && activePlayer === playerId && (gameState === 'begin' || (gameState === 'main' && plays > 0)),
+    canDrag: () => inHand && myTurn && (gameState === 'begin' || (gameState === 'main' && plays > 0)),
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
@@ -21,7 +21,7 @@ function Card({ cardName, inHand = false }) {
 
   return (
     <div
-      className={`card ${inHand && plays > 0 ? 'card--playable' : ''} ${isDragging ? 'card--dragging' : ''}`}
+      className={`card ${inHand && myTurn ? 'card--playable' : ''} ${isDragging ? 'card--dragging' : ''}`}
       ref={dragRef}
     >
       <ShipCard card={card} />

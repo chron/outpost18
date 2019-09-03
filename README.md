@@ -4,18 +4,18 @@
 
 ## TODO
 
-1. Start of turn discard
+1. Filter visible state to only what players should be able to see
+1. Game lobby / join code
 1. Complicated function abilities
-1. Use localStorage or something in dev mode instead of Fauna
+1. Use localStorage or something in dev mode instead of Fauna - and dev Pusher environment too!
 1. Move `cards` out of the context since it never changes?
 1. Undo and "are you sure?" warnings
 1. Event log?
-1. Real-time comms — Pusher?
-1. Tooltips and viewing the contents of the discard pile (make sure top is face-up)
+1. Tooltips and viewing the contents of the discard pile
+1. Error handling, probably a React ErrorBoundary?
 1. Card art, human-friendly text, and layout
 1. Animations!
 1. Auth / Login?
-1. Game lobby / join code
 1. Highlight abilities where the threshold is met
 1. DragPreview for cards - remove opacity at least?
 1. Dragged cards take a split second before they disappear which looks weird
@@ -31,6 +31,10 @@
 ## Environment Variables
 
 * FAUNADB_SECRET_KEY
+* PUSHER_APP_ID
+* PUSHER_KEY
+* PUSHER_SECRET
+* PUSHER_CLUSTER
 
 ## Thanks etc
 

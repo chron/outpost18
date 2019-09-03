@@ -19,6 +19,8 @@
     "lodash.shuffle": "^4.2.0",
     "netlify-lambda": "^1.6.2",
     "prop-types": "^15.7.2",
+    "pusher": "^2.2.2",
+    "pusher-js": "^5.0.1",
     "react": ">= 16.8",
     "react-dnd": "^9.3.4",
     "react-dnd-html5-backend": "^9.3.4",
