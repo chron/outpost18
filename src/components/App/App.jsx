@@ -20,10 +20,6 @@ function App() {
 
   if (!playerId) { setPlayerId(generatePlayerId()); }
 
-  if (gameId && gameId !== storedGameId) {
-    setStoredGameId(gameId);
-  }
-
   useEffect(() => {
     if (!playerId) { return; }
     if (gameId) { return; }
@@ -35,6 +31,18 @@ function App() {
 
   // TODO: loading screen so we avoid the flash of <Welcome> on refresh
 
+  async function createGameFunc() {
+    const newState = await createGame(playerId, playerName);
+    setGameState(newState);
+    setStoredGameId(newState.gameId);
+  }
+
+  async function joinGameFunc(joinCode) {
+    const newState = await joinGame(joinCode, playerId, playerName);
+    setGameState(newState);
+    setStoredGameId(newState.gameId);
+  }
+
   return (
     <React.Fragment>
       <Normalize />
@@ -42,15 +50,19 @@ function App() {
       <DndProvider backend={HTML5Backend}>
         {gameId
           ? (
-            <GameProvider gameId={gameId} playerId={playerId} initialGameState={gameState}>
+            <GameProvider
+              setStoredGameId={setStoredGameId}
+              playerId={playerId}
+              initialGameState={gameState}
+            >
               <Game />
             </GameProvider>
           ) : (
             <Welcome
               playerName={playerName}
               setPlayerName={setPlayerName}
-              createGame={() => createGame(playerId, playerName).then(data => setGameState(data))}
-              joinGame={joinCode => joinGame(joinCode, playerId, playerName).then(data => setGameState(data))}
+              createGame={createGameFunc}
+              joinGame={joinGameFunc}
             />
           )}
       </DndProvider>

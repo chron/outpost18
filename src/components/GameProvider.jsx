@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useWebsocket } from '../hooks';
 import { gameAction } from '../apiClient';
 import cards from '../cards';
@@ -6,9 +6,18 @@ import Alert from './Alert';
 
 const GameContext = React.createContext();
 
-function GameProvider({ initialGameState, gameId, playerId, children }) {
+function GameProvider({ initialGameState, setStoredGameId, playerId, children }) {
+  const { gameId } = initialGameState;
+
   const [gameState, setGameState] = useState(initialGameState);
   useWebsocket(playerId, gameId, newState => setGameState(newState));
+
+  // When the game ends, clear the saved gameId out.
+  useEffect(() => {
+    if (gameState.gameState === 'finished') {
+      setStoredGameId(null);
+    }
+  }, [gameState.gameState, setStoredGameId]);
 
   const dispatch = (action) => {
     // eslint-disable-next-line no-console
@@ -24,8 +33,6 @@ function GameProvider({ initialGameState, gameId, playerId, children }) {
     opponent: gameState.players.find(p => p.playerId !== playerId),
     myTurn: playerId === gameState.activePlayer,
   };
-
-  // TODO: we need to show the game code here!
 
   return (
     <GameContext.Provider value={gameStateValue}>
