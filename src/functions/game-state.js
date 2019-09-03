@@ -1,17 +1,17 @@
-/* eslint-disable consistent-return */
 import { loadGame } from '../database';
+import gameStatePresenter from './utils/gameStatePresenter';
 
-export function handler(event, _context, callback) {
+export async function handler(event, _context) {
   const { playerId, gameId } = event.queryStringParameters;
 
   if (!playerId || !gameId) {
-    return callback('playerId and gameId must be provided');
+    return { statusCode: 400, body: 'playerId and gameId must be provided' };
   }
 
-  loadGame(gameId).then(gameState => {
-    callback(null, {
-      statusCode: 200,
-      body: JSON.stringify({ ...gameState, gameId }),
-    });
-  });
+  const gameState = await loadGame(gameId);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(gameStatePresenter(gameState, gameId, playerId)),
+  };
 }

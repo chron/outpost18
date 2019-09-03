@@ -1,9 +1,17 @@
-// Returns a promise that resolves to the new game state
 export async function createGame(playerId, playerName) {
   const response = await fetch('/.netlify/functions/create-game', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ playerId, playerName }),
+  });
+  return response.json();
+}
+
+export async function joinGame(joinCode, playerId, playerName) {
+  const response = await fetch('/.netlify/functions/join-game', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ joinCode, playerId, playerName }),
   });
   return response.json();
 }

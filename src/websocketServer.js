@@ -1,4 +1,5 @@
 import Pusher from 'pusher';
+import gameStatePresenter from './functions/utils/gameStatePresenter';
 
 const client = new Pusher({
   appId: process.env.PUSHER_APP_ID,
@@ -7,7 +8,8 @@ const client = new Pusher({
   cluster: process.env.PUSHER_CLUSTER,
 });
 
-export function gameStateUpdate(playerId, gameId, state) {
+export function gameStateUpdate(state, gameId, playerId) {
   // TODO: we need to auth these so you can't listen on other people's channels
-  client.trigger(`${playerId}-${gameId}`, 'gameStateUpdate', state);
+  const serialization = gameStatePresenter(state, gameId, playerId);
+  client.trigger(`${playerId}-${gameId}`, 'gameStateUpdate', serialization);
 }

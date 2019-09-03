@@ -1,11 +1,11 @@
 import React from 'react';
 import './Alert.scss';
 
-function Alert({ message }) {
+function Alert({ children }) {
   return (
     <div className="alert-wrapper">
       <div className="alert">
-        {message}
+        {children}
       </div>
     </div>
   );

@@ -4,6 +4,7 @@
 
 ## TODO
 
+1. Remove gameId from local storage once a game finishes?
 1. Filter visible state to only what players should be able to see
 1. Game lobby / join code
 1. Complicated function abilities
@@ -27,6 +28,13 @@
 1. `netlify init` and login so you'll have access to the environment variables
 1. `netlify dev`
 1. Browse to http://localhost:8888
+
+## Seeding a new database
+
+(TODO: make an idempotent script to do this)
+
+1. Create a database called `outpost18`
+1. Create a collection called `games`
 
 ## Environment Variables
 

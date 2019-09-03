@@ -1,7 +1,7 @@
-/* eslint-disable consistent-return */
 import { loadGame, saveGame } from '../database';
 import { gameStateUpdate } from '../websocketServer';
 import reducer from '../logic/reducer';
+import gameStatePresenter from './utils/gameStatePresenter';
 
 export async function handler(event, _context) {
   const { playerId, gameId, action } = JSON.parse(event.body);
@@ -17,11 +17,11 @@ export async function handler(event, _context) {
   // Notify opponent of state update via websockets
   const opponent = newState.players.find(p => p.playerId !== playerId);
   if (opponent) {
-    await gameStateUpdate(opponent.playerId, gameId, newState);
+    await gameStateUpdate(newState, gameId, opponent.playerId);
   }
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ ...newState, gameId }),
+    body: JSON.stringify(gameStatePresenter(newState, gameId, playerId)),
   };
 }

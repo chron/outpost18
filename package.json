@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
+    "dotenv": "^8.1.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.2",
@@ -35,7 +36,8 @@
     "start:lambda": "netlify-lambda -c webpack.config.js serve src/functions",
     "build": "run-p build:**",
     "build:app": "parcel build src/index.html",
-    "build:lambda": "netlify-lambda -c webpack.config.js build src/functions"
+    "build:lambda": "netlify-lambda -c webpack.config.js build src/functions",
+    "db:bootstrap": "node ./scripts/bootstrap.js"
   },
   "browserslist": [
     "last 2 Chrome versions",

@@ -1,46 +1,26 @@
-/* eslint-disable consistent-return */
-import shuffle from 'lodash.shuffle';
-import cards from '../cards';
 import { createGame } from '../database';
+import { initialGameState, addPlayerToGame } from './utils/gameManagement';
+import gameStatePresenter from './utils/gameStatePresenter';
 
-export function handler(event, _context, callback) {
+export async function handler(event, _context,) {
   const { playerId, playerName } = JSON.parse(event.body);
 
   if (!playerId || !playerName) {
-    return callback('playerId and playerName must be provided');
+    return { statusCode: 400, body: 'playerId and playerName must be provided' };
   }
 
-  const baseStats = { cardName: 'Station Core', mode: 'base' };
-  const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
+  const initialState = initialGameState();
+  const gameState = addPlayerToGame(initialState, playerId, playerName);
 
-  const gameState = {
-    gameState: 'main',
-    activePlayer: playerId,
-    deck,
-    discards: [],
-    // TODO: later we'll just load one player here and start the game in a 'waiting' state
-    // TODO: randomize which player is the starting player
-    players: [[playerId, playerName], ['opponent', 'The Worst AI']].map(([id, name], i) => {
-      return {
-        playerId: id,
-        name,
-        plays: i === 0 ? 1 : 0,
-        attackPool: 0,
-        hand: deck.splice(0, i === 0 ? 2 : 3),
-        aiControlled: i === 1,
-        inPlay: [{ ...baseStats }],
-      };
-    }),
-  };
+  // Persist game data to the database
+  const gameId = await createGame(gameState);
 
-  createGame(gameState).then(gameId => {
-    if (gameId) {
-      callback(null, {
-        statusCode: 200,
-        body: JSON.stringify({ ...gameState, gameId }),
-      });
-    } else {
-      callback("Game could not be created.");
-    }
-  });
+  if (gameId) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify(gameStatePresenter(gameState, gameId, playerId)),
+    };
+  } else {
+    return { statusCode: 400, body: 'Game could not be created.' };
+  }
 }

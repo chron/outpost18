@@ -38,7 +38,7 @@ const Game = () => {
     <KeyMap dispatch={dispatch}>
       <div className="game" tabIndex={-1}>
         <Hint />
-        {alert && <Alert message={alert} />}
+        {alert && <Alert>alert</Alert>}
         <div className="lanes">
           <Lane owner={opponent} type="upgrade">
             {enemyUpgrades.map(({ cardName }) => (
