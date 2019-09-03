@@ -1,14 +1,23 @@
-import Pusher from 'pusher-js';
+import PubNub from 'pubnub';
 
-const client = new Pusher(process.env.PUSHER_KEY, {
-  cluster: process.env.PUSHER_CLUSTER,
+const pubnub = new PubNub({
+  subscribeKey: process.env.PUBNUB_SUBSCRIBE_KEY,
 });
 
 export function subscribe(playerId, gameId, callback) {
-  const channel = client.subscribe(`${playerId}-${gameId}`);
-  channel.bind('gameStateUpdate', callback);
+  pubnub.addListener({
+    message: ({ message }) => callback(message),
+  });
+
+  pubnub.subscribe({
+    channels: [`${playerId}-${gameId}`],
+  });
 }
 
 export function unsubscribe(playerId, gameId) {
-  client.unsubscribe(`${playerId}-${gameId}`);
+  pubnub.unsubscribe({
+    channels: [`${playerId}-${gameId}`],
+  });
+
+  // TODO: do we need to removeListener too?
 }
