@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import GameContext from '../../GameContext';
+import React from 'react';
+import { useGameState } from '../GameProvider';
 import { resources } from '../../utils';
 import './Upgrade.scss';
 
 // TODO: refactor out some "dumb" display components that don't use context etc
 function Upgrade({ cardName, owner, inPlay = true }) {
-  const { currentPlayer, cards, dispatch } = useContext(GameContext);
+  const { currentPlayer, cards, dispatch } = useGameState();
   const { shields, defender, ion, labour, ore, draws } = cards.find(c => c.name === cardName);
 
   const enemy = owner && owner.playerId !== currentPlayer.playerId;

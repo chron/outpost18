@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import GameContext from '../../GameContext';
+import React from 'react';
+import { useGameState } from '../GameProvider';
 import EndTurnButton from '../EndTurnButton';
 import { resources, sumResourceForPlayer } from '../../utils';
 
 import './PlayerStats.scss';
 
 function PlayerStats({ player, position = 'bottom' }) {
-  const state = useContext(GameContext);
+  const { currentPlayer } = useGameState();
   const { name, hand, plays, attackPool } = player;
 
   return (
@@ -38,7 +38,7 @@ function PlayerStats({ player, position = 'bottom' }) {
         })}
       </div>
 
-      {state.currentPlayer.playerId === player.playerId && <EndTurnButton />}
+      {currentPlayer.playerId === player.playerId && <EndTurnButton />}
     </div>
   );
 }

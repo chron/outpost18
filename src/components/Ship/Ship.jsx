@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import GameContext from '../../GameContext';
+import React from 'react';
+import { useGameState } from '../GameProvider';
 import ShipCard from '../ShipCard';
 
 import './Ship.scss';
 
 function Ship({ cardName, owner, attacking, canAttack }) {
-  const { cards, dispatch, currentPlayer, myTurn, gameState } = useContext(GameContext);
+  const { cards, dispatch, currentPlayer, myTurn, gameState } = useGameState();
   const card = cards.find(c => c.name === cardName);
   const enemy = owner.playerId !== currentPlayer.playerId;
 

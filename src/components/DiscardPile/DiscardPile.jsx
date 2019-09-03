@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from '../../constants';
 import Card from '../Card';
 import FaceDownCard from '../FaceDownCard';
-import GameContext from '../../GameContext';
-
+import { useGameState } from '../GameProvider';
 import './DiscardPile.scss';
 
 function DiscardPile() {
-  const { gameState, activePlayer, currentPlayer, discards, dispatch } = useContext(GameContext);
+  const { gameState, myTurn, discards, dispatch } = useGameState();
 
   const [{ isOver, canDrop }, dropRef] = useDrop({
     accept: ItemTypes.CARD,
@@ -16,7 +15,7 @@ function DiscardPile() {
       type: 'discard',
       cardNames: [item.cardName],
     }),
-    canDrop: _item => gameState === 'begin' && currentPlayer.playerId === activePlayer,
+    canDrop: _item => gameState === 'begin' && myTurn,
     collect: monitor => ({
       canDrop: !!monitor.canDrop(),
       isOver: !!monitor.isOver(),

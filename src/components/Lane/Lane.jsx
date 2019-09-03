@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from '../../constants';
-import GameContext from '../../GameContext';
+import { useGameState } from '../GameProvider';
 
 import './Lane.scss';
 
 function Lane({ type, owner, children }) {
-  const { dispatch, currentPlayer, activePlayer, gameState } = useContext(GameContext);
+  const { dispatch, currentPlayer, activePlayer, gameState } = useGameState();
 
   const [{ isOver, canDrop }, dropRef] = useDrop({
     accept: ItemTypes.CARD,

@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import GameContext from '../../GameContext';
+import React from 'react';
+import { useGameState } from '../GameProvider';
 import './EndTurnButton.scss';
 
 function EndTurnButton() {
-  const { dispatch, gameState, myTurn } = useContext(GameContext);
+  const { dispatch, gameState, myTurn } = useGameState();
 
   // TODO: warnings about leftover plays / pool?
 

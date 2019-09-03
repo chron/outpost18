@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Normalize from 'react-normalize';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { GameProvider } from '../GameProvider';
 import Game from '../Game';
-import cards from '../../cards';
 import { useLocalStorage } from '../../hooks';
 import { createGame, loadGame } from '../../apiClient';
 
@@ -28,12 +28,10 @@ function App() {
     if (!playerId) { return; }
     if (gameId) { return; }
 
-    if (storedGameId) {
-      loadGame(playerId, storedGameId)
-        .then(data => setGameState(data));
+    if (storedGameId) { // TODO: move these into GameProvider maybe?
+      loadGame(playerId, storedGameId).then(data => setGameState(data));
     } else {
-      createGame(playerId, 'Player Name') // TODO: names
-        .then(data => setGameState(data));
+      createGame(playerId, 'Player Name').then(data => setGameState(data));
     }
   }, [playerId, gameId, storedGameId]);
 
@@ -43,12 +41,9 @@ function App() {
 
       <DndProvider backend={HTML5Backend}>
         {gameState.gameId && (
-          <Game
-            cards={cards}
-            gameId={gameId}
-            initialGameState={gameState}
-            playerId={playerId}
-          />
+          <GameProvider gameId={gameId} playerId={playerId} initialGameState={gameState}>
+            <Game />
+          </GameProvider>
         )}
       </DndProvider>
     </React.Fragment>
