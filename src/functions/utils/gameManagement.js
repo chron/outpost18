@@ -15,7 +15,15 @@ function startGame(gameState) {
   ));
   const activePlayer = players[0].playerId;
 
-  return { ...gameState, deck, joinCode: undefined, gameState: 'main', activePlayer, players };
+  return {
+    ...gameState,
+    tick: gameState.tick + 1,
+    deck,
+    joinCode: undefined,
+    gameState: 'main',
+    activePlayer,
+    players,
+  };
 }
 
 function generateJoinCode() {
@@ -34,6 +42,7 @@ export function initialGameState() {
     discards: [],
     players: [],
     log: [],
+    tick: 0,
   };
 }
 

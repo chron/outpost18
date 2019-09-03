@@ -14,7 +14,7 @@ export async function handler(event, _context) {
   const newState = await reducer(oldState, action, playerId);
 
   // TODO: move this logging inside the reducer probably
-  const newStateWithLog = { ...newState, log: newState.log.concat({ playerId, action }) };
+  const newStateWithLog = { ...newState, tick: newState.tick + 1, log: newState.log.concat({ playerId, action }) };
 
   // TODO: diff old and new states and skip saving / notifications if they match
 

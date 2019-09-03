@@ -10,7 +10,9 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   const { gameId } = initialGameState;
 
   const [gameState, setGameState] = useState(initialGameState);
-  useWebsocket(playerId, gameId, newState => setGameState(newState));
+  const updateStateIfNewer = (newState) => (newState.tick > gameState.tick ? setGameState(newState) : null);
+
+  useWebsocket(playerId, gameId, updateStateIfNewer);
 
   // When the game ends, clear the saved gameId out.
   useEffect(() => {
@@ -22,7 +24,7 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   const dispatch = (action) => {
     // eslint-disable-next-line no-console
     console.log(playerId, action);
-    gameAction(playerId, gameId, action).then(newState => setGameState(newState));
+    gameAction(playerId, gameId, action).then(updateStateIfNewer);
   };
 
   const gameStateValue = {
