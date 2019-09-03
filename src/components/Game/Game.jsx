@@ -6,6 +6,7 @@ import FaceDownCard from '../FaceDownCard';
 import Card from '../Card';
 import Ship from '../Ship';
 import Alert from '../Alert';
+import Hint from '../Hint';
 import Upgrade from '../Upgrade';
 import PlayerStats from '../PlayerStats';
 import Lane from '../Lane';
@@ -29,10 +30,6 @@ const Game = () => {
     } else {
       alert = 'The game is over. You lost.';
     }
-  } else if (!myTurn) {
-    alert = 'Waiting for opponent...';
-  } else if (gameState === 'begin') {
-    alert = 'Discard down to 3 cards';
   }
 
   // TODO: reintroduce the domRef / focus stuff for keybinds
@@ -40,6 +37,7 @@ const Game = () => {
   return (
     <KeyMap dispatch={dispatch}>
       <div className="game" tabIndex={-1}>
+        <Hint />
         {alert && <Alert message={alert} />}
         <div className="lanes">
           <Lane owner={opponent} type="upgrade">
