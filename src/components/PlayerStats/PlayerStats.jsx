@@ -7,14 +7,14 @@ import './PlayerStats.scss';
 
 function PlayerStats({ player, position = 'bottom' }) {
   const { currentPlayer } = useGameState();
-  const { name, hand, plays, attackPool } = player;
+  const { name, hand, handSize, plays, attackPool } = player;
 
   return (
     <div className={`player-stats player-stats--${position}`}>
       <div className="player-stats__name">{name}</div>
       <div className="player-stats__stat">
         <div className="player-stats__label">cards</div>
-        {hand.length}
+        {handSize || hand.length}
       </div>
       <div className="player-stats__stat">
         <div className="player-stats__label">plays</div>

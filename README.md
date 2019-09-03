@@ -5,7 +5,6 @@
 ## TODO
 
 1. Remove gameId from local storage once a game finishes?
-1. Filter visible state to only what players should be able to see
 1. Complicated function abilities
 1. Use localStorage or something in dev mode instead of Fauna - and dev Pusher environment too!
 1. Move `cards` out of the context since it never changes?

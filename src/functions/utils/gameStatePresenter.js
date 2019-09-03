@@ -1,4 +1,15 @@
 export default function gameStatePresenter(gameState, gameId, playerId) {
-  // TODO: filter data that players shouldn't see!
-  return { ...gameState, gameId };
+  return {
+    ...gameState,
+    deck: undefined,
+    players: gameState.players.map(p => {
+      if (p.playerId === playerId) {
+        return p;
+      } else {
+        return { ...p, hand: undefined, handSize: p.hand.length };
+      }
+    }),
+    deckSize: gameState.deck.length,
+    gameId,
+  };
 }

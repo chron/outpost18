@@ -15,7 +15,7 @@ import DiscardPile from '../DiscardPile';
 import './Game.scss';
 
 const Game = () => {
-  const { currentPlayer, opponent, myTurn, gameState, dispatch, deck } = useGameState();
+  const { currentPlayer, opponent, myTurn, gameState, dispatch, deckSize } = useGameState();
 
   const upgrades = currentPlayer.inPlay.filter(s => s.mode === 'upgrade');
   const ships = currentPlayer.inPlay.filter(s => s.mode === 'ship');
@@ -80,7 +80,7 @@ const Game = () => {
             </div>
 
             <div className="deck">
-              <FaceDownCard count={deck.length} />
+              <FaceDownCard count={deckSize} />
             </div>
           </Lane>
           <Lane owner={currentPlayer} type="upgrade">
