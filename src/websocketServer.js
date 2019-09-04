@@ -8,18 +8,16 @@ const client = new Pusher({
   cluster: process.env.PUSHER_CLUSTER,
 });
 
-export function gameStateUpdate(state, gameId, playerId) {
-  console.log('Firing gameStateUpdate', gameId, playerId);
-
-  // TODO: we need to auth these so you can't listen on other people's channels
-  const serialization = gameStatePresenter(state, gameId, playerId);
-
-  client.trigger(`${playerId}-${gameId}`, 'gameStateUpdate', serialization);
-  client.trigger(`${playerId}-${gameId}`, 'debug', serialization.tick);
-  debugMessage('done all that');
+// Since Pusher's `trigger` is async let's wrap it in a Promise so we can
+// use it with async/await.
+function fireEvent(channel, event, message, socketId) {
+  return new Promise((resolve, _reject) => {
+    client.trigger(channel, event, message, socketId, resolve);
+  });
 }
 
-export function debugMessage(message) {
-  console.log('debugMessage', message);
-  client.trigger('debug', 'debug', message);
+export async function gameStateUpdate(state, gameId, playerId) {
+  // TODO: we need to auth these so you can't listen on other people's channels
+  const serialization = gameStatePresenter(state, gameId, playerId);
+  await fireEvent(`${playerId}-${gameId}`, 'gameStateUpdate', serialization);
 }
