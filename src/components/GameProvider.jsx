@@ -13,9 +13,10 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   const updateStateIfNewer = (newState) => {
     console.log('got some new state boss', gameState.tick, newState.tick, newState);
     if (newState.tick > gameState.tick) { setGameState(newState); }
-  }
+  };
 
-  useWebsocket(playerId, gameId, updateStateIfNewer);
+  const opponent = gameState.players.find(p => p.playerId !== playerId);
+  useWebsocket(playerId, opponent ? opponent.playerId : null, gameId, updateStateIfNewer);
 
   // When the game ends, clear the saved gameId out.
   useEffect(() => {
