@@ -10,7 +10,10 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   const { gameId } = initialGameState;
 
   const [gameState, setGameState] = useState(initialGameState);
-  const updateStateIfNewer = (newState) => (newState.tick > gameState.tick ? setGameState(newState) : null);
+  const updateStateIfNewer = (newState) => {
+    console.log('got some new state boss', gameState.tick, newState.tick, newState);
+    if (newState.tick > gameState.tick) { setGameState(newState); }
+  }
 
   useWebsocket(playerId, gameId, updateStateIfNewer);
 

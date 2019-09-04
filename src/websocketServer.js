@@ -14,7 +14,12 @@ export function gameStateUpdate(state, gameId, playerId) {
   // TODO: we need to auth these so you can't listen on other people's channels
   const serialization = gameStatePresenter(state, gameId, playerId);
 
-  console.log(state, gameId, serialization.tick, serialization);
-
   client.trigger(`${playerId}-${gameId}`, 'gameStateUpdate', serialization);
+  client.trigger(`${playerId}-${gameId}`, 'debug', serialization.tick);
+  debugMessage('done all that');
+}
+
+export function debugMessage(message) {
+  console.log('debugMessage', message);
+  client.trigger('debug', 'debug', message);
 }
