@@ -1,4 +1,4 @@
-import cards from './cards';
+import cards from './logic/cards';
 
 export const resources = {
   ore: { name: 'Ore', icon: '💎' },

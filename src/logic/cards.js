@@ -1,4 +1,5 @@
-import { sumResourceForPlayer } from './utils';
+// TODO: do something with these two different utils files
+import { sumResourceForPlayer } from '../utils';
 
 const cards = [
   {

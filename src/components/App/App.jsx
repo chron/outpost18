@@ -6,7 +6,7 @@ import { GameProvider } from '../GameProvider';
 import Game from '../Game';
 import Welcome from '../Welcome';
 import { useLocalStorage } from '../../hooks';
-import { createGame, joinGame, loadGame } from '../../apiClient';
+import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
 
 import './App.scss';

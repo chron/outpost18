@@ -1,4 +1,4 @@
-import cards from '../cards';
+import cards from '../logic/cards';
 
 export default function play(state, playerId, cardName, mode) {
   if (state.gameState !== 'main') { return state; }

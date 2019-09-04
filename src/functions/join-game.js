@@ -1,5 +1,5 @@
-import { loadGameByJoinCode, saveGame } from '../database';
-import { gameStateUpdate } from '../websocketServer';
+import { loadGameByJoinCode, saveGame } from '../lib/database';
+import { notifyOpponent } from './utils/notify';
 import { addPlayerToGame } from './utils/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
 
@@ -22,12 +22,7 @@ export async function handler(event, _context,) {
   const gameState = addPlayerToGame(oldGameState, playerId, playerName);
 
   await saveGame(gameId, gameState);
-
-  // Notify opponent of state update via websockets
-  const opponent = gameState.players.find(p => p.playerId !== playerId);
-  if (opponent) {
-    await gameStateUpdate(gameState, gameId, opponent.playerId);
-  }
+  await notifyOpponent(gameState, gameId, playerId);
 
   return {
     statusCode: 200,

@@ -1,5 +1,5 @@
 import shuffle from 'lodash.shuffle';
-import cards from '../../cards';
+import cards from '../../logic/cards';
 
 // TODO: should this stuff move into `/logic`?
 function startGame(gameState) {

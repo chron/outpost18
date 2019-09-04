@@ -1,4 +1,4 @@
-import cards from '../cards';
+import cards from '../logic/cards';
 
 export default function destroy(state, playerId, cardName) {
   const { gameState, activePlayer, players } = state;

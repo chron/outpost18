@@ -2,10 +2,12 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7ca17db6-f3f8-492f-ba65-403d810ab3c2/deploy-status)](https://app.netlify.com/sites/outpost18/deploys)
 
+Based on [Outpost 18](http://playoutpost18.com)
+
 ## TODO
 
-1. Remove gameId from local storage once a game finishes?
 1. Complicated function abilities
+1. Beautify the welcome screen a little
 1. Use localStorage or something in dev mode instead of Fauna - and dev Pusher environment too!
 1. Move `cards` out of the context since it never changes?
 1. Undo and "are you sure?" warnings
@@ -52,5 +54,6 @@
 
 ## Thanks etc
 
+* [Outpost 18](http://playoutpost18.com) crew for the game rules and design
 * PixelMix font by Andrew Tyler (CC by-sa Attribution Share Alike)
 * Background SVG tile from Steve Schoger's [Hero Patterns](https://www.heropatterns.com/)

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useWebsocket } from '../hooks';
-import { gameAction } from '../apiClient';
-import cards from '../cards';
+import { gameAction } from '../lib/apiClient';
+import cards from '../logic/cards';
 import Alert from './Alert';
 
 const GameContext = React.createContext();
@@ -10,14 +10,15 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   const { gameId } = initialGameState;
 
   const [gameState, setGameState] = useState(initialGameState);
+  // TODO: not sure if this is necessary now?
   const updateStateIfNewer = (newState) => {
-    console.log('got some new state boss', gameState.tick, newState.tick, newState);
     if (newState.tick > gameState.tick) { setGameState(newState); }
   };
 
   useWebsocket(playerId, gameId, updateStateIfNewer);
 
   // When the game ends, clear the saved gameId out.
+  // That means on page refresh you'll get the welcome screen again.
   useEffect(() => {
     if (gameState.gameState === 'finished') {
       setStoredGameId(null);
@@ -25,8 +26,6 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   }, [gameState.gameState, setStoredGameId]);
 
   const dispatch = (action) => {
-    // eslint-disable-next-line no-console
-    console.log(playerId, action);
     gameAction(playerId, gameId, action).then(updateStateIfNewer);
   };
 
@@ -42,8 +41,13 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   return (
     <GameContext.Provider value={gameStateValue}>
       {gameState.gameState === 'waiting'
-        ? <Alert>Waiting for another player... Join Code: {gameState.joinCode}</Alert>
-        : children
+        ? (
+          <Alert>
+            Waiting for another player.
+            Join Code:
+            {gameState.joinCode}
+          </Alert>
+        ) : children
       }
     </GameContext.Provider>
   );

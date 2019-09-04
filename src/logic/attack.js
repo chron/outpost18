@@ -1,4 +1,4 @@
-import cards from '../cards';
+import cards from '../logic/cards';
 import { resourceTotalsForPlayer } from '../utils';
 
 export default function attack(state, playerId, cardName) {

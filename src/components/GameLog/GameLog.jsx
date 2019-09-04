@@ -5,6 +5,7 @@ import './GameLog.scss';
 // TODO: make this collapse / expand
 function GameLog() {
   const { log } = useGameState();
+  if (!log) { return null; }
 
   return (
     <div className="game-log">

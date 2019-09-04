@@ -1,4 +1,4 @@
-import { createGame } from '../database';
+import { createGame } from '../lib/database';
 import { initialGameState, addPlayerToGame } from './utils/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
 

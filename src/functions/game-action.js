@@ -1,5 +1,5 @@
-import { loadGame, saveGame } from '../database';
-import { gameStateUpdate } from '../websocketServer';
+import { loadGame, saveGame } from '../lib/database';
+import { notifyOpponent } from './utils/notify';
 import reducer from '../logic/reducer';
 import gameStatePresenter from './utils/gameStatePresenter';
 
@@ -19,17 +19,7 @@ export async function handler(event, _context) {
   // TODO: diff old and new states and skip saving / notifications if they match
 
   await saveGame(gameId, newStateWithLog);
-
-  console.log('game-action - about to notify');
-  console.log(newStateWithLog.tick);
-
-  // Notify opponent of state update via websockets
-  const opponent = newStateWithLog.players.find(p => p.playerId !== playerId);
-  if (opponent) {
-    await gameStateUpdate(newStateWithLog, gameId, opponent.playerId);
-  }
-
-  console.log('done');
+  await notifyOpponent(newStateWithLog, gameId, playerId);
 
   return {
     statusCode: 200,

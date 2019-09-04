@@ -16,7 +16,7 @@ async function bootstrapDatabase(secret) {
     );
   } catch (e) {
     if (e.message !== 'instance already exists') {
-      console.log(e);
+      console.error(e);
     }
   }
 
@@ -31,7 +31,7 @@ async function bootstrapDatabase(secret) {
     );
   } catch (e) {
     if (e.message !== 'instance already exists') {
-      console.log(e);
+      console.error(e);
     }
   }
 }

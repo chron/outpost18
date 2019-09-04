@@ -1,4 +1,4 @@
-import { loadGame } from '../database';
+import { loadGame } from '../lib/database';
 import gameStatePresenter from './utils/gameStatePresenter';
 
 export async function handler(event, _context) {

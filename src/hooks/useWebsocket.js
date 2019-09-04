@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { subscribe, unsubscribe } from '../websocketClient';
+import { subscribe, unsubscribe } from '../lib/websocketClient';
 
 export default function useWebsocket(playerId, gameId, callback) {
   useEffect(() => {
