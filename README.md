@@ -6,13 +6,14 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## TODO
 
+1. Ships - Ionblazer
+1. Ships - Battlestar
+1. Ships - Dreadnought
 1. Choices - allow manual skip
-1. Complicated function abilities
 1. Beautify the welcome screen a little
 1. Use localStorage or something in dev mode instead of Fauna - and dev Pusher environment too!
 1. Move `cards` out of the context since it never changes?
-1. Undo and "are you sure?" warnings
-1. Event log?
+1. "are you sure?" warnings for ending turn with unspent plays
 1. Tooltips and viewing the contents of the discard pile
 1. Public/private flag for games and a lobby screen listing public `waiting` ones.
 1. Error handling, probably a React ErrorBoundary?

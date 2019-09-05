@@ -21,8 +21,7 @@ export default function attack(state, playerId, cardName, choices) {
   const shipIndex = inPlay.indexOf(ship);
   const newInPlay = inPlay.slice();
   newInPlay[shipIndex] = { ...ship, attacking: true };
-  const newAttackPool = attackPool + card.attack;
-  let newPlayer = { ...player, inPlay: newInPlay, attackPool: newAttackPool };
+  const newPlayer = { ...player, inPlay: newInPlay };
 
   // Possible gotcha: checking here assumes these totals won't change as a result of
   // activating attack abilities (currently true)
@@ -51,15 +50,25 @@ export default function attack(state, playerId, cardName, choices) {
     // Gotcha: if `function` key is provided all other keys are ignored
     // TODO: right now the function can modify state - which is needed to apply some of the
     // more interesting effects - but this probably needs a rethink!
-    const effectResult = effect.function ? effect.function(state, player, opponent, choices) : effect;
+    const effectResult = effect.function
+      ? effect.function(state, player, opponent, choices)
+      : effect;
 
     if (effectResult) {
       // Some effects might mutate state directly and not return any result.
       Object.entries(effectResult).forEach(([stat, amount]) => {
-        newPlayer[stat === 'attack' ? 'attackPool' : stat] += amount;
+        if (stat === 'description') { return; }
+
+        const playerStat = stat === 'attack' ? 'attackPool' : stat;
+
+        newPlayer[playerStat] = newPlayer[playerStat] || 0;
+        newPlayer[playerStat] += amount;
       });
     }
   });
+
+  // Important to update this after effects that might change the global attack bonus!
+  newPlayer.attackPool += card.attack + (newPlayer.globalAttackBonus || 0);
 
   const newPlayers = state.players.slice();
   newPlayers[playerIndex] = newPlayer;

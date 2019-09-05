@@ -45,7 +45,10 @@ const cards = [
     abilities: [
       {
         threshold: { ion: 3 },
-        effect: { todo: 'all ships get +1 this turn' }, // TODO: check if this should apply retroactively
+        effect: {
+          globalAttackBonus: 1,
+          description: 'All your ships: +I this turn',
+        },
       },
     ],
   },

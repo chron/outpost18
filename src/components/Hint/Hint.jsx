@@ -3,7 +3,7 @@ import './Hint.scss';
 import { useGameState } from '../GameProvider';
 
 function Hint() {
-  const { myTurn, gameState, uiMode, setChoice, currentPlayer: { plays, attackPool } } = useGameState();
+  const { myTurn, gameState, uiMode, setChoice, currentPlayer: { plays, attackPool, globalAttackBonus } } = useGameState();
   let message;
 
   if (!myTurn) {
@@ -37,6 +37,10 @@ function Hint() {
   return (
     <div className="hint">
       {message}
+      {globalAttackBonus
+        ? <p>Your ships have a {globalAttackBonus} attack bonus this turn.</p>
+        : null
+      }
     </div>
   );
 }

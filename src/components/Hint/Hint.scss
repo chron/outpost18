@@ -11,6 +11,10 @@
   font-size: 24px;
   z-index: 1;
 
+  > p {
+    margin: 10px 0 0 0;
+  }
+
   &--link {
     margin: 0 10px;
     border-bottom: 1px solid currentColor;

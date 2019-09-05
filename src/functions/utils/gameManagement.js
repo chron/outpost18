@@ -56,6 +56,7 @@ export function addPlayerToGame(gameState, playerId, playerName) {
     plays: 0,
     attackPool: 0,
     hand: [],
+    effects: [],
     inPlay: [{ cardName: 'Station Core', mode: 'base' }],
   });
 

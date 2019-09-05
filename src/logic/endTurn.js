@@ -36,7 +36,12 @@ export default function endTurn(state, playerId) {
   const nonAttackers = player.inPlay.filter(s => !s.attacking);
   const newDiscards = state.discards.concat(attackers.map(c => c.cardName));
   newState = { ...newState, discards: newDiscards };
-  newState = updatePlayer(newState, playerId, { attackPool: 0, plays: 0, inPlay: nonAttackers });
+  newState = updatePlayer(newState, playerId, {
+    attackPool: 0,
+    plays: 0,
+    globalAttackBonus: undefined,
+    inPlay: nonAttackers,
+  });
 
   // Draw cards equal to your draws stat
   const draws = sumResourceForPlayer('draws', player);
