@@ -111,7 +111,19 @@ const cards = [
       },
       {
         threshold: { ore: 3 },
-        effect: { todo: 'return to hand' },
+        effect: {
+          choice: { type: 'upgrade' },
+          description: "Return an opponent's Upgrade to their hand.",
+          function: (_state, _player, opponent, cardNameToReturn) => {
+            if (!cardNameToReturn) { return; }
+            const cardIndex = opponent.inPlay.indexOf(cardNameToReturn);
+
+            if (cardIndex) {
+              opponent.inPlay.splice(cardIndex, 1);
+              opponent.hand = opponent.hand.concat(cardNameToReturn);
+            }
+          },
+        },
       },
     ],
   },
@@ -142,7 +154,7 @@ const cards = [
           description: '+I per ion you generate.',
           function: (_state, player) => {
             return { attack: sumResourceForPlayer('ion', player) };
-          }
+          },
         },
       },
     ],
@@ -250,7 +262,8 @@ const cards = [
           choice: { type: 'ship' },
           description: "Return an opponent's ship to their hand.",
           function: (_state, _player, opponent, cardNameToReturn) => {
-            // TODO: mutating state here? :thinking:
+            if (!cardNameToReturn) { return; }
+
             const shipIndex = opponent.inPlay.indexOf(cardNameToReturn);
 
             if (shipIndex) {
