@@ -14,7 +14,7 @@ function PlayerStats({ player, position = 'bottom' }) {
       <div className="player-stats__name">{name}</div>
       <div className="player-stats__stat">
         <div className="player-stats__label">cards</div>
-        {handSize || hand.length}
+        {handSize === undefined ? hand.length : handSize}
       </div>
       <div className="player-stats__stat">
         <div className="player-stats__label">plays</div>

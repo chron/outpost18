@@ -18,7 +18,7 @@ function Upgrade({ cardName, owner, inPlay = true }) {
   let onClick;
 
   if (destroyable) {
-    onClick = () => dispatch({ type: 'attack', cardName });
+    onClick = () => dispatch({ type: 'destroy', cardName });
   } else if (selectable) {
     onClick = () => {
       uiMode.callback(cardName);

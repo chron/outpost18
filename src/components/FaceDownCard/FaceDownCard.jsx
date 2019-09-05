@@ -1,10 +1,10 @@
 import React from 'react';
 import './FaceDownCard.scss';
 
-function FaceDownCard({ count = 1 }) {
+function FaceDownCard({ count }) {
   return (
     <div className="card card--face-down">
-      {count > 1 ? <div className="pile-count">{count}</div> : null}
+      {count === undefined ? '' : <div className="pile-count">{count}</div>}
     </div>
   );
 }

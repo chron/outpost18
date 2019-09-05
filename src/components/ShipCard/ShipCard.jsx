@@ -84,7 +84,10 @@ function ShipCard({ card }) {
           return (
             <div key={i}>
               ❂[
-              {thresholdToIcons(threshold)}
+              {threshold
+                ? threshold.description || thresholdToIcons(threshold)
+                : null
+              }
               ]
               {' '}
               {effectToIcons(effect)}

@@ -170,7 +170,10 @@ const cards = [
     ship_ore: 1,
     abilities: [
       {
-        threshold: { todo: '0 cards in hand' },
+        threshold: {
+          description: '0 cards in hand',
+          function: (_state, player) => player.hand.length === 0,
+        },
         effect: { attack: 1 },
       },
     ],
@@ -219,8 +222,8 @@ const cards = [
     name: 'Sparkwraith',
     attack: 1,
     shields: 2,
+    ion: 1,
     ore: 2,
-    ion: 2,
     hyperdrive: true,
     abilities: [
       {
