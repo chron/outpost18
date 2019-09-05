@@ -38,7 +38,7 @@ function Hint() {
     <div className="hint">
       {message}
       {globalAttackBonus
-        ? <p>Your ships have a {globalAttackBonus} attack bonus this turn.</p>
+        ? <p>Your ships have a +{globalAttackBonus} attack bonus this turn.</p>
         : null
       }
     </div>

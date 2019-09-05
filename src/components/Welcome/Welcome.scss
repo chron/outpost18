@@ -1,5 +1,91 @@
 @import "../../stylesheets/variables.scss";
 
 .welcome {
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    padding: 30px;
+    color: $panel-foreground-color;
+    background-color: $panel-background-color;
+    border-radius: 10px;
+    box-shadow: $card-shadow;
+  }
 
+  &__title {
+    font-family: $title-font-stack;
+    font-size: 72px;
+    text-align: center;
+  }
+
+  &__subtitle {
+    font-family: $title-font-stack;
+    font-size: 36px;
+  }
+
+  &__section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
+
+    > p {
+      margin-top: 0;
+    }
+
+    &--vertical {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+  }
+
+  &__field {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__label {
+    margin-right: 10px;
+    white-space: nowrap;
+    color: $panel-foreground-secondary-color;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.button {
+  margin-top: 20px;
+  padding: 5px 10px;
+  border: 2px solid $panel-foreground-color;
+  background-color: $panel-background-color;
+  color: $panel-foreground-color;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #333;
+    cursor: pointer;
+  }
+}
+
+.text-input {
+  width: 100%;
+  padding: 5px;
+  background-color: $panel-background-color;
+  color: $panel-foreground-color;
+  border: 2px dotted $panel-foreground-color;
+}
+
+a {
+  color: $power-color;
 }

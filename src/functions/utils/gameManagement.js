@@ -52,7 +52,7 @@ export function addPlayerToGame(gameState, playerId, playerName) {
 
   const players = gameState.players.concat({
     playerId,
-    name: playerName,
+    name: playerName.slice(0, 30),
     plays: 0,
     attackPool: 0,
     hand: [],

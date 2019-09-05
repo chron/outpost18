@@ -7,16 +7,12 @@ Based on [Outpost 18](http://playoutpost18.com)
 ## TODO
 
 1. Ships - Ionblazer
-1. Ships - Battlestar
 1. Ships - Dreadnought
 1. Choices - allow manual skip
 1. Beautify the welcome screen a little
-1. Use localStorage or something in dev mode instead of Fauna - and dev Pusher environment too!
-1. Move `cards` out of the context since it never changes?
-1. "are you sure?" warnings for ending turn with unspent plays
+1. "are you sure?" warnings for resigning / ending turn with unspent plays
 1. Tooltips and viewing the contents of the discard pile
 1. Public/private flag for games and a lobby screen listing public `waiting` ones.
-1. Error handling, probably a React ErrorBoundary?
 1. Card art, human-friendly text, and layout
 1. Animations!
 1. Auth / Login?
@@ -24,6 +20,14 @@ Based on [Outpost 18](http://playoutpost18.com)
 1. DragPreview for cards - remove opacity at least?
 1. Dragged cards take a split second before they disappear which looks weird
 1. It's possible (though VERY unlikely) for generated gameCodes to collide
+
+## Tech debt stuff that might be worthwhile
+
+1. Error handling, probably a React ErrorBoundary?
+1. Test suite (Jest? React-testing-library?)
+1. Use a proper state machine lib like `xstate` for the server-side game state
+1. Use localStorage or something in dev mode instead of Fauna - and dev Pusher environment too!
+1. Move `cards` out of the context since it never changes?
 
 ## Cool ideas that may or may not get implemented
 

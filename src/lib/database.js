@@ -30,7 +30,7 @@ export async function loadGameByJoinCode(joinCode) {
   try {
     const r = await client.query(
       Map(
-        Paginate(Match(Index('games_by_join_code'), joinCode)),
+        Paginate(Match(Index('games_by_join_code'), joinCode.toUpperCase())),
         Lambda('game', Get(Var('game')))
       )
     );

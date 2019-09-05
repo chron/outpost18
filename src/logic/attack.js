@@ -36,7 +36,7 @@ export default function attack(state, playerId, cardName, choices) {
         // If the threshold has a function, that determines whether it is passed
         if (!threshold.function(state, player, opponent, choices)) { return; }
       } else {
-        // Otherwise we're expecting an object like `{ ore: 2, labor: 1 }`
+        // Otherwise we're expecting an object like `{ ore: 2, labour: 1 }`
         const failedThreshold = Object.entries(threshold).find(([stat, amount]) => {
           return (resourceTotals[stat] || 0) < amount;
         });
