@@ -2,6 +2,12 @@ import React from 'react';
 import './Hint.scss';
 import { useGameState } from '../GameProvider';
 
+const CHOICE_TEXT = {
+  ship: 'an enemy ship',
+  upgrade: 'an enemy upgrade',
+  card: 'cards to discard',
+};
+
 function Hint() {
   const { myTurn, gameState, uiMode, setChoice, currentPlayer: { plays, attackPool, globalAttackBonus } } = useGameState();
   let message;
@@ -12,9 +18,21 @@ function Hint() {
     message = 'Discard down to 3 cards.';
   } else if (gameState === 'main') {
     if (uiMode) {
+
       message = (
         <>
-          Choose an enemy {uiMode.type}
+          Choose {CHOICE_TEXT[uiMode.type]}.
+          {uiMode.max && uiMode.max > 1 && (
+            <a
+              className="hint--link"
+              onClick={() => {
+                uiMode.callback(uiMode.selected);
+                setChoice(null);
+              }}
+            >
+              Done
+            </a>
+          )}
           <a
             className="hint--link"
             onClick={() => setChoice(null)}

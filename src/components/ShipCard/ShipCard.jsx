@@ -33,7 +33,7 @@ function effectToIcons(effect) {
     }
 
     if (resource === 'plays') {
-      return `Play +${amount} cards.`;
+      return `Play +${amount} ${amount === 1 ? 'card' : 'cards'}.`;
     }
 
     return '😱';

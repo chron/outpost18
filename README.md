@@ -9,7 +9,6 @@ Based on [Outpost 18](http://playoutpost18.com)
 1. Ships - Ionblazer
 1. Ships - Dreadnought
 1. Choices - allow manual skip
-1. Beautify the welcome screen a little
 1. "are you sure?" warnings for resigning / ending turn with unspent plays
 1. Tooltips and viewing the contents of the discard pile
 1. Public/private flag for games and a lobby screen listing public `waiting` ones.

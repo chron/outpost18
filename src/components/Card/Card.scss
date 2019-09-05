@@ -20,15 +20,25 @@
 
   &--playable {
     cursor: grab;
-
-    &:hover {
-      transform: scale(1.05);
-      transition: 0.1s ease-out;
-    }
   }
 
   &--dragging {
     visibility: hidden;
+  }
+
+  &--selectable {
+    cursor: pointer;
+  }
+
+  &--selected {
+    opacity: 0.6;
+  }
+
+  &--playable, &--selectable {
+    &:hover {
+      transform: scale(1.05);
+      transition: 0.1s ease-out;
+    }
   }
 
   &--face-down {

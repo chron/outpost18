@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "base-64": "^0.1.0",
+    "classnames": "^2.2.6",
     "faunadb": "^2.7.0",
     "lodash.shuffle": "^4.2.0",
     "netlify-lambda": "^1.6.2",

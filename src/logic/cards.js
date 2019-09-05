@@ -78,8 +78,16 @@ const cards = [
     labour: 1,
     abilities: [
       {
-        threshold: { todo: 'discard up to 3' },
-        effect: { todo: '1 attack per discard' },
+        threshold: {
+          description: 'Discard up to 3 cards',
+        },
+        effect: {
+          choice: { type: 'card', max: 3 },
+          description: '+I for each card discarded this way.',
+          function: (_state, _player, _opponent, discards) => {
+            return { attack: discards.length };
+          },
+        },
       },
     ],
   },

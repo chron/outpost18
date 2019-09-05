@@ -14,32 +14,48 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
 
   // TODO: not sure if this is necessary now?
   const updateStateIfNewer = (newState) => {
-    console.log(newState);
     if (newState.tick > gameState.tick) { setGameState(newState); }
   };
 
-  const setChoice = ({ type, callback }) => {
-    if (type === null) {
+  const setChoice = (choice) => {
+    if (choice === null) {
       setUiMode(null);
       return;
     }
 
+    const { type, callback, ...choiceArgs } = choice;
+
     let validTargets = [];
-    const opponent = gameState.players.find(p => p.playerId !== playerId)
+    const player = gameState.players.find(p => p.playerId === playerId);
+    const opponent = gameState.players.find(p => p.playerId !== playerId);
 
     if (type === 'ship') {
       validTargets = opponent.inPlay.filter(s => s.mode === 'ship').map(s => s.cardName);
     } else if (type === 'upgrade') {
       validTargets = opponent.inPlay.filter(s => s.mode === 'upgrade').map(s => s.cardName);
       validTargets = validTargets.filter(c => c !== 'Station Core');
+    } else if (type === 'card') {
+      validTargets = player.hand;
     }
 
     if (validTargets.length === 0) {
       callback();
-    //} else if (validTargets.length === 1) {
     } else {
-      setUiMode({ mode: 'choice', type, callback });
+      setUiMode({ mode: 'choice', type, selected: [], callback, ...choiceArgs });
     }
+  };
+
+  const toggleSelection = (choice) => {
+    let selected = uiMode.selected.slice();
+    const choiceIndex = selected.indexOf(choice);
+
+    if (choiceIndex >= 0) {
+      selected.splice(choiceIndex, 1);
+    } else {
+      selected = selected.concat(choice);
+    }
+
+    setUiMode({ ...uiMode, selected });
   };
 
   useWebsocket(playerId, gameId, updateStateIfNewer);
@@ -53,13 +69,7 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   }, [gameState.gameState, setStoredGameId]);
 
   const dispatch = (action) => {
-    try {
-      gameAction(playerId, gameId, action).then(updateStateIfNewer);
-    } catch (e) {
-      console.log('yeet', e);
-    }
-
-    console.log('blah');
+    gameAction(playerId, gameId, action).then(updateStateIfNewer);
   };
 
   const gameStateValue = {
@@ -67,8 +77,8 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
     cards,
     dispatch,
     uiMode,
-    setUiMode, // TODO: remove this later maybe?
     setChoice,
+    toggleSelection,
     currentPlayer: gameState.players.find(p => p.playerId === playerId),
     opponent: gameState.players.find(p => p.playerId !== playerId),
     myTurn: playerId === gameState.activePlayer,
