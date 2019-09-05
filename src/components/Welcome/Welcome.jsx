@@ -15,7 +15,7 @@ function Welcome({ playerName, setPlayerName, joinGame, createGame }) {
         <div className="welcome__section welcome__section--vertical">
           <p>
             This is a fan implementation of the micro cardgame Outpost 18. You can read the
-            Outpost 18 rules <a href="https://playoutpost18.com" target="_blank">on the official site</a>.
+            Outpost 18 rules <a href="http://playoutpost18.com" target="_blank">on the official site</a>.
           </p>
 
           <p>
@@ -43,7 +43,14 @@ function Welcome({ playerName, setPlayerName, joinGame, createGame }) {
               <label className="welcome__label">Game code:</label>
               <input className="text-input" onChange={e => setGameCode(e.target.value)} value={gameCode} maxLength="5" />
             </div>
-            <button className="button" onClick={() => joinGame(gameCode)}>Join Game</button>
+            <button
+              type="button"
+              className="button"
+              disabled={gameCode.length < 5}
+              onClick={() => joinGame(gameCode)}
+            >
+                Join Game
+            </button>
           </div>
         </div>
       </div>

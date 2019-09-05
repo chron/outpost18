@@ -5,6 +5,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { GameProvider } from '../GameProvider';
 import Game from '../Game';
 import Welcome from '../Welcome';
+import Loading from '../Loading';
+import Error from '../Error';
 import { useLocalStorage } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
@@ -13,6 +15,7 @@ import './App.scss';
 
 function App() {
   const [gameState, setGameState] = useState({});
+  const [error, setError] = useState(null);
   const [playerId, setPlayerId] = useLocalStorage('playerId');
   const [playerName, setPlayerName] = useLocalStorage('playerName', 'Player');
   const [storedGameId, setStoredGameId] = useLocalStorage('gameId');
@@ -29,7 +32,9 @@ function App() {
     }
   }, [playerId, gameId, storedGameId]);
 
-  // TODO: loading screen so we avoid the flash of <Welcome> on refresh
+  if (storedGameId && !gameId) {
+    return <Loading />;
+  }
 
   async function createGameFunc() {
     const newState = await createGame(playerId, playerName);
@@ -39,17 +44,21 @@ function App() {
 
   async function joinGameFunc(joinCode) {
     const newState = await joinGame(joinCode, playerId, playerName);
-    setGameState(newState);
-    setStoredGameId(newState.gameId);
+
+    if (newState.error) {
+      setError(newState.error);
+    } else {
+      setGameState(newState);
+      setStoredGameId(newState.gameId);
+    }
   }
 
   return (
-    <React.Fragment>
+    <>
       <Normalize />
-
-      <DndProvider backend={HTML5Backend}>
-        {gameId
-          ? (
+      {gameId
+        ? (
+          <DndProvider backend={HTML5Backend}>
             <GameProvider
               setStoredGameId={setStoredGameId}
               playerId={playerId}
@@ -57,16 +66,19 @@ function App() {
             >
               <Game />
             </GameProvider>
-          ) : (
-            <Welcome
-              playerName={playerName}
-              setPlayerName={setPlayerName}
-              createGame={createGameFunc}
-              joinGame={joinGameFunc}
-            />
-          )}
-      </DndProvider>
-    </React.Fragment>
+          </DndProvider>
+        ) : (
+          <Welcome
+            playerName={playerName}
+            setPlayerName={setPlayerName}
+            createGame={createGameFunc}
+            joinGame={joinGameFunc}
+          />
+        )
+      }
+
+      {error && <Error>{error}</Error>}
+    </>
   );
 }
 export default App;

@@ -17,10 +17,6 @@
   width: 100%;
   padding: 10px;
 
-  &:not(:first-child) {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
   &--active::after {
     content: attr(data-hint);
 
@@ -47,11 +43,9 @@
   }
 
   &--upgrade.lane--hovering::after {
-  background: rgba(30, 144, 255, 0.8);
+    background: rgba(30, 144, 255, 0.8);
   }
 }
-
-
 
 .fleet {
   display: flex;

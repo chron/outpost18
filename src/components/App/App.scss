@@ -22,7 +22,7 @@ body {
 #root {
   height: 100%;
 
-  & > div { // HotKeys div
+  & > div:first-child { // HotKeys div
     height: 100%;
   }
 }

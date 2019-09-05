@@ -14,6 +14,7 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
 
   // TODO: not sure if this is necessary now?
   const updateStateIfNewer = (newState) => {
+    console.log(newState);
     if (newState.tick > gameState.tick) { setGameState(newState); }
   };
 
@@ -52,7 +53,13 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   }, [gameState.gameState, setStoredGameId]);
 
   const dispatch = (action) => {
-    gameAction(playerId, gameId, action).then(updateStateIfNewer);
+    try {
+      gameAction(playerId, gameId, action).then(updateStateIfNewer);
+    } catch (e) {
+      console.log('yeet', e);
+    }
+
+    console.log('blah');
   };
 
   const gameStateValue = {
