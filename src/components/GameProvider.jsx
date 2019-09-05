@@ -17,6 +17,30 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
     if (newState.tick > gameState.tick) { setGameState(newState); }
   };
 
+  const setChoice = ({ type, callback }) => {
+    if (type === null) {
+      setUiMode(null);
+      return;
+    }
+
+    let validTargets = [];
+    const opponent = gameState.players.find(p => p.playerId !== playerId)
+
+    if (type === 'ship') {
+      validTargets = opponent.inPlay.filter(s => s.mode === 'ship').map(s => s.cardName);
+    } else if (type === 'upgrade') {
+      validTargets = opponent.inPlay.filter(s => s.mode === 'upgrade').map(s => s.cardName);
+      validTargets = validTargets.filter(c => c !== 'Station Core');
+    }
+
+    if (validTargets.length === 0) {
+      callback();
+    //} else if (validTargets.length === 1) {
+    } else {
+      setUiMode({ mode: 'choice', type, callback });
+    }
+  };
+
   useWebsocket(playerId, gameId, updateStateIfNewer);
 
   // When the game ends, clear the saved gameId out.
@@ -36,7 +60,8 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
     cards,
     dispatch,
     uiMode,
-    setUiMode,
+    setUiMode, // TODO: remove this later maybe?
+    setChoice,
     currentPlayer: gameState.players.find(p => p.playerId === playerId),
     opponent: gameState.players.find(p => p.playerId !== playerId),
     myTurn: playerId === gameState.activePlayer,
@@ -48,7 +73,9 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
         ? (
           <Alert>
             Waiting for another player.
+            {' '}
             Join Code:
+            {' '}
             {gameState.joinCode}
           </Alert>
         ) : children

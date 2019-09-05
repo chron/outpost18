@@ -6,7 +6,6 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## TODO
 
-1. Choices - auto skip with no valid targets?
 1. Choices - allow manual skip
 1. Complicated function abilities
 1. Beautify the welcome screen a little

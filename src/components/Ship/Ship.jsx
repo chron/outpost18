@@ -5,7 +5,7 @@ import ShipCard from '../ShipCard';
 import './Ship.scss';
 
 function Ship({ cardName, owner, attacking, canAttack }) {
-  const { cards, dispatch, currentPlayer, myTurn, gameState, uiMode, setUiMode } = useGameState();
+  const { cards, dispatch, currentPlayer, myTurn, gameState, uiMode, setChoice } = useGameState();
   const card = cards.find(c => c.name === cardName);
   const myShip = owner.playerId === currentPlayer.playerId;
 
@@ -22,14 +22,14 @@ function Ship({ cardName, owner, attacking, canAttack }) {
   if (availableToAttack && !attacking) {
     if (abilityWithChoice) {
       const callback = (choices) => dispatch({ type: 'attack', cardName, choices });
-      onClick = () => setUiMode({ mode: 'choice', callback, ...abilityWithChoice.effect.choice });
+      onClick = () => setChoice({ callback, ...abilityWithChoice.effect.choice });
     } else {
       onClick = () => dispatch({ type: 'attack', cardName });
     }
   } else if (availableToChoose) {
     onClick = () => {
       uiMode.callback(cardName);
-      setUiMode(null);
+      setChoice(null);
     };
   }
 

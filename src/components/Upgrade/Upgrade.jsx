@@ -5,7 +5,7 @@ import './Upgrade.scss';
 
 // TODO: refactor out some "dumb" display components that don't use context etc
 function Upgrade({ cardName, owner, inPlay = true }) {
-  const { currentPlayer, cards, dispatch, uiMode, setUiMode } = useGameState();
+  const { currentPlayer, cards, dispatch, uiMode, setChoice } = useGameState();
   const { shields, defender, ion, labour, ore, draws } = cards.find(c => c.name === cardName);
 
   const enemy = owner && owner.playerId !== currentPlayer.playerId;
@@ -22,7 +22,7 @@ function Upgrade({ cardName, owner, inPlay = true }) {
   } else if (selectable) {
     onClick = () => {
       uiMode.callback(cardName);
-      setUiMode(null);
+      setChoice(null);
     };
   }
 

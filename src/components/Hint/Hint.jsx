@@ -3,7 +3,7 @@ import './Hint.scss';
 import { useGameState } from '../GameProvider';
 
 function Hint() {
-  const { myTurn, gameState, uiMode, setUiMode, currentPlayer: { plays, attackPool } } = useGameState();
+  const { myTurn, gameState, uiMode, setChoice, currentPlayer: { plays, attackPool } } = useGameState();
   let message;
 
   if (!myTurn) {
@@ -17,7 +17,7 @@ function Hint() {
           Choose an enemy {uiMode.type}
           <a
             className="hint--link"
-            onClick={() => setUiMode(null)}
+            onClick={() => setChoice(null)}
           >
             Cancel
           </a>
