@@ -10,6 +10,8 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   const { gameId } = initialGameState;
 
   const [gameState, setGameState] = useState(initialGameState);
+  const [uiMode, setUiMode] = useState(null);
+
   // TODO: not sure if this is necessary now?
   const updateStateIfNewer = (newState) => {
     if (newState.tick > gameState.tick) { setGameState(newState); }
@@ -33,6 +35,8 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
     ...gameState,
     cards,
     dispatch,
+    uiMode,
+    setUiMode,
     currentPlayer: gameState.players.find(p => p.playerId === playerId),
     opponent: gameState.players.find(p => p.playerId !== playerId),
     myTurn: playerId === gameState.activePlayer,

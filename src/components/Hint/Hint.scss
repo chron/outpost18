@@ -10,4 +10,15 @@
   background-color: black;
   font-size: 24px;
   z-index: 1;
+
+  &--link {
+    margin: 0 10px;
+    border-bottom: 1px solid currentColor;
+    text-transform: uppercase;
+
+    &:hover {
+      cursor: pointer;
+      color: crimson;
+    }
+  }
 }

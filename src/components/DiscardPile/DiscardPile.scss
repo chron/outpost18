@@ -2,6 +2,7 @@
 
 .deck {
   position: relative;
+  transform: scale(0.8);
 
   &--active::after {
     content: attr(data-hint);

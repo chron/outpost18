@@ -11,7 +11,7 @@ export default function reducer(state, action, playerId) {
     case 'play':
       return play(state, playerId, action.cardName, action.mode);
     case 'attack':
-      return attack(state, playerId, action.cardName);
+      return attack(state, playerId, action.cardName, action.choices);
     case 'destroy':
       return destroy(state, playerId, action.cardName);
     case 'endTurn':

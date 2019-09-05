@@ -25,6 +25,7 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## Cool ideas that may or may not get implemented
 
+1. Chat
 1. Spectators
 1. Multiple games at once - tabbed interface?
 1. Browser notifs when it becomes your turn and you're not looking

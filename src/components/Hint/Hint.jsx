@@ -3,7 +3,7 @@ import './Hint.scss';
 import { useGameState } from '../GameProvider';
 
 function Hint() {
-  const { myTurn, gameState, currentPlayer: { plays, attackPool } } = useGameState();
+  const { myTurn, gameState, uiMode, setUiMode, currentPlayer: { plays, attackPool } } = useGameState();
   let message;
 
   if (!myTurn) {
@@ -11,7 +11,19 @@ function Hint() {
   } else if (gameState === 'begin') {
     message = 'Discard down to 3 cards.';
   } else if (gameState === 'main') {
-    if (attackPool > 0) {
+    if (uiMode) {
+      message = (
+        <>
+          Choose an enemy {uiMode.type}
+          <a
+            className="hint--link"
+            onClick={() => setUiMode(null)}
+          >
+            Cancel
+          </a>
+        </>
+      );
+    } else if (attackPool > 0) {
       message = 'Spend your attack by clicking on the enemy base.';
     } else if (plays > 0) {
       message = 'You can drag a ship from your hand to play it.';

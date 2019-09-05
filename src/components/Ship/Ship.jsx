@@ -5,18 +5,42 @@ import ShipCard from '../ShipCard';
 import './Ship.scss';
 
 function Ship({ cardName, owner, attacking, canAttack }) {
-  const { cards, dispatch, currentPlayer, myTurn, gameState } = useGameState();
+  const { cards, dispatch, currentPlayer, myTurn, gameState, uiMode, setUiMode } = useGameState();
   const card = cards.find(c => c.name === cardName);
-  const enemy = owner.playerId !== currentPlayer.playerId;
+  const myShip = owner.playerId === currentPlayer.playerId;
 
-  const attackActive = !enemy && canAttack && myTurn && gameState === 'main';
+  // TODO: this is ugly
+  const availableToAttack = myShip && canAttack && myTurn && gameState === 'main' && !uiMode;
+  const availableToChoose = !myShip && uiMode && uiMode.mode === 'choice' && uiMode.type === 'ship';
+
+  // TODO: need to check thresholds are active before doing this
+  const abilityWithChoice = card.abilities.find(a => a.effect.choice);
+
+  let onClick;
+
+  // TODO: probably this is a sign friendly and enemy ships should be two different components
+  if (availableToAttack && !attacking) {
+    if (abilityWithChoice) {
+      const callback = (choices) => dispatch({ type: 'attack', cardName, choices });
+      onClick = () => setUiMode({ mode: 'choice', callback, ...abilityWithChoice.effect.choice });
+    } else {
+      onClick = () => dispatch({ type: 'attack', cardName });
+    }
+  } else if (availableToChoose) {
+    onClick = () => {
+      uiMode.callback(cardName);
+      setUiMode(null);
+    };
+  }
+
+  const interactable = availableToChoose || availableToAttack;
 
   return (
     <div
       role="button"
-      tabIndex={attackActive ? 0 : null}
-      className={`ship ${attacking ? 'ship--attacking' : ''} ${attackActive ? 'ship--ready' : ''} ${enemy ? 'ship--enemy' : ''}`}
-      onClick={() => attackActive && !attacking && dispatch({ type: 'attack', cardName })}
+      tabIndex={interactable? 0 : null}
+      className={`ship ${attacking ? 'ship--attacking' : ''} ${interactable ? 'ship--ready' : ''} ${myShip ? '' : 'ship--enemy'}`}
+      onClick={onClick}
     >
       <ShipCard card={card} />
     </div>

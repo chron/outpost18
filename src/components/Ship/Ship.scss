@@ -31,4 +31,11 @@
   &--enemy {
     transform: rotate(180deg);
   }
+
+  &--ready.ship--enemy {
+    // TODO: there's probably a smart way to DRY this
+    &:hover {
+      transform: rotate(180deg) scale(1.05);
+    }
+  }
 }

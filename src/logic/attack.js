@@ -1,7 +1,7 @@
-import cards from '../logic/cards';
+import cards from './cards';
 import { resourceTotalsForPlayer } from '../utils';
 
-export default function attack(state, playerId, cardName) {
+export default function attack(state, playerId, cardName, choices) {
   if (state.gameState !== 'main') { return state; }
   if (state.activePlayer !== playerId) { return state; }
 
@@ -43,11 +43,16 @@ export default function attack(state, playerId, cardName) {
     if (effect.todo) { return; }
 
     // Gotcha: if `function` key is provided all other keys are ignored
-    const effectResult = effect.function ? effect.function(state, player, opponent) : effect;
+    // TODO: right now the function can modify state - which is needed to apply some of the
+    // more interesting effects - but this probably needs a rethink!
+    const effectResult = effect.function ? effect.function(state, player, opponent, choices) : effect;
 
-    Object.entries(effectResult).forEach(([stat, amount]) => {
-      newPlayer[stat === 'attack' ? 'attackPool' : stat] += amount;
-    });
+    if (effectResult) {
+      // Some effects might mutate state directly and not return any result.
+      Object.entries(effectResult).forEach(([stat, amount]) => {
+        newPlayer[stat === 'attack' ? 'attackPool' : stat] += amount;
+      });
+    }
   });
 
   const newPlayers = state.players.slice();

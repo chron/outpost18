@@ -31,7 +31,7 @@ const cards = [
     abilities: [
       {
         threshold: { ion: 2 },
-        effect: { todo: 'destroy any ship, then discard' },
+        effect: { todo: 'destroy any ship, then discard' }, // TODO: check if this can be used with no cards in hand
       },
     ],
   },
@@ -45,7 +45,7 @@ const cards = [
     abilities: [
       {
         threshold: { ion: 3 },
-        effect: { todo: 'all ships get +1 this turn' },
+        effect: { todo: 'all ships get +1 this turn' }, // TODO: check if this should apply retroactively
       },
     ],
   },
@@ -245,7 +245,20 @@ const cards = [
     abilities: [
       {
         threshold: { labour: 1, ore: 1 },
-        effect: { todo: 'return opponent ship to hand' },
+        effect: {
+          // TODO: figure out if this is optional?
+          choice: { type: 'ship' },
+          description: "Return an opponent's ship to their hand.",
+          function: (_state, _player, opponent, cardNameToReturn) => {
+            // TODO: mutating state here? :thinking:
+            const shipIndex = opponent.inPlay.indexOf(cardNameToReturn);
+
+            if (shipIndex) {
+              opponent.inPlay.splice(shipIndex, 1);
+              opponent.hand = opponent.hand.concat(cardNameToReturn);
+            }
+          },
+        },
       },
     ],
   },
