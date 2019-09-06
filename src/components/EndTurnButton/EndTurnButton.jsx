@@ -11,7 +11,7 @@ function EndTurnButton() {
   return (
     <button
       type="button"
-      className="end-turn"
+      className="button end-turn"
       onClick={() => dispatch({ type: 'endTurn' })}
     >
       End Turn

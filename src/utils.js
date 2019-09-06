@@ -28,3 +28,19 @@ export function resourceTotalsForPlayer(player) {
     {}
   );
 }
+
+export function isThresholdMet(threshold, owner) {
+  if (!threshold) { return true; }
+
+  if (threshold.function) {
+    // If the threshold has a function, that determines whether it is passed
+    return threshold.function(owner);
+  } else {
+    // Otherwise we're expecting an object like `{ ore: 2, labour: 1 }`
+    const resourceTotals = resourceTotalsForPlayer(owner);
+
+    return Object.entries(threshold).find(([stat, amount]) => {
+      return (resourceTotals[stat] || 0) < amount;
+    });
+  }
+}

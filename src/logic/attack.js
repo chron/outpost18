@@ -1,5 +1,5 @@
 import cards from './cards';
-import { resourceTotalsForPlayer } from '../utils';
+import { isThresholdMet } from '../utils';
 
 export default function attack(state, playerId, cardName, choices) {
   if (state.gameState !== 'main') { return state; }
@@ -8,7 +8,7 @@ export default function attack(state, playerId, cardName, choices) {
   const playerIndex = state.players.findIndex(p => p.playerId === playerId);
   const player = state.players[playerIndex];
   const opponent = state.players.find(p => p.playerId !== playerId);
-  const { inPlay, attackPool } = player;
+  const { inPlay } = player;
   const ship = inPlay.find(s => s.cardName === cardName);
 
   if (!ship) { return state; }
@@ -23,29 +23,9 @@ export default function attack(state, playerId, cardName, choices) {
   newInPlay[shipIndex] = { ...ship, attacking: true };
   const newPlayer = { ...player, inPlay: newInPlay };
 
-  // Possible gotcha: checking here assumes these totals won't change as a result of
-  // activating attack abilities (currently true)
-  const resourceTotals = resourceTotalsForPlayer(player);
-
   // Check and apply the ship's attack abilities
   card.abilities.forEach(({ threshold, effect }) => {
-    if (threshold) {
-      if (threshold.todo) { return; }
-
-      if (threshold.function) {
-        // If the threshold has a function, that determines whether it is passed
-        if (!threshold.function(state, player, opponent, choices)) { return; }
-      } else {
-        // Otherwise we're expecting an object like `{ ore: 2, labour: 1 }`
-        const failedThreshold = Object.entries(threshold).find(([stat, amount]) => {
-          return (resourceTotals[stat] || 0) < amount;
-        });
-
-        if (failedThreshold) { return; }
-      }
-    }
-
-    if (effect.todo) { return; }
+    if (threshold && !isThresholdMet(threshold, player)) { return; }
 
     // Gotcha: if `function` key is provided all other keys are ignored
     // TODO: right now the function can modify state - which is needed to apply some of the

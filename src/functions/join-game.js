@@ -7,16 +7,15 @@ import { renderError } from './utils/helpers';
 export async function handler(event, _context,) {
   const { playerId, playerName, joinCode } = JSON.parse(event.body);
 
-  if (!playerId || !playerName || !joinCode) {
-    return renderError('joinCode, playerId, and playerName must be provided');;
-  }
+  if (!playerId) { return renderError('PlayerId must be provided.'); }
+  if (!playerName) { return renderError('Please choose a name.'); }
+  if (!joinCode) { return renderError('You must provide a game code.'); }
 
   const [gameId, oldGameState] = await loadGameByJoinCode(joinCode);
 
-  if (!oldGameState) { return renderError('Invalid Game Code'); }
+  if (!oldGameState) { return renderError('That game could not be found.'); }
 
   // TODO: validate player is not already in this game
-  // TODO: validate game has not started and is not full
 
   const gameState = addPlayerToGame(oldGameState, playerId, playerName);
 

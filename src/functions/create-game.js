@@ -1,13 +1,13 @@
 import { createGame } from '../lib/database';
 import { initialGameState, addPlayerToGame } from './utils/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
+import { renderError } from './utils/helpers';
 
 export async function handler(event, _context,) {
   const { playerId, playerName } = JSON.parse(event.body);
 
-  if (!playerId || !playerName) {
-    return { statusCode: 400, body: 'playerId and playerName must be provided' };
-  }
+  if (!playerId) { return renderError('PlayerId must be provided.'); }
+  if (!playerName) { return renderError('Please choose a name.'); }
 
   const initialState = initialGameState();
   const gameState = addPlayerToGame(initialState, playerId, playerName);
@@ -21,6 +21,6 @@ export async function handler(event, _context,) {
       body: JSON.stringify(gameStatePresenter(gameState, gameId, playerId)),
     };
   } else {
-    return { statusCode: 400, body: 'Game could not be created.' };
+    return renderError('Game could not be created.');
   }
 }

@@ -2,13 +2,14 @@ import { loadGame, saveGame } from '../lib/database';
 import { notifyOpponent } from './utils/notify';
 import reducer from '../logic/reducer';
 import gameStatePresenter from './utils/gameStatePresenter';
+import { renderError } from './utils/helpers';
 
 export async function handler(event, _context) {
   const { playerId, gameId, action } = JSON.parse(event.body);
 
-  if (!playerId || !gameId || !action) {
-    return { statusCode: 400, body: 'playerId, gameId and action must be provided' };
-  }
+  if (!playerId) { return renderError('PlayerId must be provided.'); }
+  if (!gameId) { return renderError('GameId must be provided.'); }
+  if (!action) { return renderError('No action provided.'); }
 
   const oldState = await loadGame(gameId);
   const newState = await reducer(oldState, action, playerId);

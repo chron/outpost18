@@ -201,7 +201,7 @@ const cards = [
       {
         threshold: {
           description: '0 cards in hand',
-          function: (_state, player) => player.hand.length === 0,
+          function: player => player.hand.length === 0,
         },
         effect: { attack: 1 },
       },

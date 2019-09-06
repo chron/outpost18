@@ -9,12 +9,12 @@ import ShipCard from '../ShipCard';
 import './Card.scss';
 
 function Card({ cardName, inHand = false }) {
-  const { myTurn, gameState, uiMode, toggleSelection, currentPlayer: { plays }, cards } = useGameState();
+  const { myTurn, gameState, uiMode, toggleSelection, currentPlayer, cards } = useGameState();
 
   const card = cards.find(c => c.name === cardName);
   const [{ isDragging }, dragRef] = useDrag({
     item: { type: ItemTypes.CARD, cardName },
-    canDrag: () => inHand && myTurn && !uiMode && (gameState === 'begin' || (gameState === 'main' && plays > 0)),
+    canDrag: () => inHand && myTurn && !uiMode && (gameState === 'begin' || (gameState === 'main' && currentPlayer.plays > 0)),
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
@@ -38,7 +38,7 @@ function Card({ cardName, inHand = false }) {
       ref={dragRef}
       onClick={onClick}
     >
-      <ShipCard card={card} />
+      <ShipCard card={card} owner={inHand && currentPlayer} />
       <Upgrade cardName={cardName} inPlay={false} />
     </div>
   );

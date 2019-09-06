@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Welcome.scss';
 
-function Welcome({ playerName, setPlayerName, joinGame, createGame }) {
+function Welcome({ playerName, setPlayerName, joinGame }) {
   const [gameCode, setGameCode] = useState('');
 
   // TODO: clear code after join?
@@ -35,7 +35,7 @@ function Welcome({ playerName, setPlayerName, joinGame, createGame }) {
 
         <div className="welcome__section">
           <div className="welcome__item">
-            <button className="button" onClick={createGame}>Create Game</button>
+            <button className="button" onClick={() => joinGame()}>Create Game</button>
           </div>
 
           <div className="welcome__item">

@@ -1,6 +1,6 @@
 import React from 'react';
-import { resources } from '../../utils';
-
+import classNames from 'classnames';
+import { resources, isThresholdMet } from '../../utils';
 import './ShipCard.scss';
 
 function resourceToIcons(resource, amount = 1) {
@@ -40,7 +40,7 @@ function effectToIcons(effect) {
   });
 }
 
-function ShipCard({ card }) {
+function ShipCard({ card, owner = null }) {
   const { name, attack, abilities, hyperdrive, ship_ore, ship_ion, ship_labour } = card;
 
   let passiveAbility;
@@ -82,7 +82,12 @@ function ShipCard({ card }) {
       <div className="card__abilities">
         {abilities.map(({ threshold, effect }, i) => {
           return (
-            <div key={i}>
+            <div
+              key={i}
+              className={classNames('card__ability', {
+                'card__ability--active': !owner || isThresholdMet(threshold, owner),
+              })}
+            >
               ❂[
               {threshold
                 ? threshold.description || thresholdToIcons(threshold)

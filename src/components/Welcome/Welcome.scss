@@ -43,6 +43,10 @@
     display: flex;
     flex-direction: column;
     width: 40%;
+
+    > *:not(:first-child) {
+      margin-top: 20px;
+    }
   }
 
   &__field {
@@ -65,7 +69,6 @@
 }
 
 .button {
-  margin-top: 20px;
   padding: 5px 10px;
   border: 2px solid currentColor;
   background-color: $panel-background-color;

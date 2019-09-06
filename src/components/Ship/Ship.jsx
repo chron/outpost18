@@ -42,7 +42,7 @@ function Ship({ cardName, owner, attacking, canAttack }) {
       className={`ship ${attacking ? 'ship--attacking' : ''} ${interactable ? 'ship--ready' : ''} ${myShip ? '' : 'ship--enemy'}`}
       onClick={onClick}
     >
-      <ShipCard card={card} />
+      <ShipCard card={card} owner={owner} />
     </div>
   );
 }

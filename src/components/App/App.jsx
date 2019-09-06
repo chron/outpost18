@@ -36,14 +36,10 @@ function App() {
     return <Loading />;
   }
 
-  async function createGameFunc() {
-    const newState = await createGame(playerId, playerName);
-    setGameState(newState);
-    setStoredGameId(newState.gameId);
-  }
-
   async function joinGameFunc(joinCode) {
-    const newState = await joinGame(joinCode, playerId, playerName);
+    const newState = joinCode
+      ? await joinGame(joinCode, playerId, playerName)
+      : await createGame(playerId, playerName);
 
     if (newState.error) {
       setError(newState.error);
@@ -71,7 +67,6 @@ function App() {
           <Welcome
             playerName={playerName}
             setPlayerName={setPlayerName}
-            createGame={createGameFunc}
             joinGame={joinGameFunc}
           />
         )

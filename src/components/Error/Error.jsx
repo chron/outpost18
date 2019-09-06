@@ -5,7 +5,7 @@ export default function Error({ children }) {
   return (
     <div className="error">
       Error:
-      {children}
+      {' '}{children}
     </div>
   );
 }
