@@ -23,6 +23,19 @@ async function bootstrapDatabase(secret) {
   try {
     await client.query(
       CreateIndex({
+        name: 'all_games',
+        source: Collection('games'),
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
+      CreateIndex({
         name: 'games_by_join_code',
         source: Collection('games'),
         terms: [{ field: ['data', 'joinCode'] }],
@@ -41,5 +54,3 @@ if (!process.env.FAUNADB_SECRET_KEY) {
 }
 
 bootstrapDatabase(process.env.FAUNADB_SECRET_KEY);
-
-console.log('Finished!');

@@ -52,7 +52,8 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## Environment Variables
 
-* FAUNADB_SECRET_KEY
+* FAUNADB_SECRET_KEY_DEV - dev key, set in your local .env
+* FAUNADB_SECRET_KEY - prod key, comes from Netlify
 * PUSHER_APP_ID
 * PUSHER_KEY
 * PUSHER_SECRET
