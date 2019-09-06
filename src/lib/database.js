@@ -1,4 +1,5 @@
 import { query, Client } from 'faunadb';
+
 require('dotenv').config();
 /* eslint-disable no-console */
 
@@ -6,10 +7,7 @@ const { Collection, Index, Ref, Create, Get, Var, Replace, Match, Lambda, Map, P
 
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
 // TODO: find a way to switch the var out rather than using two different ones!!
-const secret = process.env.CONTEXT
-  ? process.env.FAUNADB_SECRET_KEY
-  : process.env.FAUNADB_SECRET_KEY_DEV;
-
+const secret = process.env.FAUNADB_SECRET_KEY_DEV || process.env.FAUNADB_SECRET_KEY;
 const client = new Client({ secret });
 const COLLECTION_NAME = 'games';
 
