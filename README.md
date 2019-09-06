@@ -6,9 +6,9 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## TODO
 
-1. Ships - Ionblazer
-1. Ships - Dreadnought
-1. Choices - allow manual skip
+1. Ionblazer should let the player choose which card to discard
+1. Choices - allow manual skip?
+1. Pick one of the two discard mechanisms and standardize on it
 1. "are you sure?" warnings for resigning / ending turn with unspent plays
 1. Tooltips and viewing the contents of the discard pile
 1. Public/private flag for games and a lobby screen listing public `waiting` ones.

@@ -31,7 +31,25 @@ const cards = [
     abilities: [
       {
         threshold: { ion: 2 },
-        effect: { todo: 'destroy any ship, then discard' }, // TODO: check if this can be used with no cards in hand
+        // TODO: verify that destroyed ship should go to the discard pile
+        // TODO: check if this can be used with no cards in hand
+        // TODO: check if you must discard even if there are no valid targets
+        effect: {
+          choice: { type: 'ship' },
+          description: 'Destroy any ship, then discard a card.',
+          function: (state, player, opponent, targetShip) => {
+            if (!targetShip) { return; }
+            const cardIndex = opponent.inPlay.findIndex(i => i.cardName === targetShip);
+
+            if (cardIndex) {
+              opponent.inPlay.splice(cardIndex, 1);
+              // TODO: player should choose the discarded card!
+              const cardToDiscard = player.hand.splice(0, 1);
+
+              state.discards = state.discards.concat([targetShip, ...cardToDiscard]);
+            }
+          },
+        },
       },
     ],
   },

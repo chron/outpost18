@@ -5,7 +5,7 @@ export default function gameStatePresenter(gameState, gameId, playerId) {
   return {
     ...gameState,
     deck: undefined,
-    //log: undefined,
+    log: undefined,
     players: gameState.players.map(p => {
       if (p.playerId === playerId) {
         return p;
