@@ -13,7 +13,7 @@ export function inPlayCardsOfType(inPlayCards, modes) {
     .map(s => cards.find(c => c.name === s.cardName) || s);
 }
 
-// TODO: move these two functions to the "server"
+// TODO: move these two functions to the server-side presenter!
 export function sumResourceForPlayer(resource, player) {
   const base = inPlayCardsOfType(player.inPlay, ['upgrade', 'base']);
   const ships = inPlayCardsOfType(player.inPlay, ['ship']);
@@ -39,7 +39,7 @@ export function isThresholdMet(threshold, owner) {
     // Otherwise we're expecting an object like `{ ore: 2, labour: 1 }`
     const resourceTotals = resourceTotalsForPlayer(owner);
 
-    return Object.entries(threshold).find(([stat, amount]) => {
+    return !Object.entries(threshold).find(([stat, amount]) => {
       if (stat === 'description') { return true; }
       return (resourceTotals[stat] || 0) < amount;
     });

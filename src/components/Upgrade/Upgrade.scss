@@ -6,7 +6,7 @@
   justify-content: space-between;
   align-items: center;
   width: 30px;
-  height: 120px;
+  height: 132px;
 
   font-family: $title-font-stack;
   color: $card-foreground-color;
@@ -27,7 +27,7 @@
   }
 
   &--static {
-    transform: rotate(90deg) translateX(-40px);
+    transform: rotate(90deg) translateX(-48px) translateY(-1px);
   }
 
   &__shields {

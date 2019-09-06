@@ -51,40 +51,38 @@ const Game = () => {
               />
             ))}
             <Base cardName="Station Core" owner={opponent} />
-            <PlayerStats player={opponent} position="top" />
           </Lane>
+          <div />
           <Lane owner={opponent} type="ship">
-            <div className="fleet">
-              {enemyShips.map(({ cardName, canAttack, attacking }) => (
-                <Ship
-                  key={cardName}
-                  owner={opponent}
-                  cardName={cardName}
-                  canAttack={canAttack}
-                  attacking={attacking}
-                />
-              ))}
-            </div>
-
-            <DiscardPile />
+            {enemyShips.map(({ cardName, canAttack, attacking }) => (
+              <Ship
+                key={cardName}
+                owner={opponent}
+                cardName={cardName}
+                canAttack={canAttack}
+                attacking={attacking}
+              />
+            ))}
           </Lane>
+
+          <div className="deck">
+            <FaceDownCard count={deckSize} />
+          </div>
+
           <Lane owner={currentPlayer} type="ship">
-            <div className="fleet">
-              {ships.map(({ cardName, canAttack, attacking }) => (
-                <Ship
-                  key={cardName}
-                  owner={currentPlayer}
-                  cardName={cardName}
-                  canAttack={canAttack}
-                  attacking={attacking}
-                />
-              ))}
-            </div>
-
-            <div className="deck">
-              <FaceDownCard count={deckSize} />
-            </div>
+            {ships.map(({ cardName, canAttack, attacking }) => (
+              <Ship
+                key={cardName}
+                owner={currentPlayer}
+                cardName={cardName}
+                canAttack={canAttack}
+                attacking={attacking}
+              />
+            ))}
           </Lane>
+
+          <DiscardPile />
+
           <Lane owner={currentPlayer} type="upgrade">
             {upgrades.map(({ cardName }) => (
               <Upgrade
@@ -95,10 +93,17 @@ const Game = () => {
             ))}
             <Base cardName="Station Core" owner={currentPlayer} />
           </Lane>
+
+          <div />
+
           <Lane owner={currentPlayer} type="hand">
             {currentPlayer.hand.map(c => <Card inHand key={c} cardName={c} />)}
           </Lane>
+
+          <div />
         </div>
+
+        <PlayerStats player={opponent} position="top" />
         <PlayerStats player={currentPlayer} />
       </div>
     </KeyMap>
