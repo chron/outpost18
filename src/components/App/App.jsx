@@ -6,7 +6,7 @@ import Game from '../Game';
 import Welcome from '../Welcome';
 import Loading from '../Loading';
 import Error from '../Error';
-import { useLocalStorage } from '../../hooks';
+import { useLocalStorage, useWebsocket } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
 
@@ -21,6 +21,14 @@ function App() {
   const { gameId } = gameState;
 
   if (!playerId) { setPlayerId(generatePlayerId()); }
+
+  useWebsocket(playerId, newState => {
+    if (newState.gameId === gameId) {
+      setGameState(newState);
+    } else {
+      console.error(`Expected gameId ${gameId}, got ${newState.gameId}`);
+    }
+  });
 
   useEffect(() => {
     if (!playerId) { return; }
@@ -48,11 +56,6 @@ function App() {
     }
   }
 
-  const quitGame = () => {
-    setStoredGameId(null);
-    setGameState({});
-  };
-
   return (
     <>
       {gameId
@@ -61,8 +64,8 @@ function App() {
             <GameProvider
               setStoredGameId={setStoredGameId}
               playerId={playerId}
-              initialGameState={gameState}
-              quitGame={quitGame}
+              gameState={gameState}
+              setGameState={setGameState}
             >
               <Game />
             </GameProvider>

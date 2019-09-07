@@ -5,8 +5,8 @@ import { useGameState } from '../GameProvider';
 
 import './Lane.scss';
 
-function Lane({ type, owner, children }) {
-  const { dispatch, currentPlayer, activePlayer, gameState } = useGameState();
+function Lane({ type, friendly = false, children }) {
+  const { dispatch, myTurn, gameState } = useGameState();
 
   const [{ isOver, canDrop }, dropRef] = useDrop({
     accept: ItemTypes.CARD,
@@ -15,7 +15,7 @@ function Lane({ type, owner, children }) {
       cardName: item.cardName,
       mode: type,
     }),
-    canDrop: _item => currentPlayer.playerId === activePlayer && gameState === 'main' && owner.playerId === currentPlayer.playerId && type !== 'hand',
+    canDrop: _item => myTurn && friendly && gameState === 'main' && type !== 'hand',
     collect: monitor => ({
       canDrop: !!monitor.canDrop(),
       isOver: !!monitor.isOver(),

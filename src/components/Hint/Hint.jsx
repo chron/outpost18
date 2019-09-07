@@ -9,7 +9,7 @@ const CHOICE_TEXT = {
 };
 
 function Hint() {
-  const { myTurn, gameState, uiMode, setChoice, currentPlayer: { plays, attackPool, globalAttackBonus } } = useGameState();
+  const { myTurn, gameState, uiMode, setChoice, player: { plays, attackPool, globalAttackBonus } } = useGameState();
   let message;
 
   if (!myTurn) {

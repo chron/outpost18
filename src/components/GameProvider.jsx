@@ -1,21 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useWebsocket } from '../hooks';
 import { gameAction } from '../lib/apiClient';
 import cards from '../logic/cards';
 import Waiting from './Waiting';
 
 const GameContext = React.createContext();
 
-function GameProvider({ initialGameState, setStoredGameId, playerId, quitGame, children }) {
-  const { gameId } = initialGameState;
+function GameProvider({ gameState, setGameState, setStoredGameId, playerId, children }) {
+  const { gameId, player, opponent } = gameState;
 
-  const [gameState, setGameState] = useState(initialGameState);
   const [uiMode, setUiMode] = useState(null);
-
-  // TODO: not sure if this is necessary now?
-  const updateStateIfNewer = (newState) => {
-    if (newState.tick > gameState.tick) { setGameState(newState); }
-  };
 
   const setChoice = (choice) => {
     if (choice === null) {
@@ -26,8 +19,6 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, quitGame, c
     const { type, callback, ...choiceArgs } = choice;
 
     let validTargets = [];
-    const player = gameState.players.find(p => p.playerId === playerId);
-    const opponent = gameState.players.find(p => p.playerId !== playerId);
 
     if (type === 'ship') {
       validTargets = opponent.inPlay.filter(s => s.mode === 'ship').map(s => s.cardName);
@@ -45,6 +36,11 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, quitGame, c
     }
   };
 
+  const quitGame = () => {
+    setStoredGameId(null);
+    setGameState({});
+  };
+
   const toggleSelection = (choice) => {
     let selected = uiMode.selected.slice();
     const choiceIndex = selected.indexOf(choice);
@@ -58,8 +54,6 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, quitGame, c
     setUiMode({ ...uiMode, selected });
   };
 
-  useWebsocket(playerId, gameId, updateStateIfNewer);
-
   // When the game ends, clear the saved gameId out.
   // That means on page refresh you'll get the welcome screen again.
   useEffect(() => {
@@ -69,13 +63,13 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, quitGame, c
   }, [gameState.gameState, setStoredGameId]);
 
   const dispatch = (action) => {
-    gameAction(playerId, gameId, action).then(updateStateIfNewer);
+    gameAction(playerId, gameId, action).then(setGameState);
   };
 
   const resignAndQuit = () => {
     dispatch({ type: 'resign' });
     quitGame();
-  }
+  };
 
   const gameStateValue = {
     ...gameState,
@@ -85,9 +79,7 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, quitGame, c
     setChoice,
     toggleSelection,
     resignAndQuit,
-    currentPlayer: gameState.players.find(p => p.playerId === playerId),
-    opponent: gameState.players.find(p => p.playerId !== playerId),
-    myTurn: playerId === gameState.activePlayer,
+    myTurn: gameState.activePlayer === 'player',
   };
 
   return (

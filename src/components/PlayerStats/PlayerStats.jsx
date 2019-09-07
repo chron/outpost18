@@ -1,12 +1,8 @@
 import React from 'react';
-import { useGameState } from '../GameProvider';
-import EndTurnButton from '../EndTurnButton';
 import { resources, sumResourceForPlayer } from '../../utils';
-
 import './PlayerStats.scss';
 
-function PlayerStats({ player, position = 'bottom' }) {
-  const { currentPlayer } = useGameState();
+function PlayerStats({ player, position = 'bottom', children }) {
   const { name, hand, handSize, plays, attackPool } = player;
 
   return (
@@ -38,7 +34,7 @@ function PlayerStats({ player, position = 'bottom' }) {
         })}
       </div>
 
-      {currentPlayer.playerId === player.playerId && <EndTurnButton />}
+      {children}
     </div>
   );
 }

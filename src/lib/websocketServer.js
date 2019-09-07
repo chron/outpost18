@@ -15,7 +15,7 @@ function fireEventAsync(channel, event, message, socketId) {
   });
 }
 
-export async function fireEvent(gameId, playerId, eventType, message) {
+export async function fireEvent(playerId, eventType, message) {
   // TODO: we need to auth these so you can't listen on other people's channels
-  return fireEventAsync(`${playerId}-${gameId}`, eventType, message);
+  return fireEventAsync(`user-${playerId}`, eventType, message);
 }

@@ -8,6 +8,7 @@
   padding: 5px;
   margin: 0 5px;
   box-shadow: $card-shadow;
+  outline: none; // TODO: accessibility
 
   &--ready {
     cursor: pointer;

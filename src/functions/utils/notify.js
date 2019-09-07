@@ -4,7 +4,7 @@ import { fireEvent } from '../../lib/websocketServer';
 export async function gameStateUpdate(state, gameId, playerId) {
   const serialization = gameStatePresenter(state, gameId, playerId);
 
-  return fireEvent(gameId, playerId, 'gameStateUpdate', serialization);
+  return fireEvent(playerId, 'gameStateUpdate', serialization);
 }
 
 export async function notifyOpponent(state, gameId, playerId) {

@@ -4,15 +4,14 @@ import ResourceIcon from '../ResourceIcon';
 import './Upgrade.scss';
 
 // TODO: refactor out some "dumb" display components that don't use context etc
-function Upgrade({ cardName, owner, inPlay = true }) {
-  const { currentPlayer, cards, dispatch, uiMode, setChoice } = useGameState();
+function Upgrade({ cardName, friendly = false, owner, inPlay = true }) {
+  const { player: { attackPool }, cards, dispatch, uiMode, setChoice } = useGameState();
   const { shields, defender, ion, labour, ore, draws } = cards.find(c => c.name === cardName);
 
-  const enemy = owner && owner.playerId !== currentPlayer.playerId;
   const ownerUpgrades = owner ? owner.inPlay.filter(s => s.mode === 'upgrade').map(s => cards.find(c => s.cardName === c.name)) : [];
   const targetable = defender || ownerUpgrades.filter(c => c.defender).length === 0;
-  const destroyable = !uiMode && enemy && targetable && currentPlayer.attackPool >= shields;
-  const selectable = inPlay && enemy && uiMode && uiMode.mode === 'choice' && uiMode.type === 'upgrade' && cardName !== 'Station Core';
+  const destroyable = inPlay && !uiMode && !friendly && targetable && attackPool >= shields;
+  const selectable = inPlay && !friendly && uiMode && uiMode.mode === 'choice' && uiMode.type === 'upgrade' && cardName !== 'Station Core';
   // TODO: would be nice to un-hardcode Station Core here somehow
 
   let onClick;
@@ -32,7 +31,7 @@ function Upgrade({ cardName, owner, inPlay = true }) {
     <div
       role="button"
       tabIndex="0"
-      className={`upgrade ${inPlay ? '' : 'upgrade--static'} ${enemy ? 'upgrade--enemy' : ''} ${interactable ? 'upgrade--destroyable' : ''}`}
+      className={`upgrade ${inPlay ? '' : 'upgrade--static'} ${friendly ? '' : 'upgrade--enemy'} ${interactable ? 'upgrade--destroyable' : ''}`}
       onClick={onClick}
       title={cardName}
     >
