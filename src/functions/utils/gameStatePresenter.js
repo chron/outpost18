@@ -16,12 +16,12 @@ export default function gameStatePresenter(gameState, gameId, playerId) {
       ...player,
       playerId: undefined,
     },
-    opponent: {
+    opponent: opponent ? {
       ...opponent,
       playerId: undefined,
       hand: undefined,
       handSize: opponent.hand.length,
-    },
+    } : undefined,
     deckSize: gameState.deck.length,
     gameId,
   };

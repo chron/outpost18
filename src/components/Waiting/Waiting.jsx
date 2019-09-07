@@ -1,6 +1,5 @@
 import React from 'react';
 import { useGameState } from '../GameProvider';
-import './Waiting.scss';
 
 function Waiting() {
   const { joinCode, resignAndQuit } = useGameState();

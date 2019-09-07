@@ -5,7 +5,7 @@ import Waiting from './Waiting';
 
 const GameContext = React.createContext();
 
-function GameProvider({ gameState, setGameState, setStoredGameId, playerId, children }) {
+function GameProvider({ gameState, rematch, updateGameState, setStoredGameId, playerId, children }) {
   const { gameId, player, opponent } = gameState;
 
   const [uiMode, setUiMode] = useState(null);
@@ -36,11 +36,6 @@ function GameProvider({ gameState, setGameState, setStoredGameId, playerId, chil
     }
   };
 
-  const quitGame = () => {
-    setStoredGameId(null);
-    setGameState({});
-  };
-
   const toggleSelection = (choice) => {
     let selected = uiMode.selected.slice();
     const choiceIndex = selected.indexOf(choice);
@@ -63,12 +58,16 @@ function GameProvider({ gameState, setGameState, setStoredGameId, playerId, chil
   }, [gameState.gameState, setStoredGameId]);
 
   const dispatch = (action) => {
-    gameAction(playerId, gameId, action).then(setGameState);
+    gameAction(playerId, gameId, action).then(updateGameState);
   };
 
   const resignAndQuit = () => {
-    dispatch({ type: 'resign' });
-    quitGame();
+    if (gameState.gameState !== 'finished') {
+      dispatch({ type: 'resign' });
+    }
+
+    setStoredGameId(null);
+    updateGameState({});
   };
 
   const gameStateValue = {
@@ -79,6 +78,7 @@ function GameProvider({ gameState, setGameState, setStoredGameId, playerId, chil
     setChoice,
     toggleSelection,
     resignAndQuit,
+    rematch,
     myTurn: gameState.activePlayer === 'player',
   };
 
