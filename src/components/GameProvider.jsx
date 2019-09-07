@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useWebsocket } from '../hooks';
 import { gameAction } from '../lib/apiClient';
 import cards from '../logic/cards';
-import Alert from './Alert';
+import Waiting from './Waiting';
 
 const GameContext = React.createContext();
 
-function GameProvider({ initialGameState, setStoredGameId, playerId, children }) {
+function GameProvider({ initialGameState, setStoredGameId, playerId, quitGame, children }) {
   const { gameId } = initialGameState;
 
   const [gameState, setGameState] = useState(initialGameState);
@@ -63,7 +63,7 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   // When the game ends, clear the saved gameId out.
   // That means on page refresh you'll get the welcome screen again.
   useEffect(() => {
-    if (gameState.gameState === 'finished') {
+    if (gameState.gameState === 'finished' || gameState.gameState === 'abandoned') {
       setStoredGameId(null);
     }
   }, [gameState.gameState, setStoredGameId]);
@@ -72,6 +72,11 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
     gameAction(playerId, gameId, action).then(updateStateIfNewer);
   };
 
+  const resignAndQuit = () => {
+    dispatch({ type: 'resign' });
+    quitGame();
+  }
+
   const gameStateValue = {
     ...gameState,
     cards,
@@ -79,6 +84,7 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
     uiMode,
     setChoice,
     toggleSelection,
+    resignAndQuit,
     currentPlayer: gameState.players.find(p => p.playerId === playerId),
     opponent: gameState.players.find(p => p.playerId !== playerId),
     myTurn: playerId === gameState.activePlayer,
@@ -87,15 +93,8 @@ function GameProvider({ initialGameState, setStoredGameId, playerId, children })
   return (
     <GameContext.Provider value={gameStateValue}>
       {gameState.gameState === 'waiting'
-        ? (
-          <Alert>
-            Waiting for another player.
-            {' '}
-            Join Code:
-            {' '}
-            {gameState.joinCode}
-          </Alert>
-        ) : children
+        ? <Waiting />
+        : children
       }
     </GameContext.Provider>
   );

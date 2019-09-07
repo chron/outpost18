@@ -49,6 +49,11 @@ function App() {
     }
   }
 
+  const quitGame = () => {
+    setStoredGameId(null);
+    setGameState({});
+  };
+
   return (
     <>
       <Normalize />
@@ -59,6 +64,7 @@ function App() {
               setStoredGameId={setStoredGameId}
               playerId={playerId}
               initialGameState={gameState}
+              quitGame={quitGame}
             >
               <Game />
             </GameProvider>

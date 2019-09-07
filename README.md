@@ -6,8 +6,8 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## TODO
 
+1. Put timestamps on game start and last action - any other stuff we should record?
 1. Ionblazer should let the player choose which card to discard
-1. Choices - allow manual skip?
 1. Pick one of the two discard mechanisms and standardize on it
 1. "are you sure?" warnings for resigning / ending turn with unspent plays
 1. Tooltips and viewing the contents of the discard pile
@@ -22,6 +22,7 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## Tech debt stuff that might be worthwhile
 
+1. SCSS linting
 1. Error handling, probably a React ErrorBoundary?
 1. Test suite (Jest? React-testing-library?)
 1. Use a proper state machine lib like `xstate` for the server-side game state

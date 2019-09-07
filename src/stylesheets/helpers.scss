@@ -1,0 +1,23 @@
+.full-screen-wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.panel {
+  max-width: 60%;
+  padding: 20px;
+  border-radius: $panel-border-radius;
+  color: $panel-foreground-color;
+  background-color: $panel-background-color;
+  font-size: $font-size-body;
+  z-index: 1;
+  box-shadow: $panel-shadow;
+
+  > h1 {
+    font-size: $font-size-title;
+  }
+}

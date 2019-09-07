@@ -14,7 +14,7 @@ export default function useLocalStorage(key, defaultValue = null) {
   const setValue = (value) => {
     setStoredValue(value);
 
-    if (value === undefined) {
+    if (value === null || value === undefined) {
       localStorage.removeItem(key);
     } else {
       localStorage.setItem(key, JSON.stringify(value));

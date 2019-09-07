@@ -12,6 +12,12 @@ $panel-foreground-color: white;
 $panel-foreground-secondary-color: #DEBC51;
 
 $title-font-stack: PixelMix, 'Courier New', monospace;
+$font-size-body: 24px;
+$font-size-title: 36px;
 
 $card-shadow: 0px 0px 18px 0px rgba(0,0,0,0.53);
 $card-border-radius: 4px;
+$panel-shadow: 0px 0px 18px 0px rgba(0,0,0,0.53);
+$panel-border-radius: 10px;
+
+$highlight-color: $power-color;

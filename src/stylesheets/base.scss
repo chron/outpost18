@@ -1,0 +1,16 @@
+@import "variables";
+
+a {
+  color: $highlight-color;
+
+  &:hover {
+    cursor: pointer;
+    color: crimson;
+  }
+}
+
+em {
+  color: $highlight-color;
+  font-weight: bold;
+  font-style: normal;
+}
