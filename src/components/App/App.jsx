@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Normalize from 'react-normalize';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { GameProvider } from '../GameProvider';
@@ -56,7 +55,6 @@ function App() {
 
   return (
     <>
-      <Normalize />
       {gameId
         ? (
           <DndProvider backend={HTML5Backend}>

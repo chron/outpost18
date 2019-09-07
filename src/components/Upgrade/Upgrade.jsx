@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGameState } from '../GameProvider';
-import { resources } from '../../utils';
+import ResourceIcon from '../ResourceIcon';
 import './Upgrade.scss';
 
 // TODO: refactor out some "dumb" display components that don't use context etc
@@ -42,9 +42,9 @@ function Upgrade({ cardName, owner, inPlay = true }) {
       </div>
 
       <div className="upgrade__powers">
-        {Array(ion || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">{resources.ion.icon}</div>)}
-        {Array(labour || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">{resources.labour.icon}</div>)}
-        {Array(ore || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">{resources.ore.icon}</div>)}
+        <ResourceIcon resource="ion" num={ion} />
+        <ResourceIcon resource="labour" num={labour} />
+        <ResourceIcon resource="ore" num={ore} />
         {defender ? <div className="upgrade__power">Def</div> : ''}
         {Array(draws || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">+<br />Draw</div>)}
       </div>

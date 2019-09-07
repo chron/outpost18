@@ -1,0 +1,11 @@
+@import "../../stylesheets/variables.scss";
+
+.resource-icon, .attack-icon {
+  width: 14px;
+  vertical-align: middle;
+}
+
+// TODO: move this maybe
+.attack-icon {
+  margin-right: 1px;
+}

@@ -20,6 +20,7 @@
     "faunadb": "^2.7.0",
     "lodash.shuffle": "^4.2.0",
     "netlify-lambda": "^1.6.2",
+    "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
     "pusher": "^2.2.2",
     "pusher-js": "^5.0.1",
@@ -28,7 +29,6 @@
     "react-dnd-html5-backend": "^9.3.4",
     "react-dom": ">= 16.8",
     "react-hotkeys": "^2.0.0",
-    "react-normalize": "^0.4.3",
     "src": "^1.1.2"
   },
   "scripts": {

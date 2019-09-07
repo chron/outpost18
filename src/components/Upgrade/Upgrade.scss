@@ -27,7 +27,7 @@
   }
 
   &--static {
-    transform: rotate(90deg) translateX(-48px) translateY(-1px);
+    transform: rotate(270deg) translateX(48px) translateY(1px);
   }
 
   &__shields {
@@ -60,12 +60,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
 
     flex-grow: 1;
     font-size: 8px;
-  }
-
-  .upgrade__power {
-
   }
 }

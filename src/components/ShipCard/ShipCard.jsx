@@ -1,18 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
-import { resources, isThresholdMet } from '../../utils';
-import './ShipCard.scss';
+import { isThresholdMet } from '../../utils';
+import ResourceIcon from '../ResourceIcon';
+import attackImage from '../../assets/images/icons/attack.png';
 
-function resourceToIcons(resource, amount = 1) {
-  return Array(amount).fill(1).map(() => resources[resource].icon).join('');
-}
+import './ShipCard.scss';
 
 function thresholdToIcons(threshold) {
   if (!threshold) { return ''; }
 
   return Object.entries(threshold).map(([resource, amount]) => {
-    if (resource === 'todo') { return '😱'; }
-    return resourceToIcons(resource, amount);
+    return <ResourceIcon key={resource} num={amount} resource={resource} />
   });
 }
 
@@ -41,7 +39,7 @@ function effectToIcons(effect) {
 }
 
 function ShipCard({ card, owner = null }) {
-  const { name, attack, abilities, hyperdrive, ship_ore, ship_ion, ship_labour } = card;
+  const { name, imageUrl, attack, abilities, hyperdrive, ship_ore, ship_ion, ship_labour } = card;
 
   let passiveAbility;
 
@@ -50,17 +48,20 @@ function ShipCard({ card, owner = null }) {
   } else if (ship_ion || ship_labour || ship_ore) {
     // TODO: refactor this shipX resource nonsense
 
-    const icons = resourceToIcons('ion', ship_ion || 0) +
-      resourceToIcons('labour', ship_labour || 0) +
-      resourceToIcons('ore', ship_ore || 0);
-
-    passiveAbility = `Generates ${icons}`;
+    passiveAbility = (
+      <>
+        Generates
+        <ResourceIcon num={ship_ion} resource="ion" />
+        <ResourceIcon num={ship_labour} resource="labour" />
+        <ResourceIcon num={ship_ore} resource="ore" />
+      </>
+    );
   }
 
   return (
     <div className="card__ship">
       <div className="card__image">
-        &nbsp;
+        <img src={imageUrl} />
       </div>
 
       <div className="card__title">
@@ -88,7 +89,8 @@ function ShipCard({ card, owner = null }) {
                 'card__ability--active': !owner || isThresholdMet(threshold, owner),
               })}
             >
-              ❂[
+              <img src={attackImage} className="attack-icon" alt="attack ability" />
+              [
               {threshold
                 ? threshold.description || thresholdToIcons(threshold)
                 : null
