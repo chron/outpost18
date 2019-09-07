@@ -1,7 +1,5 @@
 // TODO: do something with these two different utils files
 import { sumResourceForPlayer } from '../utils';
-//import centurion from '../assets/images/ships/centurion.png';
-import * as images from '../assets/images/ships/*.png';
 
 const cards = [
   {
@@ -11,7 +9,6 @@ const cards = [
   },
   {
     name: 'Centurion',
-    imageUrl: images.centurion,
     attack: 2,
     shields: 3,
     ore: 1,
@@ -20,12 +17,11 @@ const cards = [
       {
         threshold: { labour: 2 },
         effect: { plays: 2 },
-      },
+    },
     ],
   },
   {
     name: 'Ionblazer',
-    imageUrl: images.ionblazer,
     attack: 2,
     shields: 2,
     ore: 1,
@@ -59,7 +55,6 @@ const cards = [
   },
   {
     name: 'Battlestar',
-    imageUrl: images.battlestar,
     attack: 2,
     shields: 3,
     defender: true,
@@ -77,7 +72,6 @@ const cards = [
   },
   {
     name: 'Epoch',
-    imageUrl: images.epoch,
     attack: 2,
     shields: 3,
     ore: 1,
@@ -95,7 +89,6 @@ const cards = [
   },
   {
     name: 'Dreadnought',
-    imageUrl: images.dreadnought,
     attack: 1,
     shields: 2,
     ore: 1,
@@ -118,7 +111,6 @@ const cards = [
   },
   {
     name: 'Destroyer',
-    imageUrl: images.destroyer,
     attack: 1,
     shields: 3,
     defender: true,
@@ -137,7 +129,6 @@ const cards = [
   },
   {
     name: 'Helix',
-    imageUrl: images.helix,
     attack: 1,
     shields: 3,
     defender: true,
@@ -167,7 +158,6 @@ const cards = [
   },
   {
     name: 'Freighter',
-    imageUrl: images.freighter,
     attack: 1,
     shields: 3,
     ore: 1,
@@ -182,7 +172,6 @@ const cards = [
   },
   {
     name: 'Falcon',
-    imageUrl: images.falcon,
     attack: 1,
     shields: 3,
     defender: true,
@@ -201,7 +190,6 @@ const cards = [
   },
   {
     name: 'Lotus',
-    imageUrl: images.lotus,
     attack: 1,
     shields: 3,
     ion: 1,
@@ -221,7 +209,6 @@ const cards = [
   },
   {
     name: 'Junkrig',
-    imageUrl: images.junkrig,
     attack: 1,
     shields: 3,
     defender: 3,
@@ -245,7 +232,6 @@ const cards = [
   },
   {
     name: 'Jackhammer',
-    imageUrl: images.jackhammer,
     attack: 1,
     shields: 2,
     ore: 2,
@@ -263,7 +249,6 @@ const cards = [
   },
   {
     name: 'Sparkwraith',
-    imageUrl: images.sparkwraith,
     attack: 1,
     shields: 2,
     ion: 1,
@@ -278,7 +263,6 @@ const cards = [
   },
   {
     name: 'Rockbreaker',
-    imageUrl: images.rockbreaker,
     attack: 2,
     shields: 2,
     ore: 1,
@@ -297,7 +281,6 @@ const cards = [
   },
   {
     name: 'Magnet',
-    imageUrl: images.magnet,
     attack: 2,
     shields: 4,
     defender: true,
@@ -326,7 +309,6 @@ const cards = [
   },
   {
     name: 'Vessel',
-    imageUrl: images.vessel,
     attack: 2,
     shields: 2,
     labour: 2,

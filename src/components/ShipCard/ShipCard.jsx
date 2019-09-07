@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { isThresholdMet } from '../../utils';
 import ResourceIcon from '../ResourceIcon';
 import attackImage from '../../assets/images/icons/attack.png';
+import * as images from '../../assets/images/ships/*.png';
 
 import './ShipCard.scss';
 
@@ -39,7 +40,7 @@ function effectToIcons(effect) {
 }
 
 function ShipCard({ card, owner = null }) {
-  const { name, imageUrl, attack, abilities, hyperdrive, ship_ore, ship_ion, ship_labour } = card;
+  const { name, attack, abilities, hyperdrive, ship_ore, ship_ion, ship_labour } = card;
 
   let passiveAbility;
 
@@ -61,7 +62,7 @@ function ShipCard({ card, owner = null }) {
   return (
     <div className="card__ship">
       <div className="card__image">
-        <img src={imageUrl} />
+        <img alt={name} src={images[name.toLowerCase()]} />
       </div>
 
       <div className="card__title">
