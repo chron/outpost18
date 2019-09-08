@@ -6,7 +6,7 @@ import Game from '../Game';
 import Welcome from '../Welcome';
 import Loading from '../Loading';
 import Error from '../Error';
-import { useLocalStorage } from '../../hooks';
+import { useLocalStorage, useWebsocket } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
 
@@ -22,6 +22,14 @@ function App() {
 
   if (!playerId) { setPlayerId(generatePlayerId()); }
 
+  // TODO: do we need some protection against the gameId changing here?
+  useWebsocket(playerId, newState => {
+    setGameState(newState);
+    if (newState.gameId !== storedGameId) {
+      setStoredGameId(newState.gameId);
+    }
+  });
+
   useEffect(() => {
     if (!playerId) { return; }
     if (gameId) { return; }
@@ -35,10 +43,10 @@ function App() {
     return <Loading />;
   }
 
-  async function joinGameFunc(joinCode) {
+  async function joinGameFunc(joinCode, rematchGameId) {
     const newState = joinCode
       ? await joinGame(joinCode, playerId, playerName)
-      : await createGame(playerId, playerName);
+      : await createGame(playerId, playerName, rematchGameId);
 
     if (newState.error) {
       setError(newState.error);
@@ -48,10 +56,20 @@ function App() {
     }
   }
 
-  const quitGame = () => {
-    setStoredGameId(null);
-    setGameState({});
+  const updateGameState = newState => {
+    if (newState.gameState === 'abandoned') {
+      setGameState({});
+    } else {
+      setGameState(newState);
+    }
   };
+
+  // TODO: confirmation
+  function rematch() {
+    if (gameState.gameState !== 'finished') { return; }
+
+    joinGameFunc(null, gameId);
+  }
 
   return (
     <>
@@ -61,8 +79,9 @@ function App() {
             <GameProvider
               setStoredGameId={setStoredGameId}
               playerId={playerId}
-              initialGameState={gameState}
-              quitGame={quitGame}
+              gameState={gameState}
+              updateGameState={updateGameState}
+              rematch={rematch}
             >
               <Game />
             </GameProvider>

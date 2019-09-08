@@ -1,19 +1,34 @@
-import { createGame } from '../lib/database';
+import { loadGame, createGame } from '../lib/database';
 import { initialGameState, addPlayerToGame } from './utils/gameManagement';
+import { notifyOpponent } from './utils/notify';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/helpers';
 
 export async function handler(event, _context,) {
-  const { playerId, playerName } = JSON.parse(event.body);
+  const { playerId, playerName, rematchGameId } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
 
   const initialState = initialGameState();
-  const gameState = addPlayerToGame(initialState, playerId, playerName);
+  let gameState = addPlayerToGame(initialState, playerId, playerName);
+
+  // If the player wants a rematch, they pass the gameId in here so we can
+  // figure out who their opponent was and invite them.
+  // TODO: confirm step
+  if (rematchGameId) {
+    const previousGameState = await loadGame(rematchGameId);
+    const opponent = previousGameState.players.find(p => p.playerId !== playerId);
+
+    gameState = addPlayerToGame(gameState, opponent.playerId, opponent.name);
+  }
 
   // Persist game data to the database
   const gameId = await createGame(gameState);
+
+  if (rematchGameId) {
+    await notifyOpponent(gameState, gameId, playerId);
+  }
 
   if (gameId) {
     return {

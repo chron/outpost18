@@ -15,7 +15,7 @@ export default function destroy(state, playerId, cardName) {
   const { inPlay } = opponent;
 
   const targetIndex = inPlay.findIndex(s => s.cardName === cardName && ['upgrade', 'base'].includes(s.mode));
-  const target = inPlay[targetIndex]
+  const target = inPlay[targetIndex];
   const card = cards.find(c => c.name === cardName);
   const defenders = inPlay
     .filter(s => s.mode === 'upgrade')
@@ -27,14 +27,20 @@ export default function destroy(state, playerId, cardName) {
   if (!card.defender && defenders.length > 0) { return state; }
 
   if (card.name === 'Station Core') {
-    return { ...state, gameState: 'finished' };
+    return {
+      ...state,
+      gameState: 'finished',
+      finishedAt: new Date().toISOString(),
+    };
   } else {
     const newOpponentInPlay = inPlay.slice();
     newOpponentInPlay.splice(targetIndex, 1);
     const newOpponent = { ...opponent, inPlay: newOpponentInPlay };
     const newHand = hand.concat(card.name);
     const newPlayer = { ...player, hand: newHand, attackPool: attackPool - card.shields };
-    const newPlayers = [newPlayer, newOpponent] // TODO: does this mess with order? Do we care?
+    const newPlayers = [];
+    newPlayers[playerIndex] = newPlayer;
+    newPlayers[opponentIndex] = newOpponent;
 
     return { ...state, players: newPlayers };
   }

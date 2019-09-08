@@ -17,6 +17,7 @@ function startGame(gameState) {
 
   return {
     ...gameState,
+    startedAt: new Date().toISOString(),
     tick: gameState.tick + 1,
     deck,
     joinCode: undefined,
@@ -35,6 +36,7 @@ export function initialGameState() {
   const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
 
   return {
+    createdAt: new Date().toISOString(),
     gameState: 'waiting',
     joinCode: generateJoinCode(),
     activePlayer: null,
@@ -57,6 +59,7 @@ export function addPlayerToGame(gameState, playerId, playerName) {
     attackPool: 0,
     hand: [],
     inPlay: [{ cardName: 'Station Core', mode: 'base' }],
+    joinedAt: new Date().toISOString(),
   });
 
   if (players.length === 2) {

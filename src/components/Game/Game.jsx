@@ -5,10 +5,11 @@ import Base from '../Base';
 import FaceDownCard from '../FaceDownCard';
 import Card from '../Card';
 import Ship from '../Ship';
-import Alert from '../Alert';
+import GameOver from '../GameOver';
 import Hint from '../Hint';
 import Upgrade from '../Upgrade';
 import PlayerStats from '../PlayerStats';
+import EndTurnButton from '../EndTurnButton';
 import Lane from '../Lane';
 import DiscardPile from '../DiscardPile';
 
@@ -16,22 +17,12 @@ import './Game.scss';
 import GameLog from '../GameLog/GameLog';
 
 const Game = () => {
-  const { currentPlayer, opponent, myTurn, gameState, dispatch, deckSize } = useGameState();
+  const { player, opponent, gameState, dispatch, deckSize } = useGameState();
 
-  const upgrades = currentPlayer.inPlay.filter(s => s.mode === 'upgrade');
-  const ships = currentPlayer.inPlay.filter(s => s.mode === 'ship');
+  const upgrades = player.inPlay.filter(s => s.mode === 'upgrade');
+  const ships = player.inPlay.filter(s => s.mode === 'ship');
   const enemyUpgrades = opponent.inPlay.filter(s => s.mode === 'upgrade');
   const enemyShips = opponent.inPlay.filter(s => s.mode === 'ship');
-
-  let alert;
-
-  if (gameState === 'finished') {
-    if (myTurn) { // TODO: activePlayer = winner is kind of unintuitive
-      alert = 'You win! Congratulations.';
-    } else {
-      alert = 'The game is over. You lost.';
-    }
-  }
 
   // TODO: reintroduce the domRef / focus stuff for keybinds
 
@@ -40,9 +31,9 @@ const Game = () => {
       <div className="game" tabIndex={-1}>
         <Hint />
         <GameLog />
-        {alert && <Alert>{alert}</Alert>}
+        {gameState === 'finished' && <GameOver />}
         <div className="lanes">
-          <Lane owner={opponent} type="upgrade">
+          <Lane>
             {enemyUpgrades.map(({ cardName }) => (
               <Upgrade
                 key={cardName}
@@ -50,14 +41,13 @@ const Game = () => {
                 cardName={cardName}
               />
             ))}
-            <Base cardName="Station Core" owner={opponent} />
+            <Base owner={opponent} />
           </Lane>
           <div />
-          <Lane owner={opponent} type="ship">
+          <Lane type="ship">
             {enemyShips.map(({ cardName, canAttack, attacking }) => (
               <Ship
                 key={cardName}
-                owner={opponent}
                 cardName={cardName}
                 canAttack={canAttack}
                 attacking={attacking}
@@ -69,11 +59,11 @@ const Game = () => {
             <FaceDownCard count={deckSize} />
           </div>
 
-          <Lane owner={currentPlayer} type="ship">
+          <Lane friendly type="ship">
             {ships.map(({ cardName, canAttack, attacking }) => (
               <Ship
                 key={cardName}
-                owner={currentPlayer}
+                friendly
                 cardName={cardName}
                 canAttack={canAttack}
                 attacking={attacking}
@@ -83,28 +73,33 @@ const Game = () => {
 
           <DiscardPile />
 
-          <Lane owner={currentPlayer} type="upgrade">
+          <Lane friendly type="upgrade">
             {upgrades.map(({ cardName }) => (
               <Upgrade
                 key={cardName}
-                owner={currentPlayer}
+                friendly
+                owner={player}
                 cardName={cardName}
               />
             ))}
-            <Base cardName="Station Core" owner={currentPlayer} />
+            <Base friendly cardName="Station Core" owner={player} />
           </Lane>
 
           <div />
 
-          <Lane owner={currentPlayer} type="hand">
-            {currentPlayer.hand.map(c => <Card inHand key={c} cardName={c} />)}
+          <Lane friendly type="hand">
+            {player.hand.map(c => (
+              <Card inHand key={c} cardName={c} />
+            ))}
           </Lane>
 
           <div />
         </div>
 
         <PlayerStats player={opponent} position="top" />
-        <PlayerStats player={currentPlayer} />
+        <PlayerStats player={player}>
+          <EndTurnButton />
+        </PlayerStats>
       </div>
     </KeyMap>
   );
