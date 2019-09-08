@@ -2,6 +2,7 @@ import React from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from '../../constants';
 import { useGameState } from '../GameProvider';
+import classNames from 'classnames';
 
 import './Lane.scss';
 
@@ -25,7 +26,11 @@ function Lane({ type, friendly = false, children }) {
   return (
     <div
       ref={dropRef}
-      className={`lane lane--${type} ${isOver ? 'lane--hovering' : ''} ${canDrop ? 'lane--active' : ''}`}
+      className={classNames('lane', `lane--${type}`, {
+        'lane--hovering': isOver,
+        'lane--active': canDrop,
+        'lane--enemy': !friendly,
+      })}
       data-hint={`Drop card here to play it as ${type === 'ship' ? 'a ship' : 'an upgrade'}`}
     >
       { children }

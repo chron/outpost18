@@ -18,6 +18,10 @@
   width: 100%;
   padding: 10px;
 
+  &--enemy {
+    transform: rotate(180deg);
+  }
+
   &--active::after {
     content: attr(data-hint);
 

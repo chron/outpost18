@@ -9,13 +9,14 @@
   margin: 0 5px;
   box-shadow: $card-shadow;
   outline: none; // TODO: accessibility
+  transition: transform 0.1s ease-out;
 
   &--ready {
     cursor: pointer;
 
     &:hover {
-      transform: scale(1.05);
-      transition: 0.1s ease-out;
+      transform: rotate(-10deg) scale(1.05);
+      z-index: 1;
     }
 
     .card__title {
@@ -24,14 +25,17 @@
     }
   }
 
-  &--attacking .card__title {
-    color: crimson;
-    border-color: currentColor;
+  &--attacking {
+    transform: rotate(270deg);
+    margin-left: 15px;
+    margin-right: 15px;
   }
 
-  &--enemy {
-    transform: rotate(180deg);
-  }
+  // &--attacking.ship--enemy {
+  //   transform: rotate(190deg);
+  // }
+
+
 
   &--ready.ship--enemy {
     // TODO: there's probably a smart way to DRY this
