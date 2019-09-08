@@ -1,10 +1,10 @@
 import cards from './logic/cards';
 
 export const resources = {
-  ore: { name: 'Ore', icon: '💎' },
-  labour: { name: 'Labour', icon: '🔧' },
-  ion: { name: 'Ion', icon: '🔋' },
-  draws: { name: 'Draws', icon: 'Draws' },
+  ore: { name: 'Ore' },
+  labour: { name: 'Labour' },
+  ion: { name: 'Ion' },
+  draws: { name: 'Draws' },
 };
 
 export function inPlayCardsOfType(inPlayCards, modes) {

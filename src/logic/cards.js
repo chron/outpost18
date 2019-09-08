@@ -17,7 +17,7 @@ const cards = [
       {
         threshold: { labour: 2 },
         effect: { plays: 2 },
-    },
+      },
     ],
   },
   {
