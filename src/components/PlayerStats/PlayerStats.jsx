@@ -1,7 +1,9 @@
 import React from 'react';
 import { resources, sumResourceForPlayer } from '../../utils';
+import ResourceIcon from '../ResourceIcon';
 import './PlayerStats.scss';
 
+// TODO: draws icon
 function PlayerStats({ player, position = 'bottom', children }) {
   const { name, hand, handSize, plays, attackPool } = player;
 
@@ -22,13 +24,18 @@ function PlayerStats({ player, position = 'bottom', children }) {
       </div>
 
       <div className="player-stats__resources">
-        {Object.entries(resources).map(([resource, { icon }]) => {
+        {Object.keys(resources).map((resource) => {
           const amount = sumResourceForPlayer(resource, player);
 
           return (
             <div key={resource} className="player-stats__resource">
               <div className="player-stats__resource-amount">{amount}</div>
-              <div className="player-stats__resource-icon">{icon}</div>
+              <div className="player-stats__resource-icon">
+                {resource === 'draws'
+                  ? 'Draws'
+                  : <ResourceIcon resource={resource} num={1} />
+                }
+              </div>
             </div>
           );
         })}

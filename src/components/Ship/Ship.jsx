@@ -9,7 +9,7 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack }) {
   const card = cards.find(c => c.name === cardName);
 
   // TODO: this is ugly
-  const availableToAttack = friendly && canAttack && myTurn && gameState === 'main' && !uiMode;
+  const availableToAttack = friendly && canAttack && !attacking && myTurn && gameState === 'main' && !uiMode;
   const availableToChoose = !friendly && uiMode && uiMode.mode === 'choice' && uiMode.type === 'ship';
 
   // TODO: need to check thresholds are active before doing this
@@ -18,7 +18,7 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack }) {
   let onClick;
 
   // TODO: probably this is a sign friendly and enemy ships should be two different components
-  if (availableToAttack && !attacking) {
+  if (availableToAttack) {
     if (abilityWithChoice) {
       const callback = (choices) => dispatch({ type: 'attack', cardName, choices });
       onClick = () => setChoice({ callback, ...abilityWithChoice.effect.choice });

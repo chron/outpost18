@@ -33,6 +33,8 @@ const Game = () => {
         <GameLog />
         {gameState === 'finished' && <GameOver />}
         <div className="lanes">
+          <div />
+
           <Lane>
             {enemyUpgrades.map(({ cardName }) => (
               <Upgrade
@@ -43,7 +45,11 @@ const Game = () => {
             ))}
             <Base owner={opponent} />
           </Lane>
-          <div />
+
+          <div className="deck">
+            <FaceDownCard count={deckSize} />
+          </div>
+
           <Lane type="ship">
             {enemyShips.map(({ cardName, canAttack, attacking }) => (
               <Ship
@@ -55,9 +61,7 @@ const Game = () => {
             ))}
           </Lane>
 
-          <div className="deck">
-            <FaceDownCard count={deckSize} />
-          </div>
+          <DiscardPile />
 
           <Lane friendly type="ship">
             {ships.map(({ cardName, canAttack, attacking }) => (
@@ -71,7 +75,7 @@ const Game = () => {
             ))}
           </Lane>
 
-          <DiscardPile />
+          <div />
 
           <Lane friendly type="upgrade">
             {upgrades.map(({ cardName }) => (
@@ -92,8 +96,6 @@ const Game = () => {
               <Card inHand key={c} cardName={c} />
             ))}
           </Lane>
-
-          <div />
         </div>
 
         <PlayerStats player={opponent} position="top" />

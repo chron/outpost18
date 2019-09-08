@@ -17,7 +17,7 @@ const cards = [
       {
         threshold: { labour: 2 },
         effect: { plays: 2 },
-    },
+      },
     ],
   },
   {
@@ -102,7 +102,16 @@ const cards = [
         effect: {
           choice: { type: 'card', max: 3 },
           description: '+I for each card discarded this way.',
-          function: (_state, _player, _opponent, discards) => {
+          function: (state, player, _opponent, discards) => {
+            discards.forEach(discard => {
+              const cardIndex = player.hand.indexOf(discard);
+
+              if (cardIndex >= 0) { // TODO: validate the else case
+                player.hand.splice(cardIndex, 1);
+                state.discards = state.discards.concat(discard);
+              }
+            });
+
             return { attack: discards.length };
           },
         },

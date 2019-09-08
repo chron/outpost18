@@ -2,21 +2,21 @@
 
 .lanes {
   display: grid;
-  grid-template-columns: 1fr 200px;
+  grid-template-columns: 160px 1fr;
   grid-gap: 10px;
   height: 100%;
-  overflow: auto;
 }
 
 .lane {
   position: relative;
   display: flex;
-  flex-basis: 0;
-  flex-grow: 1;
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 10px;
+
+  &--enemy {
+    transform: rotate(180deg);
+  }
 
   &--active::after {
     content: attr(data-hint);
