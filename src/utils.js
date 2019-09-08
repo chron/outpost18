@@ -40,7 +40,7 @@ export function isThresholdMet(threshold, owner) {
     const resourceTotals = resourceTotalsForPlayer(owner);
 
     return !Object.entries(threshold).find(([stat, amount]) => {
-      if (stat === 'description') { return true; }
+      if (stat === 'description') { return false; }
       return (resourceTotals[stat] || 0) < amount;
     });
   }

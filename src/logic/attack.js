@@ -30,6 +30,7 @@ export default function attack(state, playerId, cardName, choices) {
     // Gotcha: if `function` key is provided all other keys are ignored
     // TODO: right now the function can modify state - which is needed to apply some of the
     // more interesting effects - but this probably needs a rethink!
+
     const effectResult = effect.function
       ? effect.function(state, player, opponent, choices)
       : effect;
