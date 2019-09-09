@@ -1,5 +1,7 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/animations.scss";
 
 .alert {
-  font-size: 36px;
+  opacity: 0;
+  animation: fadeout 4s;
 }

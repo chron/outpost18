@@ -2,7 +2,7 @@ import { loadGameByJoinCode, saveGame } from '../lib/database';
 import { notifyOpponent } from './utils/notify';
 import { addPlayerToGame } from './utils/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
-import { renderError } from './utils/helpers';
+import { renderError } from './utils/apiResponses';
 
 export async function handler(event, _context,) {
   const { playerId, playerName, joinCode } = JSON.parse(event.body);

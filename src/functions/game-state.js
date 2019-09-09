@@ -1,6 +1,6 @@
 import { loadGame } from '../lib/database';
 import gameStatePresenter from './utils/gameStatePresenter';
-import { renderError } from './utils/helpers';
+import { renderError } from './utils/apiResponses';
 
 export async function handler(event, _context) {
   const { playerId, gameId } = event.queryStringParameters;
