@@ -53,6 +53,7 @@ function App() {
       setError(newState.error);
     } else {
       setGameState(newState);
+      setLastSeenTick(null);
       setStoredGameId(newState.gameId);
     }
   }
@@ -76,7 +77,7 @@ function App() {
     <>
       <DndProvider backend={HTML5Backend}>
         <Nav
-          gameAlert={!lastSeenTick || lastSeenTick < gameState.tick}
+          gameAlert={lastSeenTick < gameState.tick}
         />
 
         <Router>

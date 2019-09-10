@@ -36,9 +36,9 @@ const Game = () => {
     <KeyMap dispatch={dispatch} handlers={keyHandlers}>
       <div className="game" tabIndex={-1}>
         <Hint />
-        {showGameLog && <GameLog />}
-        {gameState === 'finished' && <GameOver />}
-        {myTurn && <Alert>Your turn.</Alert>}
+        {showGameLog ? <GameLog /> : null}
+        {gameState === 'finished' ? <GameOver /> : null}
+        {myTurn && gameState === 'main' ? <Alert>Your turn.</Alert> : null}
         <div className="lanes">
           <div />
 
