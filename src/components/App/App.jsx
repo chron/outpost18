@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { Router } from '@reach/router';
+import { Router, Redirect } from '@reach/router';
 import GamePage from '../../pages/GamePage';
 import AllCardsPage from '../../pages/AllCardsPage';
 import Nav from '../Nav';
@@ -81,7 +81,6 @@ function App() {
 
         <Router>
           <GamePage
-            default
             path="game"
             gameId={gameId}
             setStoredGameId={setStoredGameId}
@@ -95,6 +94,7 @@ function App() {
             setLastSeenTick={setLastSeenTick}
           />
           <AllCardsPage path="cards" />
+          <Redirect noThrow from="/" to="game" />
         </Router>
       </DndProvider>
 
