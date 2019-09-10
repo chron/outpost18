@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { GameProvider } from '../GameProvider';
-import Game from '../Game';
-import Welcome from '../Welcome';
+import { Router } from '@reach/router';
+import GamePage from '../../pages/GamePage';
+import AllCardsPage from '../../pages/AllCardsPage';
+import Nav from '../Nav';
 import Loading from '../Loading';
 import Error from '../Error';
 import { useLocalStorage, useWebsocket } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
-
 import './App.scss';
 
 function App() {
@@ -73,27 +73,26 @@ function App() {
 
   return (
     <>
-      {gameId
-        ? (
-          <DndProvider backend={HTML5Backend}>
-            <GameProvider
-              setStoredGameId={setStoredGameId}
-              playerId={playerId}
-              gameState={gameState}
-              updateGameState={updateGameState}
-              rematch={rematch}
-            >
-              <Game />
-            </GameProvider>
-          </DndProvider>
-        ) : (
-          <Welcome
+      <DndProvider backend={HTML5Backend}>
+        <Nav />
+
+        <Router>
+          <GamePage
+            default
+            path="game"
+            gameId={gameId}
+            setStoredGameId={setStoredGameId}
+            playerId={playerId}
             playerName={playerName}
             setPlayerName={setPlayerName}
-            joinGame={joinGameFunc}
+            gameState={gameState}
+            updateGameState={updateGameState}
+            joinGameFunc={joinGameFunc}
+            rematch={rematch}
           />
-        )
-      }
+          <AllCardsPage path="cards" />
+        </Router>
+      </DndProvider>
 
       {error && <Error>{error}</Error>}
     </>

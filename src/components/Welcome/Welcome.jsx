@@ -7,7 +7,7 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
   // TODO: clear code after join?
 
   return (
-    <div className="welcome__wrapper">
+    <div className="full-screen-wrapper">
       <div className="welcome__panel">
         <div className="welcome__title">Outpost 18</div>
         <div className="welcome__subtitle">Unofficial digital version</div>

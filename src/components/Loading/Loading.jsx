@@ -3,7 +3,7 @@ import './Loading.scss';
 
 function Loading() {
   return (
-    <div className="loading__wrapper">
+    <div className="center-children">
       <div className="loading">
         Loading...
       </div>

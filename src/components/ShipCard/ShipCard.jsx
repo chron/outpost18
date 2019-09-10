@@ -82,7 +82,7 @@ function ShipCard({ card, owner = null }) {
       )}
 
       <div className="card__abilities">
-        {abilities.map(({ threshold, effect }, i) => {
+        {abilities ? abilities.map(({ threshold, effect }, i) => {
           return (
             <div
               key={i}
@@ -101,7 +101,7 @@ function ShipCard({ card, owner = null }) {
               {effectToIcons(effect)}
             </div>
           );
-        })}
+        }) : null}
       </div>
     </div>
   );

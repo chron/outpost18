@@ -15,6 +15,7 @@
     "sass": "^1.22.9"
   },
   "dependencies": {
+    "@reach/router": "^1.2.1",
     "base-64": "^0.1.0",
     "classnames": "^2.2.6",
     "faunadb": "^2.7.0",

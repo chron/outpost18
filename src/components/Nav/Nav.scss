@@ -1,0 +1,43 @@
+@import "../../stylesheets/variables.scss";
+
+.nav {
+  display: flex;
+  height: 30px;
+  width: 100%;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+
+  background-color: black;
+  color: white;
+  box-shadow: $card-shadow;
+
+  &__logo {
+    font-family: $title-font-stack;
+    margin: 0 10px 0 20px;
+    padding-top: 4px;
+  }
+
+  &__item {
+    display: block;
+    height: 100%;
+    padding: 2px 10px 0 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+
+    &--active {
+      color: black;
+      background-color: $panel-foreground-secondary-color;
+    }
+
+    &--active:hover {
+      color: black;
+    }
+
+    &:not(&--active):hover {
+      border-color: currentColor;
+      color: darken($panel-foreground-secondary-color, 10%);
+    }
+  }
+}

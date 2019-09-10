@@ -5,7 +5,7 @@ function Waiting() {
   const { joinCode, resignAndQuit } = useGameState();
 
   return (
-    <div className="full-screen-wrapper">
+    <div className="center-children">
       <div className="panel waiting">
         <h1>Waiting for your opponent...</h1>
         <p>
