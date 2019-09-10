@@ -6,12 +6,12 @@ function EndTurnButton() {
   const { dispatch, gameState, myTurn } = useGameState();
 
   // TODO: warnings about leftover plays / pool?
-  // disabled={!myTurn || gameState !== 'main'}
 
   return (
     <button
       type="button"
       className="button end-turn"
+      disabled={!myTurn || gameState !== 'main'}
       onClick={() => dispatch({ type: 'endTurn' })}
     >
       End Turn

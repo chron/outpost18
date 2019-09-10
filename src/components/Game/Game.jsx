@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGameState } from '../GameProvider';
 import KeyMap from '../KeyMap';
 import Base from '../Base';
@@ -7,6 +7,7 @@ import Card from '../Card';
 import Ship from '../Ship';
 import GameOver from '../GameOver';
 import Hint from '../Hint';
+import Alert from '../Alert';
 import Upgrade from '../Upgrade';
 import PlayerStats from '../PlayerStats';
 import EndTurnButton from '../EndTurnButton';
@@ -17,7 +18,8 @@ import './Game.scss';
 import GameLog from '../GameLog/GameLog';
 
 const Game = () => {
-  const { player, opponent, gameState, dispatch, deckSize } = useGameState();
+  const { player, opponent, myTurn, gameState, dispatch, deckSize } = useGameState();
+  const [showGameLog, setShowGameLog] = useState(false);
 
   const upgrades = player.inPlay.filter(s => s.mode === 'upgrade');
   const ships = player.inPlay.filter(s => s.mode === 'ship');
@@ -26,12 +28,17 @@ const Game = () => {
 
   // TODO: reintroduce the domRef / focus stuff for keybinds
 
+  const keyHandlers = {
+    TOGGLE_GAME_LOG: () => setShowGameLog(current => !current),
+  };
+
   return (
-    <KeyMap dispatch={dispatch}>
+    <KeyMap dispatch={dispatch} handlers={keyHandlers}>
       <div className="game" tabIndex={-1}>
         <Hint />
-        <GameLog />
-        {gameState === 'finished' && <GameOver />}
+        {showGameLog ? <GameLog /> : null}
+        {gameState === 'finished' ? <GameOver /> : null}
+        {myTurn && gameState === 'main' ? <Alert>Your turn.</Alert> : null}
         <div className="lanes">
           <div />
 

@@ -6,3 +6,8 @@
   publish = "dist"
   command = "yarn run start"
   port = 1234
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

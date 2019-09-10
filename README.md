@@ -6,7 +6,8 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## TODO
 
-1. Put timestamps on game start and last action - any other stuff we should record?
+1. Track a version (or GIT SHA) and show it somewhere on the main UI
+1. top nav with sections using reach-router
 1. Ionblazer should let the player choose which card to discard
 1. Pick one of the two discard mechanisms and standardize on it
 1. "are you sure?" warnings for resigning / ending turn with unspent plays

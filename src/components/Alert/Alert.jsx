@@ -4,7 +4,7 @@ import './Alert.scss';
 function Alert({ children }) {
   return (
     <div className="full-screen-wrapper">
-      <div className="panel">
+      <div className="panel alert">
         <h1>{children}</h1>
       </div>
     </div>
