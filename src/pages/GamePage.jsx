@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GameProvider } from '../components/GameProvider';
 import Game from '../components/Game';
 import Welcome from '../components/Welcome';
@@ -13,7 +13,12 @@ export default function GamePage({
   updateGameState,
   joinGameFunc,
   rematch,
+  setLastSeenTick,
 }) {
+  useEffect(() => {
+    setLastSeenTick(gameState.tick);
+  }, [gameState.tick, setLastSeenTick]);
+
   if (gameId) {
     return (
       <GameProvider

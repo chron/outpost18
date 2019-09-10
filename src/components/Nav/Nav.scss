@@ -18,9 +18,10 @@
   }
 
   &__item {
-    display: block;
+    display: flex;
+    align-items: center;
     height: 100%;
-    padding: 2px 10px 0 10px;
+    padding: 0 10px;
     text-decoration: none;
     color: white;
     font-weight: bold;
@@ -39,5 +40,16 @@
       border-color: currentColor;
       color: darken($panel-foreground-secondary-color, 10%);
     }
+  }
+
+  &__badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
+    margin-left: 5px;
+    border-radius: 50%;
+    background-color: $power-color;
   }
 }

@@ -13,14 +13,21 @@ const NavLink = props => (
   />
 );
 
-function Nav() {
+function Nav({ gameAlert }) {
   return (
     <div className="nav">
       <div className="nav__logo">
         Outpost 18
       </div>
 
-      <NavLink to="/game">Game</NavLink>
+      <NavLink to="/game">
+        Game
+        {gameAlert ? (
+          <div title="New activity!" className="nav__badge">
+            !
+          </div>
+        ) : null}
+      </NavLink>
       <NavLink to="/cards">Cards</NavLink>
     </div>
   );

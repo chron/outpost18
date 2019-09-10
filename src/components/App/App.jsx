@@ -14,6 +14,7 @@ import './App.scss';
 
 function App() {
   const [gameState, setGameState] = useState({});
+  const [lastSeenTick, setLastSeenTick] = useState(null);
   const [error, setError] = useState(null);
   const [playerId, setPlayerId] = useLocalStorage('playerId');
   const [playerName, setPlayerName] = useLocalStorage('playerName', 'Player');
@@ -74,7 +75,9 @@ function App() {
   return (
     <>
       <DndProvider backend={HTML5Backend}>
-        <Nav />
+        <Nav
+          gameAlert={!lastSeenTick || lastSeenTick < gameState.tick}
+        />
 
         <Router>
           <GamePage
@@ -89,6 +92,7 @@ function App() {
             updateGameState={updateGameState}
             joinGameFunc={joinGameFunc}
             rematch={rematch}
+            setLastSeenTick={setLastSeenTick}
           />
           <AllCardsPage path="cards" />
         </Router>
