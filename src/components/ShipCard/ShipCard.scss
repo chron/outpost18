@@ -42,6 +42,7 @@
     background-color: $ship-background-color;
 
     > img {
+      height: 128px;
       transform: rotate(90deg) translateY(24px) translateX(-7px);
     }
   }

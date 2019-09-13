@@ -14,14 +14,22 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
 
         <div className="welcome__section welcome__section--vertical">
           <p>
-            This is a fan implementation of the micro cardgame Outpost 18. You can read the
+            This is a fan implementation of the micro cardgame Outpost 18 by ANGRYCYBORGGAMES. You can read the
             Outpost 18 rules <a href="http://playoutpost18.com" target="_blank">on the official site</a>.
           </p>
 
           <p>
-            This is a very early unpolished beta!
+            This version should be up to date with the
+            {' '}
+            <strong>2.4</strong>
+            {' '}
+            rules.
+          </p>
+
+          <p>
+            This is unpolished beta software!
             {' '}Bug reports and ideas are welcome.
-            {' '}You can <a href="mailto:paul@paulandemma.co.nz">email Paul</a>
+            {' '}You can <a href="mailto:paul@paulandemma.co.nz">email me</a>
             {' '}with any feedback.
           </p>
         </div>
