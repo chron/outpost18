@@ -16,7 +16,11 @@ const cards = [
     abilities: [
       {
         threshold: { labour: 2 },
-        effect: { plays: 2 },
+        effect: { plays: 1 },
+      },
+      {
+        threshold: { labour: 3 },
+        effect: { plays: 1 },
       },
     ],
   },
@@ -31,9 +35,7 @@ const cards = [
     abilities: [
       {
         threshold: { ion: 2 },
-        // TODO: verify that destroyed ship should go to the discard pile
-        // TODO: check if this can be used with no cards in hand
-        // TODO: check if you must discard even if there are no valid targets
+        // TODO: let people opt out of this (and NOT discard if they don't destroy)
         effect: {
           choice: { type: 'ship' },
           description: 'Destroy any ship, then discard a card.',
@@ -72,10 +74,10 @@ const cards = [
   },
   {
     name: 'Epoch',
-    attack: 2,
+    attack: 1,
     shields: 3,
+    ion: 2,
     ore: 1,
-    labour: 1,
     abilities: [
       {
         threshold: { labour: 1 },
@@ -83,7 +85,7 @@ const cards = [
       },
       {
         threshold: { labour: 2 },
-        effect: { attack: 1 },
+        effect: { attack: 2 },
       },
     ],
   },
@@ -142,6 +144,7 @@ const cards = [
     shields: 3,
     defender: true,
     ore: 1,
+    ion: 1,
     abilities: [
       {
         threshold: { ore: 2 },
@@ -182,14 +185,14 @@ const cards = [
   {
     name: 'Falcon',
     attack: 1,
-    shields: 3,
-    defender: true,
-    ion: 2,
+    shields: 2,
+    ion: 1,
+    ore: 2,
     abilities: [
       {
         effect: {
           // TODO: use the symbols here
-          description: '+I per ion you generate.',
+          description: '+I for each ion you generate.',
           function: (_state, player) => {
             return { attack: sumResourceForPlayer('ion', player) };
           },
@@ -199,7 +202,7 @@ const cards = [
   },
   {
     name: 'Lotus',
-    attack: 1,
+    attack: 0,
     shields: 3,
     ion: 1,
     draws: 1,
@@ -220,7 +223,7 @@ const cards = [
     name: 'Junkrig',
     attack: 1,
     shields: 3,
-    defender: 3,
+    defender: true,
     labour: 1,
     draws: 1,
     abilities: [
@@ -242,9 +245,10 @@ const cards = [
   {
     name: 'Jackhammer',
     attack: 1,
-    shields: 2,
-    ore: 2,
+    shields: 3,
+    labour: 1,
     ion: 1,
+    defender: true,
     abilities: [
       {
         threshold: { ore: 2 },
@@ -290,7 +294,7 @@ const cards = [
   },
   {
     name: 'Magnet',
-    attack: 2,
+    attack: 1,
     shields: 4,
     defender: true,
     ion: 1,
@@ -299,7 +303,6 @@ const cards = [
       {
         threshold: { labour: 1, ore: 1 },
         effect: {
-          // TODO: figure out if this is optional?
           choice: { type: 'ship' },
           description: "Return an opponent's ship to their hand.",
           function: (_state, _player, opponent, cardNameToReturn) => {
@@ -318,7 +321,7 @@ const cards = [
   },
   {
     name: 'Vessel',
-    attack: 2,
+    attack: 1,
     shields: 2,
     labour: 2,
     ion: 1,

@@ -6,18 +6,17 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## TODO
 
+1. "Your turn" message shows up on main phase but should show up for discards!
 1. Track a version (or GIT SHA) and show it somewhere on the main UI
-1. top nav with sections using reach-router
 1. Ionblazer should let the player choose which card to discard
 1. Pick one of the two discard mechanisms and standardize on it
 1. "are you sure?" warnings for resigning / ending turn with unspent plays
 1. Tooltips and viewing the contents of the discard pile
 1. Public/private flag for games and a lobby screen listing public `waiting` ones.
-1. Card art, human-friendly text, and layout
+1. Typesetting and make sure text doesn't overflow the ability boxes.
 1. Animations!
 1. Auth / Login?
-1. Highlight abilities where the threshold is met
-1. DragPreview for cards - remove opacity at least?
+1. DragPreview for cards - remove opacity
 1. Dragged cards take a split second before they disappear which looks weird
 1. It's possible (though VERY unlikely) for generated gameCodes to collide
 
@@ -40,26 +39,25 @@ Based on [Outpost 18](http://playoutpost18.com)
 ## Dev setup
 
 1. `yarn install`
-1. `npm install netlify-cli -g`
+1. `npm i -g netlify-cli`
 1. `netlify init` and login so you'll have access to the environment variables
 1. `netlify dev`
 1. Browse to http://localhost:8888
 
 ## Seeding a new database
 
-(TODO: make an idempotent script to do this)
-
-1. Create a database called `outpost18`
-1. Create a collection called `games`
+1. `yarn run db:bootstrap`
 
 ## Environment Variables
 
-* FAUNADB_SECRET_KEY_DEV - dev key, set in your local .env
-* FAUNADB_SECRET_KEY - prod key, comes from Netlify
-* PUSHER_APP_ID
-* PUSHER_KEY
-* PUSHER_SECRET
-* PUSHER_CLUSTER
+| Environment Variable | Description |
+| --- | --- |
+| FAUNADB_SECRET_KEY_DEV| dev key for Fauna, set in your local .env|
+| FAUNADB_SECRET_KEY| prod key for Fauna, comes from Netlify |
+| PUSHER_APP_ID | Pusher App used by the server-side websocket connection |
+| PUSHER_KEY | Pusher Key used by websocket client and server |
+| PUSHER_SECRET ||
+| PUSHER_CLUSTER ||
 
 ## Thanks etc
 

@@ -37,6 +37,7 @@ export function initialGameState() {
 
   return {
     createdAt: new Date().toISOString(),
+    ruleset: '2.4',
     gameState: 'waiting',
     joinCode: generateJoinCode(),
     activePlayer: null,
