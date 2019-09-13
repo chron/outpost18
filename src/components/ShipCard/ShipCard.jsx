@@ -40,6 +40,8 @@ function effectToIcons(effect) {
 }
 
 function ShipCard({ card, owner = null }) {
+  console.log(card.name, owner);
+
   const { name, attack, abilities, hyperdrive, ship_ore, ship_ion, ship_labour } = card;
 
   let passiveAbility;
