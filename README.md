@@ -12,13 +12,11 @@ Based on [Outpost 18](http://playoutpost18.com)
 1. Pick one of the two discard mechanisms and standardize on it
 1. "are you sure?" warnings for resigning / ending turn with unspent plays
 1. Tooltips and viewing the contents of the discard pile
-1. Public/private flag for games and a lobby screen listing public `waiting` ones.
 1. Typesetting and make sure text doesn't overflow the ability boxes.
 1. Animations!
 1. Auth / Login?
 1. DragPreview for cards - remove opacity
 1. Dragged cards take a split second before they disappear which looks weird
-1. It's possible (though VERY unlikely) for generated gameCodes to collide
 
 ## Tech debt stuff that might be worthwhile
 
@@ -27,7 +25,6 @@ Based on [Outpost 18](http://playoutpost18.com)
 1. Test suite (Jest? React-testing-library?)
 1. Use a proper state machine lib like `xstate` for the server-side game state
 1. Use localStorage or something in dev mode instead of Fauna - and dev Pusher environment too!
-1. Move `cards` out of the context since it never changes?
 
 ## Cool ideas that may or may not get implemented
 

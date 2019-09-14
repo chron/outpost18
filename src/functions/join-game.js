@@ -1,5 +1,5 @@
 import { loadGameByJoinCode, saveGame } from '../lib/database';
-import { notifyOpponent } from './utils/notify';
+import { notifyOpponent, refreshLobby } from './utils/notify';
 import { addPlayerToGame } from './utils/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
@@ -21,6 +21,10 @@ export async function handler(event, _context) {
 
   await saveGame(gameId, gameState);
   await notifyOpponent(gameState, gameId, playerId);
+
+  if (gameState.publicGame) {
+    await refreshLobby();
+  }
 
   return {
     statusCode: 200,

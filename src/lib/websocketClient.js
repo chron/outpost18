@@ -4,11 +4,11 @@ const client = new Pusher(process.env.PUSHER_KEY, {
   cluster: process.env.PUSHER_CLUSTER,
 });
 
-export function subscribe(playerId, callback) {
-  const channel = client.subscribe(`user-${playerId}`);
-  channel.bind('gameStateUpdate', callback);
+export function subscribe(channelName, callback) {
+  const channel = client.subscribe(channelName);
+  channel.bind_global(callback);
 }
 
-export function unsubscribe(playerId) {
-  client.unsubscribe(`user-${playerId}`);
+export function unsubscribe(channelName) {
+  client.unsubscribe(channelName);
 }

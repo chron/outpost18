@@ -27,7 +27,9 @@ function App() {
   if (!playerId) { setPlayerId(generatePlayerId()); }
 
   // TODO: do we need some protection against the gameId changing here?
-  useWebsocket(playerId, newState => {
+  useWebsocket(`user-${playerId}`, (event, newState) => {
+    if (event !== 'gameStateUpdate') { return; }
+
     setGameState(newState);
     if (newState.gameId !== storedGameId) {
       setStoredGameId(newState.gameId);
@@ -50,7 +52,7 @@ function App() {
   async function joinGameFunc(joinCode, rematchGameId) {
     const newState = joinCode
       ? await joinGame(joinCode, playerId, playerName)
-      : await createGame(playerId, playerName, false, rematchGameId);
+      : await createGame(playerId, playerName, true, rematchGameId);
 
     if (newState.error) {
       setError(newState.error);
@@ -80,7 +82,7 @@ function App() {
     <>
       <DndProvider backend={HTML5Backend}>
         <Nav
-
+          gameId={gameId}
           gameAlert={lastSeenTick < gameState.tick}
         />
 

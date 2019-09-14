@@ -1,5 +1,5 @@
 import { loadGame, saveGame } from '../lib/database';
-import { notifyOpponent } from './utils/notify';
+import { notifyOpponent, refreshLobby } from './utils/notify';
 import reducer from '../logic/reducer';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
@@ -18,6 +18,11 @@ export async function handler(event, _context) {
 
   await saveGame(gameId, newState); // TODO: check success?
   await notifyOpponent(newState, gameId, playerId);
+
+  if (newState.publicGame && newState.gameState === 'abandoned') {
+    // A waiting game was abandoned so we should refresh the lobby
+    await refreshLobby();
+  }
 
   return {
     statusCode: 200,

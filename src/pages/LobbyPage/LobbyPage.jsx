@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@reach/router';
 import { openGames } from '../../lib/apiClient';
+import { useWebsocket } from '../../hooks';
 import Loading from '../../components/Loading';
-
 import './LobbyPage.scss';
 
 // TODO: div -> panel later
 export default function LobbyPage() {
   const [games, setGames] = useState(null);
 
-  // TODO: websocket refresh
+  useWebsocket('lobby', (event, newGamesList) => {
+    if (event !== 'refreshLobby') { return; }
+
+    setGames(newGamesList);
+  });
 
   useEffect(() => {
     openGames().then(result => setGames(result));

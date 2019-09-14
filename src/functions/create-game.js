@@ -1,6 +1,6 @@
 import { loadGame, createGame } from '../lib/database';
 import { initialGameState, addPlayerToGame } from './utils/gameManagement';
-import { notifyOpponent } from './utils/notify';
+import { notifyOpponent, refreshLobby } from './utils/notify';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
 
@@ -29,6 +29,10 @@ export async function handler(event, _context) {
 
   if (rematchGameId) {
     await notifyOpponent(gameState, gameId, playerId);
+  }
+
+  if (publicGame) {
+    await refreshLobby();
   }
 
   if (gameId) {
