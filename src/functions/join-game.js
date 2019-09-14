@@ -4,7 +4,7 @@ import { addPlayerToGame } from './utils/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
 
-export async function handler(event, _context,) {
+export async function handler(event, _context) {
   const { playerId, playerName, joinCode } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }

@@ -9,7 +9,7 @@ const CLIENT_TIMEOUT_GRACE_PERIOD = 1000;
 
 // TODO: draws icon
 function PlayerStats({ player, friendly = false, children }) {
-  const { activePlayer, turnStartedAt, settings, dispatch } = useGameState();
+  const { activePlayer, gameInProgress, turnStartedAt, settings, dispatch } = useGameState();
   const turnLength = settings && settings.turnLength;
   const { name, hand, handSize, plays, attackPool } = player;
   const [timeLeft, setTimeLeft] = useState();
@@ -27,7 +27,7 @@ function PlayerStats({ player, friendly = false, children }) {
         const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
         const turnTimeRemaining = Math.max(0, (turnEndsAt - new Date().getTime()) / 1000);
 
-        if (!sentTimeout && turnTimeRemaining <= 0 && !friendly) {
+        if (!sentTimeout && turnTimeRemaining <= 0 && !friendly && gameInProgress) {
           setSentTimeout(true);
           dispatch({ type: 'timeout' });
         }

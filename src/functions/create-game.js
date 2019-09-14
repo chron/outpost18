@@ -4,13 +4,14 @@ import { notifyOpponent } from './utils/notify';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
 
-export async function handler(event, _context,) {
-  const { playerId, playerName, rematchGameId } = JSON.parse(event.body);
+export async function handler(event, _context) {
+  const { playerId, playerName, rematchGameId, publicGame } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
 
-  const initialState = initialGameState();
+  const initialState = initialGameState(publicGame);
+
   let gameState = addPlayerToGame(initialState, playerId, playerName);
 
   // If the player wants a rematch, they pass the gameId in here so we can

@@ -13,7 +13,7 @@ const NavLink = props => (
   />
 );
 
-function Nav({ gameAlert }) {
+function Nav({ gameAlert, gameId }) {
   return (
     <div className="nav">
       <div className="nav__logo">
@@ -28,6 +28,7 @@ function Nav({ gameAlert }) {
           </div>
         ) : null}
       </NavLink>
+      {gameId || true ? null : <NavLink to="/lobby">Lobby</NavLink>}
       <NavLink to="/cards">Cards</NavLink>
     </div>
   );

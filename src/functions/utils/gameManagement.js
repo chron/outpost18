@@ -30,18 +30,19 @@ function startGame(gameState) {
 }
 
 function generateJoinCode() {
-  // TODO: ensure uniqueness via the DB index
+  // TODO: deal with collisions
   return Math.random().toString(36).substring(2, 7).toUpperCase();
 }
 
-export function initialGameState() {
+export function initialGameState(publicGame) {
   const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
 
   return {
     createdAt: new Date().toISOString(),
     ruleset: '2.4',
+    publicGame,
     settings: {
-      turnLength: 30, // TODO: configurable
+      turnLength: publicGame ? 30 : undefined, // TODO: configurable
     },
     gameState: 'waiting',
     joinCode: generateJoinCode(),

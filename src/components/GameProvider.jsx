@@ -79,6 +79,7 @@ function GameProvider({ gameState, rematch, updateGameState, setStoredGameId, pl
     toggleSelection,
     resignAndQuit,
     rematch,
+    gameInProgress: gameState.gameState === 'main' || gameState.gameState === 'begin',
     myTurn: gameState.activePlayer === 'player',
   };
 

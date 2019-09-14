@@ -4,9 +4,12 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Router, Redirect } from '@reach/router';
 import GamePage from '../../pages/GamePage';
 import AllCardsPage from '../../pages/AllCardsPage';
+import LobbyPage from '../../pages/LobbyPage';
+import ErrorPage from '../../pages/ErrorPage';
 import Nav from '../Nav';
 import Loading from '../Loading';
 import Error from '../Error';
+import JoinGame from '../JoinGame';
 import { useLocalStorage, useWebsocket } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
@@ -47,7 +50,7 @@ function App() {
   async function joinGameFunc(joinCode, rematchGameId) {
     const newState = joinCode
       ? await joinGame(joinCode, playerId, playerName)
-      : await createGame(playerId, playerName, rematchGameId);
+      : await createGame(playerId, playerName, false, rematchGameId);
 
     if (newState.error) {
       setError(newState.error);
@@ -77,6 +80,7 @@ function App() {
     <>
       <DndProvider backend={HTML5Backend}>
         <Nav
+
           gameAlert={lastSeenTick < gameState.tick}
         />
 
@@ -95,7 +99,10 @@ function App() {
             setLastSeenTick={setLastSeenTick}
           />
           <AllCardsPage path="cards" />
-          <Redirect noThrow from="/" to="game" />
+          <LobbyPage path="lobby" />
+          <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />
+          <ErrorPage default />
+          <Redirect from="/" to="game" />
         </Router>
       </DndProvider>
 

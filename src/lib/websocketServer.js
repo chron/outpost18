@@ -15,6 +15,22 @@ function fireEventAsync(channel, event, message, socketId) {
   });
 }
 
+function queryAsync(path, params = {}) {
+  return new Promise((resolve, reject) => {
+    client.get({ path, params }, (err, _req, response) => {
+      if (response.statusCode !== 200) { return reject(err); }
+      return resolve(JSON.parse(response.body));
+    });
+  });
+}
+
+// FIXME: this doesn't seem to work
+export async function isPlayerActive(playerId) {
+  const r = await queryAsync(`/channels/user-${playerId}`, { info: 'subscription_count' });
+  console.log(playerId, r);
+  return r.subscription_count > 0;
+}
+
 export async function fireEvent(playerId, eventType, message) {
   // TODO: we need to auth these so you can't listen on other people's channels
   return fireEventAsync(`user-${playerId}`, eventType, message);

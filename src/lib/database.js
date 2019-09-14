@@ -30,8 +30,26 @@ export async function loadGame(gameId) {
   }
 }
 
-export async function loadGameByJoinCode(joinCode) {
+export async function allPublicAndWaitingGames() {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(Match(
+          Index('games_by_privacy_and_state'),
+          true,
+          'waiting'
+        )),
+        Lambda('game', Get(Var('game')))
+      )
+    );
 
+    return r.data.map(game => game.data);
+  } catch (e) {
+    return console.error(e);
+  }
+}
+
+export async function loadGameByJoinCode(joinCode) {
   try {
     const r = await client.query(
       Map(
