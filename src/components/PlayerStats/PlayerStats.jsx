@@ -22,7 +22,7 @@ function PlayerStats({ player, friendly = false, children }) {
   }, [activePlayer]);
 
   useEffect(() => {
-    if (turnLength && belongsToActivePlayer) {
+    if (turnLength && belongsToActivePlayer && gameInProgress) {
       const timer = setInterval(() => {
         const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
         const turnTimeRemaining = Math.max(0, (turnEndsAt - new Date().getTime()) / 1000);
@@ -36,7 +36,7 @@ function PlayerStats({ player, friendly = false, children }) {
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [setTimeLeft, turnLength, turnStartedAt, sentTimeout, belongsToActivePlayer, dispatch, friendly]);
+  }, [gameInProgress, setTimeLeft, turnLength, turnStartedAt, sentTimeout, belongsToActivePlayer, dispatch, friendly]);
 
   return (
     <div className={`player-stats player-stats--${friendly ? 'bottom' : 'top'}`}>

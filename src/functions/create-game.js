@@ -21,6 +21,9 @@ export async function handler(event, _context) {
     const previousGameState = await loadGame(rematchGameId);
     const opponent = previousGameState.players.find(p => p.playerId !== playerId);
 
+    // For a rematch let's copy settings across from the original game
+    gameState.settings = previousGameState.settings;
+
     gameState = addPlayerToGame(gameState, opponent.playerId, opponent.name);
   }
 

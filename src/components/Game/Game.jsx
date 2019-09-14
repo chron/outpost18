@@ -107,7 +107,17 @@ const Game = () => {
           </Lane>
         </div>
 
-        <PlayerStats player={opponent} />
+        <PlayerStats player={opponent}>
+          <button
+            type="button"
+            className="button end-turn"
+            disabled={gameState === 'abandoned' || gameState === 'finished'}
+            onClick={() => dispatch({ type: 'resign' })}
+          >
+            Resign game
+          </button>
+        </PlayerStats>
+
         <PlayerStats friendly player={player}>
           <EndTurnButton />
         </PlayerStats>

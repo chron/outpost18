@@ -49,10 +49,10 @@ function App() {
     return <Loading />;
   }
 
-  async function joinGameFunc(joinCode, rematchGameId) {
+  async function joinGameFunc(joinCode, rematchGameId, publicGame) {
     const newState = joinCode
       ? await joinGame(joinCode, playerId, playerName)
-      : await createGame(playerId, playerName, true, rematchGameId);
+      : await createGame(playerId, playerName, publicGame, rematchGameId);
 
     if (newState.error) {
       setError(newState.error);

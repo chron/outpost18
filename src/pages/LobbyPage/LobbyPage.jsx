@@ -24,7 +24,7 @@ export default function LobbyPage() {
   return (
     <div className="page page--lobby center-children">
       <div className="panel">
-        <h1>Public games</h1>
+        <h1>Open games</h1>
 
         {games.length ? (
           <ul>
@@ -34,6 +34,11 @@ export default function LobbyPage() {
                   <Link to={`/join/${game.joinCode}`}>
                     {game.playerName}
                   </Link>
+
+                  {' '}
+                  (
+                  {new Date(game.createdAt).toLocaleString('en-us')}
+                  )
                 </li>
               );
             })}

@@ -5,7 +5,7 @@ export default function lobbyGamePresenter(state) {
     gameState,
     players: [{ name }],
     settings,
-    startedAt,
+    createdAt,
     publicGame,
   } = state;
 
@@ -16,6 +16,6 @@ export default function lobbyGamePresenter(state) {
     gameState,
     playerName: name,
     settings,
-    startedAt,
+    createdAt,
   };
 }
