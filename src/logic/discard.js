@@ -15,7 +15,10 @@ export default function discard(state, playerId, cardNames) {
 
   const newHand = hand.filter(c => !cardNames.includes(c));
   const newDiscards = state.discards.concat(cardNames);
-  const newState = { ...updatePlayer(state, playerId, { hand: newHand }), discards: newDiscards };
+  const newState = {
+    ...updatePlayer(state, playerId, { hand: newHand }),
+    discards: newDiscards,
+  };
 
   return beginTurn(newState, playerId);
 }

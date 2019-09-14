@@ -72,7 +72,7 @@ function PlayerStats({ player, friendly = false, children }) {
         })}
       </div>
 
-      {belongsToActivePlayer && turnLength ? (
+      {belongsToActivePlayer && turnLength && timeLeft ? (
         <ProgressBar current={timeLeft} max={turnLength} />
       ) : null}
 
