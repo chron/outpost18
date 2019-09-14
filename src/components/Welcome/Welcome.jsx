@@ -54,7 +54,7 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
                   type="checkbox"
                   disabled={nextGameSolo}
                   onChange={e => setNextGamePublic(e.target.checked)}
-                  checked={!nextGameSolo && nextGamePublic}
+                  checked={nextGamePublic}
                 />
                 <label htmlFor="nextGamePublic" className="welcome__label">
                   Show game in lobby
@@ -65,7 +65,10 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
                 <input
                   id="nextGameSolo"
                   type="checkbox"
-                  onChange={e => setNextGameSolo(e.target.checked)}
+                  onChange={e => {
+                    setNextGameSolo(e.target.checked);
+                    setNextGamePublic(false);
+                  }}
                   checked={nextGameSolo}
                 />
                 <label htmlFor="nextGameSolo" className="welcome__label">

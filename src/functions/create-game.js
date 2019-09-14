@@ -12,7 +12,8 @@ export async function handler(event, _context) {
   if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
 
-  const initialState = initialGameState(publicGame);
+  const settings = publicGame ? { turnLength: 60 } : {};
+  const initialState = initialGameState(publicGame, settings);
 
   let gameState = addPlayerToGame(initialState, playerId, playerName);
 

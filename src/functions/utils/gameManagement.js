@@ -39,7 +39,7 @@ export function validPlayerId(playerId) {
   return playerId !== 'AUTOMA';
 }
 
-export function initialGameState(publicGame) {
+export function initialGameState(publicGame, settings = {}) {
   const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
 
   return {
@@ -47,7 +47,8 @@ export function initialGameState(publicGame) {
     ruleset: '2.4',
     publicGame,
     settings: {
-      turnLength: publicGame ? 60 : undefined, // TODO: configurable
+      turnLength: undefined,
+      ...settings,
     },
     gameState: 'waiting',
     joinCode: generateJoinCode(),
