@@ -7,13 +7,13 @@ const NavLink = props => (
     {...props}
     getProps={({ isCurrent }) => {
       return {
-        className: `nav__item${isCurrent ? ' nav__item--active' : ''}`
-      }
+        className: `nav__item${isCurrent ? ' nav__item--active' : ''}`,
+      };
     }}
   />
 );
 
-function Nav({ gameAlert }) {
+function Nav({ gameAlert, gameId }) {
   return (
     <div className="nav">
       <div className="nav__logo">
@@ -28,7 +28,12 @@ function Nav({ gameAlert }) {
           </div>
         ) : null}
       </NavLink>
+      {gameId ? null : <NavLink to="/lobby">Lobby</NavLink>}
       <NavLink to="/cards">Cards</NavLink>
+
+      <div className="nav__version">
+        Version: {process.env.COMMIT_REF.slice(0, 7)}
+      </div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import cards from './cards';
 import { isThresholdMet } from '../utils';
+import log from './log';
 
 export default function attack(state, playerId, cardName, choices) {
   if (state.gameState !== 'main') { return state; }
@@ -23,6 +24,8 @@ export default function attack(state, playerId, cardName, choices) {
   newInPlay[shipIndex] = { ...ship, attacking: true };
   const newPlayer = { ...player, inPlay: newInPlay };
 
+  const oldAttackPool = newPlayer.attackPool;
+
   // Check and apply the ship's attack abilities
   card.abilities.forEach(({ threshold, effect }) => {
     if (threshold && !isThresholdMet(threshold, player)) { return; }
@@ -35,8 +38,8 @@ export default function attack(state, playerId, cardName, choices) {
       ? effect.function(state, player, opponent, choices)
       : effect;
 
+    // Some effects might mutate state directly and not return any result.
     if (effectResult) {
-      // Some effects might mutate state directly and not return any result.
       Object.entries(effectResult).forEach(([stat, amount]) => {
         if (stat === 'description') { return; }
 
@@ -51,7 +54,11 @@ export default function attack(state, playerId, cardName, choices) {
   // Important to update this after effects that might change the global attack bonus!
   newPlayer.attackPool += card.attack + (newPlayer.globalAttackBonus || 0);
 
+  const attackDelta = newPlayer.attackPool - oldAttackPool;
+
   const newPlayers = state.players.slice();
   newPlayers[playerIndex] = newPlayer;
-  return { ...state, players: newPlayers };
+
+  // TODO: log the abilities/targets too
+  return log({ ...state, players: newPlayers }, { playerId, action: { type: 'attack', cardName, amount: attackDelta } });
 }

@@ -47,10 +47,46 @@ async function bootstrapDatabase(secret) {
       console.error(e);
     }
   }
+
+  try {
+    await client.query(
+      CreateIndex({
+        name: 'games_by_privacy_and_state',
+        source: Collection('games'),
+        terms: [
+          { field: ['data', 'publicGame'] },
+          { field: ['data', 'gameState'] },
+        ],
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
+      CreateIndex({
+        name: 'active_games_for_player',
+        source: Collection('games'),
+        terms: [
+          { field: ['data', 'players', 'playerId'] },
+          { field: ['data', 'gameState'] },
+        ],
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
 }
 
-if (!process.env.FAUNADB_SECRET_KEY) {
+const key = process.env.FAUNADB_SECRET_KEY_DEV;
+
+if (!key) {
   throw new Error('FAUNADB_SECRET_KEY not set!');
 }
 
-bootstrapDatabase(process.env.FAUNADB_SECRET_KEY);
+bootstrapDatabase(key);

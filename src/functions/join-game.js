@@ -1,10 +1,10 @@
 import { loadGameByJoinCode, saveGame } from '../lib/database';
-import { notifyOpponent } from './utils/notify';
+import { notifyOpponent, refreshLobby } from './utils/notify';
 import { addPlayerToGame } from './utils/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
 
-export async function handler(event, _context,) {
+export async function handler(event, _context) {
   const { playerId, playerName, joinCode } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
@@ -15,12 +15,18 @@ export async function handler(event, _context,) {
 
   if (!oldGameState) { return renderError('That game could not be found.'); }
 
-  // TODO: validate player is not already in this game
+  if (oldGameState.players[0].playerId === playerId) {
+    return renderError('You are already in this game.');
+  }
 
   const gameState = addPlayerToGame(oldGameState, playerId, playerName);
 
   await saveGame(gameId, gameState);
   await notifyOpponent(gameState, gameId, playerId);
+
+  if (gameState.publicGame) {
+    await refreshLobby();
+  }
 
   return {
     statusCode: 200,

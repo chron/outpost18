@@ -3,8 +3,7 @@ import './Welcome.scss';
 
 function Welcome({ playerName, setPlayerName, joinGame }) {
   const [gameCode, setGameCode] = useState('');
-
-  // TODO: clear code after join?
+  const [nextGamePublic, setNextGamePublic] = useState(true);
 
   return (
     <div className="full-screen-wrapper">
@@ -43,7 +42,19 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
 
         <div className="welcome__section">
           <div className="welcome__item">
-            <button className="button" onClick={() => joinGame()}>Create Game</button>
+              <div className="welcome__field">
+                <input
+                  id="nextGamePublic"
+                  type="checkbox"
+                  onChange={e => setNextGamePublic(e.target.checked)}
+                  checked={nextGamePublic}
+                />
+                <label htmlFor="nextGamePublic" className="welcome__label">
+                  Show game in lobby
+                </label>
+              </div>
+              <button className="button" onClick={() => joinGame(null, null, nextGamePublic)}>Create Game</button>
+
           </div>
 
           <div className="welcome__item">

@@ -2,6 +2,7 @@ import shuffle from 'lodash.shuffle';
 import { sumResourceForPlayer } from '../utils';
 import beginTurn from './beginTurn';
 import { updatePlayer } from './utils';
+import log from './log';
 
 function drawCards(state, playerId, num) {
   let newState = state;
@@ -21,10 +22,10 @@ function drawCards(state, playerId, num) {
   newState = { ...newState, deck: newDeck };
   newState = updatePlayer(newState, playerId, { hand: newHand });
 
-  return newState;
+  return log(newState, { playerId, action: { type: 'draw', amount: num } });
 }
 
-export default function endTurn(state, playerId) {
+export default function endTurn(state, playerId, suppressLog = false) {
   if (state.gameState !== 'main') { return state; }
   if (state.activePlayer !== playerId) { return state; }
 
@@ -42,6 +43,10 @@ export default function endTurn(state, playerId) {
     globalAttackBonus: undefined,
     inPlay: nonAttackers,
   });
+
+  if (!suppressLog) {
+    newState = log(newState, { playerId, action: { type: 'endTurn' } });
+  }
 
   // Draw cards equal to your draws stat
   const draws = sumResourceForPlayer('draws', player);

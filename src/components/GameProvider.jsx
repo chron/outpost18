@@ -5,7 +5,7 @@ import Waiting from './Waiting';
 
 const GameContext = React.createContext();
 
-function GameProvider({ gameState, rematch, updateGameState, setStoredGameId, playerId, children }) {
+function GameProvider({ gameState, rematch, updateGameState, playerId, children }) {
   const { gameId, player, opponent } = gameState;
 
   const [uiMode, setUiMode] = useState(null);
@@ -49,14 +49,6 @@ function GameProvider({ gameState, rematch, updateGameState, setStoredGameId, pl
     setUiMode({ ...uiMode, selected });
   };
 
-  // When the game ends, clear the saved gameId out.
-  // That means on page refresh you'll get the welcome screen again.
-  useEffect(() => {
-    if (gameState.gameState === 'finished' || gameState.gameState === 'abandoned') {
-      setStoredGameId(null);
-    }
-  }, [gameState.gameState, setStoredGameId]);
-
   const dispatch = (action) => {
     gameAction(playerId, gameId, action).then(updateGameState);
   };
@@ -66,7 +58,6 @@ function GameProvider({ gameState, rematch, updateGameState, setStoredGameId, pl
       dispatch({ type: 'resign' });
     }
 
-    setStoredGameId(null);
     updateGameState({});
   };
 
@@ -79,6 +70,7 @@ function GameProvider({ gameState, rematch, updateGameState, setStoredGameId, pl
     toggleSelection,
     resignAndQuit,
     rematch,
+    gameInProgress: gameState.gameState === 'main' || gameState.gameState === 'begin',
     myTurn: gameState.activePlayer === 'player',
   };
 

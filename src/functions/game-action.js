@@ -1,5 +1,5 @@
 import { loadGame, saveGame } from '../lib/database';
-import { notifyOpponent } from './utils/notify';
+import { notifyOpponent, refreshLobby } from './utils/notify';
 import reducer from '../logic/reducer';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
@@ -14,16 +14,18 @@ export async function handler(event, _context) {
   const oldState = await loadGame(gameId);
   const newState = await reducer(oldState, action, playerId);
 
-  // TODO: move this logging inside the reducer probably
-  const newStateWithLog = { ...newState, tick: newState.tick + 1, log: newState.log.concat({ playerId, action }) };
-
   // TODO: diff old and new states and skip saving / notifications if they match
 
-  await saveGame(gameId, newStateWithLog);
-  await notifyOpponent(newStateWithLog, gameId, playerId);
+  await saveGame(gameId, newState); // TODO: check success?
+  await notifyOpponent(newState, gameId, playerId);
+
+  if (newState.publicGame && newState.gameState === 'abandoned') {
+    // A waiting game was abandoned so we should refresh the lobby
+    await refreshLobby();
+  }
 
   return {
     statusCode: 200,
-    body: JSON.stringify(gameStatePresenter(newStateWithLog, gameId, playerId)),
+    body: JSON.stringify(gameStatePresenter(newState, gameId, playerId)),
   };
 }

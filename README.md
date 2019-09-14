@@ -6,28 +6,29 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## TODO
 
-1. "Your turn" message shows up on main phase but should show up for discards!
-1. Track a version (or GIT SHA) and show it somewhere on the main UI
+1. Don't show game alerts when location is /game to avoid that flicker - could do with CSS
+1. Maybe make turn timer an option somewhere?
+1. Persist preference for public / private in localStorage
+1. display 0 attack ships (Lotus) correctly
+1. I18n?
 1. Ionblazer should let the player choose which card to discard
 1. Pick one of the two discard mechanisms and standardize on it
 1. "are you sure?" warnings for resigning / ending turn with unspent plays
 1. Tooltips and viewing the contents of the discard pile
-1. Public/private flag for games and a lobby screen listing public `waiting` ones.
 1. Typesetting and make sure text doesn't overflow the ability boxes.
 1. Animations!
 1. Auth / Login?
 1. DragPreview for cards - remove opacity
 1. Dragged cards take a split second before they disappear which looks weird
-1. It's possible (though VERY unlikely) for generated gameCodes to collide
 
 ## Tech debt stuff that might be worthwhile
 
+1. Move dev environment to the dev fauna instance
 1. SCSS linting
 1. Error handling, probably a React ErrorBoundary?
 1. Test suite (Jest? React-testing-library?)
 1. Use a proper state machine lib like `xstate` for the server-side game state
 1. Use localStorage or something in dev mode instead of Fauna - and dev Pusher environment too!
-1. Move `cards` out of the context since it never changes?
 
 ## Cool ideas that may or may not get implemented
 

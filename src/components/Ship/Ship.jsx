@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGameState } from '../GameProvider';
 import ShipCard from '../ShipCard';
-
+import { isThresholdMet } from '../../utils';
 import './Ship.scss';
 
 function Ship({ cardName, owner, friendly = false, attacking, canAttack }) {
@@ -12,8 +12,7 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack }) {
   const availableToAttack = friendly && canAttack && !attacking && myTurn && gameState === 'main' && !uiMode;
   const availableToChoose = !friendly && uiMode && uiMode.mode === 'choice' && uiMode.type === 'ship';
 
-  // TODO: need to check thresholds are active before doing this
-  const abilityWithChoice = card.abilities.find(a => a.effect.choice);
+  const abilityWithChoice = card.abilities.find(a => a.effect.choice && isThresholdMet(a.threshold, owner));
 
   let onClick;
 

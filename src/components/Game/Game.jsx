@@ -38,7 +38,7 @@ const Game = () => {
         <Hint />
         {showGameLog ? <GameLog /> : null}
         {gameState === 'finished' ? <GameOver /> : null}
-        {myTurn && gameState === 'main' ? <Alert>Your turn.</Alert> : null}
+        {myTurn ? <Alert>Your turn.</Alert> : null}
         <div className="lanes">
           <div />
 
@@ -107,8 +107,18 @@ const Game = () => {
           </Lane>
         </div>
 
-        <PlayerStats player={opponent} position="top" />
-        <PlayerStats player={player}>
+        <PlayerStats player={opponent}>
+          <button
+            type="button"
+            className="button end-turn"
+            disabled={gameState === 'abandoned' || gameState === 'finished'}
+            onClick={() => dispatch({ type: 'resign' })}
+          >
+            Resign game
+          </button>
+        </PlayerStats>
+
+        <PlayerStats friendly player={player}>
           <EndTurnButton />
         </PlayerStats>
       </div>

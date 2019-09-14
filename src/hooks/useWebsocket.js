@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { subscribe, unsubscribe } from '../lib/websocketClient';
 
-export default function useWebsocket(playerId, callback) {
+export default function useWebsocket(channelName, callback) {
   useEffect(() => {
-    subscribe(playerId, callback);
-    return () => unsubscribe(playerId);
-  }, [playerId, callback]);
+    subscribe(channelName, callback);
+    return () => unsubscribe(channelName);
+  }, [channelName, callback]);
 }

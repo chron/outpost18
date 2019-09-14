@@ -1,16 +1,17 @@
 import { loadGame, createGame } from '../lib/database';
 import { initialGameState, addPlayerToGame } from './utils/gameManagement';
-import { notifyOpponent } from './utils/notify';
+import { notifyOpponent, refreshLobby } from './utils/notify';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
 
-export async function handler(event, _context,) {
-  const { playerId, playerName, rematchGameId } = JSON.parse(event.body);
+export async function handler(event, _context) {
+  const { playerId, playerName, rematchGameId, publicGame } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
 
-  const initialState = initialGameState();
+  const initialState = initialGameState(publicGame);
+
   let gameState = addPlayerToGame(initialState, playerId, playerName);
 
   // If the player wants a rematch, they pass the gameId in here so we can
@@ -20,6 +21,9 @@ export async function handler(event, _context,) {
     const previousGameState = await loadGame(rematchGameId);
     const opponent = previousGameState.players.find(p => p.playerId !== playerId);
 
+    // For a rematch let's copy settings across from the original game
+    gameState.settings = previousGameState.settings;
+
     gameState = addPlayerToGame(gameState, opponent.playerId, opponent.name);
   }
 
@@ -28,6 +32,10 @@ export async function handler(event, _context,) {
 
   if (rematchGameId) {
     await notifyOpponent(gameState, gameId, playerId);
+  }
+
+  if (publicGame) {
+    await refreshLobby();
   }
 
   if (gameId) {

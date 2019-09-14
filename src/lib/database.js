@@ -1,9 +1,10 @@
 import { query, Client } from 'faunadb';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
 /* eslint-disable no-console */
 
-const { Collection, Index, Ref, Create, Get, Var, Replace, Match, Lambda, Map, Paginate } = query;
+const { Collection, Index, Ref, Create, Get, Var, Replace, Match, Union, Lambda, Map, Paginate } = query;
 
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
 // TODO: find a way to switch the var out rather than using two different ones!!
@@ -30,8 +31,51 @@ export async function loadGame(gameId) {
   }
 }
 
-export async function loadGameByJoinCode(joinCode) {
+export async function loadActiveGame(playerId) {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(
+          Union(
+            Match(Index('active_games_for_player'), playerId, 'main'),
+            Match(Index('active_games_for_player'), playerId, 'waiting'),
+            Match(Index('active_games_for_player'), playerId, 'begin')
+          )
+        ),
+        Lambda('game', Get(Var('game')))
+      )
+    );
 
+    if (r.data && r.data[0]) {
+      return [r.data[0].ref.id, r.data[0].data];
+    } else {
+      return [];
+    }
+  } catch (e) {
+    return console.error(e);
+  }
+}
+
+export async function allOpenGames() {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(Match(
+          Index('games_by_privacy_and_state'),
+          true,
+          'waiting'
+        )),
+        Lambda('game', Get(Var('game')))
+      )
+    );
+
+    return r.data.map(game => game.data);
+  } catch (e) {
+    return console.error(e);
+  }
+}
+
+export async function loadGameByJoinCode(joinCode) {
   try {
     const r = await client.query(
       Map(

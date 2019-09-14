@@ -1,0 +1,13 @@
+@import "../../stylesheets/variables.scss";
+
+.progress-bar {
+  margin-top: 10px;
+  width: 100%;
+  height: 10px;
+  border: 1px solid white;
+
+  &__bar {
+    background: white;
+    height: 100%;
+  }
+}

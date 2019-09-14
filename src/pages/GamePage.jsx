@@ -5,7 +5,6 @@ import Welcome from '../components/Welcome';
 
 export default function GamePage({
   gameId,
-  setStoredGameId,
   playerId,
   playerName,
   setPlayerName,
@@ -22,7 +21,6 @@ export default function GamePage({
   if (gameId) {
     return (
       <GameProvider
-        setStoredGameId={setStoredGameId}
         playerId={playerId}
         gameState={gameState}
         updateGameState={updateGameState}
