@@ -7,8 +7,8 @@ const NavLink = props => (
     {...props}
     getProps={({ isCurrent }) => {
       return {
-        className: `nav__item${isCurrent ? ' nav__item--active' : ''}`
-      }
+        className: `nav__item${isCurrent ? ' nav__item--active' : ''}`,
+      };
     }}
   />
 );

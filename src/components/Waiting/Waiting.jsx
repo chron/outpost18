@@ -14,14 +14,18 @@ function Waiting() {
             This game is a public game so it will be listed on the lobby screen.
           </p>
         ) : (
-          <p>
-            Your game code is{' '}
-            <em>{joinCode}</em>
-            .
-            {' '}
-            Your opponent will need to enter this code in the "Game code" field
-            on the main screen and then click "Join Game" to play against you.
-          </p>
+          <>
+            <p>
+              Your game code is{' '}
+              <em>{joinCode}</em>
+              .
+              {' '}
+              Your opponent will need to enter this code in the "Game code" field
+                on the main screen and then click "Join Game" to play against you.
+                You can also send them this link:
+            </p>
+            <pre>{process.env.URL}/join/{joinCode}</pre>
+          </>
         )}
 
         <p>
