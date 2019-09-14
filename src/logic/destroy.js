@@ -1,4 +1,5 @@
-import cards from '../logic/cards';
+import cards from './cards';
+import log from './log';
 
 export default function destroy(state, playerId, cardName) {
   const { gameState, activePlayer, players } = state;
@@ -28,7 +29,7 @@ export default function destroy(state, playerId, cardName) {
 
   if (card.name === 'Station Core') {
     return {
-      ...state,
+      ...log(state, { playerId, action: { type: 'win' } }),
       gameState: 'finished',
       finishedAt: new Date().toISOString(),
     };
@@ -42,6 +43,6 @@ export default function destroy(state, playerId, cardName) {
     newPlayers[playerIndex] = newPlayer;
     newPlayers[opponentIndex] = newOpponent;
 
-    return { ...state, players: newPlayers };
+    return log({ ...state, players: newPlayers }, { playerId, action: { type: 'destroy', cardName, amount: card.shields } });
   }
 }

@@ -1,4 +1,5 @@
-import cards from '../logic/cards';
+import cards from './cards';
+import log from './log';
 
 export default function play(state, playerId, cardName, mode) {
   if (state.gameState !== 'main') { return state; }
@@ -22,5 +23,5 @@ export default function play(state, playerId, cardName, mode) {
   const newPlayers = state.players.slice();
   newPlayers[playerIndex] = { ...player, plays: newPlays, inPlay: newInPlay, hand: newHand };
 
-  return { ...state, players: newPlayers };
+  return log({ ...state, players: newPlayers }, { playerId, action: { type: 'play', cardName, mode } });
 }

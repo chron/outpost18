@@ -1,7 +1,9 @@
 import { updatePlayer } from './utils';
 import beginTurn from './beginTurn';
+import log from './log';
 
-export default function discard(state, playerId, cardNames) {
+// Gotcha: suppressLog doesn't suppress THIS log, but the one from beginTurn
+export default function discard(state, playerId, cardNames, suppressLog = false) {
   if (state.gameState !== 'begin') { return state; }
   if (state.activePlayer !== playerId) { return state; }
 
@@ -12,13 +14,12 @@ export default function discard(state, playerId, cardNames) {
   const { hand } = player;
 
   // TODO: check all cards specified are actually in hand
-
   const newHand = hand.filter(c => !cardNames.includes(c));
-  const newDiscards = state.discards.concat(cardNames);
-  const newState = {
-    ...updatePlayer(state, playerId, { hand: newHand }),
-    discards: newDiscards,
-  };
 
-  return beginTurn(newState, playerId);
+  const newDiscards = state.discards.concat(cardNames);
+  let newState = { ...updatePlayer(state, playerId, { hand: newHand }), discards: newDiscards };
+
+  newState = log(newState, { playerId, action: { type: 'discard', cardNames } })
+
+  return beginTurn(newState, playerId, suppressLog);
 }

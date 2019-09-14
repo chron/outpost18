@@ -6,7 +6,7 @@ import discard from './discard';
 import resign from './resign';
 import timeout from './timeout';
 
-export default function reducer(state, action, playerId) {
+function playerAction(state, action, playerId) {
   switch (action.type) {
     case 'discard':
       return discard(state, playerId, action.cardNames);
@@ -25,4 +25,10 @@ export default function reducer(state, action, playerId) {
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
+}
+
+export default function reducer(state, action, playerId) {
+  const newState = playerAction(state, action, playerId);
+
+  return { ...newState, tick: newState.tick + 1 };
 }

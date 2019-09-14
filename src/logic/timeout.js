@@ -1,6 +1,7 @@
 import discard from './discard';
 import endTurn from './endTurn';
 import { MAX_HAND_SIZE } from './constants';
+import log from './log';
 
 // This action checks if the active player has used up their time allotment.
 // If they have, move on to the next player's turn.
@@ -20,14 +21,16 @@ export default function timeout(state) {
 
   const player = players.find(p => p.playerId === activePlayer);
 
+  const stateWithLog = log(state, { playerId: activePlayer, action: { type: 'timeout' } });
+
   // If we time out in the `begin` phase we need to discard down to MAX_HAND_SIZE.
   if (gameState === 'begin') {
     const discardsNeeded = Math.max(0, player.hand.length - MAX_HAND_SIZE);
     const cardsToDiscard = player.hand.slice(0, discardsNeeded);
 
-    const newState = discard(state, activePlayer, cardsToDiscard);
-    return endTurn(newState, activePlayer);
+    const newState = discard(stateWithLog, activePlayer, cardsToDiscard, true);
+    return endTurn(newState, activePlayer, true);
   } else {
-    return endTurn(state, activePlayer);
+    return endTurn(stateWithLog, activePlayer);
   }
 }

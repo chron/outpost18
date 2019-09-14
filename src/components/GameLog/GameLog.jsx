@@ -10,7 +10,7 @@ function GameLog() {
   return (
     <div className="game-log">
       {log.map((line, index) => {
-        const { actor, action: { type, cardName, cardNames, mode } } = line;
+        const { actor, action: { type, cardName, cardNames, mode, amount } } = line;
 
         const player = actor === 'player' ? 'You' : 'Your opponent';
         const determiner = actor === 'player' ? 'your' : 'their';
@@ -30,15 +30,43 @@ function GameLog() {
             </>
           );
         } else if (type === 'attack') {
-          message = `attacked with ${cardName}.`;
+          message = (
+            <>
+              attacked with{' '}
+              <span className="game-log__card">{cardName}</span>
+              {' '}adding {amount} attack.
+            </>
+          );
         } else if (type === 'destroy') {
-          message = `destroyed ${cardName}.`;
+          message = (
+            <>
+              spent {amount} attack to destroy{' '}
+              <span className="game-log__card">{cardName}</span>
+              .
+            </>
+          );
         } else if (type === 'discard') {
-          message = `discarded some cards: ${cardNames.join(',')}`;
+          message = (
+            <>
+              discarded
+              {cardNames.map(n => <span key={n} className="game-log__card"> {n}</span>)}
+              .
+            </>
+          );
         } else if (type === 'resign') {
           message = 'resigned the game.';
+        } else if (type === 'mustDiscard') {
+          message = 'must discard down to 3.';
+        } else if (type === 'mainPhase') {
+          message = `began ${determiner} main phase.`;
+        } else if (type === 'timeout') {
+          message = `hit ${determiner} turn time limit.`;
+        } else if (type === 'draw') {
+          message = `drew ${amount} card${amount === 1 ? '' : 's'}.`;
+        } else if (type === 'win') {
+          message = 'destroyed the Station Core!';
         } else {
-          message = 'did something?';
+          message = `-> unknown log type: ${type}!`;
         }
 
         return (

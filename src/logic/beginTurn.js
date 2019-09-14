@@ -1,13 +1,14 @@
 import { updatePlayer } from './utils';
 import { MAX_HAND_SIZE } from './constants';
+import log from './log';
 
-// this gets called directly by endTurn, not by an action
-export default function beginTurn(state, playerId) {
+export default function beginTurn(state, playerId, suppressLog = false) {
   const player = state.players.find(p => p.playerId === playerId);
 
   // They will move into either the `begin` or `main` phase depending on hand size
   if (player.hand.length > MAX_HAND_SIZE) {
-    return { ...state, gameState: 'begin', activePlayer: playerId };
+    const newState = { ...state, gameState: 'begin', activePlayer: playerId };
+    return log(newState, { playerId, action: { type: 'mustDiscard' } });
   } else {
     const newInPlay = player.inPlay.map(i => ({ ...i, canAttack: true }));
     const changes = { plays: 1, inPlay: newInPlay };
@@ -18,6 +19,10 @@ export default function beginTurn(state, playerId) {
       gameState: 'main',
       activePlayer: playerId,
     };
+
+    if (!suppressLog) {
+      newState = log(newState, { playerId, action: { type: 'mainPhase' } });
+    }
 
     return newState;
   }
