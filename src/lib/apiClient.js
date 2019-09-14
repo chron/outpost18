@@ -17,7 +17,7 @@ export async function joinGame(joinCode, playerId, playerName) {
 }
 
 export async function loadGame(playerId, gameId) {
-  const response = await fetch(`/.netlify/functions/game-state?playerId=${playerId}&gameId=${gameId}`);
+  const response = await fetch(`/.netlify/functions/game-state?playerId=${playerId}&gameId=${gameId || ''}`);
   return response.json();
 }
 

@@ -43,8 +43,15 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
         <div className="welcome__section">
           <div className="welcome__item">
               <div className="welcome__field">
-                <input type="checkbox" onChange={e => setNextGamePublic(e.target.checked)} checked={nextGamePublic} />
-                <label className="welcome__label">Show game in lobby</label>
+                <input
+                  id="nextGamePublic"
+                  type="checkbox"
+                  onChange={e => setNextGamePublic(e.target.checked)}
+                  checked={nextGamePublic}
+                />
+                <label htmlFor="nextGamePublic" className="welcome__label">
+                  Show game in lobby
+                </label>
               </div>
               <button className="button" onClick={() => joinGame(null, null, nextGamePublic)}>Create Game</button>
 

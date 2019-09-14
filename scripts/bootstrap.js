@@ -64,6 +64,23 @@ async function bootstrapDatabase(secret) {
       console.error(e);
     }
   }
+
+  try {
+    await client.query(
+      CreateIndex({
+        name: 'active_games_for_player',
+        source: Collection('games'),
+        terms: [
+          { field: ['data', 'players', 'playerId'] },
+          { field: ['data', 'gameState'] },
+        ],
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
 }
 
 const key = process.env.FAUNADB_SECRET_KEY_DEV;

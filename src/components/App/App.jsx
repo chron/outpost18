@@ -16,13 +16,11 @@ import generatePlayerId from '../../generatePlayerId';
 import './App.scss';
 
 function App() {
-  const [gameState, setGameState] = useState({});
+  const [gameState, setGameState] = useState(null);
   const [lastSeenTick, setLastSeenTick] = useState(null);
   const [error, setError] = useState(null);
   const [playerId, setPlayerId] = useLocalStorage('playerId');
   const [playerName, setPlayerName] = useLocalStorage('playerName', 'Player');
-  const [storedGameId, setStoredGameId] = useLocalStorage('gameId');
-  const { gameId } = gameState;
 
   if (!playerId) { setPlayerId(generatePlayerId()); }
 
@@ -31,23 +29,17 @@ function App() {
     if (event !== 'gameStateUpdate') { return; }
 
     setGameState(newState);
-    if (newState.gameId !== storedGameId) {
-      setStoredGameId(newState.gameId);
-    }
   });
 
   useEffect(() => {
-    if (!playerId) { return; }
-    if (gameId) { return; }
+    loadGame(playerId).then(newState => setGameState(newState));
+  }, []);
 
-    if (storedGameId) { // TODO: move these into GameProvider maybe?
-      loadGame(playerId, storedGameId).then(data => setGameState(data));
-    }
-  }, [playerId, gameId, storedGameId]);
-
-  if (storedGameId && !gameId) {
+  if (gameState === null) {
     return <Loading />;
   }
+
+  const { gameId } = gameState;
 
   async function joinGameFunc(joinCode, rematchGameId, publicGame) {
     const newState = joinCode
@@ -59,7 +51,6 @@ function App() {
     } else {
       setGameState(newState);
       setLastSeenTick(null);
-      setStoredGameId(newState.gameId);
     }
   }
 
@@ -90,7 +81,6 @@ function App() {
           <GamePage
             path="game"
             gameId={gameId}
-            setStoredGameId={setStoredGameId}
             playerId={playerId}
             playerName={playerName}
             setPlayerName={setPlayerName}
