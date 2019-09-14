@@ -23,6 +23,7 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## Tech debt stuff that might be worthwhile
 
+1. Move dev environment to the dev fauna instance
 1. SCSS linting
 1. Error handling, probably a React ErrorBoundary?
 1. Test suite (Jest? React-testing-library?)
