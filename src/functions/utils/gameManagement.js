@@ -42,7 +42,7 @@ export function initialGameState(publicGame) {
     ruleset: '2.4',
     publicGame,
     settings: {
-      turnLength: publicGame ? 30 : undefined, // TODO: configurable
+      turnLength: publicGame ? 60 : undefined, // TODO: configurable
     },
     gameState: 'waiting',
     joinCode: generateJoinCode(),
