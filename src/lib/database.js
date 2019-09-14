@@ -30,7 +30,7 @@ export async function loadGame(gameId) {
   }
 }
 
-export async function allPublicAndWaitingGames() {
+export async function allOpenGames() {
   try {
     const r = await client.query(
       Map(

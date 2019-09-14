@@ -15,7 +15,9 @@ export async function handler(event, _context) {
 
   if (!oldGameState) { return renderError('That game could not be found.'); }
 
-  // TODO: validate player is not already in this game
+  if (oldGameState.players[0].playerId === playerId) {
+    return renderError('You are already in this game.');
+  }
 
   const gameState = addPlayerToGame(oldGameState, playerId, playerName);
 

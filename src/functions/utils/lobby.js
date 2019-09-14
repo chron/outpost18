@@ -1,10 +1,10 @@
-import { allPublicAndWaitingGames } from '../../lib/database';
+import { allOpenGames } from '../../lib/database';
 import { isPlayerActive } from '../../lib/websocketServer';
 
 const GAME_EXPIRY = 30 * 60 * 1000; // 30 minutes
 
 export async function activeGames() {
-  const games = await allPublicAndWaitingGames();
+  const games = await allOpenGames();
 
   // TODO: better way to filter out orphaned games
   return games.filter(g => {
