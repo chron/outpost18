@@ -8,9 +8,6 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 1. display 0 attack ships (Lotus) correctly
 1. I18n?
-1. join a game via URL
-1. "Your turn" message shows up on main phase but should show up for discards!
-1. Track a version (or GIT SHA) and show it somewhere on the main UI
 1. Ionblazer should let the player choose which card to discard
 1. Pick one of the two discard mechanisms and standardize on it
 1. "are you sure?" warnings for resigning / ending turn with unspent plays

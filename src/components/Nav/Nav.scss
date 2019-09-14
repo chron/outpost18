@@ -42,6 +42,14 @@
     }
   }
 
+  &__version {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 20px;
+    font-family: 'Courier New', monospace;
+  }
+
   &__badge {
     display: flex;
     justify-content: center;

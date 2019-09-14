@@ -30,6 +30,10 @@ function Nav({ gameAlert, gameId }) {
       </NavLink>
       {gameId || true ? null : <NavLink to="/lobby">Lobby</NavLink>}
       <NavLink to="/cards">Cards</NavLink>
+
+      <div className="nav__version">
+        Version: {process.env.COMMIT_REF}
+      </div>
     </div>
   );
 }

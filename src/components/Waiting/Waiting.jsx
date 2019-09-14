@@ -7,7 +7,7 @@ function Waiting() {
   return (
     <div className="center-children">
       <div className="panel waiting">
-        <h1>Waiting for your opponent...</h1>
+        <h1>Waiting for an opponent...</h1>
 
         {publicGame ? (
           <p>
@@ -21,8 +21,10 @@ function Waiting() {
               .
               {' '}
               Your opponent will need to enter this code in the "Game code" field
-                on the main screen and then click "Join Game" to play against you.
-                You can also send them this link:
+              on the main screen and then click "Join Game" to play against you.
+            </p>
+            <p>
+              You can also send them this link:
             </p>
             <pre>{process.env.URL}/join/{joinCode}</pre>
           </>
