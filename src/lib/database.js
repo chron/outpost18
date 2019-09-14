@@ -38,7 +38,8 @@ export async function loadActiveGame(playerId) {
         Paginate(
           Union(
             Match(Index('active_games_for_player'), playerId, 'main'),
-            Match(Index('active_games_for_player'), playerId, 'waiting')
+            Match(Index('active_games_for_player'), playerId, 'waiting'),
+            Match(Index('active_games_for_player'), playerId, 'begin')
           )
         ),
         Lambda('game', Get(Var('game')))
