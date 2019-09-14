@@ -40,7 +40,8 @@
     "build:app": "parcel build src/index.html",
     "build:lambda": "netlify-lambda -c webpack.config.js build src/functions",
     "db:bootstrap": "node ./scripts/bootstrap.js",
-    "db:dump": "node ./scripts/dump_database.js"
+    "db:dump": "node ./scripts/dump_database.js",
+    "db:report": "node ./scripts/report.js"
   },
   "browserslist": [
     "last 2 Chrome versions",

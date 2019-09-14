@@ -11,14 +11,14 @@ async function dump(secret, path) {
   const client = new Client({ secret });
 
   const r = await client.query(
-    Map(
-      Paginate(Match(Index('all_games'))),
+    Map( // TODO: once we hit this limit we need to do actual pagination I guess
+      Paginate(Match(Index('all_games')), { size: 1000 }),
       Lambda('game', Get(Var('game')))
     )
   );
 
   const json = r.data.map(game => game.data);
-  fs.writeFile(path, JSON.stringify(json), (err) => {
+  fs.writeFileSync(path, JSON.stringify(json), (err) => {
     if (err) { console.error(err); }
   });
 }
