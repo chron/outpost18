@@ -38,7 +38,7 @@ const Game = () => {
         <Hint />
         {showGameLog ? <GameLog /> : null}
         {gameState === 'finished' ? <GameOver /> : null}
-        {myTurn ? <Alert>Your turn.</Alert> : null}
+        {myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
         <div className="lanes">
           <div />
 

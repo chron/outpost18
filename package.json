@@ -19,6 +19,7 @@
     "base-64": "^0.1.0",
     "classnames": "^2.2.6",
     "faunadb": "^2.7.0",
+    "lodash.clonedeep": "^4.5.0",
     "lodash.shuffle": "^4.2.0",
     "netlify-lambda": "^1.6.2",
     "normalize.css": "^8.0.1",

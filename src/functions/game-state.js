@@ -1,11 +1,13 @@
 import { loadGame, loadActiveGame } from '../lib/database';
 import gameStatePresenter from './utils/gameStatePresenter';
+import { validPlayerId } from './utils/gameManagement';
 import { renderError } from './utils/apiResponses';
 
 export async function handler(event, _context) {
   let { playerId, gameId } = event.queryStringParameters;
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
+  if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
 
   let gameState;
 

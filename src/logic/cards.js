@@ -105,6 +105,8 @@ const cards = [
           choice: { type: 'card', max: 3 },
           description: '+I for each card discarded this way.',
           function: (state, player, _opponent, discards) => {
+            if (!discards) { return; }
+
             discards.forEach(discard => {
               const cardIndex = player.hand.indexOf(discard);
 

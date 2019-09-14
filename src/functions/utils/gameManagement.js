@@ -34,6 +34,11 @@ function generateJoinCode() {
   return Math.random().toString(36).substring(2, 7).toUpperCase();
 }
 
+// TODO: make this more sophisticated
+export function validPlayerId(playerId) {
+  return playerId !== 'AUTOMA';
+}
+
 export function initialGameState(publicGame) {
   const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
 
@@ -42,7 +47,7 @@ export function initialGameState(publicGame) {
     ruleset: '2.4',
     publicGame,
     settings: {
-      turnLength: publicGame ? 30 : undefined, // TODO: configurable
+      turnLength: publicGame ? 60 : undefined, // TODO: configurable
     },
     gameState: 'waiting',
     joinCode: generateJoinCode(),
@@ -55,11 +60,12 @@ export function initialGameState(publicGame) {
   };
 }
 
-export function addPlayerToGame(gameState, playerId, playerName) {
+export function addPlayerToGame(gameState, playerId, playerName, settings = {}) {
   if (gameState.gameState !== 'waiting') { throw new Error('Game already started.'); }
   if (gameState.players.length >= 2) { throw new Error('Game full.'); }
 
   const players = gameState.players.concat({
+    ...settings,
     playerId,
     name: playerName.slice(0, 30),
     plays: 0,
@@ -74,4 +80,11 @@ export function addPlayerToGame(gameState, playerId, playerName) {
   } else {
     return { ...gameState, players };
   }
+}
+
+export function addAutomaToGame(gameState, aiController = 'basic') {
+  const playerId = 'AUTOMA';
+  const playerName = 'The Worst AI';
+
+  return addPlayerToGame(gameState, playerId, playerName, { aiController })
 }

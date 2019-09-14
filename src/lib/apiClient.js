@@ -1,8 +1,8 @@
-export async function createGame(playerId, playerName, publicGame, rematchGameId) {
+export async function createGame(playerId, playerName, publicGame, soloGame, rematchGameId) {
   const response = await fetch('/.netlify/functions/create-game', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ playerId, playerName, publicGame, rematchGameId }),
+    body: JSON.stringify({ playerId, playerName, publicGame, soloGame, rematchGameId }),
   });
   return response.json();
 }

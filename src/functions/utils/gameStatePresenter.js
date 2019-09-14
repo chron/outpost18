@@ -33,6 +33,7 @@ export default function gameStatePresenter(state, gameId, playerId) {
     opponent: opponent ? {
       ...opponent,
       playerId: undefined,
+      aiController: undefined,
       hand: undefined,
       handSize: opponent.hand.length,
     } : undefined,

@@ -6,7 +6,7 @@ Based on [Outpost 18](http://playoutpost18.com)
 
 ## TODO
 
-1. show lobby once game is finished even when gameId is still set!
+1. add to timer after each action
 1. Don't show game alerts when location is /game to avoid that flicker - could do with CSS
 1. Maybe make turn timer an option somewhere?
 1. Persist preference for public / private in localStorage
