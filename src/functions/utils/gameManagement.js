@@ -14,10 +14,12 @@ function startGame(gameState) {
     }
   ));
   const activePlayer = players[0].playerId;
+  const startedAt = new Date().toISOString();
 
   return {
     ...gameState,
-    startedAt: new Date().toISOString(),
+    startedAt,
+    turnStartedAt: startedAt,
     tick: gameState.tick + 1,
     deck,
     joinCode: undefined,
@@ -38,6 +40,9 @@ export function initialGameState() {
   return {
     createdAt: new Date().toISOString(),
     ruleset: '2.4',
+    settings: {
+      turnLength: 30, // TODO: configurable
+    },
     gameState: 'waiting',
     joinCode: generateJoinCode(),
     activePlayer: null,

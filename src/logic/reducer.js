@@ -4,6 +4,7 @@ import destroy from './destroy';
 import endTurn from './endTurn';
 import discard from './discard';
 import resign from './resign';
+import timeout from './timeout';
 
 export default function reducer(state, action, playerId) {
   switch (action.type) {
@@ -17,9 +18,11 @@ export default function reducer(state, action, playerId) {
       return destroy(state, playerId, action.cardName);
     case 'endTurn':
       return endTurn(state, playerId);
+    case 'timeout':
+      return timeout(state);
     case 'resign':
       return resign(state, playerId);
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
-};
+}

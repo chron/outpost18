@@ -12,7 +12,11 @@ export default function beginTurn(state, playerId) {
     const changes = { plays: 1, inPlay: newInPlay };
 
     let newState = updatePlayer(state, playerId, changes);
-    newState = { ...newState, gameState: 'main', activePlayer: playerId };
+    newState = { ...newState,
+      turnStartedAt: new Date().toISOString(),
+      gameState: 'main',
+      activePlayer: playerId,
+    };
 
     return newState;
   }
