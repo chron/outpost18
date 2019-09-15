@@ -15,3 +15,8 @@
     box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
   }
 }
+
+@keyframes fadeSlideUp {
+  0% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-70px); }
+}

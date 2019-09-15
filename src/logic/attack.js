@@ -19,11 +19,7 @@ export default function attack(state, playerId, cardName, choices) {
 
   const card = cards.find(c => c.name === cardName);
 
-  const shipIndex = inPlay.indexOf(ship);
-  const newInPlay = inPlay.slice();
-  newInPlay[shipIndex] = { ...ship, attacking: true };
-  const newPlayer = { ...player, inPlay: newInPlay };
-
+  const newPlayer = { ...player };
   const oldAttackPool = newPlayer.attackPool;
 
   // Check and apply the ship's attack abilities
@@ -56,9 +52,17 @@ export default function attack(state, playerId, cardName, choices) {
 
   const attackDelta = newPlayer.attackPool - oldAttackPool;
 
+  const shipIndex = inPlay.indexOf(ship);
+  const newInPlay = inPlay.slice();
+  newInPlay[shipIndex] = { ...ship, attacking: true, attackAdded: attackDelta };
+  newPlayer.inPlay = newInPlay;
+
   const newPlayers = state.players.slice();
   newPlayers[playerIndex] = newPlayer;
 
   // TODO: log the abilities/targets too
-  return log({ ...state, players: newPlayers }, { playerId, action: { type: 'attack', cardName, amount: attackDelta } });
+  return log(
+    { ...state, players: newPlayers },
+    { playerId, action: { type: 'attack', cardName, amount: attackDelta } }
+  );
 }

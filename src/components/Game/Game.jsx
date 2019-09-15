@@ -58,13 +58,14 @@ const Game = () => {
           </div>
 
           <Lane type="ship">
-            {enemyShips.map(({ cardName, canAttack, attacking }) => (
+            {enemyShips.map(({ cardName, canAttack, attacking, attackAdded }) => (
               <Ship
                 key={cardName}
                 owner={player}
                 cardName={cardName}
                 canAttack={canAttack}
                 attacking={attacking}
+                attackAdded={attackAdded}
               />
             ))}
           </Lane>
@@ -72,7 +73,7 @@ const Game = () => {
           <DiscardPile />
 
           <Lane friendly type="ship">
-            {ships.map(({ cardName, canAttack, attacking }) => (
+            {ships.map(({ cardName, canAttack, attacking, attackAdded }) => (
               <Ship
                 key={cardName}
                 friendly
@@ -80,6 +81,7 @@ const Game = () => {
                 cardName={cardName}
                 canAttack={canAttack}
                 attacking={attacking}
+                attackAdded={attackAdded}
               />
             ))}
           </Lane>
