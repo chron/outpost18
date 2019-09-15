@@ -1,6 +1,24 @@
 import { MAX_HAND_SIZE } from '../../logic/constants';
-import { readyShips, totalAttack, defenseUpgrades, calculateLethal } from './utils';
+import { readyShips, totalAttack, defenseUpgrades, calculateLethal, rateAction } from './utils';
 
+const WEIGHTS = {
+  player: {
+    draws: 1,
+    ore: 1,
+    ion: 1,
+    labour: 1,
+    effectiveHealth: 3,
+    nextTurnAttack: 5,
+  },
+  opponent: {
+    draws: -1,
+    ore: -1,
+    ion: -1,
+    labour: -1,
+    effectiveHealth: -3,
+    nextTurnAttack: -5,
+  },
+};
 // This function returns an action object that will be passed to the reducer
 // the exact same way the player's input would.
 // TODO: right now the AI can cheat by looking at the true state,
@@ -27,7 +45,18 @@ export default function nextMove(state, playerId) {
     } else if (potentialAttack >= lethalRequired) {
       return { type: 'attack', cardName: ships[0] };
     } else if (plays > 0) {
-      return { type: 'play', cardName: hand[0], mode: 'ship' };
+      const possiblePlays = hand.flatMap(cardName => [
+        { type: 'play', cardName, mode: 'ship' },
+        { type: 'play', cardName, mode: 'upgrade' },
+      ]).concat({ type: 'endTurn' });
+      const ratedPlays = possiblePlays.map(action => [action, rateAction(state, playerId, WEIGHTS, action)]);
+      const sortedPlays = ratedPlays.sort((a, b) => b[1] - a[1]);
+
+      console.log(sortedPlays);
+
+      const [chosenPlay, _rating] = sortedPlays[0];
+
+      return chosenPlay;
     } else {
       return { type: 'endTurn' };
     }
