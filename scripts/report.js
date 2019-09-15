@@ -4,7 +4,8 @@ const fs = require('fs');
 
 const games = JSON.parse(fs.readFileSync('database.json'));
 const nonTestGames = games.filter(g => !g.players.map(p => p.name).join().match(/paul|test/i));
-const currentVersionGames = nonTestGames.filter(g => g.ruleset === '2.4');
+const nonAiGames = nonTestGames.filter(g => !g.players.find(p => p.aiController));
+const currentVersionGames = nonAiGames.filter(g => g.ruleset === '2.4');
 const finishedGames = currentVersionGames.filter(g => g.gameState === 'finished');
 
 console.log(`Total records ingested: ${games.length}`);
@@ -49,7 +50,14 @@ const winnerCardPlayFrequencies = cardsPlayedByWinners.flat().reduce((memo, comb
 }, {});
 
 console.log('Average card plays by game for winners only');
-console.log(Object.entries(winnerCardPlayFrequencies).sort().map(([ship, num]) => {
-  return [...ship.split(','), num / finishedGames.length];
+console.table(Object.entries(winnerCardPlayFrequencies).sort((a, b) => {
+  return a[1] - b[1];
+}).map(([ship, num]) => {
+  const [cardName, mode] = ship.split(',');
+  return {
+    cardName,
+    mode,
+    averagePlays: (num / finishedGames.length).toFixed(2),
+  };
 }));
 console.log();
