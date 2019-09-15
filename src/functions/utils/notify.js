@@ -11,7 +11,7 @@ export async function gameStateUpdate(state, gameId, playerId) {
 
 export async function notifyOpponent(state, gameId, playerId) {
   const opponent = state.players.find(p => p.playerId !== playerId);
-  if (!opponent) { return null; }
+  if (!opponent || opponent.aiController) { return null; }
 
   return gameStateUpdate(state, gameId, opponent.playerId);
 }

@@ -4,6 +4,7 @@ import './Welcome.scss';
 function Welcome({ playerName, setPlayerName, joinGame }) {
   const [gameCode, setGameCode] = useState('');
   const [nextGamePublic, setNextGamePublic] = useState(true);
+  const [nextGameSolo, setNextGameSolo] = useState(false);
 
   return (
     <div className="full-screen-wrapper">
@@ -23,6 +24,11 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
             <strong>2.4</strong>
             {' '}
             rules.
+          </p>
+
+          <p>
+            There is a very basic AI you can play against by checking the box below.
+            It won&apos;t provide much of a challenge but it is a good chance to get used to the interface.
           </p>
 
           <p>
@@ -46,6 +52,7 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
                 <input
                   id="nextGamePublic"
                   type="checkbox"
+                  disabled={nextGameSolo}
                   onChange={e => setNextGamePublic(e.target.checked)}
                   checked={nextGamePublic}
                 />
@@ -53,7 +60,23 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
                   Show game in lobby
                 </label>
               </div>
-              <button className="button" onClick={() => joinGame(null, null, nextGamePublic)}>Create Game</button>
+
+              <div className="welcome__field">
+                <input
+                  id="nextGameSolo"
+                  type="checkbox"
+                  onChange={e => {
+                    setNextGameSolo(e.target.checked);
+                    setNextGamePublic(false);
+                  }}
+                  checked={nextGameSolo}
+                />
+                <label htmlFor="nextGameSolo" className="welcome__label">
+                  Add an AI opponent
+                </label>
+              </div>
+
+            <button className="button" onClick={() => joinGame(null, null, nextGamePublic, nextGameSolo)}>Create Game</button>
 
           </div>
 

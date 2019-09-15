@@ -41,10 +41,10 @@ function App() {
 
   const { gameId } = gameState;
 
-  async function joinGameFunc(joinCode, rematchGameId, publicGame) {
+  async function joinGameFunc(joinCode, rematchGameId, publicGame, addAi) {
     const newState = joinCode
       ? await joinGame(joinCode, playerId, playerName)
-      : await createGame(playerId, playerName, publicGame, rematchGameId);
+      : await createGame(playerId, playerName, publicGame, addAi, rematchGameId); // TODO
 
     if (newState.error) {
       setError(newState.error);
@@ -73,7 +73,7 @@ function App() {
     <>
       <DndProvider backend={HTML5Backend}>
         <Nav
-          gameId={gameId}
+          gameState={gameState.gameState}
           gameAlert={lastSeenTick < gameState.tick}
         />
 

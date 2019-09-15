@@ -1,6 +1,6 @@
 import { loadGameByJoinCode, saveGame } from '../lib/database';
 import { notifyOpponent, refreshLobby } from './utils/notify';
-import { addPlayerToGame } from './utils/gameManagement';
+import { addPlayerToGame, validPlayerId } from './utils/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
 
@@ -8,6 +8,7 @@ export async function handler(event, _context) {
   const { playerId, playerName, joinCode } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
+  if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
   if (!joinCode) { return renderError('You must provide a game code.'); }
 
