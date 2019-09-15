@@ -45,10 +45,10 @@ export default function nextMove(state, playerId) {
     } else if (potentialAttack >= lethalRequired) {
       return { type: 'attack', cardName: ships[0] };
     } else if (plays > 0) {
-      const possiblePlays = hand.flatMap(cardName => [
+      const possiblePlays = hand.reduce((array, cardName) => array.concat(
         { type: 'play', cardName, mode: 'ship' },
-        { type: 'play', cardName, mode: 'upgrade' },
-      ]).concat({ type: 'endTurn' });
+        { type: 'play', cardName, mode: 'upgrade' }
+      ), [{ type: 'endTurn' }]);
       const ratedPlays = possiblePlays.map(action => [action, rateAction(state, playerId, WEIGHTS, action)]);
       const sortedPlays = ratedPlays.sort((a, b) => b[1] - a[1]);
 
