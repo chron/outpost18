@@ -4,7 +4,7 @@ import ShipCard from '../ShipCard';
 import { isThresholdMet } from '../../utils';
 import './Ship.scss';
 
-function Ship({ cardName, owner, friendly = false, attacking, canAttack }) {
+function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackAdded }) {
   const { cards, dispatch, myTurn, gameState, uiMode, setChoice } = useGameState();
   const card = cards.find(c => c.name === cardName);
 
@@ -34,13 +34,16 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack }) {
   const interactable = availableToChoose || availableToAttack;
 
   return (
-    <div
-      role="button"
-      tabIndex={interactable? 0 : null}
-      className={`ship ${attacking ? 'ship--attacking' : ''} ${interactable ? 'ship--ready' : ''} ${friendly ? '' : 'ship--enemy'}`}
-      onClick={onClick}
-    >
-      <ShipCard card={card} owner={owner} />
+    <div className="ship__wrapper">
+      {attackAdded ? <div className="ship__attack-alert">+{attackAdded} attack</div> : null}
+      <div
+        role="button"
+        tabIndex={interactable? 0 : null}
+        className={`ship ${attacking ? 'ship--attacking' : ''} ${interactable ? 'ship--ready' : ''} ${friendly ? '' : 'ship--enemy'}`}
+        onClick={onClick}
+      >
+        <ShipCard card={card} owner={owner} />
+      </div>
     </div>
   );
 }

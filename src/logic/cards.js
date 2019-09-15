@@ -310,9 +310,9 @@ const cards = [
           function: (_state, _player, opponent, cardNameToReturn) => {
             if (!cardNameToReturn) { return; }
 
-            const shipIndex = opponent.inPlay.indexOf(cardNameToReturn);
+            const shipIndex = opponent.inPlay.findIndex(i => i.cardName === cardNameToReturn);
 
-            if (shipIndex) {
+            if (shipIndex >= 0) {
               opponent.inPlay.splice(shipIndex, 1);
               opponent.hand = opponent.hand.concat(cardNameToReturn);
             }
