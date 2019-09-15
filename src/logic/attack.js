@@ -7,8 +7,10 @@ export default function attack(state, playerId, cardName, choices) {
   if (state.activePlayer !== playerId) { return state; }
 
   const playerIndex = state.players.findIndex(p => p.playerId === playerId);
+  const opponentIndex = state.players.findIndex(p => p.playerId !== playerId);
+
   const player = state.players[playerIndex];
-  const opponent = state.players.find(p => p.playerId !== playerId);
+  const opponent = state.players[opponentIndex];
   const { inPlay } = player;
   const ship = inPlay.find(s => s.cardName === cardName);
 
@@ -59,6 +61,7 @@ export default function attack(state, playerId, cardName, choices) {
 
   const newPlayers = state.players.slice();
   newPlayers[playerIndex] = newPlayer;
+  newPlayers[opponentIndex] = opponent;
 
   // TODO: log the abilities/targets too
   return log(

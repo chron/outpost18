@@ -7,8 +7,8 @@ const WEIGHTS = {
     ore: 1,
     ion: 1,
     labour: 1,
-    effectiveHealth: 3,
-    nextTurnAttack: 5,
+    effectiveHealth: 2,
+    nextTurnAttack: 2,
   },
   opponent: {
     draws: -1,
@@ -16,7 +16,7 @@ const WEIGHTS = {
     ion: -1,
     labour: -1,
     effectiveHealth: -3,
-    nextTurnAttack: -5,
+    nextTurnAttack: -4,
   },
 };
 // This function returns an action object that will be passed to the reducer

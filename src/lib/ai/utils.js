@@ -12,9 +12,9 @@ function simulate(state, playerId, action) {
   return reducer(newState, action, playerId);
 }
 
-export function readyShips(player, pretendAllReady = false) {
+export function readyShips(player) {
   return player.inPlay
-    .filter(i => i.mode === 'ship' && (i.canAttack || pretendAllReady) && !i.attacking)
+    .filter(i => i.mode === 'ship' && i.canAttack && !i.attacking)
     .map(i => i.cardName);
 }
 
@@ -36,7 +36,7 @@ function ratePlayerState(state, player, weights) {
     + (playerStats.draws || 0) * (weights.draws || 0)
     + (playerStats.hand.length || 0) * (weights.handSize || 0)
     + calculateLethal(player) * (weights.effectiveHealth || 0)
-    + totalAttack(state, player, true) * (weights.nextTurnAttack || 0)
+    + totalAttackNextTurn(player) * (weights.nextTurnAttack || 0)
   );
 }
 
@@ -55,14 +55,20 @@ export function rateAction(state, playerId, weights, action) {
 
 // If we attacked with everything, how much attack could we generate total?
 // (includes any attack already in the pool)
-// TODO: pretendAllReady won't re-count already attacking ships
-export function totalAttack(state, player, pretendAllReady) {
-  const simulation = readyShips(player, pretendAllReady).reduce((prevState, cardName) => {
+export function totalAttack(state, player) {
+  const simulation = readyShips(player).reduce((prevState, cardName) => {
     return simulate(prevState, player.playerId, { type: 'attack', cardName }); // TODO: choices
   }, state);
 
   const simulatedPlayer = simulation.players.find(p => p.playerId === player.playerId);
   return simulatedPlayer.attackPool;
+}
+
+export function totalAttackNextTurn(player) {
+  const allShips = player.inPlay.filter(i => i.mode === 'ship').map(i => i.cardName);
+  const allCards = mapToCards(allShips);
+  // TODO: this doesn't do any abilities at all
+  return allCards.reduce((total, c) => total + c.attack, 0);
 }
 
 // Return how much damage is needed to destroy this player.
