@@ -3,5 +3,5 @@
 /.cache
 yarn-error.log
 .env
-.netlify/
 database.json
+.netlify
