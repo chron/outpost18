@@ -3,72 +3,85 @@
 // TODO: rename or refactor this `card` stuff
 .card {
   &__ship {
-    width: 100%;
+    width: $card-width;
+    height: $card-height;
+
     font-family: $title-font-stack;
   }
 
   &__title {
     position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 72%;
-    padding: 4px 0;
+    top: 0.3vh;
+    left: 0.3vh;
+    width: 10vh;
+    padding: 0.4vh 0;
 
-    border: 2px solid $card-border-color;
+    border: 0.2vh solid $card-border-color;
     border-radius: $card-border-radius;
     background-color: $card-background-color;
-    font-size: 10px;
+    font-size: 1.1vh;
     text-align: center;
   }
 
   &__power {
     position: absolute;
-    top: 3px;
-    right: 3px;
-    width: 21%;
-    height: 26px;
+    top: 0.3vh;
+    right: 0.3vh;
+    width: 3vh;
+    height: 2.75vh;
 
-    border: 2px solid $card-border-color;
+    border: 0.2vh solid $card-border-color;
     border-radius: $card-border-radius;
     background-color: $card-background-color;
     text-align: center;
   }
 
   &__image {
-    width: 100%;
-    height: 100px;
+    width: $card-width;
+    height: 9vh;
 
-    border: 2px solid $card-border-color;
+    border: 0.2vh solid $card-border-color;
     background-color: $ship-background-color;
 
     > img {
-      height: 128px;
-      transform: rotate(90deg) translateY(24px) translateX(-7px);
+      height: 11vh;
+      transform: rotate(90deg) translateY(1vh) translateX(-0.5vh);
     }
   }
 
   &__passive {
     position: relative;
     width: 85%;
-    top: -10px;
+    top: -1.1vh;
     margin-left: 7.5%;
-    border: 2px solid $card-border-color;
-    border-radius: $card-border-radius;
+    border: 0.2vh solid $card-border-color;
+    border-radius: 0.5vh;
     background-color: $card-background-color;
-    font-size: 8px;
+    font-size: 0.8vh;
     text-align: center;
+
+    .resource-icon {
+      width: 1vh;
+    }
   }
 
   &__abilities {
-    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-    margin: -5px -2px 0 -2px;
-    padding: 5px;
-    border: 2px solid $card-border-color;
-    border-radius: $card-border-radius;
+    height: 6vh;
+    margin: -0.5vh -0.2vh 0 -0.2vh;
+    padding: 0.5vh;
+    border: 0.2vh solid $card-border-color;
+    border-radius: 0.5vh;
     background-color: $card-background-color;
-    font-size: 9px;
+    font-size: 0.9vh;
     text-align: center;
+
+    .attack-icon, .resource-icon {
+      width: 1vh;
+    }
   }
 
   &__ability {
@@ -80,8 +93,8 @@
   }
 
   &__passive + &__abilities {
-    margin-top: -22px;
-    padding-top: 10px;
+    margin-top: -2vh;
+    padding-top: 0.8vh;
   }
 }
 
@@ -89,9 +102,10 @@
   color: $power-color;
   font-family: sans-serif;
   vertical-align: top;
+  font-size: 1.7vh;
 
   .card__ability & {
-    font-size: 13px;
+    font-size: 1.3vh;
     line-height: 1;
   }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import TouchBackend from 'react-dnd-touch-backend'
 import { Router, Redirect } from '@reach/router';
 import GamePage from '../../pages/GamePage';
 import AllCardsPage from '../../pages/AllCardsPage';
@@ -14,6 +14,10 @@ import { useLocalStorage, useWebsocket } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
 import './App.scss';
+
+const TOUCH_OPTIONS = {
+  enableMouseEvents: true,
+};
 
 function App() {
   const [gameState, setGameState] = useState(null);
@@ -71,7 +75,7 @@ function App() {
 
   return (
     <>
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={TouchBackend} options={TOUCH_OPTIONS}>
         <Nav
           gameState={gameState.gameState}
           gameAlert={lastSeenTick < gameState.tick}

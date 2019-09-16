@@ -40,8 +40,6 @@ const Game = () => {
         {gameState === 'finished' ? <GameOver /> : null}
         {myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
         <div className="lanes">
-          <div />
-
           <Lane>
             {enemyUpgrades.map(({ cardName }) => (
               <Upgrade
@@ -53,11 +51,11 @@ const Game = () => {
             <Base owner={opponent} />
           </Lane>
 
-          <div className="deck">
-            <FaceDownCard count={deckSize} />
-          </div>
-
           <Lane type="ship">
+            <div className="deck">
+              <FaceDownCard count={deckSize} />
+            </div>
+
             {enemyShips.map(({ cardName, canAttack, attacking, attackAdded }) => (
               <Ship
                 key={cardName}
@@ -70,9 +68,9 @@ const Game = () => {
             ))}
           </Lane>
 
-          <DiscardPile />
-
           <Lane friendly type="ship">
+            <DiscardPile />
+
             {ships.map(({ cardName, canAttack, attacking, attackAdded }) => (
               <Ship
                 key={cardName}
@@ -85,8 +83,6 @@ const Game = () => {
               />
             ))}
           </Lane>
-
-          <div />
 
           <Lane friendly type="upgrade">
             {upgrades.map(({ cardName }) => (
@@ -117,7 +113,7 @@ const Game = () => {
             onClick={() => dispatch({ type: 'resign' })}
           >
             Resign game
-          </button>
+            </button>
         </PlayerStats>
 
         <PlayerStats friendly player={player}>

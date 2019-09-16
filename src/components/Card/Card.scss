@@ -4,13 +4,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
 
-  width: 140px;
-  height: 196px;
-  padding: 5px;
-  margin: 0 5px;
+  padding: 0.5vh;
+  margin: 0 0.5vh;
 
   color: $card-foreground-color;
   background-color: $card-background-color;
@@ -42,6 +39,8 @@
   }
 
   &--face-down {
+    width: $card-width;
+    height: $card-height;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -2,8 +2,8 @@
 
 .lanes {
   display: grid;
-  grid-template-columns: 160px 1fr;
-  grid-gap: 10px;
+  grid-template-columns: 1fr;
+  justify-content: space-between;
   height: 100%;
 }
 

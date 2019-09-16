@@ -1,58 +1,59 @@
 @import "../../stylesheets/variables.scss";
 
 .player-stats {
+  position: absolute;
+  right: 1vh;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  right: 30px;
-  padding: 20px;
+  padding: 2vh;
   color: $card-foreground-color;
   background-color: $card-background-color;
-  border-radius: 10px;
+  border-radius: 1vh;
   box-shadow: $card-shadow;
   z-index: 1;
 
   &__name {
     font-family: $title-font-stack;
-    font-size: 20px;
-    margin-bottom: 10px;
+    font-size: 2vh;
+    margin-bottom: 1vh;
   }
 
   &__stat {
     display: flex;
     justify-content: space-between;
+    font-size: 1.5vh;
   }
 
   &--top {
-    top: 50px;
+    top: 6vh;
   }
 
   &--bottom {
-    bottom: 30px;
+    bottom: 1vh;
   }
 
   &__resources {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 1vh;
   }
 
   &__resource {
     display: flex;
     flex-direction: column;
     flex-basis: 1;
-    width: 30px;
+    width: 3vh;
     justify-content: space-between;
     align-items: center;
   }
 
   &__resource-amount {
     font-family: $title-font-stack;
-    font-size: 20px;
+    font-size: 2vh;
   }
 
   &__resource-icon {
-    margin-top: 5px;
-    font-size: 10px;
+    margin-top: 0.5vh;
+    font-size: 1vh;
   }
 }

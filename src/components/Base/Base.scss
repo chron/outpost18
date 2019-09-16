@@ -3,11 +3,11 @@
 .base {
   display: flex;
 
-  width: 200px;
-  height: 132px;
+  width: $card-height * 1.4;
+  height: $card-width;
   color: $card-foreground-color;
   background-color: $card-background-color;
-  border-radius: 8px;
+  border-radius: 0.5vh;
   box-shadow: $card-shadow;
   font-family: $title-font-stack;
 
@@ -17,13 +17,14 @@
     justify-content: space-between;
 
     width: 100%;
-    margin: 5px;
-    padding: 5px;
+    margin: 0.5vh;
+    padding: 0.5vh;
 
     text-align: center;
   }
 
   &__name {
+    font-size: 1.5vh;
     &--reverse {
       transform: rotate(180deg);
     }
@@ -32,7 +33,7 @@
   &__image {
     flex-grow: 1;
     background-color: $ship-background-color;
-    border-radius: 5px;
-    border: 2px solid $upgrade-border-color;
+    border-radius: 0.5vh;
+    border: 0.2vh solid $upgrade-border-color;
   }
 }

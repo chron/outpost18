@@ -71,7 +71,7 @@ function ShipCard({ card, owner = null }) {
 
       <div className="card__power">
         <span className="power">
-          {Array(attack).fill(1).map(() => 'I')}
+          {attack === 0 ? '0' : Array(attack).fill(1).map(() => 'I')}
         </span>
       </div>
 
