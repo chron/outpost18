@@ -41,10 +41,10 @@ const cards = [
           description: 'Destroy any ship, then discard a card.',
           function: (state, player, opponent, targetShip) => {
             if (!targetShip) { return; }
-            const cardIndex = opponent.inPlay.findIndex(i => i.cardName === targetShip);
+            const inPlayIndex = opponent.inPlay.findIndex(i => i.cardName === targetShip);
 
-            if (cardIndex) {
-              opponent.inPlay.splice(cardIndex, 1);
+            if (inPlayIndex) {
+              opponent.inPlay.splice(inPlayIndex, 1);
               // TODO: player should choose the discarded card!
               const cardToDiscard = player.hand.splice(0, 1);
 
@@ -159,10 +159,10 @@ const cards = [
           description: "Return an opponent's Upgrade to their hand.",
           function: (_state, _player, opponent, cardNameToReturn) => {
             if (!cardNameToReturn) { return; }
-            const cardIndex = opponent.inPlay.indexOf(cardNameToReturn);
+            const inPlayIndex = opponent.inPlay.findIndex(i => i.cardName === cardNameToReturn);
 
-            if (cardIndex) {
-              opponent.inPlay.splice(cardIndex, 1);
+            if (inPlayIndex) {
+              opponent.inPlay.splice(inPlayIndex, 1);
               opponent.hand = opponent.hand.concat(cardNameToReturn);
             }
           },
