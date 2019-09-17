@@ -19,14 +19,6 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
           </p>
 
           <p>
-            This version should be up to date with the
-            {' '}
-            <strong>2.4</strong>
-            {' '}
-            rules.
-          </p>
-
-          <p>
             There is a very basic AI you can play against by checking the box below.
             It won&apos;t provide much of a challenge but it is a good chance to get used to the interface.
           </p>

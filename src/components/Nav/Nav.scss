@@ -10,10 +10,11 @@
   background-color: black;
   color: white;
   box-shadow: $card-shadow;
+  z-index: 1;
 
   &__logo {
     font-family: $title-font-stack;
-    font-size: 2vh;
+    font-size: 1.6vh;
     margin: 0 2vh 0 2vh;
     padding-top: 1vh;
   }
@@ -25,7 +26,7 @@
     padding: 0 1vh;
     text-decoration: none;
     color: white;
-    font-size: 2.5vh;
+    font-size: 1.8vh;
     font-weight: bold;
     border-bottom: 0.4vh solid transparent;
 
@@ -45,6 +46,7 @@
   }
 
   &__version {
+    max-width: 25vw;
     display: flex;
     align-items: center;
     margin-left: auto;

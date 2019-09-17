@@ -39,8 +39,9 @@
   }
 
   &--face-down {
+    transform: scale(0.8);
     width: $card-width;
-    height: $card-height;
+    height: $card-height + 4vh; // for upgrades, but let's fix this later
     display: flex;
     justify-content: center;
     align-items: center;

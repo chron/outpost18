@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 import { resources, sumResourceForPlayer } from '../../utils';
 import ResourceIcon from '../ResourceIcon';
 import './PlayerStats.scss';
@@ -39,44 +40,53 @@ function PlayerStats({ player, friendly = false, children }) {
   }, [gameInProgress, setTimeLeft, turnLength, turnStartedAt, sentTimeout, belongsToActivePlayer, dispatch, friendly]);
 
   return (
-    <div className={`player-stats player-stats--${friendly ? 'bottom' : 'top'}`}>
-      <div className="player-stats__name">{name}</div>
-      <div className="player-stats__stat">
-        <div className="player-stats__label">cards</div>
-        {handSize === undefined ? hand.length : handSize}
-      </div>
-      <div className="player-stats__stat">
-        <div className="player-stats__label">plays</div>
-        {plays}
-      </div>
-      <div className="player-stats__stat">
-        <div className="player-stats__label">attack</div>
-        {attackPool}
-      </div>
-
+    <div className={`player-stats player-stats--${friendly ? '' : 'enemy'}`}>
       <div className="player-stats__resources">
-        {Object.keys(resources).map((resource) => {
-          const amount = sumResourceForPlayer(resource, player);
+        <div className="player-stats__resource-row">
+          <div className="player-stats__resource">
+            <div className="player-stats__resource-amount">{handSize === undefined ? hand.length : handSize}</div>
+            <div className="player-stats__resource-icon">cards</div>
+          </div>
 
-          return (
-            <div key={resource} className="player-stats__resource">
-              <div className="player-stats__resource-amount">{amount}</div>
-              <div className="player-stats__resource-icon">
-                {resource === 'draws'
-                  ? 'Draws'
-                  : <ResourceIcon resource={resource} num={1} />
-                }
-              </div>
+          <div className="player-stats__resource">
+            <div className="player-stats__resource-amount">{plays}</div>
+            <div className="player-stats__resource-icon">plays</div>
+          </div>
+
+          <div className="player-stats__resource">
+            <div
+              className={classNames('player-stats__resource-amount', {
+                'player-stats__resource-amount--emphasis': attackPool > 0,
+              })}
+            >
+              {attackPool}
             </div>
-          );
-        })}
+            <div className="player-stats__resource-icon">attack</div>
+          </div>
+        </div>
+
+        <div className="player-stats__resource-row">
+          {Object.keys(resources).map((resource) => {
+            const amount = sumResourceForPlayer(resource, player);
+
+            return (
+              <div key={resource} className="player-stats__resource">
+                <div className="player-stats__resource-amount">{amount}</div>
+                <div className="player-stats__resource-icon">
+                  {resource === 'draws'
+                    ? 'Draws'
+                    : <ResourceIcon resource={resource} num={1} />
+                  }
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {belongsToActivePlayer && turnLength && timeLeft ? (
+          <ProgressBar current={timeLeft} max={turnLength} />
+        ) : null}
       </div>
-
-      {belongsToActivePlayer && turnLength && timeLeft ? (
-        <ProgressBar current={timeLeft} max={turnLength} />
-      ) : null}
-
-      {children}
     </div>
   );
 }

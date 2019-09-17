@@ -5,9 +5,10 @@
   justify-content: center;
   align-items: center;
 
-  width: 3.5vh;
-  height: 3.5vh;
-  font-size: 2vh;
+  width: 8vh;
+  height: 8vh;
+  font-size: 4vh;
   background-color: crimson;
   border-radius: 50%;
+  transform: rotate(180deg);
 }

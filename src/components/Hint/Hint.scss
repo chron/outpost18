@@ -2,14 +2,15 @@
 
 .hint {
   position: absolute;
-  top: 6vh;
+  top: 23vh;
   left: 1vh;
   padding: 3vh;
   border-radius: 1vh;
   color: white;
-  background-color: $panel-background-color;
+  background-color: rgba(0,0,0,0.8);
   font-size: 2vh;
   z-index: 1;
+
 
   > p {
     margin: 1vh 0 0 0;

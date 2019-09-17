@@ -2,16 +2,17 @@
 
 .upgrade {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  margin-top: 0.5vh;
   font-family: $title-font-stack;
   color: $card-foreground-color;
   background-color: $card-background-color;
   border: 0.2vh solid $upgrade-border-color;
   border-radius: 0.5vh;
   text-align: center;
-  width: 4vh;
+  width: 100%;
+  height: 3vh;
 
   &--enemy {
     transform: rotate(180deg);
@@ -22,34 +23,44 @@
     cursor: pointer;
   }
 
-  &--static {
-    width: $card-width;
-    height: 4vh;
-    flex-direction: row;
-    margin: 0.6vh -0.4vh 0 -0.4vh;
-
+  &--vertical {
+    height: $card-width;
+    width: 3vh;
+    flex-direction: column;
+    margin-top: 0;
+    margin-right: 0.1vh;
 
     > .upgrade__powers {
-      flex-direction: row;
+      flex-direction: column;
     }
 
     > .upgrade__shields {
-      transform: rotate(270deg);
+      transform: none;
 
       &.upgrade__shields--reverse {
-        transform: rotate(90deg);
+        transform: rotate(180deg);
+      }
+
+      &:first-child {
+        left: -0.1vh;
+        bottom: 0.2vh;
+      }
+
+      &:last-child {
+        right: 0;
+        top: 0.2vh;
       }
     }
 
     .upgrade__power, .resource-icon {
-      transform: rotate(90deg);
+      //transform: rotate(90deg);
     }
   }
 
   &__shields {
     position: relative;
-    left: -0.2vh;
-    top: 0.2vh;
+    height: 3vh;
+    width: 3vh;
 
     display: flex;
     align-items: center;
@@ -61,12 +72,22 @@
     font-family: $title-font-stack;
     font-size: 2vh;
 
+    transform: rotate(270deg);
+
+    &:first-child {
+      left: -0.2vh;
+    }
+
+    &:last-child {
+      right: -0.2vh;
+    }
+
     &--defender {
       color: $defender-text-color;
     }
 
     &--reverse {
-      transform: rotate(180deg);
+      transform: rotate(90deg);
     }
 
     .upgrade--destroyable & {
@@ -76,7 +97,6 @@
 
   &__powers {
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     flex-grow: 1;

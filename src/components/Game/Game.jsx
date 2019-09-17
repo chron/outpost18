@@ -41,6 +41,18 @@ const Game = () => {
         {myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
         <div className="lanes">
           <Lane>
+            <button
+              type="button"
+              className="button end-turn end-turn--reverse"
+              disabled={gameState === 'abandoned' || gameState === 'finished'}
+              onClick={() => dispatch({ type: 'resign' })}
+            >
+              Resign<br/>
+              game
+            </button>
+
+            <PlayerStats player={opponent} />
+
             {enemyUpgrades.map(({ cardName }) => (
               <Upgrade
                 key={cardName}
@@ -52,36 +64,40 @@ const Game = () => {
           </Lane>
 
           <Lane type="ship">
+            <div className="fleet">
+              {enemyShips.map(({ cardName, canAttack, attacking, attackAdded }) => (
+                <Ship
+                  key={cardName}
+                  owner={player}
+                  cardName={cardName}
+                  canAttack={canAttack}
+                  attacking={attacking}
+                  attackAdded={attackAdded}
+                />
+              ))}
+            </div>
+
             <div className="deck">
               <FaceDownCard count={deckSize} />
             </div>
-
-            {enemyShips.map(({ cardName, canAttack, attacking, attackAdded }) => (
-              <Ship
-                key={cardName}
-                owner={player}
-                cardName={cardName}
-                canAttack={canAttack}
-                attacking={attacking}
-                attackAdded={attackAdded}
-              />
-            ))}
           </Lane>
 
           <Lane friendly type="ship">
             <DiscardPile />
 
-            {ships.map(({ cardName, canAttack, attacking, attackAdded }) => (
-              <Ship
-                key={cardName}
-                friendly
-                owner={player}
-                cardName={cardName}
-                canAttack={canAttack}
-                attacking={attacking}
-                attackAdded={attackAdded}
-              />
-            ))}
+            <div className="fleet">
+              {ships.map(({ cardName, canAttack, attacking, attackAdded }) => (
+                <Ship
+                  key={cardName}
+                  friendly
+                  owner={player}
+                  cardName={cardName}
+                  canAttack={canAttack}
+                  attacking={attacking}
+                  attackAdded={attackAdded}
+                />
+              ))}
+            </div>
           </Lane>
 
           <Lane friendly type="upgrade">
@@ -94,9 +110,10 @@ const Game = () => {
               />
             ))}
             <Base friendly cardName="Station Core" owner={player} />
-          </Lane>
 
-          <div />
+            <PlayerStats friendly player={player} />
+            <EndTurnButton />
+          </Lane>
 
           <Lane friendly type="hand">
             {player.hand.map(c => (
@@ -104,21 +121,6 @@ const Game = () => {
             ))}
           </Lane>
         </div>
-
-        <PlayerStats player={opponent}>
-          <button
-            type="button"
-            className="button end-turn"
-            disabled={gameState === 'abandoned' || gameState === 'finished'}
-            onClick={() => dispatch({ type: 'resign' })}
-          >
-            Resign game
-            </button>
-        </PlayerStats>
-
-        <PlayerStats friendly player={player}>
-          <EndTurnButton />
-        </PlayerStats>
       </div>
     </KeyMap>
   );

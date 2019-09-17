@@ -14,7 +14,8 @@ function EndTurnButton() {
       disabled={!myTurn || gameState !== 'main'}
       onClick={() => dispatch({ type: 'endTurn' })}
     >
-      End Turn
+      End<br />
+      Turn
     </button>
   );
 }
