@@ -19,17 +19,16 @@ export default function timeout(state) {
 
   if (new Date() < turnShouldEndAt) { return state; }
 
-  const player = players.find(p => p.playerId === activePlayer);
-
   const stateWithLog = log(state, { playerId: activePlayer, action: { type: 'timeout' } });
 
   // If we time out in the `begin` phase we need to discard down to MAX_HAND_SIZE.
   if (gameState === 'begin') {
+    const player = players.find(p => p.playerId === activePlayer);
     const discardsNeeded = Math.max(0, player.hand.length - MAX_HAND_SIZE);
     const cardsToDiscard = player.hand.slice(0, discardsNeeded);
 
-    const newState = discard(stateWithLog, activePlayer, cardsToDiscard, true);
-    return endTurn(newState, activePlayer, true);
+    const newState = discard(stateWithLog, activePlayer, cardsToDiscard);
+    return endTurn(newState, activePlayer);
   } else {
     return endTurn(stateWithLog, activePlayer);
   }

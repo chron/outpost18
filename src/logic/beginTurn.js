@@ -2,7 +2,7 @@ import { updatePlayer } from './utils';
 import { MAX_HAND_SIZE } from './constants';
 import log from './log';
 
-export default function beginTurn(state, playerId, suppressLog = false) {
+export default function beginTurn(state, playerId) {
   const player = state.players.find(p => p.playerId === playerId);
 
   // They will move into either the `begin` or `main` phase depending on hand size
@@ -20,9 +20,7 @@ export default function beginTurn(state, playerId, suppressLog = false) {
       activePlayer: playerId,
     };
 
-    if (!suppressLog) {
-      newState = log(newState, { playerId, action: { type: 'mainPhase' } });
-    }
+    newState = log(newState, { playerId, action: { type: 'mainPhase' } });
 
     return newState;
   }
