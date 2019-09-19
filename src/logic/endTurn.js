@@ -25,7 +25,7 @@ function drawCards(state, playerId, num) {
   return log(newState, { playerId, action: { type: 'draw', amount: num } });
 }
 
-export default function endTurn(state, playerId, suppressLog = false) {
+export default function endTurn(state, playerId) {
   if (state.gameState !== 'main') { return state; }
   if (state.activePlayer !== playerId) { return state; }
 
@@ -44,9 +44,7 @@ export default function endTurn(state, playerId, suppressLog = false) {
     inPlay: nonAttackers,
   });
 
-  if (!suppressLog) {
-    newState = log(newState, { playerId, action: { type: 'endTurn' } });
-  }
+  newState = log(newState, { playerId, action: { type: 'endTurn' } });
 
   // Draw cards equal to your draws stat
   const draws = sumResourceForPlayer('draws', player);
