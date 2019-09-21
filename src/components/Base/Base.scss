@@ -2,7 +2,6 @@
 
 .base {
   display: flex;
-
   width: $card-height * 1.4;
   height: $card-width;
   color: $card-foreground-color;
@@ -11,12 +10,14 @@
   box-shadow: $card-shadow;
   font-family: $title-font-stack;
 
+
   &__main {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    width: 100%;
+    width: $card-height * 1;
     margin: 0.5vh;
     padding: 0.5vh;
 
@@ -25,6 +26,9 @@
 
   &__name {
     font-size: 1.5vh;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &--reverse {
       transform: rotate(180deg);

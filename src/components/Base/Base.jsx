@@ -12,7 +12,7 @@ function Base({ friendly = false, owner }) {
       <div className="base__main">
         <div className="base__name">{BASE_NAME}</div>
         <div className="base__image" />
-        <div className="base__name base__name--reverse">{BASE_NAME}</div>
+        <div className="base__name base__name--reverse">{owner.name}</div>
       </div>
     </div>
   );

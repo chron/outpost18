@@ -2607,6 +2607,17 @@ dnd-core@^9.3.4:
     invariant "^2.2.4"
     redux "^4.0.1"
 
+dnd-core@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-9.4.0.tgz#ccf605d36887f18cdde8fd5576ca3145d2e69fa8"
+  integrity sha512-Kg+8VwU8s7TgdR/BUYGUHrvFiS+5ePMZ0Q0XD7p+cFVJvgKqykBaeQDuaziuauFMPm8QxtnUy8Pncey9flXW3Q==
+  dependencies:
+    "@types/asap" "^2.0.0"
+    "@types/invariant" "^2.2.30"
+    asap "^2.0.6"
+    invariant "^2.2.4"
+    redux "^4.0.4"
+
 doctrine@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.5.0.tgz#379dce730f6166f76cefa4e6707a159b02c5a6fa"
@@ -6054,13 +6065,13 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-dnd-touch-backend@^9.3.4:
-  version "9.3.4"
-  resolved "https://registry.yarnpkg.com/react-dnd-touch-backend/-/react-dnd-touch-backend-9.3.4.tgz#6a93d06967a400dad2154b49e273f93aeee1cdfe"
-  integrity sha512-AREEmbttYY2c8y8lPYilzQksskArkbP0eCSrmilyxmUqQ1pzTRaYFl/5e0t3YKNBjgR47l44KFAHl37pTs81Pw==
+react-dnd-touch-backend@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/react-dnd-touch-backend/-/react-dnd-touch-backend-9.4.0.tgz#6784e71fad0904723e33e6710caafe36c62192a4"
+  integrity sha512-yJjFhgslriSTIEXQ/Q5MrLnETJaoyRct+AsJ//e96WOH2pUNMGSxkl8RIb/IMhNysVnMc8frLIyT8dQxXAcmGA==
   dependencies:
     "@types/invariant" "^2.2.30"
-    dnd-core "^9.3.4"
+    dnd-core "^9.4.0"
     invariant "^2.2.4"
 
 react-dnd@^9.3.4:
@@ -6200,7 +6211,7 @@ redis-url@~0.2.0:
     redis-commands "^1.2.0"
     redis-parser "^2.6.0"
 
-redux@^4.0.1:
+redux@^4.0.1, redux@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
   integrity sha512-vKv4WdiJxOWKxK0yRoaK3Y4pxxB0ilzVx6dszU2W8wLxlb2yikRph4iV/ymtdJ6ZxpBLFbyrxklnT5yBbQSl3Q==
