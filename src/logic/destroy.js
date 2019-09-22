@@ -31,6 +31,7 @@ export default function destroy(state, playerId, cardName) {
     return {
       ...log(state, { playerId, action: { type: 'win' } }),
       gameState: 'finished',
+      winner: playerId,
       finishedAt: new Date().toISOString(),
     };
   } else {
