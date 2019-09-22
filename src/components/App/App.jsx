@@ -36,6 +36,7 @@ function App() {
     setGameState(newState);
   });
 
+  // TODO: move this into the game page not here
   useEffect(() => {
     loadGame(playerId).then(newState => setGameState(newState));
   }, []);
