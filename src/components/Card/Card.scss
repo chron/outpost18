@@ -6,6 +6,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: $card-width + 1vh;
+
+  @include mobile {
+    width: $card-width-mobile + 1vh;
+  }
 
   padding: 0.5vh;
   margin: 0 0.5vh;

@@ -6,7 +6,7 @@
   --base-height: #{$card-width};
 
   @include mobile {
-    --base-width: #{$card-height-mobile + 1vh};
+    --base-width: #{$card-height-mobile + 3vh};
     --base-height: #{$card-width-mobile};
   }
 

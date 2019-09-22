@@ -13,6 +13,7 @@ import PlayerStats from '../PlayerStats';
 import EndTurnButton from '../EndTurnButton';
 import Lane from '../Lane';
 import DiscardPile from '../DiscardPile';
+import DragLayer from '../DragLayer';
 
 import './Game.scss';
 import GameLog from '../GameLog/GameLog';
@@ -35,6 +36,7 @@ const Game = () => {
   return (
     <KeyMap dispatch={dispatch} handlers={keyHandlers}>
       <div className="game" tabIndex={-1}>
+        <DragLayer />
         {myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
         <Hint />
         {showGameLog ? <GameLog /> : null}
