@@ -15,12 +15,14 @@ export default function gameStatePresenter(state, gameId, playerId) {
     settings,
     turnStartedAt,
     publicGame,
+    ruleset,
   } = state;
   const player = players.find(p => p.playerId === playerId);
   const opponent = players.find(p => p.playerId !== playerId);
 
   return {
     gameId,
+    ruleset,
     joinCode,
     publicGame,
     tick,

@@ -195,8 +195,8 @@ const cards = [
         effect: {
           // TODO: use the symbols here
           description: '+I for each ion you generate.',
-          function: (_state, player) => {
-            return { attack: sumResourceForPlayer('ion', player) };
+          function: (state, player) => {
+            return { attack: sumResourceForPlayer(state, 'ion', player) };
           },
         },
       },

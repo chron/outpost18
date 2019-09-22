@@ -34,15 +34,11 @@
 
   &--ready {
     cursor: pointer;
+    box-shadow: $interactable-glow;
 
     &:hover {
       transform: rotate(-10deg) scale(1.05);
       z-index: 1;
-    }
-
-    .card__title {
-      color: yellow;
-      border-color: currentColor;
     }
   }
 

@@ -34,12 +34,16 @@ export default function nextMove(state, playerId) {
     const cardNames = hand.slice(0, Math.max(0, hand.length - MAX_HAND_SIZE));
     return { type: 'discard', cardNames };
   } else if (gameState === 'main') {
+    console.log(1);
     const potentialAttack = totalAttack(state, player);
-    const ships = readyShips(player);
-    const lethalRequired = calculateLethal(opponent);
+    console.log(2);
+    const ships = readyShips(state, player);
+    console.log(3);
+    const lethalRequired = calculateLethal(state, opponent);
+    console.log(4);
 
     if (attackPool >= lethalRequired) {
-      const defenseCards = defenseUpgrades(opponent).map(c => c.name);
+      const defenseCards = defenseUpgrades(state, opponent).map(c => c.name);
       const cardName = defenseCards[0] || 'Station Core';
       return { type: 'destroy', cardName };
     } else if (potentialAttack >= lethalRequired) {

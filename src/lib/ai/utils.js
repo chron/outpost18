@@ -1,10 +1,9 @@
 import cloneDeep from 'lodash.clonedeep';
 import reducer from '../../logic/reducer';
-import cards from '../../logic/cards';
-import { resourceTotalsForPlayer } from '../../utils';
+import { findCard, resourceTotalsForPlayer } from '../../utils';
 
-function mapToCards(cardNames) {
-  return cardNames.map(name => cards.find(c => c.name === name));
+function mapToCards(state, cardNames) {
+  return cardNames.map(cardName => findCard(state, cardName));
 }
 
 function simulate(state, playerId, action) {
@@ -12,14 +11,15 @@ function simulate(state, playerId, action) {
   return reducer(newState, action, playerId);
 }
 
-export function readyShips(player) {
+export function readyShips(_state, player) {
   return player.inPlay
     .filter(i => i.mode === 'ship' && i.canAttack && !i.attacking)
     .map(i => i.cardName);
 }
 
-export function defenseUpgrades(player) {
+export function defenseUpgrades(state, player) {
   return mapToCards(
+    state,
     player.inPlay
       .filter(i => i.mode === 'upgrade')
       .map(i => i.cardName)
@@ -27,7 +27,7 @@ export function defenseUpgrades(player) {
 }
 
 function ratePlayerState(state, player, weights) {
-  const playerStats = { ...player, ...resourceTotalsForPlayer(player) };
+  const playerStats = { ...player, ...resourceTotalsForPlayer(state, player) };
 
   return (
     (playerStats.ore || 0) * (weights.ore || 0)
@@ -35,8 +35,8 @@ function ratePlayerState(state, player, weights) {
     + (playerStats.labour || 0) * (weights.labour || 0)
     + (playerStats.draws || 0) * (weights.draws || 0)
     + (playerStats.hand.length || 0) * (weights.handSize || 0)
-    + calculateLethal(player) * (weights.effectiveHealth || 0)
-    + totalAttackNextTurn(player) * (weights.nextTurnAttack || 0)
+    + calculateLethal(state, player) * (weights.effectiveHealth || 0)
+    + totalAttackNextTurn(state, player) * (weights.nextTurnAttack || 0)
   );
 }
 
@@ -56,7 +56,7 @@ export function rateAction(state, playerId, weights, action) {
 // If we attacked with everything, how much attack could we generate total?
 // (includes any attack already in the pool)
 export function totalAttack(state, player) {
-  const simulation = readyShips(player).reduce((prevState, cardName) => {
+  const simulation = readyShips(state, player).reduce((prevState, cardName) => {
     return simulate(prevState, player.playerId, { type: 'attack', cardName }); // TODO: choices
   }, state);
 
@@ -64,17 +64,17 @@ export function totalAttack(state, player) {
   return simulatedPlayer.attackPool;
 }
 
-export function totalAttackNextTurn(player) {
+export function totalAttackNextTurn(state, player) {
   const allShips = player.inPlay.filter(i => i.mode === 'ship').map(i => i.cardName);
-  const allCards = mapToCards(allShips);
+  const allCards = mapToCards(state, allShips);
   // TODO: this doesn't do any abilities at all
   return allCards.reduce((total, c) => total + c.attack, 0);
 }
 
 // Return how much damage is needed to destroy this player.
-export function calculateLethal(player) {
-  const defenseCards = defenseUpgrades(player);
-  const base = mapToCards(['Station Core'])[0]; // TODO: un-hardcode this
+export function calculateLethal(state, player) {
+  const defenseCards = defenseUpgrades(state, player);
+  const base = mapToCards(state, ['Station Core'])[0]; // TODO: un-hardcode this
 
   return defenseCards.map(c => c.shields).reduce((sum, n) => sum + n, base.shields);
 }

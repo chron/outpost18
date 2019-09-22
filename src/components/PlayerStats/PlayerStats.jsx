@@ -9,10 +9,11 @@ import ProgressBar from '../ProgressBar';
 const CLIENT_TIMEOUT_GRACE_PERIOD = 1000;
 
 // TODO: draws icon
-function PlayerStats({ player, friendly = false, children }) {
-  const { activePlayer, gameInProgress, turnStartedAt, settings, dispatch } = useGameState();
+function PlayerStats({ player, friendly = false }) {
+  const gameState = useGameState();
+  const { activePlayer, gameInProgress, turnStartedAt, settings, dispatch } = gameState;
   const turnLength = settings && settings.turnLength;
-  const { name, hand, handSize, plays, attackPool } = player;
+  const { hand, handSize, plays, attackPool } = player;
   const [timeLeft, setTimeLeft] = useState();
   const [sentTimeout, setSentTimeout] = useState(false);
   const belongsToActivePlayer = activePlayer === (friendly ? 'player' : 'opponent');
@@ -67,7 +68,7 @@ function PlayerStats({ player, friendly = false, children }) {
 
         <div className="player-stats__resource-row">
           {Object.keys(resources).map((resource) => {
-            const amount = sumResourceForPlayer(resource, player);
+            const amount = sumResourceForPlayer(gameState, resource, player);
 
             return (
               <div key={resource} className="player-stats__resource">

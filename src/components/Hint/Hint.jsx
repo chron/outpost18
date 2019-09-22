@@ -5,7 +5,7 @@ import { useGameState } from '../GameProvider';
 const CHOICE_TEXT = {
   ship: 'an enemy ship',
   upgrade: 'an enemy upgrade',
-  card: 'cards to discard',
+  card: max => (max ? `up to ${max} cards to discard` : 'a card to discard'),
 };
 
 // TODO: move this, also, make it better
@@ -24,10 +24,13 @@ function Hint() {
   } else if (gameState === 'main') {
     if (uiMode) {
       const showConfirm = uiMode.max && uiMode.max > 1;
+      const choiceText = typeof CHOICE_TEXT[uiMode.type] === 'function'
+        ? CHOICE_TEXT[uiMode.type](uiMode.max)
+        : CHOICE_TEXT[uiMode.type];
 
       message = (
         <>
-          <p>Choose {CHOICE_TEXT[uiMode.type]}.</p>
+          <p>Choose {choiceText}.</p>
           {showConfirm && (
             <p>
               You have selected{' '}

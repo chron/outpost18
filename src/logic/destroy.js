@@ -1,4 +1,4 @@
-import cards from './cards';
+import { findCard } from '../utils';
 import log from './log';
 
 export default function destroy(state, playerId, cardName) {
@@ -17,10 +17,10 @@ export default function destroy(state, playerId, cardName) {
 
   const targetIndex = inPlay.findIndex(s => s.cardName === cardName && ['upgrade', 'base'].includes(s.mode));
   const target = inPlay[targetIndex];
-  const card = cards.find(c => c.name === cardName);
+  const card = findCard(state, cardName);
   const defenders = inPlay
     .filter(s => s.mode === 'upgrade')
-    .map(s => cards.find(c => s.cardName === c.name))
+    .map(s => findCard(state, cardName))
     .filter(c => c.defender);
 
   if (!target) { return state; }

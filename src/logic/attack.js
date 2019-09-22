@@ -1,5 +1,4 @@
-import cards from './cards';
-import { isThresholdMet } from '../utils';
+import { isThresholdMet, findCard } from '../utils';
 import log from './log';
 
 export default function attack(state, playerId, cardName, choices) {
@@ -19,14 +18,13 @@ export default function attack(state, playerId, cardName, choices) {
   if (!ship.canAttack) { return state; }
   if (ship.attacking) { return state; }
 
-  const card = cards.find(c => c.name === cardName);
-
+  const card = findCard(state, cardName);
   const newPlayer = { ...player };
   const oldAttackPool = newPlayer.attackPool;
 
   // Check and apply the ship's attack abilities
   card.abilities.forEach(({ threshold, effect }) => {
-    if (threshold && !isThresholdMet(threshold, player)) { return; }
+    if (threshold && !isThresholdMet(state, threshold, player)) { return; }
 
     // Gotcha: if `function` key is provided all other keys are ignored
     // TODO: right now the function can modify state - which is needed to apply some of the

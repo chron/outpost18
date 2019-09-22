@@ -9,6 +9,7 @@ import ShipCard from '../ShipCard';
 import './Card.scss';
 
 function Card({ cardName, inHand = false }) {
+  const state = useGameState();
   const {
     myTurn,
     gameState,
@@ -17,7 +18,7 @@ function Card({ cardName, inHand = false }) {
     player,
     cards,
     toggleZoom,
-  } = useGameState();
+  } = state;
 
   const card = cards.find(c => c.name === cardName);
   const [{ isDragging }, dragRef] = useDrag({
@@ -28,7 +29,8 @@ function Card({ cardName, inHand = false }) {
     }),
   });
 
-  const selectable = uiMode && uiMode.type === 'card' && (uiMode.selected.includes(cardName) || uiMode.selected.length < uiMode.max);
+  const selectable = uiMode && uiMode.type === 'card'
+    && (uiMode.selected.includes(cardName) || uiMode.selected.length < (uiMode.max || 1));
 
   let onClick;
   if (selectable) {
@@ -48,7 +50,7 @@ function Card({ cardName, inHand = false }) {
       ref={dragRef}
       onClick={onClick}
     >
-      <ShipCard card={card} owner={inHand && player} />
+      <ShipCard card={card} owner={inHand && player} state={state} />
       <Upgrade cardName={cardName} inPlay={false} />
     </div>
   );

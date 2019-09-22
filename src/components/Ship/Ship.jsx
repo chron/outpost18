@@ -5,6 +5,8 @@ import { isThresholdMet } from '../../utils';
 import './Ship.scss';
 
 function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackAdded }) {
+  const state = useGameState();
+
   const {
     cards,
     dispatch,
@@ -13,14 +15,13 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackA
     uiMode,
     setChoice,
     toggleZoom,
-  } = useGameState();
+  } = state;
   const card = cards.find(c => c.name === cardName);
 
   // TODO: this is ugly
   const availableToAttack = friendly && canAttack && !attacking && myTurn && gameState === 'main' && !uiMode;
   const availableToChoose = !friendly && uiMode && uiMode.mode === 'choice' && uiMode.type === 'ship';
-
-  const abilityWithChoice = card.abilities.find(a => a.effect.choice && isThresholdMet(a.threshold, owner));
+  const abilityWithChoice = card.abilities.find(a => a.effect.choice && isThresholdMet(state, a.threshold, owner));
 
   let onClick;
 
@@ -52,7 +53,7 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackA
         className={`ship ${attacking ? 'ship--attacking' : ''} ${interactable ? 'ship--ready' : ''} ${friendly ? '' : 'ship--enemy'}`}
         onClick={onClick}
       >
-        <ShipCard card={card} owner={owner} />
+        <ShipCard card={card} owner={owner} state={state} />
       </div>
     </div>
   );

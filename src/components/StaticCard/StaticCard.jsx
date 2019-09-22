@@ -1,9 +1,10 @@
 import React from 'react';
 import ShipCard from '../ShipCard';
 import UpgradeCard from '../UpgradeCard';
-import cards from '../../logic/cards';
+import { useGameState } from '../GameProvider';
 
 function StaticCard({ cardName, ...otherProps }) {
+  const { cards } = useGameState();
   const card = cards.find(c => c.name === cardName);
 
   if (!card) { return null; }

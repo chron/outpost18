@@ -47,7 +47,7 @@ export default function endTurn(state, playerId) {
   newState = log(newState, { playerId, action: { type: 'endTurn' } });
 
   // Draw cards equal to your draws stat
-  const draws = sumResourceForPlayer('draws', player);
+  const draws = sumResourceForPlayer(newState, 'draws', player);
   newState = drawCards(newState, playerId, draws);
 
   // Begin turn for next player
