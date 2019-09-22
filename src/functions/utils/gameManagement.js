@@ -1,5 +1,7 @@
 import shuffle from 'lodash.shuffle';
-import cards from '../../logic/cards';
+import allCards from '../../cards';
+
+const ACTIVE_VERSION = '2.4.1';
 
 // TODO: should this stuff move into `/logic`?
 function startGame(gameState) {
@@ -40,11 +42,15 @@ export function validPlayerId(playerId) {
 }
 
 export function initialGameState(publicGame, settings = {}) {
+  const cards = allCards[ACTIVE_VERSION];
   const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
+
+  // For testing you might want to force a particular card into your starting hand
+  // deck = ['Helix'].concat(deck.filter(c => c.name !== 'Helix'));
 
   return {
     createdAt: new Date().toISOString(),
-    ruleset: '2.4',
+    ruleset: ACTIVE_VERSION,
     publicGame,
     settings: {
       turnLength: undefined,
@@ -54,10 +60,12 @@ export function initialGameState(publicGame, settings = {}) {
     joinCode: generateJoinCode(),
     activePlayer: null,
     deck,
+    startingDeck: deck,
     discards: [],
     players: [],
     log: [],
     tick: 0,
+    turn: 1,
   };
 }
 
@@ -87,5 +95,5 @@ export function addAutomaToGame(gameState, aiController = 'basic') {
   const playerId = 'AUTOMA';
   const playerName = 'The Worst AI';
 
-  return addPlayerToGame(gameState, playerId, playerName, { aiController })
+  return addPlayerToGame(gameState, playerId, playerName, { aiController });
 }

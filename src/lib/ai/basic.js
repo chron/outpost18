@@ -7,7 +7,7 @@ const WEIGHTS = {
     ore: 1,
     ion: 1,
     labour: 1,
-    effectiveHealth: 2,
+    effectiveHealth: x => Math.min(x, 9),
     nextTurnAttack: 2,
   },
   opponent: {
@@ -25,8 +25,9 @@ const WEIGHTS = {
 // might be nice to use the presenter so we don't do that accidentally.
 export default function nextMove(state, playerId) {
   const { gameState, players } = state;
+
   const player = players.find(p => p.playerId === playerId);
-  const opponent = players.find(p => p.playerId !== playerId);
+  const opponentId = players.find(p => p.playerId !== playerId).playerId;
   const { hand, plays, attackPool } = player;
 
   if (gameState === 'begin') {
@@ -34,12 +35,12 @@ export default function nextMove(state, playerId) {
     const cardNames = hand.slice(0, Math.max(0, hand.length - MAX_HAND_SIZE));
     return { type: 'discard', cardNames };
   } else if (gameState === 'main') {
-    const potentialAttack = totalAttack(state, player);
-    const ships = readyShips(player);
-    const lethalRequired = calculateLethal(opponent);
+    const potentialAttack = totalAttack(state, playerId);
+    const ships = readyShips(state, playerId);
+    const lethalRequired = calculateLethal(state, opponentId);
 
     if (attackPool >= lethalRequired) {
-      const defenseCards = defenseUpgrades(opponent).map(c => c.name);
+      const defenseCards = defenseUpgrades(state, opponentId).map(c => c.name);
       const cardName = defenseCards[0] || 'Station Core';
       return { type: 'destroy', cardName };
     } else if (potentialAttack >= lethalRequired) {

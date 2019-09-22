@@ -31,7 +31,7 @@ body {
   flex-direction: column;
   height: 100%;
 
-  > [tabindex="-1"] { // HotKeys div
-    flex-grow: 1;
+  [tabindex="-1"] { // HotKeys div
+    height: 100%;
   }
 }

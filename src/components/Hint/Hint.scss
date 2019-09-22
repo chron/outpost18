@@ -1,18 +1,27 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 .hint {
-  position: absolute;
-  top: 50px;
-  left: 30px;
-  padding: 20px;
-  border-radius: 10px;
+  @include desktop {
+    position: absolute;
+    top: 6vh;
+    left: 1vh;
+    padding: 3vh;
+    border-radius: 1vh;
+  }
+
+  @include mobile {
+    padding: 1vh;
+    width: 100%;
+  }
+
+  background-color: rgba(0,0,0,0.8);
   color: white;
-  background-color: $panel-background-color;
-  font-size: 24px;
+  font-size: 2vh;
   z-index: 1;
 
   > p {
-    margin: 10px 0 0 0;
+    margin: 1vh 0 0 0;
   }
 
   &--link {

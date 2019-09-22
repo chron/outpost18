@@ -6,7 +6,7 @@ function GameOver() {
 
   return (
     <div className="full-screen-wrapper">
-      <div className="panel">
+      <div className="panel interactable">
         <h1>
           {activePlayer === 'player' ? 'You win!' : 'You lose!'}
         </h1>

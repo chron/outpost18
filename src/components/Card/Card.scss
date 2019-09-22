@@ -1,22 +1,30 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-
-  width: 140px;
-  height: 196px;
-  padding: 5px;
-  margin: 0 5px;
-
+  width: $card-width + 1vh;
+  padding: 0.5vh;
+  margin: 0 0.5vh;
   color: $card-foreground-color;
   background-color: $card-background-color;
   box-shadow: $card-shadow;
-
   font-family: $title-font-stack;
+
+  @include mobile {
+    width: $card-width-mobile + 1vh;
+  }
+
+  &--zoomed {
+    position: fixed;
+    left: 39vw;
+    top: 45vh;
+    transform: scale(3);
+    z-index: 10;
+  }
 
   &--playable {
     cursor: grab;
@@ -35,6 +43,8 @@
   }
 
   &--playable, &--selectable {
+    box-shadow: $interactable-glow;
+
     &:hover {
       transform: scale(1.05);
       transition: 0.1s ease-out;
@@ -45,5 +55,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    width: $card-width;
+    height: $card-height;
+
+    @include mobile {
+      width: $card-width-mobile;
+      height: $card-height-mobile;
+    }
   }
 }

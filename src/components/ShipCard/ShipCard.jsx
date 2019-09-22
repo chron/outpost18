@@ -4,7 +4,6 @@ import { isThresholdMet } from '../../utils';
 import ResourceIcon from '../ResourceIcon';
 import attackImage from '../../assets/images/icons/attack.png';
 import * as images from '../../assets/images/ships/*.png';
-
 import './ShipCard.scss';
 
 function thresholdToIcons(threshold) {
@@ -39,7 +38,8 @@ function effectToIcons(effect) {
   });
 }
 
-function ShipCard({ card, owner = null }) {
+// TODO: Refactor this so we don't have to pass the whole state in here!
+function ShipCard({ card, owner = null, state = null }) {
   const { name, attack, abilities, hyperdrive, ship_ore, ship_ion, ship_labour } = card;
 
   let passiveAbility;
@@ -71,7 +71,7 @@ function ShipCard({ card, owner = null }) {
 
       <div className="card__power">
         <span className="power">
-          {Array(attack).fill(1).map(() => 'I')}
+          {attack === 0 ? '0' : Array(attack).fill(1).map(() => 'I')}
         </span>
       </div>
 
@@ -87,7 +87,7 @@ function ShipCard({ card, owner = null }) {
             <div
               key={i}
               className={classNames('card__ability', {
-                'card__ability--active': !owner || isThresholdMet(threshold, owner),
+                'card__ability--active': !owner || isThresholdMet(state, threshold, owner),
               })}
             >
               <img src={attackImage} className="attack-icon" alt="attack ability" />

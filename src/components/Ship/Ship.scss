@@ -3,11 +3,11 @@
 
 .ship {
   position: relative;
-  width: 140px;
+
   color: $card-foreground-color;
   background-color: $card-background-color;
-  padding: 5px;
-  margin: 0 5px;
+  padding: 0.6vh;
+  margin: 0 0.6vh;
   box-shadow: $card-shadow;
   outline: none; // TODO: accessibility
   transition: transform 0.1s ease-out;
@@ -18,36 +18,34 @@
 
   &__attack-alert {
     position: absolute;
-    left: 50px;
-    top: 30px;
-    padding: 10px;
+    left: 3vh;
+    top: 3vh;
+    padding: 1vh;
     color: white;
     background-color: crimson;
-    border-radius: 5px;
+    border-radius: 0.5vh;
     z-index: 1;
     opacity: 0;
+    white-space: nowrap;
+    font-size: 2vh;
 
     animation: 1s fadeSlideUp ease-out;
   }
 
   &--ready {
     cursor: pointer;
+    box-shadow: $interactable-glow;
 
     &:hover {
       transform: rotate(-10deg) scale(1.05);
       z-index: 1;
     }
-
-    .card__title {
-      color: yellow;
-      border-color: currentColor;
-    }
   }
 
   &--attacking {
     transform: rotate(270deg);
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 1vh;
+    margin-right: 1vh;
   }
 
   &--ready.ship--enemy {

@@ -1,74 +1,100 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 // TODO: rename or refactor this `card` stuff
 .card {
   &__ship {
-    width: 100%;
+    --ship-width: #{$card-width};
+    --ship-height: #{$ship-height};
+    --border-thickness: 0.2vh;
+    --border-radius: #{$card-width * 0.038};
+
+    @include mobile {
+      --ship-width: #{$card-width-mobile};
+      --ship-height: #{$ship-height-mobile};
+    }
+
+    width: var(--ship-width);
+    height: var(--ship-height);
     font-family: $title-font-stack;
   }
 
   &__title {
     position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 72%;
-    padding: 4px 0;
+    top: calc(var(--ship-height) * 0.02);
+    left: calc(var(--ship-width) * 0.02);
+    width: calc(var(--ship-width) * 0.77);
+    padding: calc(var(--ship-width) * 0.03) 0;
 
-    border: 2px solid $card-border-color;
-    border-radius: $card-border-radius;
+    border: var(--border-thickness) solid $card-border-color;
+    border-radius: var(--border-radius);
     background-color: $card-background-color;
-    font-size: 10px;
+    font-size: calc(var(--ship-height) * 0.075);
     text-align: center;
   }
 
   &__power {
     position: absolute;
-    top: 3px;
-    right: 3px;
-    width: 21%;
-    height: 26px;
+    top: calc(var(--ship-height) * 0.02);
+    right: calc(var(--ship-width) * 0.02);
+    width: calc(var(--ship-width) * 0.23);
+    height: calc(var(--ship-height) * 0.19);
 
-    border: 2px solid $card-border-color;
-    border-radius: $card-border-radius;
+    border: var(--border-thickness) solid $card-border-color;
+    border-radius: var(--border-radius);
     background-color: $card-background-color;
     text-align: center;
   }
 
   &__image {
-    width: 100%;
-    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--ship-width);
+    height: calc(var(--ship-height) * 0.63);
 
-    border: 2px solid $card-border-color;
+    border: var(--border-thickness) solid $card-border-color;
     background-color: $ship-background-color;
 
     > img {
-      height: 128px;
-      transform: rotate(90deg) translateY(24px) translateX(-7px);
+      height: calc(var(--ship-height) * 0.77);
+      transform: rotate(90deg) translateY(calc(var(--ship-width) * 0.12)) translateX(calc(var(--ship-height) * 0.05));
     }
   }
 
   &__passive {
     position: relative;
     width: 85%;
-    top: -10px;
+    top: calc(var(--ship-height) * -0.07);
     margin-left: 7.5%;
-    border: 2px solid $card-border-color;
-    border-radius: $card-border-radius;
+    border: var(--border-thickness) solid $card-border-color;
+    border-radius: var(--border-radius);
     background-color: $card-background-color;
-    font-size: 8px;
+    font-size: calc(var(--ship-height) * 0.06);
     text-align: center;
+
+    .resource-icon {
+      width: calc(var(--ship-height) * 0.07);
+    }
   }
 
   &__abilities {
-    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-    margin: -5px -2px 0 -2px;
-    padding: 5px;
-    border: 2px solid $card-border-color;
-    border-radius: $card-border-radius;
+    height: calc(var(--ship-height) * 0.42);
+    margin: calc(var(--ship-height) * -0.04) calc(var(--ship-width) * -0.02) 0 calc(var(--ship-width) * -0.02);
+    padding: calc(var(--ship-width) * 0.04);
+    border: var(--border-thickness) solid $card-border-color;
+    border-radius: var(--border-radius);
     background-color: $card-background-color;
-    font-size: 9px;
+    font-size: calc(var(--ship-height) * 0.06);
     text-align: center;
+
+    .attack-icon, .resource-icon {
+      width: calc(var(--ship-height) * 0.07);
+    }
   }
 
   &__ability {
@@ -80,8 +106,8 @@
   }
 
   &__passive + &__abilities {
-    margin-top: -22px;
-    padding-top: 10px;
+    margin-top: calc(var(--ship-height) * -0.14);
+    padding-top: calc(var(--ship-height) * 0.06);
   }
 }
 
@@ -89,9 +115,10 @@
   color: $power-color;
   font-family: sans-serif;
   vertical-align: top;
+  font-size: calc(var(--ship-height) * 0.12);
 
   .card__ability & {
-    font-size: 13px;
+    font-size: calc(var(--ship-height) * 0.09);
     line-height: 1;
   }
 }

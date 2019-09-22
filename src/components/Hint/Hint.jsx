@@ -3,9 +3,9 @@ import './Hint.scss';
 import { useGameState } from '../GameProvider';
 
 const CHOICE_TEXT = {
-  ship: 'an enemy ship',
-  upgrade: 'an enemy upgrade',
-  card: 'cards to discard',
+  ship: 'Choose an enemy ship',
+  upgrade: 'Choose an enemy upgrade',
+  card: max => (max ? `Choose up to ${max} cards to discard` : 'Choose a card to discard'),
 };
 
 // TODO: move this, also, make it better
@@ -25,9 +25,18 @@ function Hint() {
     if (uiMode) {
       const showConfirm = uiMode.max && uiMode.max > 1;
 
+      let choiceText;
+
+      if (uiMode.description) {
+        choiceText = uiMode.description;
+      } else {
+        choiceText = typeof CHOICE_TEXT[uiMode.type] === 'function'
+          ? CHOICE_TEXT[uiMode.type](uiMode.max)
+          : CHOICE_TEXT[uiMode.type];
+      }
       message = (
         <>
-          <p>Choose {CHOICE_TEXT[uiMode.type]}.</p>
+          <p>{choiceText}.</p>
           {showConfirm && (
             <p>
               You have selected{' '}

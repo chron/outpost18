@@ -14,11 +14,6 @@ function Waiting() {
             <p>
               This game is a public game so it will be listed on the lobby screen.
             </p>
-            <p>
-              Note that public games have a 60 second turn timer!
-              If you don&apos;t list your game in
-              the lobby you can play with unlimited turns.
-            </p>
           </>
         ) : (
           <>

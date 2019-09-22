@@ -3,7 +3,7 @@ import { useGameState } from '../GameProvider';
 import './EndTurnButton.scss';
 
 function EndTurnButton() {
-  const { dispatch, gameState, myTurn } = useGameState();
+  const { dispatch, gameState, uiMode, myTurn } = useGameState();
 
   // TODO: warnings about leftover plays / pool?
 
@@ -11,10 +11,11 @@ function EndTurnButton() {
     <button
       type="button"
       className="button end-turn"
-      disabled={!myTurn || gameState !== 'main'}
+      disabled={!myTurn || uiMode || gameState !== 'main'}
       onClick={() => dispatch({ type: 'endTurn' })}
     >
-      End Turn
+      End<br />
+      Turn
     </button>
   );
 }

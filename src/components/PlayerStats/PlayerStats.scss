@@ -1,58 +1,61 @@
 @import "../../stylesheets/variables.scss";
 
 .player-stats {
+  //position: absolute;
+  width: fit-content;
+  height: $card-width;
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: 30px;
-  padding: 20px;
+  margin-left: 1vh;
+  margin-right: 1vh;
+  padding: 1vh;
   color: $card-foreground-color;
   background-color: $card-background-color;
-  border-radius: 10px;
+  border-radius: 1vh;
   box-shadow: $card-shadow;
   z-index: 1;
 
+  &--enemy {
+    transform: rotate(180deg);
+  }
+
   &__name {
     font-family: $title-font-stack;
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
-  &__stat {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &--top {
-    top: 50px;
-  }
-
-  &--bottom {
-    bottom: 30px;
+    font-size: 2vh;
+    transform: rotate(-90deg);
   }
 
   &__resources {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    margin-top: 10px;
+  }
+
+  &__resource-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
   }
 
   &__resource {
     display: flex;
     flex-direction: column;
     flex-basis: 1;
-    width: 30px;
+    width: 3vh;
     justify-content: space-between;
     align-items: center;
   }
 
   &__resource-amount {
     font-family: $title-font-stack;
-    font-size: 20px;
+    font-size: 2vh;
+
+    &--emphasis {
+      color: crimson;
+    }
   }
 
   &__resource-icon {
-    margin-top: 5px;
-    font-size: 10px;
+    margin-top: 0.5vh;
+    font-size: 1vh;
   }
 }

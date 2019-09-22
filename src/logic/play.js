@@ -1,4 +1,4 @@
-import cards from './cards';
+import { findCard } from '../utils';
 import log from './log';
 
 export default function play(state, playerId, cardName, mode) {
@@ -14,7 +14,7 @@ export default function play(state, playerId, cardName, mode) {
   if (cardIndex < 0) { return state; }
   if (plays < 1) { return state; }
 
-  const card = cards.find(c => c.name === cardName);
+  const card = findCard(state, cardName);
 
   const newHand = hand.slice();
   newHand.splice(cardIndex, 1);

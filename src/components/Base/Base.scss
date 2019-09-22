@@ -1,29 +1,42 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 .base {
-  display: flex;
+  --base-width: #{$card-height + 1vh};
+  --base-height: #{$card-width};
 
-  width: 200px;
-  height: 132px;
+  @include mobile {
+    --base-width: #{$card-height-mobile + 3vh};
+    --base-height: #{$card-width-mobile};
+  }
+
+  display: flex;
+  width: var(--base-width);
+  height: var(--base-height);
   color: $card-foreground-color;
   background-color: $card-background-color;
-  border-radius: 8px;
+  border-radius: 0.5vh;
   box-shadow: $card-shadow;
   font-family: $title-font-stack;
 
   &__main {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    width: 100%;
-    margin: 5px;
-    padding: 5px;
+    margin: 0.5vh;
+    padding: 0.5vh;
 
     text-align: center;
   }
 
   &__name {
+    font-size: 1.5vh;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     &--reverse {
       transform: rotate(180deg);
     }
@@ -32,7 +45,7 @@
   &__image {
     flex-grow: 1;
     background-color: $ship-background-color;
-    border-radius: 5px;
-    border: 2px solid $upgrade-border-color;
+    border-radius: 0.5vh;
+    border: 0.2vh solid $upgrade-border-color;
   }
 }

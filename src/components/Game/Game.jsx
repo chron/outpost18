@@ -13,12 +13,22 @@ import PlayerStats from '../PlayerStats';
 import EndTurnButton from '../EndTurnButton';
 import Lane from '../Lane';
 import DiscardPile from '../DiscardPile';
-
+import DragLayer from '../DragLayer';
+import StaticCard from '../StaticCard';
 import './Game.scss';
 import GameLog from '../GameLog/GameLog';
 
 const Game = () => {
-  const { player, opponent, myTurn, gameState, dispatch, deckSize } = useGameState();
+  const {
+    player,
+    opponent,
+    myTurn,
+    gameState,
+    dispatch,
+    deckSize,
+    zoomedCard,
+    toggleZoom,
+  } = useGameState();
   const [showGameLog, setShowGameLog] = useState(false);
 
   const upgrades = player.inPlay.filter(s => s.mode === 'upgrade');
@@ -28,21 +38,47 @@ const Game = () => {
 
   // TODO: reintroduce the domRef / focus stuff for keybinds
 
+  const onBackgroundClick = e => {
+    const classes = [...e.target.classList];
+
+    if (classes.includes('lane') || classes.includes('fleet')) {
+      toggleZoom(null);
+    }
+  };
+
   const keyHandlers = {
     TOGGLE_GAME_LOG: () => setShowGameLog(current => !current),
   };
 
   return (
     <KeyMap dispatch={dispatch} handlers={keyHandlers}>
-      <div className="game" tabIndex={-1}>
+      <div className="game" tabIndex={-1} onClick={onBackgroundClick}>
+        <DragLayer />
+        {myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
         <Hint />
         {showGameLog ? <GameLog /> : null}
         {gameState === 'finished' ? <GameOver /> : null}
-        {myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
+        {zoomedCard ? (
+          <StaticCard
+            cardName={zoomedCard}
+            className="card card--zoomed"
+            onClick={toggleZoom}
+          />
+        ) : null}
         <div className="lanes">
-          <div />
-
           <Lane>
+            <button
+              type="button"
+              className="button end-turn end-turn--reverse"
+              disabled={gameState === 'abandoned' || gameState === 'finished'}
+              onClick={() => dispatch({ type: 'resign' })}
+            >
+              Resign<br/>
+              game
+            </button>
+
+            <PlayerStats player={opponent} />
+
             {enemyUpgrades.map(({ cardName }) => (
               <Upgrade
                 key={cardName}
@@ -53,40 +89,42 @@ const Game = () => {
             <Base owner={opponent} />
           </Lane>
 
-          <div className="deck">
-            <FaceDownCard count={deckSize} />
-          </div>
-
           <Lane type="ship">
-            {enemyShips.map(({ cardName, canAttack, attacking, attackAdded }) => (
-              <Ship
-                key={cardName}
-                owner={player}
-                cardName={cardName}
-                canAttack={canAttack}
-                attacking={attacking}
-                attackAdded={attackAdded}
-              />
-            ))}
-          </Lane>
+            <div className="fleet">
+              {enemyShips.map(({ cardName, canAttack, attacking, attackAdded }) => (
+                <Ship
+                  key={cardName}
+                  owner={player}
+                  cardName={cardName}
+                  canAttack={canAttack}
+                  attacking={attacking}
+                  attackAdded={attackAdded}
+                />
+              ))}
+            </div>
 
-          <DiscardPile />
+            <div className="deck">
+              <FaceDownCard count={deckSize} />
+            </div>
+          </Lane>
 
           <Lane friendly type="ship">
-            {ships.map(({ cardName, canAttack, attacking, attackAdded }) => (
-              <Ship
-                key={cardName}
-                friendly
-                owner={player}
-                cardName={cardName}
-                canAttack={canAttack}
-                attacking={attacking}
-                attackAdded={attackAdded}
-              />
-            ))}
-          </Lane>
+            <DiscardPile />
 
-          <div />
+            <div className="fleet">
+              {ships.map(({ cardName, canAttack, attacking, attackAdded }) => (
+                <Ship
+                  key={cardName}
+                  friendly
+                  owner={player}
+                  cardName={cardName}
+                  canAttack={canAttack}
+                  attacking={attacking}
+                  attackAdded={attackAdded}
+                />
+              ))}
+            </div>
+          </Lane>
 
           <Lane friendly type="upgrade">
             {upgrades.map(({ cardName }) => (
@@ -98,9 +136,10 @@ const Game = () => {
               />
             ))}
             <Base friendly cardName="Station Core" owner={player} />
-          </Lane>
 
-          <div />
+            <PlayerStats friendly player={player} />
+            <EndTurnButton />
+          </Lane>
 
           <Lane friendly type="hand">
             {player.hand.map(c => (
@@ -108,21 +147,6 @@ const Game = () => {
             ))}
           </Lane>
         </div>
-
-        <PlayerStats player={opponent}>
-          <button
-            type="button"
-            className="button end-turn"
-            disabled={gameState === 'abandoned' || gameState === 'finished'}
-            onClick={() => dispatch({ type: 'resign' })}
-          >
-            Resign game
-          </button>
-        </PlayerStats>
-
-        <PlayerStats friendly player={player}>
-          <EndTurnButton />
-        </PlayerStats>
       </div>
     </KeyMap>
   );

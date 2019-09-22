@@ -1,12 +1,15 @@
 @import "../../stylesheets/variables.scss";
 
 .end-turn {
-  margin-top: 10px;
-  padding: 5px;
-  border-radius: 2px;
+  border-radius: 0.2vh;
+  font-size: 2vh;
   text-align: center;
   color: $card-background-color;
   background-color: $card-foreground-color;
   border: none;
   cursor: pointer;
+
+  &--reverse {
+    transform: rotate(180deg);
+  }
 }

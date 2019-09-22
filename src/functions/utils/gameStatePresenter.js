@@ -12,18 +12,22 @@ export default function gameStatePresenter(state, gameId, playerId) {
     gameState,
     players,
     tick,
+    turn,
     settings,
     turnStartedAt,
     publicGame,
+    ruleset,
   } = state;
   const player = players.find(p => p.playerId === playerId);
   const opponent = players.find(p => p.playerId !== playerId);
 
   return {
     gameId,
+    ruleset,
     joinCode,
     publicGame,
     tick,
+    turn,
     gameState,
     activePlayer: activePlayer === playerId ? 'player' : 'opponent',
     player: {
@@ -33,7 +37,6 @@ export default function gameStatePresenter(state, gameId, playerId) {
     opponent: opponent ? {
       ...opponent,
       playerId: undefined,
-      aiController: undefined,
       hand: undefined,
       handSize: opponent.hand.length,
     } : undefined,

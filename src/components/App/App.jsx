@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import TouchBackend from 'react-dnd-touch-backend'
 import { Router, Redirect } from '@reach/router';
 import GamePage from '../../pages/GamePage';
 import AllCardsPage from '../../pages/AllCardsPage';
 import LobbyPage from '../../pages/LobbyPage';
 import ErrorPage from '../../pages/ErrorPage';
+import ReplayPage from '../../pages/ReplayPage';
 import Nav from '../Nav';
 import Loading from '../Loading';
 import Error from '../Error';
@@ -14,6 +15,10 @@ import { useLocalStorage, useWebsocket } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
 import './App.scss';
+
+const TOUCH_OPTIONS = {
+  enableMouseEvents: true,
+};
 
 function App() {
   const [gameState, setGameState] = useState(null);
@@ -31,6 +36,7 @@ function App() {
     setGameState(newState);
   });
 
+  // TODO: move this into the game page not here
   useEffect(() => {
     loadGame(playerId).then(newState => setGameState(newState));
   }, []);
@@ -41,10 +47,10 @@ function App() {
 
   const { gameId } = gameState;
 
-  async function joinGameFunc(joinCode, rematchGameId, publicGame, addAi) {
+  async function joinGameFunc(joinCode, rematchGameId, publicGame, addAi, timed) {
     const newState = joinCode
       ? await joinGame(joinCode, playerId, playerName)
-      : await createGame(playerId, playerName, publicGame, addAi, rematchGameId); // TODO
+      : await createGame(playerId, playerName, publicGame, addAi, timed, rematchGameId); // TODO
 
     if (newState.error) {
       setError(newState.error);
@@ -71,7 +77,7 @@ function App() {
 
   return (
     <>
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={TouchBackend} options={TOUCH_OPTIONS}>
         <Nav
           gameState={gameState.gameState}
           gameAlert={lastSeenTick < gameState.tick}
@@ -90,6 +96,7 @@ function App() {
             rematch={rematch}
             setLastSeenTick={setLastSeenTick}
           />
+          <ReplayPage path="replay/:gameId" />
           <AllCardsPage path="cards" />
           <LobbyPage path="lobby" />
           <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />

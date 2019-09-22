@@ -1,8 +1,8 @@
-export async function createGame(playerId, playerName, publicGame, soloGame, rematchGameId) {
+export async function createGame(playerId, playerName, publicGame, soloGame, timed, rematchGameId) {
   const response = await fetch('/.netlify/functions/create-game', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ playerId, playerName, publicGame, soloGame, rematchGameId }),
+    body: JSON.stringify({ playerId, playerName, publicGame, soloGame, rematchGameId, timed }),
   });
   return response.json();
 }
@@ -18,6 +18,11 @@ export async function joinGame(joinCode, playerId, playerName) {
 
 export async function loadGame(playerId, gameId) {
   const response = await fetch(`/.netlify/functions/game-state?playerId=${playerId}&gameId=${gameId || ''}`);
+  return response.json();
+}
+
+export async function loadReplay(gameId) {
+  const response = await fetch(`/.netlify/functions/replay?gameId=${gameId}`);
   return response.json();
 }
 

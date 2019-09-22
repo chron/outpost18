@@ -1,21 +1,22 @@
 import React from 'react';
 import classNames from 'classnames';
-import { isThresholdMet } from '../../utils';
 import ResourceIcon from '../ResourceIcon';
-import attackImage from '../../assets/images/icons/attack.png';
-import * as images from '../../assets/images/ships/*.png';
 
 import './UpgradeCard.scss';
 
 
-function UpgradeCard({ card, inPlay, friendly, onClick }) {
+function UpgradeCard({ card, inPlay, friendly, onClick, interactable }) {
   const { name, shields, defender, draws, ion, labour, ore } = card;
 
   return(
     <div
       role="button"
       tabIndex="0"
-      className={`upgrade ${inPlay ? '' : 'upgrade--static'} ${friendly ? '' : 'upgrade--enemy'} ${onClick ? 'upgrade--destroyable' : ''}`}
+      className={classNames('upgrade', {
+        'upgrade--vertical': inPlay,
+        'upgrade--enemy': friendly,
+        'upgrade--destroyable': interactable,
+      })}
       onClick={onClick}
       title={name}
     >

@@ -5,14 +5,23 @@ import { isThresholdMet } from '../../utils';
 import './Ship.scss';
 
 function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackAdded }) {
-  const { cards, dispatch, myTurn, gameState, uiMode, setChoice } = useGameState();
+  const state = useGameState();
+
+  const {
+    cards,
+    dispatch,
+    myTurn,
+    gameState,
+    uiMode,
+    setChoice,
+    toggleZoom,
+  } = state;
   const card = cards.find(c => c.name === cardName);
 
   // TODO: this is ugly
   const availableToAttack = friendly && canAttack && !attacking && myTurn && gameState === 'main' && !uiMode;
   const availableToChoose = !friendly && uiMode && uiMode.mode === 'choice' && uiMode.type === 'ship';
-
-  const abilityWithChoice = card.abilities.find(a => a.effect.choice && isThresholdMet(a.threshold, owner));
+  const abilityWithChoice = card.abilities.find(a => a.effect.choice && isThresholdMet(state, a.threshold, owner));
 
   let onClick;
 
@@ -29,6 +38,8 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackA
       uiMode.callback(cardName);
       setChoice(null);
     };
+  } else {
+    onClick = () => toggleZoom(cardName);
   }
 
   const interactable = availableToChoose || availableToAttack;
@@ -42,7 +53,7 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackA
         className={`ship ${attacking ? 'ship--attacking' : ''} ${interactable ? 'ship--ready' : ''} ${friendly ? '' : 'ship--enemy'}`}
         onClick={onClick}
       >
-        <ShipCard card={card} owner={owner} />
+        <ShipCard card={card} owner={owner} state={state} />
       </div>
     </div>
   );

@@ -7,10 +7,12 @@ export default function lobbyGamePresenter(state) {
     settings,
     createdAt,
     publicGame,
+    ruleset,
   } = state;
 
   return {
     gameId,
+    ruleset,
     joinCode,
     publicGame,
     gameState,

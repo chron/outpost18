@@ -1,54 +1,97 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 .upgrade {
+  --upgrade-width: #{$card-width};
+  --upgrade-height: #{$upgrade-height};
+  --border-thickness: 0.2vh;
+  --border-radius: #{$card-width * 0.038};
+
+  @include mobile {
+    --upgrade-width: #{$card-width-mobile};
+    --upgrade-height: #{$upgrade-height-mobile};
+  }
+
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 30px;
-  height: 132px;
-
+  margin-top: calc(var(--upgrade-height) * 0.18);
   font-family: $title-font-stack;
   color: $card-foreground-color;
   background-color: $card-background-color;
-  border: 2px solid $upgrade-border-color;
-  border-radius: 5px;
-  margin-right: 2px;
-
+  border: var(--border-thickness) solid $upgrade-border-color;
+  border-radius: var(--border-radius);
   text-align: center;
-
-  &--enemy {
-    transform: rotate(180deg);
-  }
+  width: 100%;
+  height: var(--upgrade-height);
 
   &--destroyable {
     border-color: crimson;
     cursor: pointer;
   }
 
-  &--static {
-    transform: rotate(270deg) translateX(48px) translateY(1px);
+  &--vertical {
+    height: var(--upgrade-width);
+    width: var(--upgrade-height);
+    flex-direction: column;
+    margin-top: 0;
+    margin-right: calc(var(--upgrade-height) * 0.03);
+
+    > .upgrade__powers {
+      flex-direction: column;
+    }
+
+    > .upgrade__shields {
+      transform: none;
+
+      &.upgrade__shields--reverse {
+        transform: rotate(180deg);
+      }
+
+      &:first-child {
+        left: calc(var(--upgrade-height) * -0.03);
+        bottom: calc(var(--upgrade-height) * 0.07);
+      }
+
+      &:last-child {
+        right: 0;
+        top: calc(var(--upgrade-height) * 0.07);
+      }
+    }
+
+    .upgrade__power, .resource-icon {
+      transform: none;
+    }
   }
 
   &__shields {
+    position: relative;
+    height: var(--upgrade-height);
+    width: var(--upgrade-height);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    margin: 3px 0 -2px 0;
-    border: 2px solid $upgrade-border-color;
-    border-radius: 5px;
+    padding: calc(var(--upgrade-height) * 0.07) calc(var(--upgrade-height) * 0.17);
+    border: var(--border-thickness) solid $upgrade-border-color;
+    border-radius: var(--border-radius);
     font-family: $title-font-stack;
-    font-size: 16px;
+    font-size: calc(var(--upgrade-height) * 0.66);
+    transform: rotate(270deg);
+
+    &:first-child {
+      left: calc(var(--upgrade-height) * -0.07);
+    }
+
+    &:last-child {
+      right: calc(var(--upgrade-height) * -0.07);
+    }
 
     &--defender {
       color: $defender-text-color;
     }
 
     &--reverse {
-      margin: -2px 0 3px 0;
-      transform: rotate(180deg);
+      transform: rotate(90deg);
     }
 
     .upgrade--destroyable & {
@@ -56,13 +99,19 @@
     }
   }
 
-  .upgrade__powers {
+  &__powers {
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
     align-items: center;
-
     flex-grow: 1;
-    font-size: 8px;
+    font-size: calc(var(--upgrade-height) * 0.2);
+
+    .resource-icon {
+      width: calc(var(--upgrade-height) * 0.5);
+    }
+  }
+
+  &__power, .resource-icon {
+    transform: rotate(270deg);
   }
 }

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
+import { useInterval } from '../../hooks';
 import { resources, sumResourceForPlayer } from '../../utils';
 import ResourceIcon from '../ResourceIcon';
 import './PlayerStats.scss';
@@ -8,75 +10,91 @@ import ProgressBar from '../ProgressBar';
 const CLIENT_TIMEOUT_GRACE_PERIOD = 1000;
 
 // TODO: draws icon
-function PlayerStats({ player, friendly = false, children }) {
-  const { activePlayer, gameInProgress, turnStartedAt, settings, dispatch } = useGameState();
+function PlayerStats({ player, friendly = false }) {
+  const gameState = useGameState();
+  const { gameId, turn, activePlayer, soloGame, gameInProgress, turnStartedAt, settings, dispatch } = gameState;
   const turnLength = settings && settings.turnLength;
-  const { name, hand, handSize, plays, attackPool } = player;
-  const [timeLeft, setTimeLeft] = useState();
-  const [sentTimeout, setSentTimeout] = useState(false);
+  const { hand, handSize, plays, attackPool } = player;
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [sentTimeout, setSentTimeout] = useState(0);
   const belongsToActivePlayer = activePlayer === (friendly ? 'player' : 'opponent');
 
-  // We'll only send one timeout notification per turn, so reset it when activePlayer changes.
+  // Reset when we start a new match or a new turn
   useEffect(() => {
+    setTimeLeft(null);
     setSentTimeout(false);
-  }, [activePlayer]);
+  }, [gameId, turn]);
 
   useEffect(() => {
-    if (turnLength && belongsToActivePlayer && gameInProgress) {
-      const timer = setInterval(() => {
-        const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
-        const turnTimeRemaining = Math.max(0, (turnEndsAt - new Date().getTime()) / 1000);
+    // We only send timeouts for opponents, unless it's vs AI
+    if ((friendly && !soloGame) || (!friendly && soloGame)) { return; }
+    if (!belongsToActivePlayer) { return; }
 
-        if (!sentTimeout && turnTimeRemaining <= 0 && !friendly && gameInProgress) {
-          setSentTimeout(true);
-          dispatch({ type: 'timeout' });
-        }
-
-        setTimeLeft(turnTimeRemaining);
-      }, 1000);
-      return () => clearInterval(timer);
+    if (!sentTimeout && timeLeft !== null && timeLeft <= 0) {
+      setSentTimeout(true);
+      dispatch({ type: 'timeout' });
     }
-  }, [gameInProgress, setTimeLeft, turnLength, turnStartedAt, sentTimeout, belongsToActivePlayer, dispatch, friendly]);
+  }, [dispatch, friendly, gameInProgress, sentTimeout, turn, timeLeft, soloGame]);
+
+  useInterval(() => {
+    if (gameInProgress) {
+      const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
+      const turnTimeRemaining = Math.max(0, (turnEndsAt - new Date().getTime())) / 1000;
+
+      setTimeLeft(turnTimeRemaining);
+    } else {
+      setTimeLeft(null);
+    }
+  }, 1000);
 
   return (
-    <div className={`player-stats player-stats--${friendly ? 'bottom' : 'top'}`}>
-      <div className="player-stats__name">{name}</div>
-      <div className="player-stats__stat">
-        <div className="player-stats__label">cards</div>
-        {handSize === undefined ? hand.length : handSize}
-      </div>
-      <div className="player-stats__stat">
-        <div className="player-stats__label">plays</div>
-        {plays}
-      </div>
-      <div className="player-stats__stat">
-        <div className="player-stats__label">attack</div>
-        {attackPool}
-      </div>
-
+    <div className={`player-stats player-stats--${friendly ? '' : 'enemy'}`}>
       <div className="player-stats__resources">
-        {Object.keys(resources).map((resource) => {
-          const amount = sumResourceForPlayer(resource, player);
+        <div className="player-stats__resource-row">
+          <div className="player-stats__resource">
+            <div className="player-stats__resource-amount">{handSize === undefined ? hand.length : handSize}</div>
+            <div className="player-stats__resource-icon">cards</div>
+          </div>
 
-          return (
-            <div key={resource} className="player-stats__resource">
-              <div className="player-stats__resource-amount">{amount}</div>
-              <div className="player-stats__resource-icon">
-                {resource === 'draws'
-                  ? 'Draws'
-                  : <ResourceIcon resource={resource} num={1} />
-                }
-              </div>
+          <div className="player-stats__resource">
+            <div className="player-stats__resource-amount">{plays}</div>
+            <div className="player-stats__resource-icon">plays</div>
+          </div>
+
+          <div className="player-stats__resource">
+            <div
+              className={classNames('player-stats__resource-amount', {
+                'player-stats__resource-amount--emphasis': attackPool > 0,
+              })}
+            >
+              {attackPool}
             </div>
-          );
-        })}
+            <div className="player-stats__resource-icon">attack</div>
+          </div>
+        </div>
+
+        <div className="player-stats__resource-row">
+          {Object.keys(resources).map((resource) => {
+            const amount = sumResourceForPlayer(gameState, resource, player);
+
+            return (
+              <div key={resource} className="player-stats__resource">
+                <div className="player-stats__resource-amount">{amount}</div>
+                <div className="player-stats__resource-icon">
+                  {resource === 'draws'
+                    ? 'Draws'
+                    : <ResourceIcon resource={resource} num={1} />
+                  }
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {belongsToActivePlayer && turnLength && timeLeft ? (
+          <ProgressBar current={timeLeft} max={turnLength} />
+        ) : null}
       </div>
-
-      {belongsToActivePlayer && turnLength && timeLeft ? (
-        <ProgressBar current={timeLeft} max={turnLength} />
-      ) : null}
-
-      {children}
     </div>
   );
 }

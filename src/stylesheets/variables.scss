@@ -19,5 +19,17 @@ $card-shadow: 0px 0px 18px 0px rgba(0,0,0,0.53);
 $card-border-radius: 4px;
 $panel-shadow: 0px 0px 18px 0px rgba(0,0,0,0.53);
 $panel-border-radius: 10px;
+$interactable-glow: 0px 0px 18px 0px rgba(crimson, 0.55);
 
 $highlight-color: $power-color;
+
+$card-width: 13vh;
+$ship-height: 14.3vh;
+$upgrade-height: 3vh;
+$card-height: $ship-height + $upgrade-height;
+$card-aspect-ratio: $card-width / $card-height;
+
+$card-width-mobile: 11vh;
+$ship-height-mobile: 12.1vh;
+$upgrade-height-mobile: 2.52vh;
+$card-height-mobile: $ship-height-mobile + $upgrade-height-mobile;

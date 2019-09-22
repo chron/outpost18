@@ -5,10 +5,11 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
   const [gameCode, setGameCode] = useState('');
   const [nextGamePublic, setNextGamePublic] = useState(true);
   const [nextGameSolo, setNextGameSolo] = useState(false);
+  const [nextGameTimed, setNextGameTimed] = useState(false);
 
   return (
     <div className="full-screen-wrapper">
-      <div className="welcome__panel">
+      <div className="welcome__panel interactable">
         <div className="welcome__title">Outpost 18</div>
         <div className="welcome__subtitle">Unofficial digital version</div>
 
@@ -16,14 +17,6 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
           <p>
             This is a fan implementation of the micro cardgame Outpost 18 by ANGRYCYBORGGAMES. You can read the
             Outpost 18 rules <a href="http://playoutpost18.com" target="_blank">on the official site</a>.
-          </p>
-
-          <p>
-            This version should be up to date with the
-            {' '}
-            <strong>2.4</strong>
-            {' '}
-            rules.
           </p>
 
           <p>
@@ -63,6 +56,19 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
 
               <div className="welcome__field">
                 <input
+                  id="nextGameTimed"
+                  type="checkbox"
+                  disabled
+                  onChange={e => setNextGameTimed(e.target.checked)}
+                  checked={nextGameTimed}
+                />
+                <label htmlFor="nextGameTimed" className="welcome__label">
+                  Enable a turn timer
+                </label>
+              </div>
+
+              <div className="welcome__field">
+                <input
                   id="nextGameSolo"
                   type="checkbox"
                   onChange={e => {
@@ -76,7 +82,7 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
                 </label>
               </div>
 
-            <button className="button" onClick={() => joinGame(null, null, nextGamePublic, nextGameSolo)}>Create Game</button>
+            <button className="button" onClick={() => joinGame(null, null, nextGamePublic, nextGameSolo, nextGameTimed)}>Create Game</button>
 
           </div>
 

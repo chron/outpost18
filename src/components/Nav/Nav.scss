@@ -1,8 +1,9 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 .nav {
   display: flex;
-  height: 30px;
+  height: 5vh;
   width: 100%;
   margin-bottom: 10px;
   flex-shrink: 0;
@@ -10,22 +11,29 @@
   background-color: black;
   color: white;
   box-shadow: $card-shadow;
+  z-index: 100;
+
+  @include mobile {
+    display: none;
+  }
 
   &__logo {
     font-family: $title-font-stack;
-    margin: 0 10px 0 20px;
-    padding-top: 4px;
+    font-size: 1.6vh;
+    margin: 0 2vh 0 2vh;
+    padding-top: 1vh;
   }
 
   &__item {
     display: flex;
     align-items: center;
     height: 100%;
-    padding: 0 10px;
+    padding: 0 1vh;
     text-decoration: none;
     color: white;
+    font-size: 1.8vh;
     font-weight: bold;
-    border-bottom: 2px solid transparent;
+    border-bottom: 0.4vh solid transparent;
 
     &--active {
       color: black;
@@ -43,20 +51,25 @@
   }
 
   &__version {
+    max-width: 25vw;
     display: flex;
     align-items: center;
     margin-left: auto;
-    margin-right: 20px;
+    margin-right: 2vh;
+    font-size: 2vh;
     font-family: 'Courier New', monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__badge {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20px;
-    width: 20px;
-    margin-left: 5px;
+    height: 2vh;
+    width: 2vh;
+    margin-left: 0.5vh;
     border-radius: 50%;
     background-color: $power-color;
   }
