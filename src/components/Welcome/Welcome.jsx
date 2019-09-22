@@ -58,7 +58,6 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
                 <input
                   id="nextGameTimed"
                   type="checkbox"
-                  disabled
                   onChange={e => setNextGameTimed(e.target.checked)}
                   checked={nextGameTimed}
                 />
