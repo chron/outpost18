@@ -1,67 +1,80 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 // TODO: rename or refactor this `card` stuff
 .card {
   &__ship {
-    width: $card-width;
-    height: $card-height;
+    --ship-width: #{$card-width};
+    --ship-height: #{$ship-height};
+    --border-thickness: 0.2vh;
+    --border-radius: #{$card-width * 0.038};
 
+    @include mobile {
+      --ship-width: #{$card-width-mobile};
+      --ship-height: #{$ship-height-mobile};
+    }
+
+    width: var(--ship-width);
+    height: var(--ship-height);
     font-family: $title-font-stack;
   }
 
   &__title {
     position: absolute;
-    top: 0.3vh;
-    left: 0.3vh;
-    width: 10vh;
-    padding: 0.4vh 0;
+    top: calc(var(--ship-height) * 0.02);
+    left: calc(var(--ship-width) * 0.02);
+    width: calc(var(--ship-width) * 0.77);
+    padding: calc(var(--ship-width) * 0.03) 0;
 
-    border: 0.2vh solid $card-border-color;
-    border-radius: $card-border-radius;
+    border: var(--border-thickness) solid $card-border-color;
+    border-radius: var(--border-radius);
     background-color: $card-background-color;
-    font-size: 1.1vh;
+    font-size: calc(var(--ship-height) * 0.075);
     text-align: center;
   }
 
   &__power {
     position: absolute;
-    top: 0.3vh;
-    right: 0.3vh;
-    width: 3vh;
-    height: 2.75vh;
+    top: calc(var(--ship-height) * 0.02);
+    right: calc(var(--ship-width) * 0.02);
+    width: calc(var(--ship-width) * 0.23);
+    height: calc(var(--ship-height) * 0.19);
 
-    border: 0.2vh solid $card-border-color;
-    border-radius: $card-border-radius;
+    border: var(--border-thickness) solid $card-border-color;
+    border-radius: var(--border-radius);
     background-color: $card-background-color;
     text-align: center;
   }
 
   &__image {
-    width: $card-width;
-    height: 9vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--ship-width);
+    height: calc(var(--ship-height) * 0.63);
 
-    border: 0.2vh solid $card-border-color;
+    border: var(--border-thickness) solid $card-border-color;
     background-color: $ship-background-color;
 
     > img {
-      height: 11vh;
-      transform: rotate(90deg) translateY(1vh) translateX(-0.5vh);
+      height: calc(var(--ship-height) * 0.77);
+      transform: rotate(90deg) translateY(calc(var(--ship-width) * 0.12)) translateX(calc(var(--ship-height) * 0.05));
     }
   }
 
   &__passive {
     position: relative;
     width: 85%;
-    top: -1.1vh;
+    top: calc(var(--ship-height) * -0.07);
     margin-left: 7.5%;
-    border: 0.2vh solid $card-border-color;
-    border-radius: 0.5vh;
+    border: var(--border-thickness) solid $card-border-color;
+    border-radius: var(--border-radius);
     background-color: $card-background-color;
-    font-size: 0.8vh;
+    font-size: calc(var(--ship-height) * 0.06);
     text-align: center;
 
     .resource-icon {
-      width: 1vh;
+      width: calc(var(--ship-height) * 0.07);
     }
   }
 
@@ -70,17 +83,17 @@
     flex-direction: column;
     justify-content: center;
 
-    height: 6vh;
-    margin: -0.5vh -0.2vh 0 -0.2vh;
-    padding: 0.5vh;
-    border: 0.2vh solid $card-border-color;
-    border-radius: 0.5vh;
+    height: calc(var(--ship-height) * 0.42);
+    margin: calc(var(--ship-height) * -0.04) calc(var(--ship-width) * -0.02) 0 calc(var(--ship-width) * -0.02);
+    padding: calc(var(--ship-width) * 0.04);
+    border: var(--border-thickness) solid $card-border-color;
+    border-radius: var(--border-radius);
     background-color: $card-background-color;
-    font-size: 0.9vh;
+    font-size: calc(var(--ship-height) * 0.06);
     text-align: center;
 
     .attack-icon, .resource-icon {
-      width: 1vh;
+      width: calc(var(--ship-height) * 0.07);
     }
   }
 
@@ -93,8 +106,8 @@
   }
 
   &__passive + &__abilities {
-    margin-top: -2vh;
-    padding-top: 0.8vh;
+    margin-top: calc(var(--ship-height) * -0.14);
+    padding-top: calc(var(--ship-height) * 0.06);
   }
 }
 
@@ -102,10 +115,10 @@
   color: $power-color;
   font-family: sans-serif;
   vertical-align: top;
-  font-size: 1.7vh;
+  font-size: calc(var(--ship-height) * 0.12);
 
   .card__ability & {
-    font-size: 1.3vh;
+    font-size: calc(var(--ship-height) * 0.09);
     line-height: 1;
   }
 }

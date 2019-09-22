@@ -1,22 +1,29 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 .upgrade {
+  --upgrade-width: #{$card-width};
+  --upgrade-height: #{$upgrade-height};
+  --border-thickness: 0.2vh;
+  --border-radius: #{$card-width * 0.038};
+
+  @include mobile {
+    --upgrade-width: #{$card-width-mobile};
+    --upgrade-height: #{$upgrade-height-mobile};
+  }
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5vh;
+  margin-top: calc(var(--upgrade-height) * 0.18);
   font-family: $title-font-stack;
   color: $card-foreground-color;
   background-color: $card-background-color;
-  border: 0.2vh solid $upgrade-border-color;
-  border-radius: 0.5vh;
+  border: var(--border-thickness) solid $upgrade-border-color;
+  border-radius: var(--border-radius);
   text-align: center;
   width: 100%;
-  height: 3vh;
-
-  &--enemy {
-    transform: rotate(180deg);
-  }
+  height: var(--upgrade-height);
 
   &--destroyable {
     border-color: crimson;
@@ -24,11 +31,11 @@
   }
 
   &--vertical {
-    height: $card-width;
-    width: 3vh;
+    height: var(--upgrade-width);
+    width: var(--upgrade-height);
     flex-direction: column;
     margin-top: 0;
-    margin-right: 0.1vh;
+    margin-right: calc(var(--upgrade-height) * 0.03);
 
     > .upgrade__powers {
       flex-direction: column;
@@ -42,44 +49,41 @@
       }
 
       &:first-child {
-        left: -0.1vh;
-        bottom: 0.2vh;
+        left: calc(var(--upgrade-height) * -0.03);
+        bottom: calc(var(--upgrade-height) * 0.07);
       }
 
       &:last-child {
         right: 0;
-        top: 0.2vh;
+        top: calc(var(--upgrade-height) * 0.07);
       }
     }
 
     .upgrade__power, .resource-icon {
-      //transform: rotate(90deg);
+      transform: none;
     }
   }
 
   &__shields {
     position: relative;
-    height: 3vh;
-    width: 3vh;
-
+    height: var(--upgrade-height);
+    width: var(--upgrade-height);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.2vh 0.5vh;
-
-    border: 0.2vh solid $upgrade-border-color;
-    border-radius: 0.5vh;
+    padding: calc(var(--upgrade-height) * 0.07) calc(var(--upgrade-height) * 0.17);
+    border: var(--border-thickness) solid $upgrade-border-color;
+    border-radius: var(--border-radius);
     font-family: $title-font-stack;
-    font-size: 2vh;
-
+    font-size: calc(var(--upgrade-height) * 0.66);
     transform: rotate(270deg);
 
     &:first-child {
-      left: -0.2vh;
+      left: calc(var(--upgrade-height) * -0.07);
     }
 
     &:last-child {
-      right: -0.2vh;
+      right: calc(var(--upgrade-height) * -0.07);
     }
 
     &--defender {
@@ -100,10 +104,14 @@
     justify-content: space-around;
     align-items: center;
     flex-grow: 1;
-    font-size: 0.6vh;
+    font-size: calc(var(--upgrade-height) * 0.2);
 
     .resource-icon {
-      width: 1.5vh;
+      width: calc(var(--upgrade-height) * 0.5);
     }
+  }
+
+  &__power, .resource-icon {
+    transform: rotate(270deg);
   }
 }

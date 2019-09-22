@@ -23,4 +23,11 @@ $panel-border-radius: 10px;
 $highlight-color: $power-color;
 
 $card-width: 13vh;
-$card-height: 14.3vh;
+$ship-height: 14.3vh;
+$upgrade-height: 3vh;
+$card-height: $ship-height + $upgrade-height;
+
+$card-width-mobile: 11vh;
+$ship-height-mobile: 12.1vh;
+$upgrade-height-mobile: 2.52vh;
+$card-height-mobile: $ship-height-mobile + $upgrade-height-mobile;

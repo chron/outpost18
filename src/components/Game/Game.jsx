@@ -35,10 +35,10 @@ const Game = () => {
   return (
     <KeyMap dispatch={dispatch} handlers={keyHandlers}>
       <div className="game" tabIndex={-1}>
+        {myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
         <Hint />
         {showGameLog ? <GameLog /> : null}
         {gameState === 'finished' ? <GameOver /> : null}
-        {myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
         <div className="lanes">
           <Lane>
             <button

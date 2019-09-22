@@ -1,4 +1,5 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 .nav {
   display: flex;
@@ -10,7 +11,11 @@
   background-color: black;
   color: white;
   box-shadow: $card-shadow;
-  z-index: 1;
+  z-index: 100;
+
+  @include mobile {
+    display: none;
+  }
 
   &__logo {
     font-family: $title-font-stack;

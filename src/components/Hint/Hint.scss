@@ -1,16 +1,24 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 .hint {
-  position: absolute;
-  top: 23vh;
-  left: 1vh;
-  padding: 3vh;
-  border-radius: 1vh;
-  color: white;
+  @include desktop {
+    position: absolute;
+    top: 6vh;
+    left: 1vh;
+    padding: 3vh;
+    border-radius: 1vh;
+  }
+
+  @include mobile {
+    padding: 1vh;
+    width: 100%;
+  }
+
   background-color: rgba(0,0,0,0.8);
+  color: white;
   font-size: 2vh;
   z-index: 1;
-
 
   > p {
     margin: 1vh 0 0 0;

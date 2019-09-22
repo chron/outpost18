@@ -1,15 +1,23 @@
 @import "../../stylesheets/variables.scss";
+@import "../../stylesheets/responsive.scss";
 
 .base {
+  --base-width: #{$card-height + 1vh};
+  --base-height: #{$card-width};
+
+  @include mobile {
+    --base-width: #{$card-height-mobile + 1vh};
+    --base-height: #{$card-width-mobile};
+  }
+
   display: flex;
-  width: $card-height * 1.4;
-  height: $card-width;
+  width: var(--base-width);
+  height: var(--base-height);
   color: $card-foreground-color;
   background-color: $card-background-color;
   border-radius: 0.5vh;
   box-shadow: $card-shadow;
   font-family: $title-font-stack;
-
 
   &__main {
     flex-grow: 1;
@@ -17,7 +25,6 @@
     flex-direction: column;
     justify-content: space-between;
 
-    width: $card-height * 1;
     margin: 0.5vh;
     padding: 0.5vh;
 

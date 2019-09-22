@@ -4,11 +4,11 @@
   display: grid;
   grid-template-columns: 1fr;
   justify-content: space-between;
-  height: 100%;
+  flex-grow: 1;
 }
 
 .fleet {
-  width: 100%;
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;

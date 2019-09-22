@@ -7,7 +7,11 @@
   align-items: center;
   width: 100%;
   height: 100%;
+  pointer-events: none;
 
+  > * {
+    pointer-events: all;
+  }
 }
 
 .center-children {
@@ -17,7 +21,6 @@
   width: 100%;
   height: 100%;
 }
-
 
 .panel {
   max-width: 60%;
