@@ -11,13 +11,30 @@ function simulate(state, playerId, action) {
   return reducer(newState, action, playerId);
 }
 
-export function readyShips(_state, player) {
+function setAllShipsReady(state, playerId) {
+  const newState = cloneDeep(state);
+
+  const player = newState.players.find(p => p.playerId === playerId);
+  player.inPlay = player.inPlay.map(i => ({
+    ...i,
+    attacking: false,
+    canAttack: true,
+  }));
+
+  return newState;
+}
+
+export function readyShips(state, playerId) {
+  const player = state.players.find(p => p.playerId === playerId);
+
   return player.inPlay
     .filter(i => i.mode === 'ship' && i.canAttack && !i.attacking)
     .map(i => i.cardName);
 }
 
-export function defenseUpgrades(state, player) {
+export function defenseUpgrades(state, playerId) {
+  const player = state.players.find(p => p.playerId === playerId);
+
   return mapToCards(
     state,
     player.inPlay
@@ -26,26 +43,33 @@ export function defenseUpgrades(state, player) {
   ).filter(c => c.defender);
 }
 
-function ratePlayerState(state, player, weights) {
+function ratePlayerState(state, playerId, weights) {
+  const player = state.players.find(p => p.playerId === playerId);
   const playerStats = { ...player, ...resourceTotalsForPlayer(state, player) };
 
-  return (
-    (playerStats.ore || 0) * (weights.ore || 0)
-    + (playerStats.ion || 0) * (weights.ion || 0)
-    + (playerStats.labour || 0) * (weights.labour || 0)
-    + (playerStats.draws || 0) * (weights.draws || 0)
-    + (playerStats.hand.length || 0) * (weights.handSize || 0)
-    + calculateLethal(state, player) * (weights.effectiveHealth || 0)
-    + totalAttackNextTurn(state, player) * (weights.nextTurnAttack || 0)
-  );
+  const values = {
+    ore: playerStats.ore || 0,
+    ion: playerStats.ion || 0,
+    labour: playerStats.labour || 0,
+    draws: playerStats.draws || 0,
+    handSize: playerStats.hand.length || 0,
+    effectiveHealth: calculateLethal(state, playerId),
+    nextTurnAttack: totalAttackNextTurn(state, playerId),
+  };
+
+  return Object.entries(values).map(([stat, value]) => {
+    const weight = weights[stat] || 0;
+    return typeof weight === 'function'
+      ? weight(value)
+      : weight * value;
+  }).reduce((s, c) => s + c);
 }
 
 export function rateGameState(state, playerId, weights) {
-  const player = state.players.find(p => p.playerId === playerId);
-  const opponent = state.players.find(p => p.playerId !== playerId);
+  const opponentId = state.players.find(p => p.playerId !== playerId).playerId;
 
-  return ratePlayerState(state, player, weights.player)
-    + ratePlayerState(state, opponent, weights.opponent);
+  return ratePlayerState(state, playerId, weights.player)
+    + ratePlayerState(state, opponentId, weights.opponent);
 }
 
 export function rateAction(state, playerId, weights, action) {
@@ -55,25 +79,24 @@ export function rateAction(state, playerId, weights, action) {
 
 // If we attacked with everything, how much attack could we generate total?
 // (includes any attack already in the pool)
-export function totalAttack(state, player) {
-  const simulation = readyShips(state, player).reduce((prevState, cardName) => {
-    return simulate(prevState, player.playerId, { type: 'attack', cardName }); // TODO: choices
+export function totalAttack(state, playerId) {
+  const simulation = readyShips(state, playerId).reduce((prevState, cardName) => {
+    return simulate(prevState, playerId, { type: 'attack', cardName }); // TODO: choices
   }, state);
 
-  const simulatedPlayer = simulation.players.find(p => p.playerId === player.playerId);
+  const simulatedPlayer = simulation.players.find(p => p.playerId === playerId);
   return simulatedPlayer.attackPool;
 }
 
-export function totalAttackNextTurn(state, player) {
-  const allShips = player.inPlay.filter(i => i.mode === 'ship').map(i => i.cardName);
-  const allCards = mapToCards(state, allShips);
-  // TODO: this doesn't do any abilities at all
-  return allCards.reduce((total, c) => total + c.attack, 0);
+export function totalAttackNextTurn(state, playerId) {
+  const nextTurnState = setAllShipsReady(state, playerId);
+
+  return totalAttack(nextTurnState, playerId);
 }
 
 // Return how much damage is needed to destroy this player.
-export function calculateLethal(state, player) {
-  const defenseCards = defenseUpgrades(state, player);
+export function calculateLethal(state, playerId) {
+  const defenseCards = defenseUpgrades(state, playerId);
   const base = mapToCards(state, ['Station Core'])[0]; // TODO: un-hardcode this
 
   return defenseCards.map(c => c.shields).reduce((sum, n) => sum + n, base.shields);

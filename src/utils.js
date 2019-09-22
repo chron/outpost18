@@ -14,10 +14,10 @@ export function findCard(state, cardName) {
 }
 
 export function inPlayCardsOfType(state, inPlayCards, modes) {
+  // FIXME: This ||s just to deal with the base is horrible
   return inPlayCards
     .filter(s => modes.includes(s.mode))
     .map(s => findCard(state, s.cardName) || s);
-    // FIXME: This ||s just to deal with the base is horrible
 }
 
 // TODO: move these two functions to the server-side presenter!

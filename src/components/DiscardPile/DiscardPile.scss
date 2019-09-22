@@ -17,6 +17,7 @@
     height: 100%;
     color: white;
     background: rgba(107, 70, 193, 0.4);
+    z-index: 1;
   }
 
   &--hovering::after {

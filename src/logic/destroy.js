@@ -15,6 +15,7 @@ export default function destroy(state, playerId, cardName) {
   const { attackPool, hand } = player;
   const { inPlay } = opponent;
 
+
   const targetIndex = inPlay.findIndex(s => s.cardName === cardName && ['upgrade', 'base'].includes(s.mode));
   const target = inPlay[targetIndex];
   const card = findCard(state, cardName);
