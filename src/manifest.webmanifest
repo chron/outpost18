@@ -1,7 +1,7 @@
 {
   "short_name": "Outpost 18",
   "name": "Outpost 18",
-  "start_url": "/index.html",
+  "start_url": "/game",
   "display": "standalone",
   "orientation": "portrait"
 }
