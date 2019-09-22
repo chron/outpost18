@@ -21,9 +21,12 @@ function Card({ cardName, inHand = false }) {
   } = state;
 
   const card = cards.find(c => c.name === cardName);
+  const playable = inHand && myTurn && !uiMode
+    && (gameState === 'begin' || (gameState === 'main' && player.plays > 0));
+
   const [{ isDragging }, dragRef] = useDrag({
     item: { type: ItemTypes.CARD, cardName },
-    canDrag: () => inHand && myTurn && !uiMode && (gameState === 'begin' || (gameState === 'main' && player.plays > 0)),
+    canDrag: () => playable,
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
@@ -42,7 +45,7 @@ function Card({ cardName, inHand = false }) {
   return (
     <div
       className={classNames('card', {
-        'card--playable': inHand && myTurn && !uiMode,
+        'card--playable': playable,
         'card--dragging': isDragging,
         'card--selectable': selectable,
         'card--selected': uiMode && uiMode.type === 'card' && uiMode.selected.includes(cardName),

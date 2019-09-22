@@ -65,6 +65,8 @@ function GameLog() {
           message = `drew ${amount} card${amount === 1 ? '' : 's'}.`;
         } else if (type === 'win') {
           message = 'destroyed the Station Core!';
+        } else if (type === 'shuffle') {
+          message = 'reshuffled the discard pile.';
         } else {
           message = `-> unknown log type: ${type}!`;
         }

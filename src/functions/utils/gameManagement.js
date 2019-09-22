@@ -60,6 +60,7 @@ export function initialGameState(publicGame, settings = {}) {
     joinCode: generateJoinCode(),
     activePlayer: null,
     deck,
+    initialDeckOrder: deck,
     discards: [],
     players: [],
     log: [],
@@ -93,5 +94,5 @@ export function addAutomaToGame(gameState, aiController = 'basic') {
   const playerId = 'AUTOMA';
   const playerName = 'The Worst AI';
 
-  return addPlayerToGame(gameState, playerId, playerName, { aiController })
+  return addPlayerToGame(gameState, playerId, playerName, { aiController });
 }
