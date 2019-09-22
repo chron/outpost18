@@ -9,6 +9,15 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, children 
   const { gameId, player, opponent } = gameState;
 
   const [uiMode, setUiMode] = useState(null);
+  const [zoomedCard, setZoomedCard] = useState(null);
+
+  const toggleZoom = (cardName) => {
+    if (zoomedCard === cardName) {
+      setZoomedCard(null);
+    } else {
+      setZoomedCard(cardName);
+    }
+  };
 
   const setChoice = (choice) => {
     if (choice === null) {
@@ -70,6 +79,8 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, children 
     toggleSelection,
     resignAndQuit,
     rematch,
+    zoomedCard,
+    toggleZoom,
     gameInProgress: gameState.gameState === 'main' || gameState.gameState === 'begin',
     myTurn: gameState.activePlayer === 'player',
   };

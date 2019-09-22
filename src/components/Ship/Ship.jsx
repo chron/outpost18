@@ -5,7 +5,15 @@ import { isThresholdMet } from '../../utils';
 import './Ship.scss';
 
 function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackAdded }) {
-  const { cards, dispatch, myTurn, gameState, uiMode, setChoice } = useGameState();
+  const {
+    cards,
+    dispatch,
+    myTurn,
+    gameState,
+    uiMode,
+    setChoice,
+    toggleZoom,
+  } = useGameState();
   const card = cards.find(c => c.name === cardName);
 
   // TODO: this is ugly
@@ -29,6 +37,8 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackA
       uiMode.callback(cardName);
       setChoice(null);
     };
+  } else {
+    onClick = () => toggleZoom(cardName);
   }
 
   const interactable = availableToChoose || availableToAttack;

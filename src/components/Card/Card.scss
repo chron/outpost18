@@ -7,19 +7,24 @@
   flex-direction: column;
   align-items: center;
   width: $card-width + 1vh;
+  padding: 0.5vh;
+  margin: 0 0.5vh;
+  color: $card-foreground-color;
+  background-color: $card-background-color;
+  box-shadow: $card-shadow;
+  font-family: $title-font-stack;
 
   @include mobile {
     width: $card-width-mobile + 1vh;
   }
 
-  padding: 0.5vh;
-  margin: 0 0.5vh;
-
-  color: $card-foreground-color;
-  background-color: $card-background-color;
-  box-shadow: $card-shadow;
-
-  font-family: $title-font-stack;
+  &--zoomed {
+    position: fixed;
+    left: 39vw;
+    top: 45vh;
+    transform: scale(3);
+    z-index: 10;
+  }
 
   &--playable {
     cursor: grab;
@@ -38,7 +43,7 @@
   }
 
   &--playable, &--selectable {
-    &:hover {
+    &:not(&--zoomed):hover {
       transform: scale(1.05);
       transition: 0.1s ease-out;
     }

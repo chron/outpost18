@@ -5,7 +5,7 @@ import ResourceIcon from '../ResourceIcon';
 import './UpgradeCard.scss';
 
 
-function UpgradeCard({ card, inPlay, friendly, onClick }) {
+function UpgradeCard({ card, inPlay, friendly, onClick, interactable }) {
   const { name, shields, defender, draws, ion, labour, ore } = card;
 
   return(
@@ -15,7 +15,7 @@ function UpgradeCard({ card, inPlay, friendly, onClick }) {
       className={classNames('upgrade', {
         'upgrade--vertical': inPlay,
         'upgrade--enemy': friendly,
-        'upgrade--destroyable': onClick,
+        'upgrade--destroyable': interactable,
       })}
       onClick={onClick}
       title={name}

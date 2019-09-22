@@ -9,7 +9,15 @@ import ShipCard from '../ShipCard';
 import './Card.scss';
 
 function Card({ cardName, inHand = false }) {
-  const { myTurn, gameState, uiMode, toggleSelection, player, cards } = useGameState();
+  const {
+    myTurn,
+    gameState,
+    uiMode,
+    toggleSelection,
+    player,
+    cards,
+    toggleZoom,
+  } = useGameState();
 
   const card = cards.find(c => c.name === cardName);
   const [{ isDragging }, dragRef] = useDrag({
@@ -25,6 +33,8 @@ function Card({ cardName, inHand = false }) {
   let onClick;
   if (selectable) {
     onClick = () => { toggleSelection(cardName); };
+  } else {
+    onClick = () => { toggleZoom(cardName); };
   }
 
   return (

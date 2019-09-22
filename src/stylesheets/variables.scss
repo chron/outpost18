@@ -26,6 +26,7 @@ $card-width: 13vh;
 $ship-height: 14.3vh;
 $upgrade-height: 3vh;
 $card-height: $ship-height + $upgrade-height;
+$card-aspect-ratio: $card-width / $card-height;
 
 $card-width-mobile: 11vh;
 $ship-height-mobile: 12.1vh;

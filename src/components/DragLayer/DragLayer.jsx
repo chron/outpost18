@@ -1,8 +1,6 @@
 import React from 'react';
 import { useDragLayer } from 'react-dnd';
-import ShipCard from '../../components/ShipCard';
-import UpgradeCard from '../../components/UpgradeCard';
-import cards from '../../logic/cards';
+import StaticCard from '../StaticCard';
 import './DragLayer.scss';
 
 function getItemStyles(initialOffset, currentOffset) {
@@ -34,16 +32,9 @@ function DragLayer() {
 
   if (!isDragging) { return null; }
 
-  const card = cards.find(c => c.name === item.cardName);
-
-  if (!card) { return null; }
-
   return (
     <div className="drag-layer">
-      <div className="card " style={getItemStyles(initialOffset, currentOffset)}>
-        <ShipCard card={card} />
-        <UpgradeCard card={card} inPlay={false} />
-      </div>
+      <StaticCard cardName={item.cardName} style={getItemStyles(initialOffset, currentOffset)} />
     </div>
   );
 }

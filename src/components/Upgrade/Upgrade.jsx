@@ -1,12 +1,11 @@
 import React from 'react';
 import { useGameState } from '../GameProvider';
-import ResourceIcon from '../ResourceIcon';
 import './Upgrade.scss';
 import UpgradeCard from '../UpgradeCard';
 
 // TODO: refactor out some "dumb" display components that don't use context etc
 function Upgrade({ cardName, friendly = false, owner, inPlay = true }) {
-  const { player, cards, dispatch, uiMode, setChoice } = useGameState();
+  const { player, cards, dispatch, uiMode, setChoice, toggleZoom } = useGameState();
   const card = cards.find(c => c.name === cardName);
   const { shields, defender } = card;
 
@@ -25,6 +24,10 @@ function Upgrade({ cardName, friendly = false, owner, inPlay = true }) {
       uiMode.callback(cardName);
       setChoice(null);
     };
+  } else {
+    onClick = () => {
+      if (cardName !== 'Station Core') { toggleZoom(cardName); }
+    };
   }
 
   return (
@@ -32,6 +35,7 @@ function Upgrade({ cardName, friendly = false, owner, inPlay = true }) {
       card={card}
       inPlay={inPlay}
       friendly={friendly}
+      interactable={destroyable || selectable}
       onClick={onClick}
     />
   );
