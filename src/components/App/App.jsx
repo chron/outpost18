@@ -6,6 +6,7 @@ import GamePage from '../../pages/GamePage';
 import AllCardsPage from '../../pages/AllCardsPage';
 import LobbyPage from '../../pages/LobbyPage';
 import ErrorPage from '../../pages/ErrorPage';
+import ReplayPage from '../../pages/ReplayPage';
 import Nav from '../Nav';
 import Loading from '../Loading';
 import Error from '../Error';
@@ -45,10 +46,10 @@ function App() {
 
   const { gameId } = gameState;
 
-  async function joinGameFunc(joinCode, rematchGameId, publicGame, addAi) {
+  async function joinGameFunc(joinCode, rematchGameId, publicGame, addAi, timed) {
     const newState = joinCode
       ? await joinGame(joinCode, playerId, playerName)
-      : await createGame(playerId, playerName, publicGame, addAi, rematchGameId); // TODO
+      : await createGame(playerId, playerName, publicGame, addAi, timed, rematchGameId); // TODO
 
     if (newState.error) {
       setError(newState.error);
@@ -94,6 +95,7 @@ function App() {
             rematch={rematch}
             setLastSeenTick={setLastSeenTick}
           />
+          <ReplayPage path="replay/:gameId" />
           <AllCardsPage path="cards" />
           <LobbyPage path="lobby" />
           <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />

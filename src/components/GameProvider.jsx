@@ -93,6 +93,7 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, children 
     rematch,
     zoomedCard,
     toggleZoom,
+    soloGame: opponent && opponent.aiController,
     gameInProgress: gameState.gameState === 'main' || gameState.gameState === 'begin',
     myTurn: gameState.activePlayer === 'player',
   };

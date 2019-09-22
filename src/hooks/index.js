@@ -1,4 +1,5 @@
 import useLocalStorage from './useLocalStorage';
 import useWebsocket from './useWebsocket';
+import useInterval from './useInterval';
 
-export { useLocalStorage, useWebsocket };
+export { useLocalStorage, useWebsocket, useInterval };

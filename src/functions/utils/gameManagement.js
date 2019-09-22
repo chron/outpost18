@@ -46,7 +46,7 @@ export function initialGameState(publicGame, settings = {}) {
   const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
 
   // For testing you might want to force a particular card into your starting hand
-  // deck = ['Dreadnought'].concat(deck.filter(c => c.name !== 'Dreadnought'));
+  // deck = ['Helix'].concat(deck.filter(c => c.name !== 'Helix'));
 
   return {
     createdAt: new Date().toISOString(),
@@ -60,11 +60,12 @@ export function initialGameState(publicGame, settings = {}) {
     joinCode: generateJoinCode(),
     activePlayer: null,
     deck,
-    initialDeckOrder: deck,
+    startingDeck: deck,
     discards: [],
     players: [],
     log: [],
     tick: 0,
+    turn: 1,
   };
 }
 

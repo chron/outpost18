@@ -12,6 +12,7 @@ export default function gameStatePresenter(state, gameId, playerId) {
     gameState,
     players,
     tick,
+    turn,
     settings,
     turnStartedAt,
     publicGame,
@@ -26,6 +27,7 @@ export default function gameStatePresenter(state, gameId, playerId) {
     joinCode,
     publicGame,
     tick,
+    turn,
     gameState,
     activePlayer: activePlayer === playerId ? 'player' : 'opponent',
     player: {
@@ -35,7 +37,6 @@ export default function gameStatePresenter(state, gameId, playerId) {
     opponent: opponent ? {
       ...opponent,
       playerId: undefined,
-      aiController: undefined,
       hand: undefined,
       handSize: opponent.hand.length,
     } : undefined,

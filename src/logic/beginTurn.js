@@ -15,6 +15,7 @@ export default function beginTurn(state, playerId) {
 
     let newState = updatePlayer(state, playerId, changes);
     newState = { ...newState,
+      turn: state.turn + 1,
       turnStartedAt: new Date().toISOString(),
       gameState: 'main',
       activePlayer: playerId,

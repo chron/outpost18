@@ -155,7 +155,10 @@ const cards = [
       {
         threshold: { ore: 3 },
         effect: {
-          choice: { type: 'upgrade' },
+          choice: {
+            type: 'upgrade',
+            description: "Click on opponent's upgrade to place it back to opponent's hand",
+          },
           description: "Return an opponent's Upgrade to their hand.",
           function: (_state, _player, opponent, cardNameToReturn) => {
             if (!cardNameToReturn) { return; }

@@ -5,6 +5,7 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
   const [gameCode, setGameCode] = useState('');
   const [nextGamePublic, setNextGamePublic] = useState(true);
   const [nextGameSolo, setNextGameSolo] = useState(false);
+  const [nextGameTimed, setNextGameTimed] = useState(false);
 
   return (
     <div className="full-screen-wrapper">
@@ -55,6 +56,19 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
 
               <div className="welcome__field">
                 <input
+                  id="nextGameTimed"
+                  type="checkbox"
+                  disabled
+                  onChange={e => setNextGameTimed(e.target.checked)}
+                  checked={nextGameTimed}
+                />
+                <label htmlFor="nextGameTimed" className="welcome__label">
+                  Enable a turn timer
+                </label>
+              </div>
+
+              <div className="welcome__field">
+                <input
                   id="nextGameSolo"
                   type="checkbox"
                   onChange={e => {
@@ -68,7 +82,7 @@ function Welcome({ playerName, setPlayerName, joinGame }) {
                 </label>
               </div>
 
-            <button className="button" onClick={() => joinGame(null, null, nextGamePublic, nextGameSolo)}>Create Game</button>
+            <button className="button" onClick={() => joinGame(null, null, nextGamePublic, nextGameSolo, nextGameTimed)}>Create Game</button>
 
           </div>
 

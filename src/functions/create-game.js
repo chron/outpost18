@@ -6,13 +6,13 @@ import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
 
 export async function handler(event, _context) {
-  const { playerId, playerName, rematchGameId, publicGame, soloGame } = JSON.parse(event.body);
+  const { playerId, playerName, rematchGameId, publicGame, soloGame, timed } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
   if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
 
-  const settings = publicGame ? { turnLength: 60 } : {};
+  const settings = timed ? { turnLength: 7 } : {};
   const initialState = initialGameState(publicGame, settings);
 
   let gameState = addPlayerToGame(initialState, playerId, playerName);

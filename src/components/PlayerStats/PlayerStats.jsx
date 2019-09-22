@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
+import { useInterval } from '../../hooks';
 import { resources, sumResourceForPlayer } from '../../utils';
 import ResourceIcon from '../ResourceIcon';
 import './PlayerStats.scss';
@@ -11,34 +12,40 @@ const CLIENT_TIMEOUT_GRACE_PERIOD = 1000;
 // TODO: draws icon
 function PlayerStats({ player, friendly = false }) {
   const gameState = useGameState();
-  const { activePlayer, gameInProgress, turnStartedAt, settings, dispatch } = gameState;
+  const { gameId, turn, activePlayer, soloGame, gameInProgress, turnStartedAt, settings, dispatch } = gameState;
   const turnLength = settings && settings.turnLength;
   const { hand, handSize, plays, attackPool } = player;
-  const [timeLeft, setTimeLeft] = useState();
-  const [sentTimeout, setSentTimeout] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [sentTimeout, setSentTimeout] = useState(0);
   const belongsToActivePlayer = activePlayer === (friendly ? 'player' : 'opponent');
 
-  // We'll only send one timeout notification per turn, so reset it when activePlayer changes.
+  // Reset when we start a new match or a new turn
   useEffect(() => {
+    setTimeLeft(null);
     setSentTimeout(false);
-  }, [activePlayer]);
+  }, [gameId, turn]);
 
   useEffect(() => {
-    if (turnLength && belongsToActivePlayer && gameInProgress) {
-      const timer = setInterval(() => {
-        const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
-        const turnTimeRemaining = Math.max(0, (turnEndsAt - new Date().getTime()) / 1000);
+    // We only send timeouts for opponents, unless it's vs AI
+    if ((friendly && !soloGame) || (!friendly && soloGame)) { return; }
+    if (!belongsToActivePlayer) { return; }
 
-        if (!sentTimeout && turnTimeRemaining <= 0 && !friendly && gameInProgress) {
-          setSentTimeout(true);
-          dispatch({ type: 'timeout' });
-        }
-
-        setTimeLeft(turnTimeRemaining);
-      }, 1000);
-      return () => clearInterval(timer);
+    if (!sentTimeout && timeLeft !== null && timeLeft <= 0) {
+      setSentTimeout(true);
+      dispatch({ type: 'timeout' });
     }
-  }, [gameInProgress, setTimeLeft, turnLength, turnStartedAt, sentTimeout, belongsToActivePlayer, dispatch, friendly]);
+  }, [dispatch, friendly, gameInProgress, sentTimeout, turn, timeLeft, soloGame]);
+
+  useInterval(() => {
+    if (gameInProgress) {
+      const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
+      const turnTimeRemaining = Math.max(0, (turnEndsAt - new Date().getTime())) / 1000;
+
+      setTimeLeft(turnTimeRemaining);
+    } else {
+      setTimeLeft(null);
+    }
+  }, 1000);
 
   return (
     <div className={`player-stats player-stats--${friendly ? '' : 'enemy'}`}>
