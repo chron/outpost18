@@ -11,7 +11,6 @@
   }
 
   display: flex;
-  width: var(--base-width);
   height: var(--base-height);
   color: $card-foreground-color;
   background-color: $card-background-color;
@@ -20,13 +19,13 @@
   font-family: $title-font-stack;
 
   &__main {
-    flex-grow: 1;
+    width: var(--base-width);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     margin: 0.5vh;
-    padding: 0.5vh;
+    padding: 0.3vh;
 
     text-align: center;
   }

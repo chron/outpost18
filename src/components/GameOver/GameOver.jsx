@@ -5,7 +5,7 @@ import { useGameState } from '../GameProvider';
 function GameOver() {
   const { winner, player, opponent, rematch, resignAndQuit, readonly } = useGameState();
 
-  const winningPlayer = player.playerId === winner ? player : opponent;
+  const winningPlayer = winner === 'player' ? player : opponent;
 
   if (readonly) {
     return (
@@ -32,7 +32,7 @@ function GameOver() {
     <div className="full-screen-wrapper">
       <div className="panel interactable">
         <h1>
-          {player.playerId === winner ? 'You win!' : 'You lose!'}
+          {winner === 'player' ? 'You win!' : 'You lose!'}
         </h1>
 
         <p>
