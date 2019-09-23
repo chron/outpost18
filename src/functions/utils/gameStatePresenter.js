@@ -17,6 +17,7 @@ export default function gameStatePresenter(state, gameId, playerId) {
     turnStartedAt,
     publicGame,
     ruleset,
+    winner,
   } = state;
   const player = players.find(p => p.playerId === playerId);
   const opponent = players.find(p => p.playerId !== playerId);
@@ -29,6 +30,7 @@ export default function gameStatePresenter(state, gameId, playerId) {
     tick,
     turn,
     gameState,
+    winner: winner === playerId ? 'player' : 'opponent',
     activePlayer: activePlayer === playerId ? 'player' : 'opponent',
     player: {
       ...player,

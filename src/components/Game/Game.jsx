@@ -95,7 +95,7 @@ const Game = () => {
               {enemyShips.map(({ cardName, canAttack, attacking, attackAdded }) => (
                 <Ship
                   key={cardName}
-                  owner={player}
+                  owner={opponent}
                   cardName={cardName}
                   canAttack={canAttack}
                   attacking={attacking}
