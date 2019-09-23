@@ -16,8 +16,10 @@ function PlayerStats({ player, friendly = false }) {
   const turnLength = settings && settings.turnLength;
   const { hand, handSize, plays, attackPool } = player;
   const [timeLeft, setTimeLeft] = useState(null);
-  const [sentTimeout, setSentTimeout] = useState(0);
+  const [sentTimeout, setSentTimeout] = useState(false);
   const belongsToActivePlayer = activePlayer === (friendly ? 'player' : 'opponent');
+
+  // TODO: move ALL of this timer stuff out of here
 
   // Reset when we start a new match or a new turn
   useEffect(() => {
@@ -31,13 +33,18 @@ function PlayerStats({ player, friendly = false }) {
     if (!belongsToActivePlayer) { return; }
 
     if (!sentTimeout && timeLeft !== null && timeLeft <= 0) {
+      const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
+      const turnTimeRemaining = Math.max(0, (turnEndsAt - new Date().getTime())) / 1000;
+
+      if (turnTimeRemaining > 0) { return; }
+
       setSentTimeout(true);
       dispatch({ type: 'timeout' });
     }
-  }, [dispatch, friendly, gameInProgress, sentTimeout, turn, timeLeft, soloGame]);
+  }, [belongsToActivePlayer, dispatch, friendly, sentTimeout, soloGame, timeLeft, turnLength, turnStartedAt]);
 
   useInterval(() => {
-    if (gameInProgress) {
+    if (gameInProgress && turnLength) {
       const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
       const turnTimeRemaining = Math.max(0, (turnEndsAt - new Date().getTime())) / 1000;
 
