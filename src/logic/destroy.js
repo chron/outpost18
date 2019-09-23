@@ -28,9 +28,14 @@ export default function destroy(state, playerId, cardName) {
   if (card.shields > attackPool) { return state; }
   if (!card.defender && defenders.length > 0) { return state; }
 
+  const destroyLog = { playerId, action: { type: 'destroy', cardName, amount: card.shields } };
+
   if (card.name === 'Station Core') {
+    const log1 = log(state, destroyLog);
+    const log2 = log(log1, { playerId, action: { type: 'win' } });
+
     return {
-      ...log(state, { playerId, action: { type: 'win' } }),
+      ...log2,
       gameState: 'finished',
       winner: playerId,
       finishedAt: new Date().toISOString(),
@@ -45,6 +50,6 @@ export default function destroy(state, playerId, cardName) {
     newPlayers[playerIndex] = newPlayer;
     newPlayers[opponentIndex] = newOpponent;
 
-    return log({ ...state, players: newPlayers }, { playerId, action: { type: 'destroy', cardName, amount: card.shields } });
+    return log({ ...state, players: newPlayers }, destroyLog);
   }
 }

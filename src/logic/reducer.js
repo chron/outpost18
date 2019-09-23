@@ -30,5 +30,6 @@ function playerAction(state, action, playerId) {
 export default function reducer(state, action, playerId) {
   const newState = playerAction(state, action, playerId);
 
+  // TODO: ideally we shouldn't tick if the action is a no-op I guess?
   return { ...newState, tick: newState.tick + 1 };
 }

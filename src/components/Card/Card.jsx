@@ -17,6 +17,7 @@ function Card({ cardName, inHand = false }) {
     toggleSelection,
     player,
     cards,
+    readonly,
     toggleZoom,
   } = state;
 
@@ -26,7 +27,7 @@ function Card({ cardName, inHand = false }) {
 
   const [{ isDragging }, dragRef] = useDrag({
     item: { type: ItemTypes.CARD, cardName },
-    canDrag: () => playable,
+    canDrag: () => playable && !readonly,
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
@@ -36,7 +37,7 @@ function Card({ cardName, inHand = false }) {
     && (uiMode.selected.includes(cardName) || uiMode.selected.length < (uiMode.max || 1));
 
   let onClick;
-  if (selectable) {
+  if (selectable && !readonly) {
     onClick = () => { toggleSelection(cardName); };
   } else {
     onClick = () => { toggleZoom(cardName); };

@@ -1,5 +1,5 @@
 import { loadGame, createGame } from '../lib/database';
-import { initialGameState, addPlayerToGame, addAutomaToGame, validPlayerId } from './utils/gameManagement';
+import { initialGameState, addPlayerToGame, addAutomaToGame, validPlayerId } from '../logic/gameManagement';
 import { makeAiMovesIfNecessary } from '../lib/ai';
 import { notifyOpponent, refreshLobby } from './utils/notify';
 import gameStatePresenter from './utils/gameStatePresenter';

@@ -1,14 +1,15 @@
 import shuffle from 'lodash.shuffle';
-import allCards from '../../cards';
+import allCards from '../cards';
 
 const ACTIVE_VERSION = '2.4.1';
 
-// TODO: should this stuff move into `/logic`?
-function startGame(gameState) {
+function startGame(gameState, noRandomness = false) {
   const deck = gameState.deck.slice();
 
   // Player array is randomized, position 0 will be the start player.
-  const players = shuffle(gameState.players).map((p, index) => (
+  // Unless it's a replay, then we just take the order we are given!
+  const playerArray = noRandomness ? gameState.players : shuffle(gameState.players)
+  const players = playerArray.map((p, index) => (
     {
       ...p,
       plays: index === 0 ? 1 : 0,
@@ -41,9 +42,9 @@ export function validPlayerId(playerId) {
   return playerId !== 'AUTOMA';
 }
 
-export function initialGameState(publicGame, settings = {}) {
-  const cards = allCards[ACTIVE_VERSION];
-  const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
+export function initialGameState(publicGame, settings = {}, initialDeck = null, ruleset = null) {
+  const cards = allCards[ruleset || ACTIVE_VERSION];
+  const deck = initialDeck || shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
 
   // For testing you might want to force a particular card into your starting hand
   // deck = ['Helix'].concat(deck.filter(c => c.name !== 'Helix'));
@@ -69,7 +70,7 @@ export function initialGameState(publicGame, settings = {}) {
   };
 }
 
-export function addPlayerToGame(gameState, playerId, playerName, settings = {}) {
+export function addPlayerToGame(gameState, playerId, playerName, settings = {}, isReplay = false) {
   if (gameState.gameState !== 'waiting') { throw new Error('Game already started.'); }
   if (gameState.players.length >= 2) { throw new Error('Game full.'); }
 
@@ -85,7 +86,7 @@ export function addPlayerToGame(gameState, playerId, playerName, settings = {}) 
   });
 
   if (players.length === 2) {
-    return startGame({ ...gameState, players });
+    return startGame({ ...gameState, players }, isReplay);
   } else {
     return { ...gameState, players };
   }

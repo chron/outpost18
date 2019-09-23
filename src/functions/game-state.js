@@ -1,6 +1,6 @@
 import { loadGame, loadActiveGame } from '../lib/database';
 import gameStatePresenter from './utils/gameStatePresenter';
-import { validPlayerId } from './utils/gameManagement';
+import { validPlayerId } from '../logic/gameManagement';
 import { renderError } from './utils/apiResponses';
 
 export async function handler(event, _context) {

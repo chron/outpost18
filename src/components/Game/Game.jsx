@@ -27,6 +27,7 @@ const Game = () => {
     dispatch,
     deckSize,
     zoomedCard,
+    readonly,
     toggleZoom,
   } = useGameState();
   const [showGameLog, setShowGameLog] = useState(false);
@@ -70,7 +71,7 @@ const Game = () => {
             <button
               type="button"
               className="button end-turn end-turn--reverse"
-              disabled={gameState === 'abandoned' || gameState === 'finished'}
+              disabled={readonly || gameState === 'abandoned' || gameState === 'finished'}
               onClick={() => dispatch({ type: 'resign' })}
             >
               Resign<br/>

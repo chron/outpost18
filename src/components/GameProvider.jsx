@@ -5,7 +5,7 @@ import Waiting from './Waiting';
 
 const GameContext = React.createContext();
 
-function GameProvider({ gameState, rematch, updateGameState, playerId, children }) {
+function GameProvider({ gameState, rematch, updateGameState, playerId, readonly, children }) {
   const { gameId, player, opponent, ruleset } = gameState;
 
   const [uiMode, setUiMode] = useState(null);
@@ -84,6 +84,7 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, children 
 
   const gameStateValue = {
     ...gameState,
+    readonly,
     cards,
     dispatch,
     uiMode,

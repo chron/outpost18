@@ -2,7 +2,7 @@ import { loadGame, saveGame } from '../lib/database';
 import { notifyOpponent, refreshLobby } from './utils/notify';
 import reducer from '../logic/reducer';
 import gameStatePresenter from './utils/gameStatePresenter';
-import { validPlayerId } from './utils/gameManagement';
+import { validPlayerId } from '../logic/gameManagement';
 import { renderError } from './utils/apiResponses';
 import { makeAiMovesIfNecessary } from '../lib/ai';
 
