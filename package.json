@@ -2,6 +2,15 @@
   "name": "outpost18",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://github.com/chron/outpost18",
+  "bugs": {
+    "url": "https://github.com/chron/outpost18/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Paul Prestidge",
+    "email": "paul@paulandemma.co.nz"
+  },
   "devDependencies": {
     "dotenv": "^8.1.0",
     "eslint": "^5.16.0",
