@@ -1,19 +1,6 @@
 @import "../../stylesheets/variables.scss";
 
 .welcome {
-  &__panel {
-    display: flex;
-    flex-direction: column;
-    max-width: 700px;
-    width: 100%;
-    margin-top: 4vh;
-    padding: 3vh;
-    color: $panel-foreground-color;
-    background-color: $panel-background-color;
-    border-radius: 10px;
-    box-shadow: $card-shadow;
-  }
-
   &__title {
     font-family: $title-font-stack;
     font-size: 6vh;
