@@ -15,6 +15,7 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackA
     uiMode,
     setChoice,
     toggleZoom,
+    readonly,
   } = state;
   const card = cards.find(c => c.name === cardName);
 
@@ -26,14 +27,14 @@ function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackA
   let onClick;
 
   // TODO: probably this is a sign friendly and enemy ships should be two different components
-  if (availableToAttack) {
+  if (availableToAttack && !readonly) {
     if (abilityWithChoice) {
       const callback = (choices) => dispatch({ type: 'attack', cardName, choices });
       onClick = () => setChoice({ callback, ...abilityWithChoice.effect.choice });
     } else {
       onClick = () => dispatch({ type: 'attack', cardName });
     }
-  } else if (availableToChoose) {
+  } else if (availableToChoose && !readonly) {
     onClick = () => {
       uiMode.callback(cardName);
       setChoice(null);

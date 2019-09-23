@@ -61,9 +61,8 @@ export default function attack(state, playerId, cardName, choices) {
   newPlayers[playerIndex] = newPlayer;
   newPlayers[opponentIndex] = opponent;
 
-  // TODO: log the abilities/targets too
   return log(
     { ...state, players: newPlayers },
-    { playerId, action: { type: 'attack', cardName, amount: attackDelta } }
+    { playerId, action: { type: 'attack', cardName, amount: attackDelta, choices } }
   );
 }

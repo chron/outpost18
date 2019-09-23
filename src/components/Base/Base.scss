@@ -43,9 +43,16 @@
   }
 
   &__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-grow: 1;
     background-color: $ship-background-color;
     border-radius: 0.5vh;
     border: 0.2vh solid $upgrade-border-color;
+
+    > img {
+      width: 90%;
+    }
   }
 }

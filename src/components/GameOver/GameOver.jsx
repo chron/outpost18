@@ -1,14 +1,38 @@
 import React from 'react';
+import { Link } from '@reach/router';
 import { useGameState } from '../GameProvider';
 
 function GameOver() {
-  const { activePlayer, rematch, resignAndQuit } = useGameState();
+  const { winner, player, opponent, rematch, resignAndQuit, readonly } = useGameState();
+
+  const winningPlayer = player.playerId === winner ? player : opponent;
+
+  if (readonly) {
+    return (
+      <div className="full-screen-wrapper">
+        <div className="panel interactable">
+          <h1>
+            {winningPlayer.name} wins!
+          </h1>
+
+          <p>
+            You can
+            {' '}
+            <Link to="/game">
+              return to the main menu
+            </Link>
+            .
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="full-screen-wrapper">
       <div className="panel interactable">
         <h1>
-          {activePlayer === 'player' ? 'You win!' : 'You lose!'}
+          {player.playerId === winner ? 'You win!' : 'You lose!'}
         </h1>
 
         <p>

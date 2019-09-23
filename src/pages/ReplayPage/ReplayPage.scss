@@ -1,0 +1,19 @@
+@import "../../stylesheets/variables.scss";
+
+.page--replay {
+  height: 100%;
+}
+
+.replay-controls {
+  position: fixed;
+  left: 1vh;
+  bottom: 1vh;
+  margin-left: 1vh;
+  margin-right: 1vh;
+  padding: 1vh;
+  color: $card-foreground-color;
+  background-color: $card-background-color;
+  border-radius: 1vh;
+  box-shadow: $card-shadow;
+  z-index: 1;
+}

@@ -2,6 +2,14 @@
 @import "../../stylesheets/animations.scss";
 
 .alert {
+  padding: 2vh;
+  border-radius: $panel-border-radius;
+  color: $panel-foreground-color;
+  background-color: $panel-background-color;
+  font-size: $font-size-body;
+  z-index: 2;
+  box-shadow: $panel-shadow;
+
   opacity: 0;
   animation: fadeout 4s;
   pointer-events: none;

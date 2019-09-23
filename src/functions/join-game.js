@@ -1,6 +1,6 @@
 import { loadGameByJoinCode, saveGame } from '../lib/database';
 import { notifyOpponent, refreshLobby } from './utils/notify';
-import { addPlayerToGame, validPlayerId } from './utils/gameManagement';
+import { addPlayerToGame, validPlayerId } from '../logic/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
 

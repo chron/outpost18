@@ -1,3 +1,14 @@
+// TODO: this doesn't feel very DRY
+const PLAYER_ACTIONS = [
+  'discard',
+  'play',
+  'attack',
+  'destroy',
+  'endTurn',
+  'timeout',
+  'resign',
+];
+
 export default function replayPresenter(state, gameId) {
   const {
     ruleset,
@@ -5,12 +16,18 @@ export default function replayPresenter(state, gameId) {
     log,
     winner,
     resigned,
-    initialDeckOrder, // remove later
     startingDeck,
     createdAt,
     startedAt,
     finishedAt,
+    settings,
   } = state;
+
+  console.log(log);
+
+  const playerActionsOnly = log.filter(({ action: { type } }) => {
+    return PLAYER_ACTIONS.includes(type);
+  });
 
   return {
     gameId,
@@ -21,10 +38,11 @@ export default function replayPresenter(state, gameId) {
       playerId: p.playerId,
       name: p.name,
     })),
-    startingDeck: initialDeckOrder || startingDeck,
+    startingDeck,
     createdAt,
     startedAt,
     finishedAt,
-    log,
+    settings,
+    log: playerActionsOnly,
   };
 }
