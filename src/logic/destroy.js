@@ -21,7 +21,7 @@ export default function destroy(state, playerId, cardName) {
   const card = findCard(state, cardName);
   const defenders = inPlay
     .filter(s => s.mode === 'upgrade')
-    .map(s => findCard(state, cardName))
+    .map(s => findCard(state, s.cardName))
     .filter(c => c.defender);
 
   if (!target) { return state; }
@@ -31,11 +31,11 @@ export default function destroy(state, playerId, cardName) {
   const destroyLog = { playerId, action: { type: 'destroy', cardName, amount: card.shields } };
 
   if (card.name === 'Station Core') {
-    const log1 = log(state, destroyLog);
-    const log2 = log(log1, { playerId, action: { type: 'win' } });
+    const stateWithDestroyLog = log(state, destroyLog);
+    const stateWithBothLogs = log(stateWithDestroyLog, { playerId, action: { type: 'win' } });
 
     return {
-      ...log2,
+      ...stateWithBothLogs,
       gameState: 'finished',
       winner: playerId,
       finishedAt: new Date().toISOString(),

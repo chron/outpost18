@@ -29,6 +29,7 @@ function Nav({ gameAlert, gameState }) {
         ) : null}
       </NavLink>
       {gameState && gameState !== 'finished' ? null : <NavLink to="/lobby">Lobby</NavLink>}
+      {/* <NavLink to="/replays">Replays</NavLink> */}
       <NavLink to="/cards">Cards</NavLink>
 
       <div className="nav__version">

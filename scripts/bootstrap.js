@@ -81,8 +81,29 @@ async function bootstrapDatabase(secret) {
       console.error(e);
     }
   }
+
+  try {
+    await client.query(
+      CreateIndex({
+        name: 'games_sort_by_finished_at_desc',
+        source: Collection('games'),
+        terms: [
+          { field: ['ref'] },
+        ],
+        values: [
+          { field: ['data', 'finishedAt'], reverse: true },
+          { field: ['ref'] },
+        ],
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
 }
 
+// TODO: switching this between _DEV and prod keys is cumbersome
 const key = process.env.FAUNADB_SECRET_KEY_DEV;
 
 if (!key) {

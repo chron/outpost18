@@ -3,12 +3,15 @@ import allCards from '../cards';
 
 const ACTIVE_VERSION = '2.4.1';
 
-function startGame(gameState) {
+function startGame(gameState, noShuffle = false) {
   const deck = gameState.deck.slice();
 
   // Player array is randomized, position 0 will be the start player.
   // Unless it's a replay, then we just take the order we are given!
-  const playerArray = shuffle(gameState.players, `${gameState.seed}_playerorder`);
+  const playerArray = noShuffle
+    ? gameState.players // Because we are using the ALREADY SHUFFLED final array in this case
+    : shuffle(gameState.players, `${gameState.seed}_playerorder`);
+
   const players = playerArray.map((p, index) => (
     {
       ...p,
@@ -75,7 +78,7 @@ export function initialGameState(publicGame, settings = {}, ruleset = null, exis
   };
 }
 
-export function addPlayerToGame(gameState, playerId, playerName, settings = {}, isReplay = false) {
+export function addPlayerToGame(gameState, playerId, playerName, settings = {}, noShuffle = false) {
   if (gameState.gameState !== 'waiting') { throw new Error('Game already started.'); }
   if (gameState.players.length >= 2) { throw new Error('Game full.'); }
 
@@ -91,7 +94,7 @@ export function addPlayerToGame(gameState, playerId, playerName, settings = {}, 
   });
 
   if (players.length === 2) {
-    return startGame({ ...gameState, players }, isReplay);
+    return startGame({ ...gameState, players }, noShuffle);
   } else {
     return { ...gameState, players };
   }
