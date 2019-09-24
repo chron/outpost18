@@ -1,4 +1,4 @@
-import shuffle from 'lodash.shuffle';
+import { shuffle } from 'shuffle-seed';
 import log from './log';
 import { updatePlayer } from './utils';
 
@@ -9,7 +9,9 @@ export default function drawCards(state, playerId, num) {
 
   if (cardsToDraw.length < num) {
     // If the deck is empty, shuffle discards to make a new deck
-    newDeck = newDeck.concat(shuffle(state.discards));
+    const seed = `${state.seed}_${state.tick}`; // TODO: make sure this is all good
+    newDeck = newDeck.concat(shuffle(state.discards, seed));
+
     const shuffleResult = newDeck.slice();
     cardsToDraw = cardsToDraw.concat(newDeck.splice(0, num));
     newState = { ...newState, discards: [] };

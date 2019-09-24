@@ -7,6 +7,7 @@ import AllCardsPage from '../../pages/AllCardsPage';
 import LobbyPage from '../../pages/LobbyPage';
 import ErrorPage from '../../pages/ErrorPage';
 import ReplayPage from '../../pages/ReplayPage';
+import ReplayListPage from '../../pages/ReplayListPage';
 import Nav from '../Nav';
 import Loading from '../Loading';
 import Error from '../Error';
@@ -97,6 +98,7 @@ function App() {
             setLastSeenTick={setLastSeenTick}
           />
           <ReplayPage path="replay/:gameId" />
+          <ReplayListPage path="replays" />
           <AllCardsPage path="cards" />
           <LobbyPage path="lobby" />
           <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />

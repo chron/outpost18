@@ -1,14 +1,17 @@
-import shuffle from 'lodash.shuffle';
+import { shuffle } from 'shuffle-seed';
 import allCards from '../cards';
 
 const ACTIVE_VERSION = '2.4.1';
 
-function startGame(gameState, noRandomness = false) {
+function startGame(gameState, noShuffle = false) {
   const deck = gameState.deck.slice();
 
   // Player array is randomized, position 0 will be the start player.
   // Unless it's a replay, then we just take the order we are given!
-  const playerArray = noRandomness ? gameState.players : shuffle(gameState.players)
+  const playerArray = noShuffle
+    ? gameState.players // Because we are using the ALREADY SHUFFLED final array in this case
+    : shuffle(gameState.players, `${gameState.seed}_playerorder`);
+
   const players = playerArray.map((p, index) => (
     {
       ...p,
@@ -37,14 +40,19 @@ function generateJoinCode() {
   return Math.random().toString(36).substring(2, 7).toUpperCase();
 }
 
+function generateSeed() {
+  return Math.random().toString(36).substring(2);
+}
+
 // TODO: make this more sophisticated
 export function validPlayerId(playerId) {
   return playerId !== 'AUTOMA';
 }
 
-export function initialGameState(publicGame, settings = {}, initialDeck = null, ruleset = null) {
+export function initialGameState(publicGame, settings = {}, ruleset = null, existingSeed = null) {
   const cards = allCards[ruleset || ACTIVE_VERSION];
-  const deck = initialDeck || shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'));
+  const seed = existingSeed || generateSeed();
+  const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'), `${seed}_startingdeck`);
 
   // For testing you might want to force a particular card into your starting hand
   // deck = ['Helix'].concat(deck.filter(c => c.name !== 'Helix'));
@@ -61,16 +69,16 @@ export function initialGameState(publicGame, settings = {}, initialDeck = null, 
     joinCode: generateJoinCode(),
     activePlayer: null,
     deck,
-    startingDeck: deck,
     discards: [],
     players: [],
     log: [],
     tick: 0,
     turn: 1,
+    seed,
   };
 }
 
-export function addPlayerToGame(gameState, playerId, playerName, settings = {}, isReplay = false) {
+export function addPlayerToGame(gameState, playerId, playerName, settings = {}, noShuffle = false) {
   if (gameState.gameState !== 'waiting') { throw new Error('Game already started.'); }
   if (gameState.players.length >= 2) { throw new Error('Game full.'); }
 
@@ -86,7 +94,7 @@ export function addPlayerToGame(gameState, playerId, playerName, settings = {}, 
   });
 
   if (players.length === 2) {
-    return startGame({ ...gameState, players }, isReplay);
+    return startGame({ ...gameState, players }, noShuffle);
   } else {
     return { ...gameState, players };
   }

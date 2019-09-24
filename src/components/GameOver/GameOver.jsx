@@ -3,7 +3,7 @@ import { Link } from '@reach/router';
 import { useGameState } from '../GameProvider';
 
 function GameOver() {
-  const { winner, player, opponent, rematch, resignAndQuit, readonly } = useGameState();
+  const { gameId, winner, player, opponent, rematch, resignAndQuit, readonly } = useGameState();
 
   const winningPlayer = winner === 'player' ? player : opponent;
 
@@ -35,6 +35,12 @@ function GameOver() {
           {winner === 'player' ? 'You win!' : 'You lose!'}
         </h1>
 
+        <p>
+          A replay of your game is available
+          {' '}
+          <Link to={`/replay/${gameId}`}>here</Link>
+          .
+        </p>
         <p>
           You can{' '}
           <a onClick={rematch}>

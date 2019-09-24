@@ -4,7 +4,21 @@ import { query, Client } from 'faunadb';
 require('dotenv').config();
 /* eslint-disable no-console */
 
-const { Collection, Index, Ref, Create, Get, Var, Replace, Match, Union, Lambda, Map, Paginate } = query;
+const {
+  Collection,
+  Index,
+  Ref,
+  Create,
+  Get,
+  Var,
+  Replace,
+  Match,
+  Union,
+  Lambda,
+  Map,
+  Paginate,
+  Join,
+} = query;
 
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
 // TODO: find a way to switch the var out rather than using two different ones!!
@@ -65,13 +79,39 @@ export async function allOpenGames() {
           true,
           'waiting'
         )),
-        Lambda('game', Get(Var('game')))
+        Lambda('ref', Get(Var('ref')))
       )
     );
 
     return r.data.map(game => game.data);
   } catch (e) {
     return console.error(e);
+  }
+}
+
+export async function recentFinishedGames() {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(
+          Join(
+            Match(
+              Index('games_by_privacy_and_state'),
+              true,
+              'finished'
+            ),
+            Index('games_sort_by_finished_at_desc')
+          ),
+          { size: 10 }
+        ), Lambda(['game', 'ref'], Get(Var('ref')))
+      )
+    );
+
+
+    return r.data.map(game => [game.ref.id, game.data]);
+  } catch (e) {
+    console.error(e);
+    return [];
   }
 }
 

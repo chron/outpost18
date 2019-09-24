@@ -1,12 +1,11 @@
-export default function lobbyGamePresenter(state) {
+export default function lobbyGamePresenter(state, gameId) {
   const {
-    gameId,
     joinCode,
     gameState,
-    players: [{ name }],
+    players: [{ name }, { name: opponentName }],
     settings,
     createdAt,
-    publicGame,
+    finishedAt,
     ruleset,
   } = state;
 
@@ -14,10 +13,11 @@ export default function lobbyGamePresenter(state) {
     gameId,
     ruleset,
     joinCode,
-    publicGame,
     gameState,
     playerName: name,
+    opponentName,
     settings,
     createdAt,
+    finishedAt,
   };
 }

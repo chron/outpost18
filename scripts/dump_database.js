@@ -12,7 +12,7 @@ async function dump(secret, path) {
 
   const r = await client.query(
     Map( // TODO: once we hit this limit we need to do actual pagination I guess
-      Paginate(Match(Index('all_games')), { size: 1000 }),
+      Paginate(Match(Index('all_games')), { size: 100000 }),
       Lambda('game', Get(Var('game')))
     )
   );
