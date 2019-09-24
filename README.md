@@ -4,6 +4,8 @@
 
 You can visit the production version [here](https://outpost18.netlify.com) which is auto-deployed from the `master` branch.  There's also a build based on the `dev` branch which lives [here](https://dev.outpost18.netlify.com).
 
+![Screenshot of gameplay](docs/images/screenshot.png)
+
 ## What is Outpost 18?
 
 Outpost is a micro-cardgame designed by Adam Wilk.  The description from the [official site](http://playoutpost18.com):
