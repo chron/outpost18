@@ -3,60 +3,25 @@ import { loadReplay } from '../../lib/apiClient';
 import Loading from '../../components/Loading';
 import Game from '../../components/Game';
 import { GameProvider } from '../../components/GameProvider';
-import { initialGameState, addPlayerToGame } from '../../logic/gameManagement';
-import reducer from '../../logic/reducer';
+import { useReplay } from '../../hooks';
 import gameStatePresenter from '../../functions/utils/gameStatePresenter';
-
 import './ReplayPage.scss';
 
 export default function ReplayPage({ gameId }) {
   const [playerIndex, setPlayerIndex] = useState(0);
   const [replay, setReplay] = useState(null);
-  const [replayState, setReplayState] = useState(null);
-  const [logsApplied, setLogsApplied] = useState(null);
   const [playbackIndex, setPlaybackIndex] = useState(0);
 
   useEffect(() => {
     loadReplay(gameId).then(setReplay);
   }, [gameId]);
 
-  useEffect(() => {
-    if (!replay) { return; }
+  const replayState = useReplay(replay, playbackIndex);
 
-    let state;
-    let logStartingPoint;
-
-    // We can't apply logs backwards, so start from the beginning.
-    if (logsApplied === null || playbackIndex < logsApplied) {
-      state = initialGameState(false, replay.settings, replay.startingDeck, replay.ruleset);
-
-      state = replay.players.reduce((prevState, { playerId, name }) => {
-        return addPlayerToGame(prevState, playerId, name, {}, true); // TODO: settings?
-      }, state);
-
-      logStartingPoint = 0;
-    } else {
-      state = replayState;
-      logStartingPoint = logsApplied;
-    }
-
-    const logEntriesToApply = replay.log.slice(logStartingPoint, playbackIndex);
-
-    state = logEntriesToApply.reduce((prevState, { playerId, action }) => {
-      const nextState = reducer(prevState, action, playerId);
-      console.log(`Replayed action: ${JSON.stringify(action)}`);
-      return nextState;
-    }, state);
-
-    setLogsApplied(playbackIndex);
-    setReplayState(state);
-  }, [replay, playbackIndex]);
-
-  if (replayState === null) { return <Loading />; }
+  if (!replayState) { return <Loading />; }
 
   const viewingPlayerId = replayState.players[playerIndex].playerId;
-  const playersViewOfState = gameStatePresenter(replayState, gameId, viewingPlayerId);
-  const logSize = replay.log.length;
+  const replayView = gameStatePresenter(replayState, gameId, viewingPlayerId);
 
   return (
     <div className="page page--replay">
@@ -74,9 +39,9 @@ export default function ReplayPage({ gameId }) {
         <button
           className="button"
           onClick={() => setPlaybackIndex(playbackIndex + 1)}
-          disabled={playbackIndex > logSize}
+          disabled={playbackIndex > replay.log.length}
         >
-          Step one
+          Next
         </button>
 
         {' '}
@@ -88,13 +53,15 @@ export default function ReplayPage({ gameId }) {
           Swap POV
         </button>
 
+        {' '}
+
         Index: {playbackIndex}
       </div>
 
       <GameProvider
         readonly
         playerId={viewingPlayerId}
-        gameState={playersViewOfState}
+        gameState={replayView}
       >
         <Game />
       </GameProvider>

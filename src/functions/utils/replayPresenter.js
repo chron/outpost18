@@ -16,14 +16,12 @@ export default function replayPresenter(state, gameId) {
     log,
     winner,
     resigned,
-    startingDeck,
     createdAt,
     startedAt,
     finishedAt,
     settings,
+    seed,
   } = state;
-
-  console.log(log);
 
   const playerActionsOnly = log.filter(({ action: { type } }) => {
     return PLAYER_ACTIONS.includes(type);
@@ -38,11 +36,11 @@ export default function replayPresenter(state, gameId) {
       playerId: p.playerId,
       name: p.name,
     })),
-    startingDeck,
     createdAt,
     startedAt,
     finishedAt,
     settings,
     log: playerActionsOnly,
+    seed,
   };
 }
