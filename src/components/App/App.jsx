@@ -12,7 +12,7 @@ import Nav from '../Nav';
 import Loading from '../Loading';
 import Error from '../Error';
 import JoinGame from '../JoinGame';
-import { useLocalStorage, useWebsocket } from '../../hooks';
+import { useLocalStorage, useWebsocket, useWindowSize } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
 import './App.scss';
@@ -29,6 +29,13 @@ function App() {
   const [playerName, setPlayerName] = useLocalStorage('playerName', 'Player');
 
   if (!playerId) { setPlayerId(generatePlayerId()); }
+
+  // Set a CSS var to use as the window height since mobile browsers don't always
+  // factor in the same amount of UI height.
+  const { height } = useWindowSize();
+  useEffect(() => {
+    document.documentElement.style.setProperty('--vh', `${height * 0.01}px`);
+  }, [height]);
 
   // TODO: do we need some protection against the gameId changing here?
   useWebsocket(`user-${playerId}`, (event, newState) => {

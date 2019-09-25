@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useGameState } from '../GameProvider';
 import KeyMap from '../KeyMap';
 import Base from '../Base';
@@ -143,9 +144,13 @@ const Game = () => {
           </Lane>
 
           <Lane friendly type="hand">
-            {player.hand.map(c => (
-              <Card inHand key={c} cardName={c} />
-            ))}
+            <TransitionGroup component={null} exit={false}>
+              {player.hand.map(c => (
+                <CSSTransition key={c} classNames="card-" timeout={500}>
+                  <Card inHand cardName={c} />
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           </Lane>
         </div>
       </div>

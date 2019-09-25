@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import queryString from 'query-string';
 import { loadReplay } from '../../lib/apiClient';
 import Loading from '../../components/Loading';
 import Game from '../../components/Game';
@@ -7,10 +8,11 @@ import { useReplay } from '../../hooks';
 import gameStatePresenter from '../../functions/utils/gameStatePresenter';
 import './ReplayPage.scss';
 
-export default function ReplayPage({ gameId }) {
-  const [playerIndex, setPlayerIndex] = useState(0);
+export default function ReplayPage({ gameId, location: { search } }) {
+  const { t, p } = queryString.parse(search);
+  const [playerIndex, setPlayerIndex] = useState(p || 0);
   const [replay, setReplay] = useState(null);
-  const [playbackIndex, setPlaybackIndex] = useState(0);
+  const [playbackIndex, setPlaybackIndex] = useState(t || 0);
 
   useEffect(() => {
     loadReplay(gameId).then(setReplay);
