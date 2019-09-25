@@ -51,6 +51,21 @@
     }
   }
 
+  &--enter {
+    opacity: 0.8;
+    transform: translate(-55vw, -57vh);
+  }
+
+  &--enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 500ms ease;
+  }
+
+  &--enter-done {
+
+  }
+
   &--face-down {
     display: flex;
     justify-content: center;
