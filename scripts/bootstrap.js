@@ -68,6 +68,22 @@ async function bootstrapDatabase(secret) {
   try {
     await client.query(
       CreateIndex({
+        name: 'games_by_state',
+        source: Collection('games'),
+        terms: [
+          { field: ['data', 'gameState'] },
+        ],
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
+      CreateIndex({
         name: 'active_games_for_player',
         source: Collection('games'),
         terms: [

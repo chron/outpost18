@@ -8,7 +8,6 @@
 }
 
 html {
-  --vh: 1vh; // This is overriden in JS for mobiles with complicated viewports!
   height: calc(var(--vh, 1vh) * 100);
 }
 

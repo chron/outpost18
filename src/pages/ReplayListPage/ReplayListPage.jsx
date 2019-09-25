@@ -4,7 +4,7 @@ import { recentFinishedGames } from '../../lib/apiClient';
 import Loading from '../../components/Loading';
 import './ReplayListPage.scss';
 
-export default function ReplayPage() {
+export default function ReplayListPage() {
   const [games, setGames] = useState(null);
 
   useEffect(() => {

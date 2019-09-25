@@ -41,6 +41,7 @@
     "react-dom": ">= 16.8",
     "react-hotkeys": "^2.0.0",
     "react-transition-group": "^4.3.0",
+    "recharts": "^1.7.1",
     "shuffle-seed": "^1.1.6",
     "src": "^1.1.2"
   },

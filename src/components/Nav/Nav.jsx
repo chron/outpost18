@@ -31,6 +31,7 @@ function Nav({ gameAlert, gameState }) {
       {gameState && gameState !== 'finished' ? null : <NavLink to="/lobby">Lobby</NavLink>}
       {/* <NavLink to="/replays">Replays</NavLink> */}
       <NavLink to="/cards">Cards</NavLink>
+      <NavLink to="/stats">Stats</NavLink>
 
       <div className="nav__version">
         Version: {process.env.COMMIT_REF.slice(0, 7)}

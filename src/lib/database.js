@@ -89,6 +89,27 @@ export async function allOpenGames() {
   }
 }
 
+export async function allFinishedGames() {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(
+          Match(
+            Index('games_by_state'),
+            'finished'
+          ),
+          { size: 100000 }
+        ), Lambda(['ref'], Get(Var('ref')))
+      )
+    );
+
+    return r.data.map(game => game.data);
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
+}
+
 export async function recentFinishedGames() {
   try {
     const r = await client.query(
@@ -106,7 +127,6 @@ export async function recentFinishedGames() {
         ), Lambda(['game', 'ref'], Get(Var('ref')))
       )
     );
-
 
     return r.data.map(game => [game.ref.id, game.data]);
   } catch (e) {

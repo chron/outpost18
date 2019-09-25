@@ -31,6 +31,11 @@ export async function openGames() {
   return response.json();
 }
 
+export async function getStats() {
+  const response = await fetch('/.netlify/functions/stats');
+  return response.json();
+}
+
 export async function recentFinishedGames() {
   const response = await fetch('/.netlify/functions/replays');
   return response.json();
