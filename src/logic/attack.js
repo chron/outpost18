@@ -39,6 +39,8 @@ export default function attack(state, playerId, cardName, choices) {
       Object.entries(effectResult).forEach(([stat, amount]) => {
         if (stat === 'description') { return; }
 
+        // TODO: implement draw & draw description here
+
         const playerStat = stat === 'attack' ? 'attackPool' : stat;
 
         newPlayer[playerStat] = newPlayer[playerStat] || 0;
