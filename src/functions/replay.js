@@ -8,6 +8,8 @@ async function handler(event, _context) {
   if (!gameId) { return renderError('GameId must be provided.'); }
 
   const gameState = await loadGame(gameId);
+
+  if (gameState === null) { return renderError('That GameId could not be found.'); }
   if (gameState.gameState !== 'finished') { return renderError('Game still in progress.'); }
 
   return {

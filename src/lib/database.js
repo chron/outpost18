@@ -29,8 +29,6 @@ const client = new Client({ secret });
 const COLLECTION_NAME = 'games';
 
 export async function createGame(data) {
-  throw new Error("fake");
-
   try {
     const response = await client.query(Create(Collection(COLLECTION_NAME), { data }));
     return response.ref.id;

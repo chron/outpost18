@@ -66,14 +66,16 @@ function statsForSegment(segment, segmentName) {
   console.log(firstPlayerAdventage(segment));
   console.log();
 
-  const lengths = gameLengths(segment);
+  const nonResignedGames = segment.filter(g => !g.log.some(l => l.action.type === 'resign'));
+  const lengths = gameLengths(nonResignedGames);
   const maxLength = Math.max(...Object.keys(lengths));
   const maxFreq = Math.max(...Object.values(lengths));
 
-  console.log('Game length histogram');
-  for (let i = 0; i < maxLength; i++) {
+  console.log('Game length histogram for non-resigned games');
+  for (let i = 0; i <= maxLength; i++) {
     const bar = '#'.repeat(lengths[i] / maxFreq * 60);
-    console.log(`${i > 9 ? '' : ' '}${i} ${bar} (${lengths[i] || 0})`);
+    const label = lengths[i] ? ` (${lengths[i]})` : '';
+    console.log(`${i > 9 ? '' : ' '}${i} | ${bar}${label}`);
   }
   console.log();
 

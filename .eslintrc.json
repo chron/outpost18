@@ -39,6 +39,7 @@
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-else-return": "off",
     "react/jsx-one-expression-per-line": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-plusplus": "off"
   }
 }
