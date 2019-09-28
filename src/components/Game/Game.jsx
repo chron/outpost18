@@ -91,7 +91,7 @@ const Game = () => {
           </Lane>
 
           <Lane friendly type="upgrade">
-            <PlayerBase player={player} />
+            <PlayerBase friendly player={player} />
             <PlayerStats friendly player={player} />
             <EndTurnButton />
           </Lane>

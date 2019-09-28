@@ -3,7 +3,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Base from '../Base';
 import Upgrade from '../Upgrade';
 
-export default function PlayerBase({ player }) {
+export default function PlayerBase({ player, friendly }) {
   const upgrades = player.inPlay.filter(s => s.mode === 'upgrade');
 
   return (
@@ -12,6 +12,7 @@ export default function PlayerBase({ player }) {
         {upgrades.map(({ cardName }) => (
           <CSSTransition key={cardName} classNames="upgrade-" timeout={400}>
             <Upgrade
+              friendly={friendly}
               owner={player}
               cardName={cardName}
             />
