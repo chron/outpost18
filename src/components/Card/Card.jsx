@@ -5,7 +5,7 @@ import { useGameState } from '../GameProvider';
 import { ItemTypes } from '../../constants';
 import Upgrade from '../Upgrade';
 import ShipCard from '../ShipCard';
-
+import discardIcon from '../../assets/images/discard.svg'
 import './Card.scss';
 
 function Card({ cardName, inHand = false }) {
@@ -36,6 +36,8 @@ function Card({ cardName, inHand = false }) {
   const selectable = uiMode && uiMode.type === 'card'
     && (uiMode.selected.includes(cardName) || uiMode.selected.length < (uiMode.max || 1));
 
+  const selected = uiMode && uiMode.type === 'card' && uiMode.selected.includes(cardName);
+
   let onClick;
   if (selectable && !readonly) {
     onClick = () => { toggleSelection(cardName); };
@@ -49,11 +51,12 @@ function Card({ cardName, inHand = false }) {
         'card--playable': playable,
         'card--dragging': isDragging,
         'card--selectable': selectable,
-        'card--selected': uiMode && uiMode.type === 'card' && uiMode.selected.includes(cardName),
+        'card--selected': selected,
       })}
       ref={dragRef}
       onClick={onClick}
     >
+      {selected ? <img className="card__overlay" src={discardIcon} alt="Discarding" /> : null}
       <ShipCard card={card} owner={inHand && player} state={state} />
       <Upgrade cardName={cardName} inPlay={false} />
     </div>

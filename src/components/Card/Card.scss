@@ -18,6 +18,17 @@
     width: $card-width-mobile + 1vh;
   }
 
+  &__overlay {
+    position: absolute;
+    width: 60%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+    opacity: 1;
+  }
+
   &--zoomed {
     position: fixed;
     left: 39vw;
@@ -39,7 +50,9 @@
   }
 
   &--selected {
-    opacity: 0.6;
+    > .card__ship, .upgrade {
+      opacity: 0.4;
+    }
   }
 
   &--playable, &--selectable {
