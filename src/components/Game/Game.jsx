@@ -75,19 +75,22 @@ const Game = () => {
               disabled={readonly || gameState === 'abandoned' || gameState === 'finished'}
               onClick={() => dispatch({ type: 'resign' })}
             >
-              Resign<br/>
+              Resign<br />
               game
             </button>
 
             <PlayerStats player={opponent} />
 
-            {enemyUpgrades.map(({ cardName }) => (
-              <Upgrade
-                key={cardName}
-                owner={opponent}
-                cardName={cardName}
-              />
-            ))}
+            <TransitionGroup component={null}>
+              {enemyUpgrades.map(({ cardName }) => (
+                <CSSTransition key={cardName} classNames="upgrade-" timeout={400}>
+                  <Upgrade
+                    owner={opponent}
+                    cardName={cardName}
+                  />
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
             <Base owner={opponent} />
           </Lane>
 
