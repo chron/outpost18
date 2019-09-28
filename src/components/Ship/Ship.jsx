@@ -4,7 +4,7 @@ import ShipCard from '../ShipCard';
 import { isThresholdMet } from '../../utils';
 import './Ship.scss';
 
-function Ship({ cardName, owner, friendly = false, attacking, canAttack, attackAdded }) {
+function Ship({ cardName, friendly, owner, attacking, canAttack, attackAdded }) {
   const state = useGameState();
 
   const {

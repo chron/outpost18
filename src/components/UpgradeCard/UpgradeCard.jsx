@@ -6,7 +6,7 @@ import './UpgradeCard.scss';
 
 
 function UpgradeCard({ card, inPlay, friendly, onClick, interactable }) {
-  const { name, shields, defender, draws, ion, labour, ore } = card;
+  const { name, shields, defender, draws, plays, ion, labour, ore } = card;
 
   return(
     <div
@@ -31,6 +31,7 @@ function UpgradeCard({ card, inPlay, friendly, onClick, interactable }) {
         <ResourceIcon resource="ore" num={ore} />
         {defender ? <div className="upgrade__power">Def</div> : ''}
         {Array(draws || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">+<br />Draw</div>)}
+        {Array(plays || 0).fill(1).map((_, i) => <div key={i} className="upgrade__power">+<br />Play</div>)}
       </div>
 
       <div className={`upgrade__shields ${defender ? 'upgrade__shields--defender' : ''}`}>

@@ -1,7 +1,6 @@
 import { shuffle } from 'shuffle-seed';
 import allCards from '../cards';
-
-const ACTIVE_VERSION = '2.4.1';
+import { ACTIVE_VERSION } from '../constants';
 
 function startGame(gameState, noShuffle = false) {
   const deck = gameState.deck.slice();
@@ -55,7 +54,7 @@ export function initialGameState(publicGame, settings = {}, ruleset = null, exis
   const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'), `${seed}_startingdeck`);
 
   // For testing you might want to force a particular card into your starting hand
-  // deck = ['Helix'].concat(deck.filter(c => c.name !== 'Helix'));
+  // deck = ['Sparkwraith'].concat(deck.filter(c => c.name !== 'Sparkwraith'));
 
   return {
     createdAt: new Date().toISOString(),

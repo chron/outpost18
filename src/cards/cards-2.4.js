@@ -6,6 +6,7 @@ const cards = [
     name: 'Station Core',
     shields: 5,
     draws: 1,
+    plays: 1,
   },
   {
     name: 'Centurion',

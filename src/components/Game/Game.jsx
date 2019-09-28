@@ -2,22 +2,21 @@ import React, { useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useGameState } from '../GameProvider';
 import KeyMap from '../KeyMap';
-import Base from '../Base';
 import FaceDownCard from '../FaceDownCard';
 import Card from '../Card';
-import Ship from '../Ship';
 import GameOver from '../GameOver';
 import Hint from '../Hint';
 import Alert from '../Alert';
-import Upgrade from '../Upgrade';
+import PlayerBase from '../PlayerBase';
+import PlayerFleet from '../PlayerFleet';
 import PlayerStats from '../PlayerStats';
 import EndTurnButton from '../EndTurnButton';
 import Lane from '../Lane';
 import DiscardPile from '../DiscardPile';
 import DragLayer from '../DragLayer';
 import StaticCard from '../StaticCard';
-import './Game.scss';
 import GameLog from '../GameLog/GameLog';
+import './Game.scss';
 
 const Game = () => {
   const {
@@ -32,11 +31,6 @@ const Game = () => {
     toggleZoom,
   } = useGameState();
   const [showGameLog, setShowGameLog] = useState(false);
-
-  const upgrades = player.inPlay.filter(s => s.mode === 'upgrade');
-  const ships = player.inPlay.filter(s => s.mode === 'ship');
-  const enemyUpgrades = opponent.inPlay.filter(s => s.mode === 'upgrade');
-  const enemyShips = opponent.inPlay.filter(s => s.mode === 'ship');
 
   // TODO: reintroduce the domRef / focus stuff for keybinds
 
@@ -75,35 +69,16 @@ const Game = () => {
               disabled={readonly || gameState === 'abandoned' || gameState === 'finished'}
               onClick={() => dispatch({ type: 'resign' })}
             >
-              Resign<br/>
+              Resign<br />
               game
             </button>
 
             <PlayerStats player={opponent} />
-
-            {enemyUpgrades.map(({ cardName }) => (
-              <Upgrade
-                key={cardName}
-                owner={opponent}
-                cardName={cardName}
-              />
-            ))}
-            <Base owner={opponent} />
+            <PlayerBase player={opponent} />
           </Lane>
 
           <Lane type="ship">
-            <div className="fleet">
-              {enemyShips.map(({ cardName, canAttack, attacking, attackAdded }) => (
-                <Ship
-                  key={cardName}
-                  owner={opponent}
-                  cardName={cardName}
-                  canAttack={canAttack}
-                  attacking={attacking}
-                  attackAdded={attackAdded}
-                />
-              ))}
-            </div>
+            <PlayerFleet player={opponent} />
 
             <div className="deck">
               <FaceDownCard count={deckSize} />
@@ -112,33 +87,11 @@ const Game = () => {
 
           <Lane friendly type="ship">
             <DiscardPile />
-
-            <div className="fleet">
-              {ships.map(({ cardName, canAttack, attacking, attackAdded }) => (
-                <Ship
-                  key={cardName}
-                  friendly
-                  owner={player}
-                  cardName={cardName}
-                  canAttack={canAttack}
-                  attacking={attacking}
-                  attackAdded={attackAdded}
-                />
-              ))}
-            </div>
+            <PlayerFleet friendly player={player} />
           </Lane>
 
           <Lane friendly type="upgrade">
-            {upgrades.map(({ cardName }) => (
-              <Upgrade
-                key={cardName}
-                friendly
-                owner={player}
-                cardName={cardName}
-              />
-            ))}
-            <Base friendly cardName="Station Core" owner={player} />
-
+            <PlayerBase player={player} />
             <PlayerStats friendly player={player} />
             <EndTurnButton />
           </Lane>

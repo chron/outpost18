@@ -3,3 +3,6 @@
 export const ItemTypes = {
   CARD: 'card',
 };
+
+// New games will be created using this ruleset
+export const ACTIVE_VERSION = '2.4.1';
