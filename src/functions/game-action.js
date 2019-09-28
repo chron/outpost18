@@ -5,8 +5,9 @@ import gameStatePresenter from './utils/gameStatePresenter';
 import { validPlayerId } from '../logic/gameManagement';
 import { renderError } from './utils/apiResponses';
 import { makeAiMovesIfNecessary } from '../lib/ai';
+import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-export async function handler(event, _context) {
+async function handler(event, _context) {
   const { playerId, gameId, action } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
@@ -39,3 +40,6 @@ export async function handler(event, _context) {
     body: JSON.stringify(gameStatePresenter(newState, gameId, playerId)),
   };
 }
+
+initializeErrorHandling();
+exports.handler = errorWrapper(handler);

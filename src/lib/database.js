@@ -1,4 +1,5 @@
 import { query, Client } from 'faunadb';
+import { reportError } from './errorHandling';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
@@ -28,12 +29,14 @@ const client = new Client({ secret });
 const COLLECTION_NAME = 'games';
 
 export async function createGame(data) {
+  throw new Error("fake");
+
   try {
     const response = await client.query(Create(Collection(COLLECTION_NAME), { data }));
     return response.ref.id;
   } catch (e) {
-    // TODO: error handling, bugsnag or something here?
-    return console.error(e);
+    reportError(e);
+    return null;
   }
 }
 
@@ -42,7 +45,8 @@ export async function loadGame(gameId) {
     const r = await client.query(Get(Ref(Collection(COLLECTION_NAME), gameId)));
     return r.data;
   } catch (e) {
-    return console.error(e);
+    reportError(e);
+    return null;
   }
 }
 
@@ -51,7 +55,7 @@ export async function deleteGame(gameId) {
     await client.query(Delete(Ref(Collection(COLLECTION_NAME), gameId)));
     return true;
   } catch (e) {
-    console.error(e);
+    reportError(e);
     return false;
   }
 }
@@ -77,7 +81,8 @@ export async function loadActiveGame(playerId) {
       return [];
     }
   } catch (e) {
-    return console.error(e);
+    reportError(e);
+    return [];
   }
 }
 
@@ -96,7 +101,8 @@ export async function allOpenGames() {
 
     return r.data.map(game => game.data);
   } catch (e) {
-    return console.error(e);
+    reportError(e);
+    return [];
   }
 }
 
@@ -121,7 +127,7 @@ export async function recentFinishedGames() {
 
     return r.data.map(game => [game.ref.id, game.data]);
   } catch (e) {
-    console.error(e);
+    reportError(e);
     return [];
   }
 }
@@ -141,7 +147,8 @@ export async function loadGameByJoinCode(joinCode) {
       return [];
     }
   } catch (e) {
-    return console.error(e);
+    reportError(e);
+    return null;
   }
 }
 
@@ -150,6 +157,7 @@ export async function saveGame(gameId, data) {
     const r = await client.query(Replace(Ref(Collection(COLLECTION_NAME), gameId), { data }));
     return r.data;
   } catch (e) {
-    return console.error(e);
+    reportError(e);
+    return false;
   }
 }

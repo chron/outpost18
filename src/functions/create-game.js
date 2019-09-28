@@ -3,10 +3,18 @@ import { initialGameState, addPlayerToGame, addAutomaToGame, validPlayerId } fro
 import { makeAiMovesIfNecessary } from '../lib/ai';
 import { notifyOpponent, refreshLobby } from './utils/notify';
 import gameStatePresenter from './utils/gameStatePresenter';
+import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 import { renderError } from './utils/apiResponses';
 
-export async function handler(event, _context) {
-  const { playerId, playerName, rematchGameId, publicGame, soloGame, timed } = JSON.parse(event.body);
+async function handler(event, _context) {
+  const {
+    playerId,
+    playerName,
+    rematchGameId,
+    publicGame,
+    soloGame,
+    timed,
+  } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
   if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
@@ -59,3 +67,6 @@ export async function handler(event, _context) {
     return renderError('Game could not be created.');
   }
 }
+
+initializeErrorHandling();
+exports.handler = errorWrapper(handler);

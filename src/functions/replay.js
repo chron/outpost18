@@ -1,8 +1,9 @@
 import { loadGame } from '../lib/database';
 import replayPresenter from './utils/replayPresenter';
 import { renderError } from './utils/apiResponses';
+import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-export async function handler(event, _context) {
+async function handler(event, _context) {
   const { gameId } = event.queryStringParameters;
   if (!gameId) { return renderError('GameId must be provided.'); }
 
@@ -14,3 +15,6 @@ export async function handler(event, _context) {
     body: JSON.stringify(replayPresenter(gameState, gameId)),
   };
 }
+
+initializeErrorHandling();
+exports.handler = errorWrapper(handler);
