@@ -16,7 +16,7 @@ export default function GamePage({
 }) {
   useEffect(() => {
     setLastSeenTick(gameState.tick);
-  }, [gameState.tick, setLastSeenTick]);
+  }, [gameId, gameState.tick, setLastSeenTick]);
 
   if (gameId) {
     return (
