@@ -1,7 +1,8 @@
 import { activeGames } from './utils/lobby';
 import lobbyGamePresenter from './utils/lobbyGamePresenter';
+import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-export async function handler(_event, _context) {
+async function handler(_event, _context) {
   const games = await activeGames();
 
   // Gotcha: currently no GameId is being passed but the lobby doesn't need it, so...
@@ -10,3 +11,6 @@ export async function handler(_event, _context) {
     body: JSON.stringify(games.map(g => lobbyGamePresenter(g))),
   };
 }
+
+initializeErrorHandling();
+exports.handler = errorWrapper(handler);

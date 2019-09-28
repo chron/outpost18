@@ -3,8 +3,9 @@ import { notifyOpponent, refreshLobby } from './utils/notify';
 import { addPlayerToGame, validPlayerId } from '../logic/gameManagement';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { renderError } from './utils/apiResponses';
+import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-export async function handler(event, _context) {
+async function handler(event, _context) {
   const { playerId, playerName, joinCode } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
@@ -34,3 +35,6 @@ export async function handler(event, _context) {
     body: JSON.stringify(gameStatePresenter(gameState, gameId, playerId)),
   };
 }
+
+initializeErrorHandling();
+exports.handler = errorWrapper(handler);

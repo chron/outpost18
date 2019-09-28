@@ -1,12 +1,13 @@
-import { loadGame, saveGame } from '../lib/database';
+import { loadGame, saveGame, deleteGame } from '../lib/database';
 import { notifyOpponent, refreshLobby } from './utils/notify';
 import reducer from '../logic/reducer';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { validPlayerId } from '../logic/gameManagement';
 import { renderError } from './utils/apiResponses';
 import { makeAiMovesIfNecessary } from '../lib/ai';
+import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-export async function handler(event, _context) {
+async function handler(event, _context) {
   const { playerId, gameId, action } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
@@ -23,10 +24,15 @@ export async function handler(event, _context) {
   await saveGame(gameId, newState); // TODO: check success or throw exceptions in here
   await notifyOpponent(newState, gameId, playerId);
 
-  if (newState.publicGame && newState.gameState === 'abandoned') {
-    // A waiting game was abandoned so we should refresh the lobby
-    // TODO: can we do this async without the function terminating?
-    await refreshLobby();
+  if (newState.gameState === 'abandoned') {
+    // We are now permanently deleting abandoned games!
+    await deleteGame(gameId);
+
+    if (newState.publicGame) {
+      // A waiting game was abandoned so we should refresh the lobby
+      // TODO: can we do this async without the function terminating?
+      await refreshLobby();
+    }
   }
 
   return {
@@ -34,3 +40,6 @@ export async function handler(event, _context) {
     body: JSON.stringify(gameStatePresenter(newState, gameId, playerId)),
   };
 }
+
+initializeErrorHandling();
+exports.handler = errorWrapper(handler);

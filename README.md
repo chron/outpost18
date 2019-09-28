@@ -45,12 +45,13 @@ Netlify will load the variables locally so the only one you will need on your ma
 | Environment Variable | Description |
 | --- | --- |
 | COMMIT_REF | Git SHA of the current HEAD, used as a version code on the live site |
-| FAUNADB_SECRET_KEY_DEV | dev key for Fauna, set in your local .env|
+| FAUNADB_SECRET_KEY_DEV | dev key for Fauna, set in your local .env |
 | FAUNADB_SECRET_KEY | prod key for Fauna, comes from Netlify |
 | PUSHER_APP_ID | Pusher App used by the server-side websocket connection |
 | PUSHER_KEY | Pusher Key used by websocket client and server |
-| PUSHER_SECRET ||
-| PUSHER_CLUSTER ||
+| PUSHER_SECRET | |
+| PUSHER_CLUSTER | |
+| SENTRY_DSN | Sentry.io secret key for error reporting |
 
 ## Credits
 
