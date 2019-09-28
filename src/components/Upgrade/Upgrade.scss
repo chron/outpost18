@@ -26,8 +26,6 @@
   height: var(--upgrade-height);
   opacity: 1;
 
-  // Right now only enemy upgrades are in a TransitionGroup!
-
   &--destroyable {
     border-color: crimson;
     cursor: pointer;
