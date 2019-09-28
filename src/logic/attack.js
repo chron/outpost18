@@ -1,4 +1,5 @@
 import { isThresholdMet, findCard } from '../utils';
+import drawCards from './drawCards';
 import log from './log';
 
 export default function attack(state, playerId, cardName, choices) {
@@ -10,8 +11,7 @@ export default function attack(state, playerId, cardName, choices) {
 
   const player = state.players[playerIndex];
   const opponent = state.players[opponentIndex];
-  const { inPlay } = player;
-  const ship = inPlay.find(s => s.cardName === cardName);
+  const ship = player.inPlay.find(s => s.cardName === cardName);
 
   if (!ship) { return state; }
   if (ship.mode !== 'ship') { return state; }
@@ -21,6 +21,7 @@ export default function attack(state, playerId, cardName, choices) {
   const card = findCard(state, cardName);
   const newPlayer = { ...player };
   const oldAttackPool = newPlayer.attackPool;
+  let draws = 0;
 
   // Check and apply the ship's attack abilities
   card.abilities.forEach(({ threshold, effect }) => {
@@ -39,6 +40,7 @@ export default function attack(state, playerId, cardName, choices) {
       Object.entries(effectResult).forEach(([stat, amount]) => {
         if (stat === 'description') { return; }
 
+        if (stat === 'draws') { draws += amount; return; }
         const playerStat = stat === 'attack' ? 'attackPool' : stat;
 
         newPlayer[playerStat] = newPlayer[playerStat] || 0;
@@ -52,8 +54,8 @@ export default function attack(state, playerId, cardName, choices) {
 
   const attackDelta = newPlayer.attackPool - oldAttackPool;
 
-  const shipIndex = inPlay.indexOf(ship);
-  const newInPlay = inPlay.slice();
+  const shipIndex = player.inPlay.indexOf(ship);
+  const newInPlay = player.inPlay.slice();
   newInPlay[shipIndex] = { ...ship, attacking: true, attackAdded: attackDelta };
   newPlayer.inPlay = newInPlay;
 
@@ -61,8 +63,14 @@ export default function attack(state, playerId, cardName, choices) {
   newPlayers[playerIndex] = newPlayer;
   newPlayers[opponentIndex] = opponent;
 
-  return log(
+  let newState = log(
     { ...state, players: newPlayers },
     { playerId, action: { type: 'attack', cardName, amount: attackDelta, choices } }
   );
+
+  if (draws > 0) {
+    newState = drawCards(newState, playerId, draws);
+  }
+
+  return newState;
 }

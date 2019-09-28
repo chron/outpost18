@@ -32,6 +32,8 @@ function effectToIcons(effect) {
 
     if (resource === 'plays') {
       return `Play +${amount} ${amount === 1 ? 'card' : 'cards'}.`;
+    } else if (resource === 'draws') {
+      return `Draw ${amount} ${amount === 1 ? 'card' : 'cards'}.`;
     }
 
     return '😱';
