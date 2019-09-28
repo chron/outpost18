@@ -18,6 +18,7 @@ const {
   Map,
   Paginate,
   Join,
+  Delete,
 } = query;
 
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
@@ -42,6 +43,16 @@ export async function loadGame(gameId) {
     return r.data;
   } catch (e) {
     return console.error(e);
+  }
+}
+
+export async function deleteGame(gameId) {
+  try {
+    await client.query(Delete(Ref(Collection(COLLECTION_NAME), gameId)));
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
   }
 }
 
