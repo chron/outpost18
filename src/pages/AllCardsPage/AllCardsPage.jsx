@@ -2,6 +2,7 @@ import React from 'react';
 import './AllCardsPage.scss';
 import ShipCard from '../../components/ShipCard';
 import UpgradeCard from '../../components/UpgradeCard';
+import BackBar from '../../components/BackBar';
 import allCards from '../../cards';
 import { ACTIVE_VERSION } from '../../constants';
 
@@ -18,6 +19,8 @@ export default function AllCardsPage() {
           </div>
         );
       })}
+
+      <BackBar />
     </div>
   );
 }

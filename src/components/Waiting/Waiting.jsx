@@ -1,5 +1,7 @@
 import React from 'react';
 import { useGameState } from '../GameProvider';
+import Controls from '../Controls';
+import Button from '../Button';
 
 function Waiting() {
   const { joinCode, publicGame, resignAndQuit } = useGameState();
@@ -32,13 +34,11 @@ function Waiting() {
           </>
         )}
 
-        <p>
-          You can{' '}
-          <a onClick={resignAndQuit}>
-            abandon this game
-          </a>
-          {' '}and return to the menu.
-        </p>
+        <Controls>
+          <Button onClick={resignAndQuit}>
+            Abort game
+          </Button>
+        </Controls>
       </div>
     </div>
   );

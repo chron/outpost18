@@ -1,0 +1,50 @@
+@import "../../stylesheets/variables.scss";
+
+.page.page--main-menu {
+  padding: 0;
+}
+
+.hero {
+  background-color: $panel-background-color;
+  color: $panel-foreground-color;
+  padding: 3vh 0;
+  margin-bottom: 10vh;
+}
+
+.menu {
+  padding: 0 3vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: auto;
+  margin-right: auto;
+
+  max-width: 600px;
+  height: 60vh;
+}
+
+.menu-item {
+  font-family: $title-font-stack;
+  padding: 2vh;
+  border: 1px solid currentColor;
+  border-radius: $panel-border-radius;
+  color: $panel-foreground-color;
+  background-color: $panel-background-color;
+  font-size: 2vh;
+  text-decoration: none;
+  text-align: center;
+  box-shadow: $card-shadow;
+}
+
+.current-user {
+  &__panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 2vh;
+    background-color: $panel-background-color;
+    color: $panel-foreground-color;
+    border-radius: 0 $panel-border-radius 0 0;
+    text-decoration: none;
+  }
+}

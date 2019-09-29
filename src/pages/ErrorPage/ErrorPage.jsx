@@ -1,4 +1,5 @@
 import React from 'react';
+import BackBar from '../../components/BackBar';
 import './ErrorPage.scss';
 
 export default function ErrorPage() {
@@ -7,6 +8,8 @@ export default function ErrorPage() {
       <div className="panel">
         <h1>Page not found!</h1>
       </div>
+
+      <BackBar />
     </div>
   );
 }

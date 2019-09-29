@@ -1,0 +1,15 @@
+@import "../../stylesheets/variables.scss";
+@import "../../stylesheets/animations.scss";
+
+.controls {
+  display: flex;
+  justify-content: flex-end;
+
+  &:not(:first-child) {
+    margin-top: 1vh;
+  }
+
+  > *:not(:first-child) {
+    margin-left: 1vh;
+  }
+}
