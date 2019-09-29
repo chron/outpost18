@@ -1,12 +1,12 @@
 import React from 'react';
 import BackBar from '../../components/BackBar';
-import './ErrorPage.scss';
+import './AboutPage.scss';
 
-export default function ErrorPage() {
+export default function AboutPage() {
   return (
-    <div className="page page--error center-children">
+    <div className="page page--about center-children">
       <div className="panel">
-        <h1>Page not found!</h1>
+        <h1>About</h1>
       </div>
 
       <BackBar />

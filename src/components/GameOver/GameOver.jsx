@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from '@reach/router';
 import { useGameState } from '../GameProvider';
+import Controls from '../Controls';
+import Button from '../Button';
 
 function GameOver() {
   const { gameId, winner, player, opponent, rematch, resignAndQuit, readonly } = useGameState();
@@ -18,7 +20,7 @@ function GameOver() {
           <p>
             You can
             {' '}
-            <Link to="/game">
+            <Link to="/menu">
               return to the main menu
             </Link>
             .
@@ -41,17 +43,15 @@ function GameOver() {
           <Link to={`/replay/${gameId}`}>here</Link>
           .
         </p>
-        <p>
-          You can{' '}
-          <a onClick={rematch}>
-            challenge the same opponent again
-          </a>
-          {' '}or{' '}
-          <a onClick={resignAndQuit}>
-            return to the main menu
-          </a>
-          .
-        </p>
+        <Controls>
+          <Button onClick={rematch}>
+            Rematch
+          </Button>
+
+          <Button onClick={resignAndQuit}>
+            Main Menu
+          </Button>
+        </Controls>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@ import { Link } from '@reach/router';
 import { openGames } from '../../lib/apiClient';
 import { useWebsocket } from '../../hooks';
 import Loading from '../../components/Loading';
+import Controls from '../../components/Controls';
+import BackBar from '../../components/BackBar';
 import './LobbyPage.scss';
 
 // TODO: div -> panel later
@@ -46,7 +48,13 @@ export default function LobbyPage() {
         ) : (
           <p>No open games.</p>
         )}
+
+        <Controls>
+          <Link to="/create/public" className="button">Create game</Link>
+        </Controls>
       </div>
+
+      <BackBar />
     </div>
   );
 }

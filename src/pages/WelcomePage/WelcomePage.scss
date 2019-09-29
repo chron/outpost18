@@ -44,46 +44,4 @@
     align-items: center;
     width: 100%;
   }
-
-  &__label {
-    margin-right: 10px;
-    white-space: nowrap;
-    color: $panel-foreground-secondary-color;
-  }
-}
-
-// TODO: move this!
-.button {
-  padding: 5px 10px;
-  border: 0.2vh solid currentColor;
-  background-color: $panel-background-color;
-  color: $panel-foreground-color;
-  border-radius: 0.5vh;
-
-  &[disabled] {
-    color: #333;
-  }
-
-  &:hover:not([disabled]) {
-    background-color: #333;
-    cursor: pointer;
-  }
-}
-
-[type=checkbox] {
-  margin-right: 10px;
-}
-
-.text-input {
-  width: 100%;
-  padding: 5px;
-  background-color: $panel-background-color;
-  color: #aaa;
-  border: none;
-  border-bottom: 2px dotted currentColor;
-
-  &:focus {
-    outline: none;
-    color: $panel-foreground-color;
-  }
 }

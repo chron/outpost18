@@ -1,0 +1,24 @@
+@import "../../stylesheets/variables.scss";
+@import "../../stylesheets/animations.scss";
+
+.button {
+  padding: 1vh 2vh;
+  border: 0.2vh solid currentColor;
+  background-color: $panel-background-color;
+  color: $panel-foreground-color;
+  border-radius: 0.5vh;
+  text-decoration: none;
+
+  &[disabled] {
+    color: #333;
+  }
+
+  &:hover:not([disabled]) {
+    background-color: #333;
+    cursor: pointer;
+  }
+
+  &--reversed {
+    transform: rotate(180deg);
+  }
+}

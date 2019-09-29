@@ -1,16 +1,13 @@
 import React, { useEffect } from 'react';
+import { Redirect } from '@reach/router';
 import { GameProvider } from '../components/GameProvider';
 import Game from '../components/Game';
-import Welcome from '../components/Welcome';
 
 export default function GamePage({
   gameId,
   playerId,
-  playerName,
-  setPlayerName,
   gameState,
   updateGameState,
-  joinGameFunc,
   rematch,
   setLastSeenTick,
 }) {
@@ -31,11 +28,7 @@ export default function GamePage({
     );
   } else {
     return (
-      <Welcome
-        playerName={playerName}
-        setPlayerName={setPlayerName}
-        joinGame={joinGameFunc}
-      />
+      <Redirect to="/menu" />
     );
   }
 }
