@@ -22,8 +22,12 @@ cards[lotusIndex] = {
 const sparkWraithIndex = cards.findIndex(c => c.name === 'Sparkwraith');
 
 cards[sparkWraithIndex] = {
-  ...cards[sparkWraithIndex],
-  defender: true,
+  name: 'Sparkwraith',
+  attack: 1,
+  shields: 2,
+  ion: 1,
+  ore: 2,
+  hyperdrive: true,
   abilities: [
     {
       threshold: { ion: 2 },
@@ -53,6 +57,23 @@ cards[sparkWraithIndex] = {
           }
         },
       },
+    },
+  ],
+};
+
+const freighterIndex = cards.findIndex(c => c.name === 'Freighter');
+
+cards[freighterIndex] = {
+  name: 'Freighter',
+  attack: 1,
+  shields: 3,
+  ion: 1,
+  draws: 1,
+  ship_ore: 1,
+  abilities: [
+    {
+      threshold: { labour: 1, ion: 1 },
+      effect: { attack: 2 },
     },
   ],
 };
