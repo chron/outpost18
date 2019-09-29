@@ -52,6 +52,7 @@ function Card({ cardName, inHand = false }) {
         'card--dragging': isDragging,
         'card--selectable': selectable,
         'card--selected': selected,
+        'card--discardable': gameState === 'begin',
       })}
       ref={dragRef}
       onClick={onClick}

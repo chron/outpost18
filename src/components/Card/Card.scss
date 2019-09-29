@@ -64,6 +64,10 @@
     }
   }
 
+  &--discardable {
+    box-shadow: $discardable-glow;
+  }
+
   &--enter {
     opacity: 0.8;
     transform: translate(-55vw, -57vh);
