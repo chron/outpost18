@@ -1,17 +1,18 @@
 @import "../../stylesheets/variables.scss";
-@import "../../stylesheets/responsive.scss";
 
-.page--main-menu {
-
+.page.page--main-menu {
+  padding: 0;
 }
+
 .hero {
-  font-family: $title-font-stack;
-  font-size: 6vh;
-  text-align: center;
+  background-color: $panel-background-color;
+  color: $panel-foreground-color;
+  padding: 3vh 0;
   margin-bottom: 10vh;
 }
 
 .menu {
+  padding: 0 3vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -20,8 +21,6 @@
 
   max-width: 600px;
   height: 60vh;
-  @include mobile {
-  }
 }
 
 .menu-item {

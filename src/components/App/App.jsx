@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import TouchBackend from 'react-dnd-touch-backend'
-import { Router, Redirect } from '@reach/router';
+import { Router, Redirect, navigate } from '@reach/router';
 import WelcomePage from '../../pages/WelcomePage';
 import MainMenuPage from '../../pages/MainMenuPage';
 import GamePage from '../../pages/GamePage';
@@ -50,7 +50,10 @@ function App() {
 
   // TODO: move this into the game page not here
   useEffect(() => {
-    loadGame(playerId).then(newState => setGameState(newState));
+    loadGame(playerId).then(newState => {
+      setGameState(newState);
+      if (newState.gameId) { navigate('/game'); }
+    });
   }, []);
 
   if (gameState === null) {

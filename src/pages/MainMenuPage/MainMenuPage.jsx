@@ -10,7 +10,7 @@ function MainMenuPage({ playerName, joinGameFunc }) {
   return (
     <div className="page page--main-menu">
       <div className="hero">
-        Outpost 18
+        <h1 className="game-title">Outpost 18</h1>
       </div>
 
       <div className="menu">

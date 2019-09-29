@@ -48,6 +48,11 @@
   }
 }
 
+.game-title {
+  font-family: $title-font-stack;
+  font-size: 6vh;
+  text-align: center;
+}
 
 [type=checkbox] {
   margin-right: 10px;
@@ -71,4 +76,15 @@
   margin-right: 10px;
   white-space: nowrap;
   color: $panel-foreground-secondary-color;
+}
+
+.fieldset {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__input + * {
+    margin-left: 2vh;
+  }
 }

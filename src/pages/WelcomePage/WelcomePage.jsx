@@ -20,7 +20,7 @@ function WelcomePage({ playerName, setPlayerName }) {
   return (
     <div className="full-screen-wrapper">
       <div className="panel interactable">
-        <div className="welcome__title">Outpost 18</div>
+        <div className="game-title">Outpost 18</div>
 
         <div className="welcome__section welcome__section--vertical">
           <p>
@@ -28,21 +28,19 @@ function WelcomePage({ playerName, setPlayerName }) {
           </p>
         </div>
 
-        <div className="welcome__section">
-          <div className="welcome__field">
-            <label htmlFor="playerName" className="welcome__label">Your name:</label>
-            <input
-              autoFocus
-              id="playerName"
-              className="text-input"
-              maxLength={30}
-              onChange={e => setLocalName(e.target.value)}
-              value={localName}
-              onKeyPress={e => {
-                if (e.key === 'Enter') { handleConfirm(); }
-              }}
-            />
-          </div>
+        <div className="fieldset__wrapper">
+          <label htmlFor="playerName" className="label fieldset__label">Your name:</label>
+          <input
+            autoFocus
+            id="playerName"
+            className="text-input fieldset__input"
+            maxLength={30}
+            onChange={e => setLocalName(e.target.value)}
+            value={localName}
+            onKeyPress={e => {
+              if (e.key === 'Enter') { handleConfirm(); }
+            }}
+          />
         </div>
 
         <Controls>
