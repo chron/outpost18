@@ -6,7 +6,7 @@ const lotusIndex = cards.findIndex(c => c.name === 'Lotus');
 cards[lotusIndex] = {
   name: 'Lotus',
   attack: 0,
-  shields: 4,
+  shields: 3,
   defender: true,
   plays: 1,
   ship_ion: 1,
