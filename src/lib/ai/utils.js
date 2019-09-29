@@ -52,6 +52,7 @@ function ratePlayerState(state, playerId, weights) {
     ion: playerStats.ion || 0,
     labour: playerStats.labour || 0,
     draws: playerStats.draws || 0,
+    plays: playerStats.plays || 0,
     handSize: playerStats.hand.length || 0,
     effectiveHealth: calculateLethal(state, playerId),
     nextTurnAttack: totalAttackNextTurn(state, playerId),
