@@ -56,6 +56,25 @@ function gameLengths(games) {
   }).reduce((hash, v) => ({ ...hash, [v]: (hash[v] || 0) + 1 }), {});
 }
 
+function realTimeLengths(games) {
+  return games.map(g => {
+    const len = new Date(g.finishedAt) - new Date(g.startedAt);
+    return Math.round(len / 1000 / 60);
+  }).reduce((hash, v) => ({ ...hash, [v]: (hash[v] || 0) + 1 }), {});
+}
+
+function histogram(data, cutoff = null) {
+  const maxData = Math.max(...Object.keys(data));
+  const maxFreq = Math.max(...Object.values(data));
+  const limit = cutoff ? Math.min(cutoff, maxData) : maxData;
+
+  for (let i = 0; i <= limit; i++) {
+    const bar = '#'.repeat(data[i] / maxFreq * 60);
+    const label = data[i] ? ` (${data[i]})` : '';
+    console.log(`${i > 9 ? '' : ' '}${i} | ${bar}${label}`);
+  }
+}
+
 function statsForSegment(segment, segmentName) {
   console.log(`=== ${segmentName} ===`);
 
@@ -68,15 +87,14 @@ function statsForSegment(segment, segmentName) {
 
   const nonResignedGames = segment.filter(g => !g.log.some(l => l.action.type === 'resign'));
   const lengths = gameLengths(nonResignedGames);
-  const maxLength = Math.max(...Object.keys(lengths));
-  const maxFreq = Math.max(...Object.values(lengths));
 
   console.log('Game length histogram for non-resigned games');
-  for (let i = 0; i <= maxLength; i++) {
-    const bar = '#'.repeat(lengths[i] / maxFreq * 60);
-    const label = lengths[i] ? ` (${lengths[i]})` : '';
-    console.log(`${i > 9 ? '' : ' '}${i} | ${bar}${label}`);
-  }
+  histogram(lengths, 100);
+  console.log();
+
+  const realLengths = realTimeLengths(nonResignedGames);
+  console.log('Game lengths in minutes (non-resigned only)');
+  histogram(realLengths, 60);
   console.log();
 
   console.log('Game results by player name');
@@ -109,7 +127,7 @@ function statsForSegment(segment, segmentName) {
 }
 
 let [,, ...rulesets] = process.argv;
-rulesets = rulesets.length ? rulesets : ['2.4', '2.4.1'];
+rulesets = rulesets.length ? rulesets : ['2.4', '2.4.1', '2.4.2'];
 
 const games = JSON.parse(fs.readFileSync('database.json'));
 const nonTestGames = games.filter(g => !g.players.map(p => p.name).join().match(/paul|test/i));
