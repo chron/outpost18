@@ -18,7 +18,7 @@ export default function play(state, playerId, cardName, mode) {
 
   const newHand = hand.slice();
   newHand.splice(cardIndex, 1);
-  const newPlays = plays - 1;
+  const newPlays = plays - 1 + (mode === 'upgrade' ? card.plays || 0 : 0);
   const newInPlay = [...inPlay, { cardName, mode, canAttack: card.hyperdrive, attacking: false }];
   const newPlayers = state.players.slice();
   newPlayers[playerIndex] = { ...player, plays: newPlays, inPlay: newInPlay, hand: newHand };
