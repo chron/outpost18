@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import TouchBackend from 'react-dnd-touch-backend'
-import { Router, Redirect } from '@reach/router';
+import { Router, Redirect, navigate } from '@reach/router';
+import WelcomePage from '../../pages/WelcomePage';
+import MainMenuPage from '../../pages/MainMenuPage';
 import GamePage from '../../pages/GamePage';
 import AllCardsPage from '../../pages/AllCardsPage';
 import LobbyPage from '../../pages/LobbyPage';
+import AboutPage from '../../pages/AboutPage';
+import CreateGamePage from '../../pages/CreateGamePage';
+import JoinPrivateGamePage from '../../pages/JoinPrivateGamePage';
 import ErrorPage from '../../pages/ErrorPage';
 import ReplayPage from '../../pages/ReplayPage';
 import ReplayListPage from '../../pages/ReplayListPage';
-import Nav from '../Nav';
 import Loading from '../Loading';
 import Error from '../Error';
 import JoinGame from '../JoinGame';
@@ -26,7 +30,7 @@ function App() {
   const [lastSeenTick, setLastSeenTick] = useState(null);
   const [error, setError] = useState(null);
   const [playerId, setPlayerId] = useLocalStorage('playerId');
-  const [playerName, setPlayerName] = useLocalStorage('playerName', 'Player');
+  const [playerName, setPlayerName] = useLocalStorage('playerName', null);
 
   if (!playerId) { setPlayerId(generatePlayerId()); }
 
@@ -46,7 +50,10 @@ function App() {
 
   // TODO: move this into the game page not here
   useEffect(() => {
-    loadGame(playerId).then(newState => setGameState(newState));
+    loadGame(playerId).then(newState => {
+      setGameState(newState);
+      if (newState.gameId) { navigate('/game'); }
+    });
   }, []);
 
   if (gameState === null) {
@@ -83,34 +90,43 @@ function App() {
     joinGameFunc(null, gameId);
   }
 
+  // Checking for 'Player' because that used to be the default, later we can remove this.
+  if (!playerName || playerName === '' || playerName === 'Player') {
+    return (
+      <WelcomePage playerName={playerName} setPlayerName={setPlayerName} />
+    );
+  }
+
   return (
     <>
       <DndProvider backend={TouchBackend} options={TOUCH_OPTIONS}>
-        <Nav
-          gameState={gameState.gameState}
-          gameAlert={lastSeenTick < gameState.tick}
-        />
-
         <Router>
+          <WelcomePage path="user" playerName={playerName} setPlayerName={setPlayerName} />
+          <MainMenuPage
+            path="menu"
+            playerName={playerName}
+            joinGameFunc={joinGameFunc}
+          />
           <GamePage
             path="game"
             gameId={gameId}
             playerId={playerId}
-            playerName={playerName}
-            setPlayerName={setPlayerName}
             gameState={gameState}
             updateGameState={updateGameState}
             joinGameFunc={joinGameFunc}
             rematch={rematch}
             setLastSeenTick={setLastSeenTick}
           />
+          <AboutPage path="about" />
+          <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
+          <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
           <ReplayPage path="replay/:gameId" />
           <ReplayListPage path="replays" />
           <AllCardsPage path="cards" />
           <LobbyPage path="lobby" />
           <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />
           <ErrorPage default />
-          <Redirect from="/" to="game" />
+          <Redirect from="/" to={gameId ? 'game' : 'menu'} />
         </Router>
       </DndProvider>
 

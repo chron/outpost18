@@ -4,6 +4,7 @@ import { readyShips, totalAttack, defenseUpgrades, calculateLethal, rateAction }
 const WEIGHTS = {
   player: {
     draws: 1,
+    plays: 5,
     ore: 1,
     ion: 1,
     labour: 1,
@@ -12,6 +13,7 @@ const WEIGHTS = {
   },
   opponent: {
     draws: -1,
+    plays: -5,
     ore: -1,
     ion: -1,
     labour: -1,

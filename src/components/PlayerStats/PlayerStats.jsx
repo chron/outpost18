@@ -82,6 +82,8 @@ function PlayerStats({ player, friendly = false }) {
 
         <div className="player-stats__resource-row">
           {Object.keys(resources).map((resource) => {
+            if (resource === 'plays') { return null; }
+
             const amount = sumResourceForPlayer(gameState, resource, player);
 
             return (

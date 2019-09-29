@@ -5,6 +5,7 @@ export const resources = {
   labour: { name: 'Labour' },
   ion: { name: 'Ion' },
   draws: { name: 'Draws' },
+  plays: { name: 'Plays' },
 };
 
 export function findCard(state, cardName) {

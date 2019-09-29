@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { navigate } from '@reach/router';
 import { useGameState } from '../GameProvider';
 import KeyMap from '../KeyMap';
 import FaceDownCard from '../FaceDownCard';
@@ -15,7 +16,8 @@ import Lane from '../Lane';
 import DiscardPile from '../DiscardPile';
 import DragLayer from '../DragLayer';
 import StaticCard from '../StaticCard';
-import GameLog from '../GameLog/GameLog';
+import GameLog from '../GameLog';
+import Button from '../Button';
 import './Game.scss';
 
 const Game = () => {
@@ -63,15 +65,14 @@ const Game = () => {
         ) : null}
         <div className="lanes">
           <Lane>
-            <button
-              type="button"
-              className="button end-turn end-turn--reverse"
+            <Button
+              reversed
               disabled={readonly || gameState === 'abandoned' || gameState === 'finished'}
               onClick={() => dispatch({ type: 'resign' })}
             >
               Resign<br />
               game
-            </button>
+            </Button>
 
             <PlayerStats player={opponent} />
             <PlayerBase player={opponent} />

@@ -47,3 +47,44 @@
     }
   }
 }
+
+.game-title {
+  font-family: $title-font-stack;
+  font-size: 6vh;
+  text-align: center;
+}
+
+[type=checkbox] {
+  margin-right: 10px;
+}
+
+.text-input {
+  width: 100%;
+  padding: 5px;
+  background-color: $panel-background-color;
+  color: #aaa;
+  border: none;
+  border-bottom: 2px dotted currentColor;
+
+  &:focus {
+    outline: none;
+    color: $panel-foreground-color;
+  }
+}
+
+.label {
+  margin-right: 10px;
+  white-space: nowrap;
+  color: $panel-foreground-secondary-color;
+}
+
+.fieldset {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__input + * {
+    margin-left: 2vh;
+  }
+}
