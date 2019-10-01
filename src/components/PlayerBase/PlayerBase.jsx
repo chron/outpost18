@@ -20,7 +20,7 @@ export default function PlayerBase({ player, friendly }) {
         ))}
       </TransitionGroup>
 
-      <Base owner={player} />
+      <Base friendly={friendly} owner={player} />
     </>
   );
 }
