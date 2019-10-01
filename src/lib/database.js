@@ -20,6 +20,10 @@ const {
   Paginate,
   Join,
   Delete,
+  Not,
+  Equals,
+  Select,
+  Filter,
 } = query;
 
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
@@ -110,10 +114,13 @@ export async function recentFinishedGames() {
       Map(
         Paginate(
           Join(
-            Match(
-              Index('games_by_privacy_and_state'),
-              true,
-              'finished'
+            Filter(
+              Match(
+                Index('games_by_privacy_and_state'),
+                true,
+                'finished'
+              ),
+              Lambda('ref', Not(Equals(null, Select(['data', 'finishedAt'], Get(Var('ref')), null))))
             ),
             Index('games_sort_by_finished_at_desc')
           ),
