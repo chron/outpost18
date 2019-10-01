@@ -97,9 +97,9 @@ function statsForSegment(segment, segmentName) {
   histogram(realLengths, 60);
   console.log();
 
-  console.log('Game results by player name');
+  console.log(`Game results by player name${segmentName === 'AI Games' ? ' (ignoring resigned games vs AI)' : ''}`);
   console.table(
-    Object.entries(gameResultsByPlayer(segment))
+    Object.entries(gameResultsByPlayer(segmentName === 'AI Games' ? nonResignedGames : segment))
       .map(([name, stats]) => ({
         name,
         ...stats,
