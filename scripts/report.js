@@ -50,6 +50,15 @@ function cardPlayFrequencies(playerData) {
   }, {});
 }
 
+function gameCountByDay(games) {
+  return games.map(g => {
+    if (!g.finishedAt) { return null; }
+    const d = new Date(g.finishedAt);
+    return `${d.getFullYear()}-${d.getMonth() <= 9 ? '0' : ''}${d.getMonth()}-${d.getDate() <= 9 ? '0' : ''}${d.getDate()}`;
+  }).filter(g => g)
+    .reduce((hash, v) => ({ ...hash, [v]: (hash[v] || 0) + 1 }), {});
+}
+
 function gameLengths(games) {
   return games.map(g => {
     return g.log.filter(l => l.action.type === 'endTurn').length;
@@ -83,6 +92,10 @@ function statsForSegment(segment, segmentName) {
 
   console.log('How often does the player who goes first win?');
   console.log(firstPlayerAdventage(segment));
+  console.log();
+
+  console.log('Games finished per day');
+  console.table(Object.entries(gameCountByDay(segment)).sort());
   console.log();
 
   const nonResignedGames = segment.filter(g => !g.log.some(l => l.action.type === 'resign'));
