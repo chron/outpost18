@@ -50,17 +50,35 @@ function cardPlayFrequencies(playerData) {
   }, {});
 }
 
+function gameCountByDay(games) {
+  return games.filter(g => g.finishedAt).map(g => {
+    const d = new Date(g.finishedAt);
+    return `${d.getFullYear()}-${d.getMonth() <= 9 ? '0' : ''}${d.getMonth()}-${d.getDate() <= 9 ? '0' : ''}${d.getDate()}`;
+  }).filter(g => g);
+}
+
+function gameCountByHour(games) {
+  return games.filter(g => g.finishedAt).map(g => {
+    const hour = new Date(g.finishedAt).getHours();
+    return `${hour <= 9 ? '0' : ''}${hour}`;
+  });
+}
+
 function gameLengths(games) {
   return games.map(g => {
     return g.log.filter(l => l.action.type === 'endTurn').length;
-  }).reduce((hash, v) => ({ ...hash, [v]: (hash[v] || 0) + 1 }), {});
+  });
 }
 
 function realTimeLengths(games) {
   return games.map(g => {
     const len = new Date(g.finishedAt) - new Date(g.startedAt);
     return Math.round(len / 1000 / 60);
-  }).reduce((hash, v) => ({ ...hash, [v]: (hash[v] || 0) + 1 }), {});
+  });
+}
+
+function frequencies(array) {
+  return array.reduce((hash, v) => ({ ...hash, [v]: (hash[v] || 0) + 1 }), {});
 }
 
 function histogram(data, cutoff = null) {
@@ -85,14 +103,23 @@ function statsForSegment(segment, segmentName) {
   console.log(firstPlayerAdventage(segment));
   console.log();
 
+  console.log('Games finished per day');
+  console.table(Object.entries(frequencies(gameCountByDay(segment))).sort());
+  console.log();
+
+  console.log('Games finished by hour-of-day');
+  console.table(Object.entries(frequencies(gameCountByHour(segment))).sort());
+  console.log();
+
+
   const nonResignedGames = segment.filter(g => !g.log.some(l => l.action.type === 'resign'));
-  const lengths = gameLengths(nonResignedGames);
+  const lengths = frequencies(gameLengths(nonResignedGames));
 
   console.log('Game length histogram for non-resigned games');
   histogram(lengths, 100);
   console.log();
 
-  const realLengths = realTimeLengths(nonResignedGames);
+  const realLengths = frequencies(realTimeLengths(nonResignedGames));
   console.log('Game lengths in minutes (non-resigned only)');
   histogram(realLengths, 60);
   console.log();
