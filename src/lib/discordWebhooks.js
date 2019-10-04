@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 import fetch from 'node-fetch';
-import environment from './environment';
 
-const { URL, DISCORD_WEBHOOK_URL, DISCORD_WEBHOOK_URL_DEV } = process.env;
-const url = environment() === 'production' ? DISCORD_WEBHOOK_URL : DISCORD_WEBHOOK_URL_DEV;
+const { URL, ENV, DISCORD_WEBHOOK_URL, DISCORD_WEBHOOK_URL_DEV } = process.env;
+const url = ENV === 'production' ? DISCORD_WEBHOOK_URL : DISCORD_WEBHOOK_URL_DEV;
 
 export async function reportFinishedGame(gameId, state) {
   if (!url) { return; }
@@ -15,7 +14,7 @@ export async function reportFinishedGame(gameId, state) {
   const content = `**${winner.name}** defeated **${loser.name}** in ${state.turn} turn${state.turn > 1 ? 's' : ''}.
 Replay link: ${URL}/replay/${gameId}`;
 
-  console.log('Posting finished game notification to Discord');
+  console.log('Posting finished game notification to Discord.');
 
   // Because `wait` defaults to `false` we don't wait for the message to
   // actually post before returning.

@@ -1,6 +1,5 @@
 import { query, Client } from 'faunadb';
 import { reportError } from './errorHandling';
-import environment from './environment';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
@@ -27,11 +26,11 @@ const {
   Filter,
 } = query;
 
-const { FAUNADB_SECRET_KEY, FAUNADB_SECRET_KEY_DEV } = process.env;
+const { ENV, FAUNADB_SECRET_KEY, FAUNADB_SECRET_KEY_DEV } = process.env;
 
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
 // TODO: find a way to switch the var out rather than using two different ones!!
-const secret = environment() === 'production' ? FAUNADB_SECRET_KEY : FAUNADB_SECRET_KEY_DEV;
+const secret = ENV === 'production' ? FAUNADB_SECRET_KEY : FAUNADB_SECRET_KEY_DEV;
 const client = new Client({ secret });
 const COLLECTION_NAME = 'games';
 
