@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fetch from 'node-fetch';
 import environment from './environment';
 
@@ -13,6 +14,8 @@ export async function reportFinishedGame(gameId, state) {
 
   const content = `**${winner.name}** defeated **${loser.name}** in ${state.turn} turn${state.turn > 1 ? 's' : ''}.
 Replay link: ${URL}/replay/${gameId}`;
+
+  console.log('Posting finished game notification to Discord');
 
   // Because `wait` defaults to `false` we don't wait for the message to
   // actually post before returning.
