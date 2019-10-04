@@ -61,7 +61,7 @@ export async function deleteGame(gameId) {
 }
 
 export async function loadActiveGame(playerId) {
-  console.log(ENV);
+  console.log(process.env);
 
   try {
     const r = await client.query(
