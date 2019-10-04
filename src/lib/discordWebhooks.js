@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import fetch from 'node-fetch';
 
-const { URL, ENV, DISCORD_WEBHOOK_URL, DISCORD_WEBHOOK_URL_DEV } = process.env;
+const { URL, DISCORD_WEBHOOK_URL, DISCORD_WEBHOOK_URL_DEV } = process.env;
 const url = ENV === 'production' ? DISCORD_WEBHOOK_URL : DISCORD_WEBHOOK_URL_DEV;
 
 export async function reportFinishedGame(gameId, state) {
