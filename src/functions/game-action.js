@@ -25,8 +25,6 @@ async function handler(event, _context) {
   await saveGame(gameId, newState); // TODO: check success or throw exceptions in here
   await notifyOpponent(newState, gameId, playerId);
 
-  console.log(oldState.gameState, '->', newState.gameState, newState.settings);
-
   if (newState.gameState === 'abandoned') {
     // We are now permanently deleting abandoned games!
     await deleteGame(gameId);
