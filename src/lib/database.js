@@ -41,8 +41,6 @@ export async function createGame(data) {
 }
 
 export async function loadGame(gameId) {
-  console.log(ENV);
-
   try {
     const r = await client.query(Get(Ref(Collection(COLLECTION_NAME), gameId)));
     return r.data;
