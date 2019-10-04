@@ -52,7 +52,7 @@ const Game = () => {
     <KeyMap dispatch={dispatch} handlers={keyHandlers}>
       <div className="game" tabIndex={-1} onClick={onBackgroundClick}>
         <DragLayer />
-        {myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
+        {!readonly && myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
         <Hint />
         {showGameLog ? <GameLog /> : null}
         {gameState === 'finished' ? <GameOver /> : null}
