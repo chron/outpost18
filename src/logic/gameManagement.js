@@ -62,6 +62,7 @@ export function initialGameState(publicGame, settings = {}, ruleset = null, exis
     publicGame,
     settings: {
       turnLength: undefined,
+      reportResult: false,
       ...settings,
     },
     gameState: 'waiting',

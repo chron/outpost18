@@ -4,7 +4,7 @@ import './MainMenuPage.scss';
 
 function MainMenuPage({ playerName, joinGameFunc }) {
   const launchAiGame = () => {
-    joinGameFunc(null, null, false, true, false).then(() => navigate('/game'));
+    joinGameFunc(null, null, false, true, {}).then(() => navigate('/game'));
   };
 
   return (

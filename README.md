@@ -52,6 +52,7 @@ Netlify will load the variables locally so the only one you will need on your ma
 | PUSHER_SECRET | |
 | PUSHER_CLUSTER | |
 | SENTRY_DSN | Sentry.io secret key for error reporting |
+| DISCORD_WEBHOOK_URL | Webhook for reporting public game results to a discord channel |
 
 ## Credits
 

@@ -54,7 +54,7 @@ function App() {
       setGameState(newState);
       if (newState.gameId) { navigate('/game'); }
     });
-  }, []);
+  }, [playerId]);
 
   if (gameState === null) {
     return <Loading />;
@@ -62,10 +62,10 @@ function App() {
 
   const { gameId } = gameState;
 
-  async function joinGameFunc(joinCode, rematchGameId, publicGame, addAi, timed) {
+  async function joinGameFunc(joinCode, rematchGameId, publicGame, addAi, settings) {
     const newState = joinCode
       ? await joinGame(joinCode, playerId, playerName)
-      : await createGame(playerId, playerName, publicGame, addAi, timed, rematchGameId); // TODO
+      : await createGame(playerId, playerName, publicGame, addAi, settings, rematchGameId); // TODO
 
     if (newState.error) {
       setError(newState.error);

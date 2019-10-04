@@ -4,6 +4,7 @@ import reducer from '../logic/reducer';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { validPlayerId } from '../logic/gameManagement';
 import { renderError } from './utils/apiResponses';
+import { reportFinishedGame } from '../lib/discordWebhooks';
 import { makeAiMovesIfNecessary } from '../lib/ai';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
@@ -24,6 +25,8 @@ async function handler(event, _context) {
   await saveGame(gameId, newState); // TODO: check success or throw exceptions in here
   await notifyOpponent(newState, gameId, playerId);
 
+  console.log(oldState.gameState, '->', newState.gameState, newState.settings);
+
   if (newState.gameState === 'abandoned') {
     // We are now permanently deleting abandoned games!
     await deleteGame(gameId);
@@ -33,6 +36,8 @@ async function handler(event, _context) {
       // TODO: can we do this async without the function terminating?
       await refreshLobby();
     }
+  } else if (newState.settings.reportResult && oldState.gameState !== 'finished' && newState.gameState === 'finished') {
+    await reportFinishedGame(gameId, newState);
   }
 
   return {
