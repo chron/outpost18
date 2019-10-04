@@ -36,8 +36,6 @@ const client = new Client({ secret });
 const COLLECTION_NAME = 'games';
 
 export async function createGame(data) {
-  console.log(CONTEXT);
-
   const response = await client.query(Create(Collection(COLLECTION_NAME), { data }));
   // If this throws an exception we should handle it upstream
   return response.ref.id;
