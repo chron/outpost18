@@ -7,6 +7,15 @@
   command = "yarn run start"
   port = 1234
 
+[context.production]
+  command = "ENV=production yarn run build"
+
+[context.branch-deploy]
+  command = "ENV=staging yarn run build"
+
+[context.deploy-preview]
+  command = "ENV=staging yarn run build"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

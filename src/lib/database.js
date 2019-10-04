@@ -26,7 +26,7 @@ const {
   Filter,
 } = query;
 
-const { ENV, FAUNADB_SECRET_KEY, FAUNADB_SECRET_KEY_DEV } = process.env;
+const { FAUNADB_SECRET_KEY, FAUNADB_SECRET_KEY_DEV } = process.env;
 
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
 // TODO: find a way to switch the var out rather than using two different ones!!
