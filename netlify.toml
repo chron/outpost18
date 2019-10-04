@@ -7,11 +7,11 @@
   command = "yarn run start"
   port = 1234
 
-[context.production.environment]
-  ENV = "production"
+[context.production]
+  environment = { ENV = "production" }
 
-[context.branch-deploy.environment]
-  ENV = "staging"
+[context.branch-deploy]
+  environment = { ENV = "staging" }
 
 [[redirects]]
   from = "/*"
