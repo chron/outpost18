@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import environment from './utils/environment';
+import environment from './environment';
 
 const { URL, DISCORD_WEBHOOK_URL, DISCORD_WEBHOOK_URL_DEV } = process.env;
 const url = environment() === 'production' ? DISCORD_WEBHOOK_URL : DISCORD_WEBHOOK_URL_DEV;

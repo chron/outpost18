@@ -1,6 +1,6 @@
 import { query, Client } from 'faunadb';
 import { reportError } from './errorHandling';
-import environment from './utils/environment';
+import environment from './environment';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
