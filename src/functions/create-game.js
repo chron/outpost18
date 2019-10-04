@@ -13,14 +13,13 @@ async function handler(event, _context) {
     rematchGameId,
     publicGame,
     soloGame,
-    timed,
+    settings, // TODO: validate this using Joi or something similar
   } = JSON.parse(event.body);
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
   if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
 
-  const settings = timed ? { turnLength: 60 } : {};
   const initialState = initialGameState(publicGame, settings);
 
   let gameState = addPlayerToGame(initialState, playerId, playerName);
@@ -47,8 +46,13 @@ async function handler(event, _context) {
     gameState = makeAiMovesIfNecessary(gameState);
   }
 
+  let gameId;
   // Persist game data to the database
-  const gameId = await createGame(gameState);
+  try {
+    gameId = await createGame(gameState);
+  } catch (e) {
+    return renderError('Error saving game to database! The backend is probably down.');
+  }
 
   if (rematchGameId) {
     await notifyOpponent(gameState, gameId, playerId);

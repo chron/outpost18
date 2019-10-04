@@ -8,10 +8,13 @@ import './CreateGamePage.scss';
 
 function CreateGamePage({ joinGameFunc, gameType }) {
   const [nextGameTimed, setNextGameTimed] = useLocalStorage('enableTurnTimer', false);
+  const [nextGameReportResult, setNextGameReportResult] = useLocalStorage('reportResult', true);
+
   const nextGamePublic = gameType === 'public';
 
   const createGame = () => {
-    joinGameFunc(null, null, nextGamePublic, false, nextGameTimed).then(() => navigate('/game'));
+    const settings = { turnLength: nextGameTimed ? 60 : 0, reportResult: nextGameReportResult };
+    joinGameFunc(null, null, nextGamePublic, false, settings).then(() => navigate('/game'));
   };
 
   return (
@@ -20,19 +23,33 @@ function CreateGamePage({ joinGameFunc, gameType }) {
         <h1>Game setup</h1>
 
         <div className="game-setting">
-          <input
-            id="nextGameTimed"
-            type="checkbox"
-            onChange={e => setNextGameTimed(e.target.checked)}
-            checked={nextGameTimed}
-          />
           <label htmlFor="nextGameTimed" className="welcome__label">
-            Enable a turn timer
+            <input
+              id="nextGameTimed"
+              type="checkbox"
+              onChange={e => setNextGameTimed(e.target.checked)}
+              checked={nextGameTimed}
+            />
+
+            Enable a 60 second turn timer
+          </label>
+        </div>
+
+        <div className="game-setting">
+          <label htmlFor="nextGameReportResult" className="welcome__label">
+            <input
+              id="nextGameReportResult"
+              type="checkbox"
+              onChange={e => setNextGameReportResult(e.target.checked)}
+              checked={nextGameReportResult}
+            />
+
+            Report game result to Discord
           </label>
         </div>
 
         <Controls>
-          <Button className="button" onClick={createGame} >
+          <Button className="button" onClick={createGame}>
             Create Game
           </Button>
         </Controls>

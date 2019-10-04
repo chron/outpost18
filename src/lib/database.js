@@ -26,20 +26,20 @@ const {
   Filter,
 } = query;
 
+const { CONTEXT, FAUNADB_SECRET_KEY, FAUNADB_SECRET_KEY_DEV } = process.env;
+
 // TODO: error if the environment variable is not set, e.g. we haven't done `netlify init`
 // TODO: find a way to switch the var out rather than using two different ones!!
-const secret = process.env.FAUNADB_SECRET_KEY_DEV || process.env.FAUNADB_SECRET_KEY;
+const secret = CONTEXT === 'production' ? FAUNADB_SECRET_KEY : FAUNADB_SECRET_KEY_DEV;
 const client = new Client({ secret });
 const COLLECTION_NAME = 'games';
 
 export async function createGame(data) {
-  try {
-    const response = await client.query(Create(Collection(COLLECTION_NAME), { data }));
-    return response.ref.id;
-  } catch (e) {
-    reportError(e);
-    return null;
-  }
+  console.log(CONTEXT);
+
+  const response = await client.query(Create(Collection(COLLECTION_NAME), { data }));
+  // If this throws an exception we should handle it upstream
+  return response.ref.id;
 }
 
 export async function loadGame(gameId) {
