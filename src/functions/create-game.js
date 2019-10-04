@@ -16,8 +16,6 @@ async function handler(event, _context) {
     settings, // TODO: validate this using Joi or something similar
   } = JSON.parse(event.body);
 
-  console.log(process.env);
-
   if (!playerId) { return renderError('PlayerId must be provided.'); }
   if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
