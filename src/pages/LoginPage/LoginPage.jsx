@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
-import { useIdentityContext } from 'react-netlify-identity';
-import { navigate, Link } from '@reach/router';
-import { useLocalStorage } from '../../hooks';
+import { navigate, Redirect, Link } from '@reach/router';
+import { useAuth, useLocalStorage } from '../../hooks';
 import BackBar from '../../components/BackBar';
 import Controls from '../../components/Controls';
 import Button from '../../components/Button';
-
 import './LoginPage.scss';
 
 function LoginPage() {
-  const { loginUser } = useIdentityContext();
+  const { isLoggedIn, loginUser } = useAuth();
   const [loginEmail, setLoginEmail] = useLocalStorage('loginEmail', '');
   const [loginPassword, setLoginPassword] = useState('');
   const [error, setError] = useState(null);
+
+  if (isLoggedIn) {
+    return <Redirect to="/menu" />;
+  }
 
   const handleLogin = () => {
     setError(null);
 
     loginUser(loginEmail, loginPassword, true)
-      .then(r => console.log('!', r))
       .then(() => navigate('/menu'))
       .catch(e => setError(e.json.error_description));
   };

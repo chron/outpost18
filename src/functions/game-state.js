@@ -4,11 +4,13 @@ import { validPlayerId } from '../logic/gameManagement';
 import { renderError } from './utils/apiResponses';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-async function handler(event, _context) {
-  let { playerId, gameId } = event.queryStringParameters;
+async function handler(event, context) {
+  let { playerId: oldPlayerId, gameId } = event.queryStringParameters;
+  const loggedIn = context.clientContext.user;
+  const playerId = loggedIn ? context.clientContext.user.sub : oldPlayerId;
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
-  if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
+  if (!loggedIn && !validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
 
   let gameState;
 

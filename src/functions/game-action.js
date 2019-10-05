@@ -8,11 +8,14 @@ import { reportFinishedGame } from '../lib/discordWebhooks';
 import { makeAiMovesIfNecessary } from '../lib/ai';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-async function handler(event, _context) {
-  const { playerId, gameId, action } = JSON.parse(event.body);
+async function handler(event, context) {
+  const { playerId: oldPlayerId, gameId, action } = JSON.parse(event.body);
+
+  const loggedIn = context.clientContext.user;
+  const playerId = loggedIn ? context.clientContext.user.sub : oldPlayerId;
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
-  if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
+  if (!loggedIn && !validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
   if (!gameId) { return renderError('GameId must be provided.'); }
   if (!action) { return renderError('No action provided.'); }
 

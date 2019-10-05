@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { gameAction } from '../lib/apiClient';
+import { useAuth } from '../hooks';
 import allCards from '../cards';
 import Waiting from './Waiting';
 
@@ -7,6 +8,7 @@ const GameContext = React.createContext();
 
 function GameProvider({ gameState, rematch, updateGameState, playerId, readonly, children }) {
   const { gameId, player, opponent, ruleset } = gameState;
+  const { authToken } = useAuth();
 
   const [uiMode, setUiMode] = useState(null);
   const [zoomedCard, setZoomedCard] = useState(null);
@@ -67,7 +69,7 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, readonly,
   };
 
   const dispatch = (action) => {
-    gameAction(playerId, gameId, action).then(updateGameState);
+    gameAction(playerId, gameId, action, authToken).then(updateGameState);
   };
 
   const resignAndQuit = () => {

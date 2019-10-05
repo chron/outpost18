@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
-import { useIdentityContext } from 'react-netlify-identity';
 import { Redirect, navigate } from '@reach/router';
+import { useAuth } from '../../hooks';
 import BackBar from '../../components/BackBar';
 import Controls from '../../components/Controls';
 import Button from '../../components/Button';
-
 import './SignupPage.scss';
 
 function SignupPage() {
-  const { isLoggedIn, signupUser } = useIdentityContext();
+  const { isLoggedIn, signupUser } = useAuth();
   const [signupEmail, setSignupEmail] = useState('');
   const [signupName, setSignupName] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [signupPasswordConfirmation, setSignupPasswordConfirmation] = useState('');
   const [error, setError] = useState(null);
+
+  if (isLoggedIn) {
+    return <Redirect to="/menu" />;
+  }
 
   const handleSignup = () => {
     if (signupEmail === '') {
@@ -32,8 +35,6 @@ function SignupPage() {
         .catch(e => setError(e.json.error_description));
     }
   };
-
-  if (isLoggedIn) { return <Redirect to="/menu" />; }
 
   return (
     <div className="page page--login center-children">
