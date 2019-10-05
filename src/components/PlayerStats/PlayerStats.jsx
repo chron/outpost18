@@ -12,7 +12,7 @@ const CLIENT_TIMEOUT_GRACE_PERIOD = 1000;
 // TODO: draws icon
 function PlayerStats({ player, friendly = false }) {
   const gameState = useGameState();
-  const { gameId, turn, activePlayer, soloGame, gameInProgress, turnStartedAt, settings, dispatch } = gameState;
+  const { readonly, gameId, turn, activePlayer, soloGame, gameInProgress, turnStartedAt, settings, dispatch } = gameState;
   const turnLength = settings && settings.turnLength;
   const { hand, handSize, plays, attackPool } = player;
   const [timeLeft, setTimeLeft] = useState(null);
@@ -31,6 +31,7 @@ function PlayerStats({ player, friendly = false }) {
     // We only send timeouts for opponents, unless it's vs AI
     if ((friendly && !soloGame) || (!friendly && soloGame)) { return; }
     if (!belongsToActivePlayer) { return; }
+    if (readonly) { return; } // Don't show timer for replays
 
     if (!sentTimeout && timeLeft !== null && timeLeft <= 0) {
       const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
@@ -44,7 +45,7 @@ function PlayerStats({ player, friendly = false }) {
   }, [belongsToActivePlayer, dispatch, friendly, sentTimeout, soloGame, timeLeft, turnLength, turnStartedAt]);
 
   useInterval(() => {
-    if (gameInProgress && turnLength) {
+    if (!readonly && gameInProgress && turnLength) {
       const turnEndsAt = new Date(turnStartedAt).getTime() + turnLength * 1000 + CLIENT_TIMEOUT_GRACE_PERIOD;
       const turnTimeRemaining = Math.max(0, (turnEndsAt - new Date().getTime())) / 1000;
 
@@ -100,7 +101,7 @@ function PlayerStats({ player, friendly = false }) {
           })}
         </div>
 
-        {belongsToActivePlayer && turnLength && timeLeft ? (
+        {!readonly && belongsToActivePlayer && turnLength && timeLeft ? (
           <ProgressBar current={timeLeft} max={turnLength} />
         ) : null}
       </div>
