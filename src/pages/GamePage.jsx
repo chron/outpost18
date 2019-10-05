@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect } from '@reach/router';
 import { GameProvider } from '../components/GameProvider';
 import Game from '../components/Game';
@@ -9,12 +9,7 @@ export default function GamePage({
   gameState,
   updateGameState,
   rematch,
-  setLastSeenTick,
 }) {
-  useEffect(() => {
-    setLastSeenTick(gameState.tick);
-  }, [gameId, gameState.tick, setLastSeenTick]);
-
   if (gameId) {
     return (
       <GameProvider

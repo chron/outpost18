@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link, navigate } from '@reach/router';
+import { useIdentityContext } from 'react-netlify-identity';
 import './MainMenuPage.scss';
 
 function MainMenuPage({ playerName, joinGameFunc }) {
+  const { isLoggedIn } = useIdentityContext();
+
   const launchAiGame = () => {
     joinGameFunc(null, null, false, true, {}).then(() => navigate('/game'));
   };
@@ -35,9 +38,10 @@ function MainMenuPage({ playerName, joinGameFunc }) {
         </Link>
       </div>
 
-      <Link to="/user" className="current-user__panel">
-        Playing as <strong>{playerName}</strong>
-      </Link>
+      {isLoggedIn
+        ? <Link to="/user" className="current-user__panel">Playing as <strong>{playerName}</strong></Link>
+        : <Link to="/login" className="current-user__panel">Log in</Link>
+      }
     </div>
   );
 }

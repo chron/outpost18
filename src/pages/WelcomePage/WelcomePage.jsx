@@ -18,15 +18,13 @@ function WelcomePage({ playerName, setPlayerName }) {
   };
 
   return (
-    <div className="full-screen-wrapper">
-      <div className="panel interactable">
+    <div className="page page--welcome">
+      <div className="panel">
         <div className="game-title">Outpost 18</div>
 
-        <div className="welcome__section welcome__section--vertical">
-          <p>
-            Welcome to Outpost 18!  Please enter your name.
-          </p>
-        </div>
+        <p>
+          Welcome to Outpost 18!  Please enter your name.
+        </p>
 
         <div className="fieldset__wrapper">
           <label htmlFor="playerName" className="label fieldset__label">Your name:</label>
