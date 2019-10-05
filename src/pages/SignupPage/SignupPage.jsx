@@ -32,7 +32,7 @@ function SignupPage() {
 
       signupUser(signupEmail, signupPassword, { name: signupName })
         .then(() => navigate('/confirm'))
-        .catch(e => setError(e.json ? e.json.error_description : '???'));
+        .catch(e => setError(e.json ? e.json.msg : '???'));
     }
   };
 

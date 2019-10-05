@@ -7,19 +7,20 @@ function confirmUser(token) {
 }
 
 export default function useAuth() {
-  const { isLoggedIn, user, loginUser, signupUser } = useIdentityContext();
+  const { isLoggedIn, isConfirmedUser, user, loginUser, signupUser } = useIdentityContext();
 
-  const userDetails = isLoggedIn
+  const userDetails = isLoggedIn && isConfirmedUser
     ? {
+      isLoggedIn: true,
       id: user.id,
       email: user.email,
       name: user.user_metadata.name,
-      authToken: user.token.access_token,
+      authToken: user.token ? user.token.access_token : null,
     } : {};
 
   return {
-    isLoggedIn,
     ...userDetails,
+    isConfirmedUser,
     loginUser,
     signupUser,
     confirmUser,
