@@ -33,7 +33,17 @@ export default function ReplayPage({ gameId, location: { search } }) {
           onClick={() => setPlaybackIndex(0)}
           disabled={playbackIndex === 0}
         >
-          Reset
+          Start
+        </button>
+
+        {' '}
+
+        <button
+          className="button"
+          onClick={() => setPlaybackIndex(playbackIndex - 1)}
+          disabled={playbackIndex <= 0}
+        >
+          Prev
         </button>
 
         {' '}
@@ -41,9 +51,19 @@ export default function ReplayPage({ gameId, location: { search } }) {
         <button
           className="button"
           onClick={() => setPlaybackIndex(playbackIndex + 1)}
-          disabled={playbackIndex > replay.log.length}
+          disabled={playbackIndex >= replay.log.length}
         >
           Next
+        </button>
+
+        {' '}
+
+        <button
+          className="button"
+          onClick={() => setPlaybackIndex(replay.log.length)}
+          disabled={playbackIndex >= replay.log.length}
+        >
+          End
         </button>
 
         {' '}
@@ -57,7 +77,7 @@ export default function ReplayPage({ gameId, location: { search } }) {
 
         {' '}
 
-        Index: {playbackIndex}
+        Step: {playbackIndex}
       </div>
 
       <GameProvider

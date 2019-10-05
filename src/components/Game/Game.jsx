@@ -53,7 +53,7 @@ const Game = () => {
       <div className="game" tabIndex={-1} onClick={onBackgroundClick}>
         <DragLayer />
         {!readonly && myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
-        <Hint />
+        {readonly ? null : <Hint />}
         {showGameLog ? <GameLog /> : null}
         {gameState === 'finished' ? <GameOver /> : null}
         {zoomedCard ? (
