@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useIdentityContext } from 'react-netlify-identity';
 import { navigate, Link } from '@reach/router';
 import { useLocalStorage } from '../../hooks';
+import BackBar from '../../components/BackBar';
 import Controls from '../../components/Controls';
 import Button from '../../components/Button';
 
@@ -62,6 +63,8 @@ function LoginPage() {
 
         {error ? <div className="error">Error logging in: {error}</div> : null}
       </div>
+
+      <BackBar />
     </div>
   );
 }

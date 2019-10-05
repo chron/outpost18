@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import TouchBackend from 'react-dnd-touch-backend';
-import { IdentityContextProvider } from 'react-netlify-identity';
 import { Router, Redirect, navigate } from '@reach/router';
 import WelcomePage from '../../pages/WelcomePage';
 import MainMenuPage from '../../pages/MainMenuPage';
@@ -23,12 +20,7 @@ import JoinGame from '../JoinGame';
 import { useLocalStorage, useWebsocket, useWindowSize } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
-import { IDENTITY_URL } from '../../constants';
 import './App.scss';
-
-const TOUCH_OPTIONS = {
-  enableMouseEvents: true,
-};
 
 function App() {
   const [gameState, setGameState] = useState(null);
@@ -107,45 +99,39 @@ function App() {
   }
 
   return (
-    <>
-      <DndProvider backend={TouchBackend} options={TOUCH_OPTIONS}>
-        <IdentityContextProvider url={IDENTITY_URL}>
-          <Router>
-            <WelcomePage path="user" playerName={playerName} setPlayerName={setPlayerName} />
-            <MainMenuPage
-              path="menu"
-              playerName={playerName}
-              joinGameFunc={joinGameFunc}
-            />
-            <GamePage
-              path="game"
-              gameId={gameId}
-              playerId={playerId}
-              gameState={gameState}
-              updateGameState={updateGameState}
-              joinGameFunc={joinGameFunc}
-              rematch={rematch}
-            />
-            <AboutPage path="about" />
-            <LoginPage path="login" />
-            <ConfirmAccountPage path="confirm/:token" />
-            <ConfirmAccountPage path="confirm" />
-            <SignupPage path="signup" />
-            <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
-            <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
-            <ReplayPage path="replay/:gameId" />
-            <ReplayListPage path="replays" />
-            <AllCardsPage path="cards" />
-            <LobbyPage path="lobby" />
-            <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />
-            <ErrorPage default />
-            <Redirect from="/" to={gameId ? 'game' : 'menu'} />
-          </Router>
-        </IdentityContextProvider>
-      </DndProvider>
+    <Router>
+      <WelcomePage path="user" playerName={playerName} setPlayerName={setPlayerName} />
+      <MainMenuPage
+        path="menu"
+        playerName={playerName}
+        joinGameFunc={joinGameFunc}
+      />
+      <GamePage
+        path="game"
+        gameId={gameId}
+        playerId={playerId}
+        gameState={gameState}
+        updateGameState={updateGameState}
+        joinGameFunc={joinGameFunc}
+        rematch={rematch}
+      />
+      <AboutPage path="about" />
+      <LoginPage path="login" />
+      <ConfirmAccountPage path="confirm/:token" />
+      <ConfirmAccountPage path="confirm" />
+      <SignupPage path="signup" />
+      <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
+      <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
+      <ReplayPage path="replay/:gameId" />
+      <ReplayListPage path="replays" />
+      <AllCardsPage path="cards" />
+      <LobbyPage path="lobby" />
+      <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />
+      <ErrorPage default />
+      <Redirect from="/" to={gameId ? 'game' : 'menu'} />
 
       {error && <Error>{error}</Error>}
-    </>
+    </Router>
   );
 }
 export default App;

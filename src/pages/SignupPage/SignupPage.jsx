@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useIdentityContext } from 'react-netlify-identity';
 import { Redirect, navigate } from '@reach/router';
+import BackBar from '../../components/BackBar';
 import Controls from '../../components/Controls';
 import Button from '../../components/Button';
 
@@ -92,6 +93,8 @@ function SignupPage() {
 
         {error ? <div className="error">Error signing up: {error}</div> : null}
       </div>
+
+      <BackBar />
     </div>
   );
 }

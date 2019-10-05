@@ -4,7 +4,9 @@ import { useIdentityContext } from 'react-netlify-identity';
 import './MainMenuPage.scss';
 
 function MainMenuPage({ playerName, joinGameFunc }) {
-  const { isLoggedIn } = useIdentityContext();
+  const { isLoggedIn, user } = useIdentityContext();
+
+  console.log(user);
 
   const launchAiGame = () => {
     joinGameFunc(null, null, false, true, {}).then(() => navigate('/game'));

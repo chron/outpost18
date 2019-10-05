@@ -43,9 +43,8 @@ function generateSeed() {
   return Math.random().toString(36).substring(2);
 }
 
-// TODO: make this more sophisticated
 export function validPlayerId(playerId) {
-  return playerId !== 'AUTOMA';
+  return playerId.match(/^[a-zA-Z0-9]+$/) && playerId !== 'AUTOMA';
 }
 
 export function initialGameState(publicGame, settings = {}, ruleset = null, existingSeed = null) {

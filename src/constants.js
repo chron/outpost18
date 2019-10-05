@@ -6,3 +6,5 @@ export const ItemTypes = {
 
 // New games will be created using this ruleset
 export const ACTIVE_VERSION = '2.4.4';
+
+export const IDENTITY_URL = 'https://outpost18.netlify.dev';
