@@ -8,7 +8,7 @@ async function handler(_event, context) {
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
 
-  const playerData = createPlayerData(playerId, user.name, user.email);
+  const playerData = createPlayerData(playerId, user.user_metadata.name, user.email);
 
   await createPlayer(playerData);
 

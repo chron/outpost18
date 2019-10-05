@@ -18,8 +18,6 @@ async function handler(event, context) {
   const loggedIn = context.clientContext.user;
   const playerId = loggedIn ? context.clientContext.user.sub : oldPlayerId;
 
-  console.log(context);
-
   if (!playerId || playerId === '') { return renderError('PlayerId must be provided.'); }
   if (!loggedIn && !validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
   if (!playerName) { return renderError('Please choose a name.'); }

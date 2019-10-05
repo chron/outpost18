@@ -24,12 +24,7 @@
     margin: 1vh 0 0 0;
   }
 
-  &--link {
-    border-bottom: 1px solid currentColor;
-
-    &:hover {
-      cursor: pointer;
-      color: crimson;
-    }
+  .controls {
+    margin-top: 3vh;
   }
 }

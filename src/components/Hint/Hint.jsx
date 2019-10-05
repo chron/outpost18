@@ -1,6 +1,8 @@
 import React from 'react';
 import './Hint.scss';
 import { useGameState } from '../GameProvider';
+import Controls from '../Controls';
+import Button from '../Button';
 
 const CHOICE_TEXT = {
   ship: 'Choose an enemy ship',
@@ -43,26 +45,34 @@ function Hint() {
               {pluralize(uiMode.selected.length, uiMode.type)}.
             </p>
           )}
-          <p>
-            <a
-              className="hint--link"
-              onClick={() => setChoice(null)}
-            >
+          <Controls>
+            <Button onClick={() => setChoice(null)}>
               Cancel attack
-            </a>
+            </Button>
+
+            {' '}
+
+            <Button
+              onClick={() => {
+                uiMode.callback(uiMode.selected);
+                setChoice(null);
+              }}
+            >
+              Skip ability
+            </Button>
+
             {' '}
             {showConfirm && (
-              <a
-                className="hint--link"
+              <Button
                 onClick={() => {
                   uiMode.callback(uiMode.selected);
                   setChoice(null);
                 }}
               >
                 Confirm
-              </a>
+              </Button>
             )}
-          </p>
+          </Controls>
         </>
       );
     } else if (attackPool > 0) {
