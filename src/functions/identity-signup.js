@@ -1,6 +1,6 @@
 // import { createPlayer as createPlayerData } from '../logic/playerManagement';
 // import { createPlayer } from '../lib/database';
-import { initializeErrorHandling, errorWrapper, reportError } from '../lib/errorHandling';
+//import { initializeErrorHandling, errorWrapper, reportError } from '../lib/errorHandling';
 
 async function handler(apiEvent, context) {
   // const { event, user } = JSON.parse(apiEvent.body);
@@ -19,10 +19,10 @@ async function handler(apiEvent, context) {
   // reportError(JSON.stringify({ newRef }));
 
   return {
-    statusCode: 204,
-    body: '',
+    statusCode: 200,
+    body: '{}',
   };
 }
 
-initializeErrorHandling();
-exports.handler = errorWrapper(handler);
+//initializeErrorHandling();
+exports.handler = handler; //errorWrapper(handler);
