@@ -144,7 +144,7 @@ async function bootstrapDatabase(secret) {
 }
 
 // TODO: switching this between _DEV and prod keys is cumbersome
-const key = process.env.FAUNADB_SECRET_KEY_DEV;
+const key = process.env.FAUNADB_SECRET_KEY;
 
 if (!key) {
   throw new Error('FAUNADB_SECRET_KEY not set!');

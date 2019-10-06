@@ -1,16 +1,19 @@
 import { createPlayer as createPlayerData } from '../logic/playerManagement';
 import { createPlayer } from '../lib/database';
-import { renderError } from './utils/apiResponses';
+import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
 async function handler(_event, context) {
   const { user } = context.clientContext;
   const playerId = user.sub;
 
-  if (!playerId) { return renderError('PlayerId must be provided.'); }
-
   const playerData = createPlayerData(playerId, user.user_metadata.name, user.email);
 
-  await createPlayer(playerData);
+  console.log(context);
+  console.log(playerData);
+
+  const newRef = await createPlayer(playerData);
+
+  console.log('newref=', newRef);
 
   return {
     statusCode: 204,
