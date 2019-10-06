@@ -6,18 +6,20 @@ import gameStatePresenter from './utils/gameStatePresenter';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 import { renderError } from './utils/apiResponses';
 
-async function handler(event, _context) {
+async function handler(event, context) {
   const {
-    playerId,
+    playerId: oldPlayerId,
     playerName,
     rematchGameId,
     publicGame,
     soloGame,
     settings, // TODO: validate this using Joi or something similar
   } = JSON.parse(event.body);
+  const loggedIn = context.clientContext.user;
+  const playerId = loggedIn ? context.clientContext.user.sub : oldPlayerId;
 
-  if (!playerId) { return renderError('PlayerId must be provided.'); }
-  if (!validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
+  if (!playerId || playerId === '') { return renderError('PlayerId must be provided.'); }
+  if (!loggedIn && !validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
 
   const initialState = initialGameState(publicGame, settings);

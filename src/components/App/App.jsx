@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import TouchBackend from 'react-dnd-touch-backend'
 import { Router, Redirect, navigate } from '@reach/router';
 import WelcomePage from '../../pages/WelcomePage';
 import MainMenuPage from '../../pages/MainMenuPage';
@@ -9,6 +7,9 @@ import AllCardsPage from '../../pages/AllCardsPage';
 import LobbyPage from '../../pages/LobbyPage';
 import AboutPage from '../../pages/AboutPage';
 import CreateGamePage from '../../pages/CreateGamePage';
+import LoginPage from '../../pages/LoginPage';
+import SignupPage from '../../pages/SignupPage';
+import ConfirmAccountPage from '../../pages/ConfirmAccountPage';
 import JoinPrivateGamePage from '../../pages/JoinPrivateGamePage';
 import ErrorPage from '../../pages/ErrorPage';
 import ReplayPage from '../../pages/ReplayPage';
@@ -16,23 +17,21 @@ import ReplayListPage from '../../pages/ReplayListPage';
 import Loading from '../Loading';
 import Error from '../Error';
 import JoinGame from '../JoinGame';
-import { useLocalStorage, useWebsocket, useWindowSize } from '../../hooks';
+import { useAuth, useLocalStorage, useWebsocket, useWindowSize } from '../../hooks';
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
 import './App.scss';
 
-const TOUCH_OPTIONS = {
-  enableMouseEvents: true,
-};
-
 function App() {
   const [gameState, setGameState] = useState(null);
-  const [lastSeenTick, setLastSeenTick] = useState(null);
   const [error, setError] = useState(null);
-  const [playerId, setPlayerId] = useLocalStorage('playerId');
+  const [oldPlayerId, setOldPlayerId] = useLocalStorage('playerId');
   const [playerName, setPlayerName] = useLocalStorage('playerName', null);
+  const { name, id, authToken } = useAuth();
 
-  if (!playerId) { setPlayerId(generatePlayerId()); }
+  if (!oldPlayerId) { setOldPlayerId(generatePlayerId()); }
+
+  const playerId = id || oldPlayerId;
 
   // Set a CSS var to use as the window height since mobile browsers don't always
   // factor in the same amount of UI height.
@@ -41,7 +40,6 @@ function App() {
     document.documentElement.style.setProperty('--vh', `${height * 0.01}px`);
   }, [height]);
 
-  // TODO: do we need some protection against the gameId changing here?
   useWebsocket(`user-${playerId}`, (event, newState) => {
     if (event !== 'gameStateUpdate') { return; }
 
@@ -50,7 +48,7 @@ function App() {
 
   // TODO: move this into the game page not here
   useEffect(() => {
-    loadGame(playerId).then(newState => {
+    loadGame(playerId, undefined, authToken).then(newState => {
       setGameState(newState);
       if (newState.gameId) { navigate('/game'); }
     });
@@ -60,18 +58,23 @@ function App() {
     return <Loading />;
   }
 
+  // Reach router doesn't work with location.hash so we'll hand-roll it!
+  const tokenMatch = window.location.hash.match(/confirmation_token=(\w+)/);
+  if (tokenMatch) {
+    return <Redirect to={`confirm/${tokenMatch[1]}`} />;
+  }
+
   const { gameId } = gameState;
 
   async function joinGameFunc(joinCode, rematchGameId, publicGame, addAi, settings) {
     const newState = joinCode
-      ? await joinGame(joinCode, playerId, playerName)
-      : await createGame(playerId, playerName, publicGame, addAi, settings, rematchGameId); // TODO
+      ? await joinGame(joinCode, playerId, name || playerName, authToken)
+      : await createGame(playerId, name || playerName, publicGame, addAi, settings, rematchGameId, authToken);
 
     if (newState.error) {
       setError(newState.error);
     } else {
       setGameState(newState);
-      setLastSeenTick(null);
     }
   }
 
@@ -98,40 +101,39 @@ function App() {
   }
 
   return (
-    <>
-      <DndProvider backend={TouchBackend} options={TOUCH_OPTIONS}>
-        <Router>
-          <WelcomePage path="user" playerName={playerName} setPlayerName={setPlayerName} />
-          <MainMenuPage
-            path="menu"
-            playerName={playerName}
-            joinGameFunc={joinGameFunc}
-          />
-          <GamePage
-            path="game"
-            gameId={gameId}
-            playerId={playerId}
-            gameState={gameState}
-            updateGameState={updateGameState}
-            joinGameFunc={joinGameFunc}
-            rematch={rematch}
-            setLastSeenTick={setLastSeenTick}
-          />
-          <AboutPage path="about" />
-          <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
-          <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
-          <ReplayPage path="replay/:gameId" />
-          <ReplayListPage path="replays" />
-          <AllCardsPage path="cards" />
-          <LobbyPage path="lobby" />
-          <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />
-          <ErrorPage default />
-          <Redirect from="/" to={gameId ? 'game' : 'menu'} />
-        </Router>
-      </DndProvider>
+    <Router>
+      <WelcomePage path="user" playerName={playerName} setPlayerName={setPlayerName} />
+      <MainMenuPage
+        path="menu"
+        playerName={playerName}
+        joinGameFunc={joinGameFunc}
+      />
+      <GamePage
+        path="game"
+        gameId={gameId}
+        playerId={playerId}
+        gameState={gameState}
+        updateGameState={updateGameState}
+        joinGameFunc={joinGameFunc}
+        rematch={rematch}
+      />
+      <AboutPage path="about" />
+      <LoginPage path="login" />
+      <ConfirmAccountPage path="confirm/:token" />
+      <ConfirmAccountPage path="confirm" />
+      <SignupPage path="signup" />
+      <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
+      <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
+      <ReplayPage path="replay/:gameId" />
+      <ReplayListPage path="replays" />
+      <AllCardsPage path="cards" />
+      <LobbyPage path="lobby" />
+      <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />
+      <ErrorPage default />
+      <Redirect from="/" to={gameId ? 'game' : 'menu'} />
 
       {error && <Error>{error}</Error>}
-    </>
+    </Router>
   );
 }
 export default App;

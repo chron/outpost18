@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link, navigate } from '@reach/router';
+import { useAuth } from '../../hooks';
 import './MainMenuPage.scss';
 
-function MainMenuPage({ playerName, joinGameFunc }) {
+function MainMenuPage({ joinGameFunc }) {
+  const { isLoggedIn, isConfirmedUser, name } = useAuth();
+
   const launchAiGame = () => {
     joinGameFunc(null, null, false, true, {}).then(() => navigate('/game'));
   };
@@ -35,9 +38,14 @@ function MainMenuPage({ playerName, joinGameFunc }) {
         </Link>
       </div>
 
-      <Link to="/user" className="current-user__panel">
-        Playing as <strong>{playerName}</strong>
-      </Link>
+      {isLoggedIn
+        ? (
+          <div className="current-user__panel">
+            Playing as <strong>{name}</strong>
+            {isConfirmedUser ? '' : '(Unconfirmed email)'}
+          </div>
+        ) : <Link to="/login" className="current-user__panel">Log in</Link>
+      }
     </div>
   );
 }

@@ -22,9 +22,49 @@ async function bootstrapDatabase(secret) {
 
   try {
     await client.query(
+      CreateCollection({
+        name: 'players',
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
       CreateIndex({
         name: 'all_games',
         source: Collection('games'),
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
+      CreateIndex({
+        name: 'all_players',
+        source: Collection('players'),
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
+      CreateIndex({
+        name: 'players_by_playerid',
+        source: Collection('players'),
+        terms: [{ field: ['data', 'playerId'] }],
+        unique: true,
       })
     );
   } catch (e) {

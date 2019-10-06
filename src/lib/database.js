@@ -34,9 +34,43 @@ const secret = ENV === 'production' ? FAUNADB_SECRET_KEY : FAUNADB_SECRET_KEY_DE
 const client = new Client({ secret });
 const COLLECTION_NAME = 'games';
 
+export async function loadPlayer(playerId) {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(Match(Index('players_by_playerid'), playerId)),
+        Lambda('ref', Get(Var('ref')))
+      )
+    );
+
+    if (r.data[0]) {
+      return [r.data[0].ref.id, r.data[0].data];
+    } else {
+      return [];
+    }
+  } catch (e) {
+    reportError(e);
+    return null;
+  }
+}
+
+export async function savePlayer(playerRef, data) {
+  try {
+    const r = await client.query(Replace(Ref(Collection('players'), playerRef), { data }));
+    return r.data;
+  } catch (e) {
+    reportError(e);
+    return false;
+  }
+}
+
+export async function createPlayer(data) {
+  const response = await client.query(Create(Collection('players'), { data }));
+  return response.ref.id;
+}
+
 export async function createGame(data) {
   const response = await client.query(Create(Collection(COLLECTION_NAME), { data }));
-  // If this throws an exception we should handle it upstream
   return response.ref.id;
 }
 

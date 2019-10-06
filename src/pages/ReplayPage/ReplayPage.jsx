@@ -4,18 +4,19 @@ import { loadReplay } from '../../lib/apiClient';
 import Loading from '../../components/Loading';
 import Game from '../../components/Game';
 import { GameProvider } from '../../components/GameProvider';
-import { useReplay } from '../../hooks';
+import { useAuth, useReplay } from '../../hooks';
 import gameStatePresenter from '../../functions/utils/gameStatePresenter';
 import './ReplayPage.scss';
 
 export default function ReplayPage({ gameId, location: { search } }) {
+  const { authToken } = useAuth();
   const { t, p } = queryString.parse(search);
   const [playerIndex, setPlayerIndex] = useState(p || 0);
   const [replay, setReplay] = useState(null);
   const [playbackIndex, setPlaybackIndex] = useState(t || 0);
 
   useEffect(() => {
-    loadReplay(gameId).then(setReplay);
+    loadReplay(gameId, authToken).then(setReplay);
   }, [gameId]);
 
   const replayState = useReplay(replay, playbackIndex);
