@@ -2,8 +2,8 @@ import { createPlayer as createPlayerData } from '../logic/playerManagement';
 import { createPlayer } from '../lib/database';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-async function handler(event, context) {
-  const { event, user } = JSON.parse(event.body);
+async function handler(apiEvent, context) {
+  const { event, user } = JSON.parse(apiEvent.body);
 
   console.log(event);
 
