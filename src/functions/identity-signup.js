@@ -2,11 +2,12 @@ import { createPlayer as createPlayerData } from '../logic/playerManagement';
 import { createPlayer } from '../lib/database';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-async function handler(_event, context) {
-  const { user } = context.clientContext;
-  const playerId = user.sub;
+async function handler(event, context) {
+  const { event, user } = JSON.parse(event.body);
 
-  const playerData = createPlayerData(playerId, user.user_metadata.name, user.email);
+  console.log(event);
+
+  const playerData = createPlayerData(user.sub, user.user_metadata.name, user.email);
 
   console.log(context);
   console.log(playerData);
