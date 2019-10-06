@@ -1,20 +1,22 @@
 import { createPlayer as createPlayerData } from '../logic/playerManagement';
 import { createPlayer } from '../lib/database';
-import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
+import { initializeErrorHandling, errorWrapper, reportError } from '../lib/errorHandling';
 
 async function handler(apiEvent, context) {
   const { event, user } = JSON.parse(apiEvent.body);
 
-  console.log(event);
-
   const playerData = createPlayerData(user.sub, user.user_metadata.name, user.email);
 
-  console.log(context);
-  console.log(playerData);
+  reportError(JSON.stringify({
+    event,
+    playerData,
+    apiEvent,
+    context,
+  }));
 
   const newRef = await createPlayer(playerData);
 
-  console.log('newref=', newRef);
+  reportError(JSON.stringify({ newRef }));
 
   return {
     statusCode: 204,
