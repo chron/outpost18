@@ -18,6 +18,7 @@ async function handler(apiEvent, context) {
 
   return {
     statusCode: 204,
+    body: '',
   };
 }
 
