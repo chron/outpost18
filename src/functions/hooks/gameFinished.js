@@ -24,6 +24,6 @@ export default async function gameFinished(gameId, gameState) {
     const [, opponent] = players.find(([pr, _]) => pr !== playerRef);
     const newPlayerData = recordGameResult(playerData, gameType, won, opponent);
 
-    await savePlayer(playerRef, newPlayerData);
+    return savePlayer(playerRef, newPlayerData);
   }));
 }
