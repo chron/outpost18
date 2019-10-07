@@ -34,6 +34,13 @@
   text-decoration: none;
   text-align: center;
   box-shadow: $card-shadow;
+
+  &--disabled {
+    pointer-events: none;
+    color: $button-disabled-color;
+    background-color: $button-disabled-background-color;
+    border-color: currentColor;
+  }
 }
 
 .current-user {

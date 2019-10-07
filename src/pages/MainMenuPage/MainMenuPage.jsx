@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks';
 import './MainMenuPage.scss';
 
 function MainMenuPage({ joinGameFunc }) {
-  const { isLoggedIn, isConfirmedUser, name } = useAuth();
+  const { isLoggedIn, isConfirmedUser, name, logoutUser } = useAuth();
 
   const launchAiGame = () => {
     joinGameFunc(null, null, false, true, {}).then(() => navigate('/game'));
@@ -21,8 +21,11 @@ function MainMenuPage({ joinGameFunc }) {
           Play against the AI
         </a>
 
-        <Link to="/lobby" className="menu-item">
-          Play a public game
+        <Link
+          to="/lobby"
+          className={`menu-item ${isLoggedIn && isConfirmedUser ? '' : 'menu-item--disabled'}`}
+        >
+          Play a ranked game
         </Link>
 
         <Link to="/private" className="menu-item">
@@ -43,6 +46,7 @@ function MainMenuPage({ joinGameFunc }) {
           <div className="current-user__panel">
             Playing as <strong>{name}</strong>
             {isConfirmedUser ? '' : '(Unconfirmed email)'}
+            {' '}(<a onClick={logoutUser}>Logout</a>)
           </div>
         ) : <Link to="/login" className="current-user__panel">Log in</Link>
       }

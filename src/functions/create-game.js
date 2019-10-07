@@ -20,6 +20,7 @@ async function handler(event, context) {
 
   if (!playerId || playerId === '') { return renderError('PlayerId must be provided.'); }
   if (!loggedIn && !validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }
+  if (!loggedIn && publicGame) { return renderError('You must be logged in to start a ranked game.'); }
   if (!playerName) { return renderError('Please choose a name.'); }
 
   const initialState = initialGameState(publicGame, settings);

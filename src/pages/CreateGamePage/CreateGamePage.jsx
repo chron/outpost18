@@ -35,7 +35,7 @@ function CreateGamePage({ joinGameFunc, gameType }) {
           </label>
         </div>
 
-        {/* <div className="game-setting">
+        <div className="game-setting">
           <label htmlFor="nextGameReportResult" className="welcome__label">
             <input
               id="nextGameReportResult"
@@ -46,7 +46,7 @@ function CreateGamePage({ joinGameFunc, gameType }) {
 
             Report game result to Discord
           </label>
-        </div> */}
+        </div>
 
         <Controls>
           <Button className="button" onClick={createGame}>
