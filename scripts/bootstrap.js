@@ -76,6 +76,52 @@ async function bootstrapDatabase(secret) {
   try {
     await client.query(
       CreateIndex({
+        name: 'players_by_email',
+        source: Collection('players'),
+        terms: [{ field: ['data', 'email'] }],
+        unique: true,
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
+      CreateIndex({
+        name: 'players_by_name',
+        source: Collection('players'),
+        terms: [{ field: ['data', 'name'] }],
+        unique: true,
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
+      CreateIndex({
+        name: 'players_by_overall_elo_desc',
+        source: Collection('players'),
+        values: [
+          { field: ['data', 'games', 'elo'], reverse: true },
+        ],
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
+      CreateIndex({
         name: 'games_by_join_code',
         source: Collection('games'),
         terms: [{ field: ['data', 'joinCode'] }],
@@ -144,7 +190,7 @@ async function bootstrapDatabase(secret) {
 }
 
 // TODO: switching this between _DEV and prod keys is cumbersome
-const key = process.env.FAUNADB_SECRET_KEY;
+const key = process.env.FAUNADB_SECRET_KEY_DEV;
 
 if (!key) {
   throw new Error('FAUNADB_SECRET_KEY not set!');

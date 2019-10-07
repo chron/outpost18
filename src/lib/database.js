@@ -54,6 +54,52 @@ export async function loadPlayer(playerId) {
   }
 }
 
+export async function loadPlayerByEmail(email) {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(
+          Match(Index('players_by_email'), email),
+          { size: 1 }
+        ),
+        Lambda('ref', Get(Var('ref')))
+      )
+    );
+
+    if (r.data[0]) {
+      return [r.data[0].ref.id, r.data[0].data];
+    } else {
+      return [];
+    }
+  } catch (e) {
+    reportError(e);
+    return null;
+  }
+}
+
+export async function loadPlayerByName(name) {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(
+          Match(Index('players_by_name'), name),
+          { size: 1 }
+        ),
+        Lambda('ref', Get(Var('ref')))
+      )
+    );
+
+    if (r.data[0]) {
+      return [r.data[0].ref.id, r.data[0].data];
+    } else {
+      return [];
+    }
+  } catch (e) {
+    reportError(e);
+    return null;
+  }
+}
+
 export async function savePlayer(playerRef, data) {
   try {
     const r = await client.query(Replace(Ref(Collection('players'), playerRef), { data }));
