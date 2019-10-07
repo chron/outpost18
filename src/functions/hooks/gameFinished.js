@@ -9,24 +9,21 @@ export default async function gameFinished(gameId, gameState) {
   }
 
   const aiGame = gameState.players.some(p => p.aiController);
-  const publicGame = gameState.public;
-  const gameType = aiGame ? 'aiGames' : (publicGame ? 'games' : 'privateGames');
+  const gameType = aiGame ? 'aiGames' : (gameState.publicGame ? 'games' : 'privateGames');
 
-  // TODO: Do the map first to get the player data so we can pass people info about
-  // their opponent as well.  This will be needed for calculating Elo.
-
-  await Promise.all(gameState.players.map(async player => {
+  const players = await Promise.all(gameState.players.map(async player => {
     if (!player.playerId.match(/-/)) { return; } // Ignore guest users, this is way too ghetto
 
-    const [playerRef, playerData] = await loadPlayer(player.playerId);
+    return loadPlayer(player.playerId);
+  }));
 
-    if (!playerRef || !playerData) {
-      reportError(`Failed to find data for playerId=${player.playerId}`);
-      return;
-    }
+  await Promise.all(players.map(async ([playerRef, playerData]) => {
+    if (!playerRef) { return; }
 
-    const won = player.playerId === gameState.winner;
-    const newPlayerData = recordGameResult(playerData, gameType, won);
+    const won = playerData.playerId === gameState.winner;
+    const [, opponent] = players.find(([pr, _]) => pr !== playerRef);
+    const newPlayerData = recordGameResult(playerData, gameType, won, opponent);
+
     await savePlayer(playerRef, newPlayerData);
   }));
 }

@@ -100,6 +100,25 @@ export async function loadPlayerByName(name) {
   }
 }
 
+export async function loadLeaderboard(num) {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(
+          Match(Index('players_by_overall_elo_desc')),
+          { size: num }
+        ),
+        Lambda(['elo', 'ref'], Get(Var('ref')))
+      )
+    );
+
+    return r.data.map(player => player.data);
+  } catch (e) {
+    reportError(e);
+    return [];
+  }
+}
+
 export async function savePlayer(playerRef, data) {
   try {
     const r = await client.query(Replace(Ref(Collection('players'), playerRef), { data }));

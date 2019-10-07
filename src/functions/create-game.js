@@ -36,6 +36,7 @@ async function handler(event, context) {
 
     // For a rematch let's copy settings across from the original game
     gameState.settings = previousGameState.settings;
+    gameState.publicGame = previousGameState.publicGame;
 
     if (opponent.aiController) {
       gameState = addAutomaToGame(gameState);

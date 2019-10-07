@@ -6,6 +6,7 @@ async function handler(apiEvent, _context) {
   const { user: { user_metadata: { name }, email } } = JSON.parse(apiEvent.body);
 
   if (!name || name === '') { return renderError('No name provided.'); }
+  if (name.length > 20) { return renderError('Name must be 20 characters or less.'); }
   if (!email || email === '') { return renderError('No email provided.'); }
 
   const [nameMatch, _p1] = await loadPlayerByName(name);

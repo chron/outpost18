@@ -55,7 +55,7 @@ function SignupPage() {
         <div className="fieldset__wrapper">
           <label htmlFor="email" className="label fieldset__label">Username: </label>
           <input
-            max="30"
+            maxLength="20"
             id="name"
             className="text-input fieldset__input"
             onChange={e => setSignupName(e.target.value)}

@@ -110,6 +110,7 @@ async function bootstrapDatabase(secret) {
         source: Collection('players'),
         values: [
           { field: ['data', 'games', 'elo'], reverse: true },
+          { field: ['ref'] },
         ],
       })
     );
