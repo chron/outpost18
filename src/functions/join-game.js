@@ -18,6 +18,7 @@ async function handler(event, context) {
   const [gameId, oldGameState] = await loadGameByJoinCode(joinCode);
 
   if (!oldGameState) { return renderError('That game could not be found.'); }
+  if (!loggedIn && oldGameState.publicGame) { return renderError('You must be logged in to join a ranked game.'); }
 
   if (oldGameState.players[0].playerId === playerId) {
     return renderError('You are already in this game.');

@@ -13,6 +13,9 @@ $panel-background-color: black;
 $panel-foreground-color: white;
 $panel-foreground-secondary-color: #DEBC51;
 
+$button-disabled-color: #2B3341;
+$button-disabled-background-color: darken(#2B3341, 10%);
+
 $title-font-stack: PixelMix, 'Courier New', monospace;
 $font-size-body: 20px;
 $font-size-title: 36px;

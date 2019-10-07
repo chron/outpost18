@@ -49,7 +49,6 @@ export async function gameAction(playerId, gameId, action, token) {
   );
 }
 
-
 export async function loadGame(playerId, gameId = '', token) {
   return get('game-state', { playerId, gameId }, token);
 }
@@ -64,4 +63,8 @@ export async function openGames(token) {
 
 export async function recentFinishedGames(token) {
   return get('replays', {}, token);
+}
+
+export async function getLeaderboard(token) {
+  return get('leaderboard', {}, token);
 }

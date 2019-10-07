@@ -21,6 +21,7 @@ import { useAuth, useLocalStorage, useWebsocket, useWindowSize } from '../../hoo
 import { createGame, joinGame, loadGame } from '../../lib/apiClient';
 import generatePlayerId from '../../generatePlayerId';
 import './App.scss';
+import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage';
 
 function App() {
   const [gameState, setGameState] = useState(null);
@@ -126,6 +127,7 @@ function App() {
       <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
       <ReplayPage path="replay/:gameId" />
       <ReplayListPage path="replays" />
+      <LeaderboardPage path="leaderboard" />
       <AllCardsPage path="cards" />
       <LobbyPage path="lobby" />
       <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />

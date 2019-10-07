@@ -7,7 +7,7 @@ function confirmUser(token) {
 }
 
 export default function useAuth() {
-  const { isLoggedIn, isConfirmedUser, user, loginUser, signupUser } = useIdentityContext();
+  const { isLoggedIn, isConfirmedUser, user, loginUser, logoutUser, signupUser } = useIdentityContext();
 
   const userDetails = isLoggedIn && isConfirmedUser
     ? {
@@ -22,6 +22,7 @@ export default function useAuth() {
     ...userDetails,
     isConfirmedUser,
     loginUser,
+    logoutUser,
     signupUser,
     confirmUser,
   };
