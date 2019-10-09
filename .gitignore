@@ -3,5 +3,6 @@
 /.cache
 yarn-error.log
 .env
-database.json
+games.json
+players.json
 .netlify

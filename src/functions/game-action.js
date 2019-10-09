@@ -29,9 +29,9 @@ async function handler(event, context) {
   await notifyOpponent(newState, gameId, playerId);
 
   if (newState.gameState === 'abandoned') {
-    await gameCancelled(gameId, newState);
+    newState = await gameCancelled(gameId, newState);
   } else if (oldState.gameState !== 'finished' && newState.gameState === 'finished') {
-    await gameFinished(gameId, newState);
+    newState = await gameFinished(gameId, newState);
   }
 
   return {

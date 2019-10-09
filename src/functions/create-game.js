@@ -32,6 +32,7 @@ async function handler(event, context) {
   // TODO: confirm step, right now they just get shoved into the new game!
   if (rematchGameId) {
     const previousGameState = await loadGame(rematchGameId);
+
     const opponent = previousGameState.players.find(p => p.playerId !== playerId);
 
     // For a rematch let's copy settings across from the original game

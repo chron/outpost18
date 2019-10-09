@@ -7,13 +7,13 @@ const fs = require('fs');
 const { query, Client } = faunadb;
 const { Index, Get, Var, Match, Lambda, Map, Paginate } = query;
 
-async function dump(secret, path) {
+async function dump(secret, index, path) {
   const client = new Client({ secret });
 
   const r = await client.query(
     Map( // TODO: once we hit this limit we need to do actual pagination I guess
-      Paginate(Match(Index('all_games')), { size: 100000 }),
-      Lambda('game', Get(Var('game')))
+      Paginate(Match(Index(index)), { size: 100000 }),
+      Lambda('ref', Get(Var('ref')))
     )
   );
 
@@ -23,8 +23,11 @@ async function dump(secret, path) {
   });
 }
 
-if (!process.env.FAUNADB_SECRET_KEY) {
-  throw new Error('FAUNADB_SECRET_KEY not set!');
+const secret = process.env.FAUNADB_SECRET_KEY;
+
+if (!secret) {
+  throw new Error('ENV VARfs not set!');
 }
 
-dump(process.env.FAUNADB_SECRET_KEY, 'database.json');
+dump(secret, 'all_games', 'games.json');
+dump(secret, 'all_players', 'players.json');

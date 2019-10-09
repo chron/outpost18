@@ -5,7 +5,7 @@ import Controls from '../Controls';
 import Button from '../Button';
 
 function GameOver() {
-  const { gameId, winner, player, opponent, rematch, resignAndQuit, readonly } = useGameState();
+  const { gameId, eloChange, winner, player, opponent, rematch, resignAndQuit, readonly } = useGameState();
 
   const winningPlayer = winner === 'player' ? player : opponent;
 
@@ -16,7 +16,6 @@ function GameOver() {
           <h1>
             {winningPlayer.name} wins!
           </h1>
-
           <p>
             You can
             {' '}
@@ -36,6 +35,11 @@ function GameOver() {
         <h1>
           {winner === 'player' ? 'You win!' : 'You lose!'}
         </h1>
+
+        {eloChange
+          ? <p>You {winner === 'player' ? 'gained' : 'lost'} {eloChange} rating.</p>
+          : null
+        }
 
         <p>
           A replay of your game is available
