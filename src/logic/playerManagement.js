@@ -1,3 +1,5 @@
+import { STARTING_ELO } from '../constants';
+
 export function createPlayer(playerId, name, email) {
   return {
     playerId,
@@ -8,7 +10,7 @@ export function createPlayer(playerId, name, email) {
     games: {
       wins: 0,
       losses: 0,
-      elo: 1000,
+      elo: STARTING_ELO,
     },
     privateGames: {
       wins: 0,

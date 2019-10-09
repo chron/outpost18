@@ -156,7 +156,7 @@ function statsForSegment(segment, segmentName) {
 let [,, ...rulesets] = process.argv;
 rulesets = rulesets.length ? rulesets : ['2.4', '2.4.1', '2.4.2', '2.4.3', '2.4.4'];
 
-const games = JSON.parse(fs.readFileSync('database.json'));
+const games = JSON.parse(fs.readFileSync('games.json'));
 const nonTestGames = games.filter(g => !g.players.map(p => p.name).join().match(/paul|test/i));
 const finishedGames = nonTestGames.filter(g => g.gameState === 'finished');
 const currentVersionGames = finishedGames.filter(g => rulesets.includes(g.ruleset));
