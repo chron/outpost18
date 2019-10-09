@@ -32,7 +32,7 @@ export function recordGameResult(playerState, gameType, won, eloChange) {
     [gameType]: {
       wins: oldGames.wins + (won ? 1 : 0),
       losses: oldGames.losses + (won ? 0 : 1),
-      elo: oldGames.elo + eloChange,
+      elo: oldGames.elo + (won ? 1 : -1) * eloChange,
     },
     lastUpdatedAt: new Date().toISOString(),
   };

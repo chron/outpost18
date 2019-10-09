@@ -11,7 +11,9 @@ export async function reportFinishedGame(gameId, state) {
   const winner = state.players.find(p => p.playerId === state.winner);
   const loser = state.players.find(p => p.playerId !== state.winner);
 
-  const content = `**${winner.name}** defeated **${loser.name}** in ${state.turn} turn${state.turn > 1 ? 's' : ''}.
+  const winnerName = `**${winner.name}**${state.eloChange ? ` (+${state.eloChange})` : ''}`;
+  const loserName = `**${loser.name}**${state.eloChange ? ` (-${state.eloChange})` : ''}`;
+  const content = `${winnerName} defeated ${loserName} in ${state.turn} turn${state.turn > 1 ? 's' : ''}.
 Replay link: ${URL}/replay/${gameId}`;
 
   console.log('Posting finished game notification to Discord.');

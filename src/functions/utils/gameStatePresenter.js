@@ -18,6 +18,7 @@ export default function gameStatePresenter(state, gameId, playerId) {
     publicGame,
     ruleset,
     winner,
+    eloChange,
   } = state;
   const player = players.find(p => p.playerId === playerId);
   const opponent = players.find(p => p.playerId !== playerId);
@@ -47,5 +48,6 @@ export default function gameStatePresenter(state, gameId, playerId) {
     settings,
     turnStartedAt,
     log: friendlyLog(state, playerId),
+    eloChange,
   };
 }

@@ -9,4 +9,6 @@ export default async function gameCancelled(gameId, gameState) {
     // TODO: can we do this async without the function terminating?
     await refreshLobby();
   }
+
+  return gameState;
 }

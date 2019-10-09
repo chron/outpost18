@@ -31,7 +31,7 @@ async function handler(event, context) {
   if (newState.gameState === 'abandoned') {
     await gameCancelled(gameId, newState);
   } else if (oldState.gameState !== 'finished' && newState.gameState === 'finished') {
-    await gameFinished(gameId, newState);
+    newState = await gameFinished(gameId, newState);
   }
 
   return {
