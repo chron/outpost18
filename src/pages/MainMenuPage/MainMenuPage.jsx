@@ -32,6 +32,10 @@ function MainMenuPage({ joinGameFunc }) {
           Play a private game
         </Link>
 
+        <Link to="/leaderboard" className="menu-item">
+          Leaderboard
+        </Link>
+
         <Link to="/cards" className="menu-item">
           Browse all cards
         </Link>
