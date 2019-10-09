@@ -5,7 +5,7 @@ import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 async function handler(apiEvent, _context) {
   const { user } = JSON.parse(apiEvent.body);
 
-  const playerData = createPlayerData(user.sub, user.user_metadata.name, user.email);
+  const playerData = createPlayerData(user.id, user.user_metadata.name, user.email);
 
   await createPlayer(playerData);
 
