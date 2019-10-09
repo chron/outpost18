@@ -55,8 +55,9 @@ matchingGames.forEach(g => {
 const secret = process.env.FAUNADB_SECRET_KEY;
 const client = new Client({ secret });
 
+console.log('Writing updates back to database...');
+
 Promise.all(players.map(async (data) => {
-  console.log(data.playerId);
   const playerRecord = await client.query(Get(Match(Index('players_by_playerid'), data.playerId)));
   const newPlayerData = { ...playerRecord.data, games: data.games };
   await client.query(Replace(Ref(Collection('players'), playerRecord.ref.id), { data: newPlayerData }));
@@ -64,3 +65,5 @@ Promise.all(players.map(async (data) => {
   console.error(JSON.stringify(e.requestResult.requestContent.raw));
   console.error(e.requestResult.responseContent.errors);
 });
+
+console.log('Done!');
