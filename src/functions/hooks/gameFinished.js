@@ -13,14 +13,18 @@ export default async function gameFinished(gameId, gameState) {
     return loadPlayer(player.playerId);
   }));
 
+  const validPlayers = players.filter(p => p);
+
+  console.log(validPlayers);
+
   let eloChange;
   let updatedState = gameState;
 
-  const [_p1, winner] = players.find(([_, p]) => p.playerId === gameState.winner);
-  const [_p2, loser] = players.find(([_, p]) => p.playerId !== gameState.winner);
+  const winner = validPlayers.find(([_, p]) => p.playerId === gameState.winner);
+  const loser = validPlayers.find(([_, p]) => p.playerId !== gameState.winner);
 
-  if (gameType === 'games') {
-    eloChange = calculateEloChange(winner.games.elo, loser.games.elo);
+  if (winner && loser && gameType === 'games') {
+    eloChange = calculateEloChange(winner[1].games.elo, loser[1].games.elo);
 
     // Store the Elo score on the game object
     const oldGameData = await loadGame(gameId);
@@ -28,9 +32,7 @@ export default async function gameFinished(gameId, gameState) {
     await saveGame(gameId, updatedState);
   }
 
-  await Promise.all(players.map(async ([playerRef, playerData]) => {
-    if (!playerRef) { return; }
-
+  await Promise.all(validPlayers.map(async ([playerRef, playerData]) => {
     const won = playerData.playerId === gameState.winner;
     const newPlayerData = recordGameResult(playerData, gameType, won, eloChange);
 
