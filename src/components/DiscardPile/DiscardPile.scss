@@ -5,7 +5,7 @@
   &--active::after {
     content: attr(data-hint);
 
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     display: flex;
@@ -13,7 +13,7 @@
     align-items: center;
     text-align: center;
     font-size: 16px;
-    width: 100%;
+    width: 40%;
     height: 100%;
     color: white;
     background: rgba($discard-color, 0.4);
