@@ -33,7 +33,7 @@ function Card({ cardName, inHand = false }) {
     }),
   });
 
-  const selectable = uiMode && uiMode.type === 'card'
+  const selectable = inHand && uiMode && uiMode.type === 'card'
     && (uiMode.selected.includes(cardName) || uiMode.selected.length < (uiMode.max || 1));
 
   const selected = uiMode && uiMode.type === 'card' && uiMode.selected.includes(cardName);
@@ -52,7 +52,7 @@ function Card({ cardName, inHand = false }) {
         'card--dragging': isDragging,
         'card--selectable': selectable,
         'card--selected': selected,
-        'card--discardable': gameState === 'begin',
+        'card--discardable': inHand && gameState === 'begin',
       })}
       ref={dragRef}
       onClick={onClick}
