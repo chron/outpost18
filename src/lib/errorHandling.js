@@ -9,7 +9,7 @@ let sentryInitialized = false;
 
 export function initializeErrorHandling() {
   if (SENTRY_DSN) {
-    Sentry.init({ dsn: SENTRY_DSN, release: COMMIT_REF });
+    Sentry.init({ dsn: SENTRY_DSN, release: COMMIT_REF, environment: ENV });
     sentryInitialized = true;
   }
 }
