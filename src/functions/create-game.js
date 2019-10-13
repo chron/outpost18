@@ -15,6 +15,9 @@ async function handler(event, context) {
     soloGame,
     settings, // TODO: validate this using Joi or something similar
   } = JSON.parse(event.body);
+
+  console.log('!context', context);
+
   const loggedIn = context.clientContext.user;
   const playerId = loggedIn ? context.clientContext.user.sub : oldPlayerId;
 
