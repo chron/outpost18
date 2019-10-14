@@ -10,7 +10,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'global.GENTLY': false,
       'process.env.COMMIT_REF': JSON.stringify(COMMIT_REF),
-      ENV: JSON.stringify(ENV),
+      ENV: JSON.stringify(ENV || 'development'),
     }),
   ],
   node: {

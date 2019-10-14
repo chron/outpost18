@@ -155,7 +155,7 @@ async function bootstrapDatabase(secret) {
   try {
     await client.query(
       CreateIndex({
-        name: 'active_games_for_player',
+        name: 'active_games_for_player', // TODO: rename this games_by_player_and_state
         source: Collection('games'),
         terms: [
           { field: ['data', 'players', 'playerId'] },
