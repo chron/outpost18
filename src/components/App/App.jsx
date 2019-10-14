@@ -49,11 +49,13 @@ function App() {
 
   // TODO: move this into the game page not here
   useEffect(() => {
+    if (id && !authToken) { return; }
+
     loadGame(playerId, undefined, authToken).then(newState => {
       setGameState(newState);
       if (newState.gameId) { navigate('/game'); }
     });
-  }, [playerId]);
+  }, [playerId, authToken]);
 
   if (gameState === null) {
     return <Loading />;
