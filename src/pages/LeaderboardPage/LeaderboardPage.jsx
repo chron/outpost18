@@ -11,7 +11,7 @@ export default function LeaderboardPage() {
 
   useEffect(() => {
     getLeaderboard(authToken).then(result => setLeaderboard(result));
-  }, [getLeaderboard, authToken]);
+  }, []);
 
   if (leaderboard === null) { return <Loading />; }
 
