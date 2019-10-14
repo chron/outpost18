@@ -3,7 +3,7 @@ import { notifyOpponent } from './utils/notify';
 import reducer from '../logic/reducer';
 import gameStatePresenter from './utils/gameStatePresenter';
 import { validPlayerId } from '../logic/gameManagement';
-import { gameFinished, gameCancelled } from './hooks';
+import { gameFinished, gameCancelled, gameFinishing } from './hooks';
 import { renderError } from './utils/apiResponses';
 import { makeAiMovesIfNecessary } from '../lib/ai';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
@@ -24,6 +24,10 @@ async function handler(event, context) {
 
   newState = makeAiMovesIfNecessary(newState);
 
+  if (oldState.gameState !== 'finished' && newState.gameState === 'finished') {
+    newState = await gameFinishing(gameId, newState);
+  }
+
   // TODO: diff old and new states and skip saving / notifications if they match
   await saveGame(gameId, newState); // TODO: check success or throw exceptions in here
   await notifyOpponent(newState, gameId, playerId);
@@ -31,7 +35,7 @@ async function handler(event, context) {
   if (newState.gameState === 'abandoned') {
     newState = await gameCancelled(gameId, newState);
   } else if (oldState.gameState !== 'finished' && newState.gameState === 'finished') {
-    newState = await gameFinished(gameId, newState);
+    await gameFinished(gameId, newState);
   }
 
   return {

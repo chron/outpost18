@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getLeaderboard } from '../../lib/apiClient';
-import { useAuth } from '../../hooks';
+import { useApi, useAuth } from '../../hooks';
 import BackBar from '../../components/BackBar';
 import Loading from '../../components/Loading';
 import './LeaderboardPage.scss';
 
 export default function LeaderboardPage() {
   const [leaderboard, setLeaderboard] = useState(null);
+  const { getLeaderboard } = useApi();
   const { authToken } = useAuth();
 
   useEffect(() => {

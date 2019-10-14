@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@reach/router';
-import { openGames } from '../../lib/apiClient';
-import { useAuth, useWebsocket } from '../../hooks';
+import { useApi, useAuth, useWebsocket } from '../../hooks';
 import Loading from '../../components/Loading';
 import Controls from '../../components/Controls';
 import BackBar from '../../components/BackBar';
@@ -11,6 +10,7 @@ import './LobbyPage.scss';
 export default function LobbyPage() {
   const [games, setGames] = useState(null);
   const { authToken } = useAuth();
+  const { openGames } = useApi();
 
   useWebsocket('lobby', (event, newGamesList) => {
     if (event !== 'refreshLobby') { return; }
