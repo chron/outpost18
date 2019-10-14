@@ -15,8 +15,6 @@ export default async function gameFinished(gameId, gameState) {
 
   const validPlayers = players.filter(p => p);
 
-  console.log(validPlayers);
-
   let eloChange;
   let updatedState = gameState;
 

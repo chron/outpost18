@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
-import { loadReplay } from '../../lib/apiClient';
 import Loading from '../../components/Loading';
 import Game from '../../components/Game';
 import { GameProvider } from '../../components/GameProvider';
-import { useAuth, useReplay } from '../../hooks';
+import { useApi, useAuth, useReplay } from '../../hooks';
 import gameStatePresenter from '../../functions/utils/gameStatePresenter';
 import './ReplayPage.scss';
 
 export default function ReplayPage({ gameId, location: { search } }) {
   const { authToken } = useAuth();
+  const { loadReplay } = useApi();
   const { t, p } = queryString.parse(search);
   const [playerIndex, setPlayerIndex] = useState(p || 0);
   const [replay, setReplay] = useState(null);

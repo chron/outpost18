@@ -17,8 +17,7 @@ import ReplayListPage from '../../pages/ReplayListPage';
 import Loading from '../Loading';
 import Error from '../Error';
 import JoinGame from '../JoinGame';
-import { useAuth, useLocalStorage, useWebsocket, useWindowSize } from '../../hooks';
-import { createGame, joinGame, loadGame } from '../../lib/apiClient';
+import { useApi, useAuth, useLocalStorage, useWebsocket, useWindowSize } from '../../hooks';
 import generatePlayerId from '../../generatePlayerId';
 import './App.scss';
 import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage';
@@ -29,6 +28,7 @@ function App() {
   const [oldPlayerId, setOldPlayerId] = useLocalStorage('playerId');
   const [playerName, setPlayerName] = useLocalStorage('playerName', null);
   const { name, id, authToken } = useAuth();
+  const { createGame, joinGame, loadGame } = useApi();
 
   if (!oldPlayerId) { setOldPlayerId(generatePlayerId()); }
 
@@ -57,7 +57,7 @@ function App() {
     });
   }, [playerId, authToken]);
 
-  if (gameState === null) {
+  if (!gameState) {
     return <Loading />;
   }
 

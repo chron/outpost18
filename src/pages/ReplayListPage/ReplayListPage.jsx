@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@reach/router';
-import { recentFinishedGames } from '../../lib/apiClient';
-import { useAuth } from '../../hooks';
+import { useApi, useAuth } from '../../hooks';
 import Loading from '../../components/Loading';
 import './ReplayListPage.scss';
 
 export default function ReplayPage() {
   const { authToken } = useAuth();
+  const { recentFinishedGames } = useApi();
   const [games, setGames] = useState(null);
 
   useEffect(() => {

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { gameAction } from '../lib/apiClient';
-import { useAuth } from '../hooks';
+import { useApi, useAuth } from '../hooks';
 import allCards from '../cards';
 import Waiting from './Waiting';
 
@@ -9,6 +8,7 @@ const GameContext = React.createContext();
 function GameProvider({ gameState, rematch, updateGameState, playerId, readonly, children }) {
   const { gameId, player, opponent, ruleset } = gameState;
   const { authToken } = useAuth();
+  const { gameAction } = useApi();
 
   const [uiMode, setUiMode] = useState(null);
   const [zoomedCard, setZoomedCard] = useState(null);
@@ -69,7 +69,9 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, readonly,
   };
 
   const dispatch = (action) => {
-    gameAction(playerId, gameId, action, authToken).then(updateGameState);
+    gameAction(playerId, gameId, action, authToken)
+      .then(updateGameState)
+      .catch(e => e); // TODO: silently ignoring dup requests, but we need to handle actual errors
   };
 
   const resignAndQuit = () => {
