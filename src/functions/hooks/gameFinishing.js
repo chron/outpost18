@@ -24,8 +24,8 @@ export default async function gameFinishing(gameId, gameState) {
   }));
 
   const validPlayers = players.filter(p => p).map(([ref, p]) => {
-    // Make sure we have data for this season if necessary
-    if (ranked && !p.games[gameType]) {
+    // Make sure we have data for this game type if necessary
+    if (!p.games[gameType]) {
       return [ref, { ...p, games: { ...p.games, [gameType]: initialSeasonData() } }];
     } else {
       return [ref, p];

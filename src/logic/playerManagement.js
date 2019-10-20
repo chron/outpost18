@@ -7,20 +7,7 @@ export function createPlayer(playerId, name, email) {
     email,
     createdAt: new Date().toISOString(),
     tags: [],
-    games: {
-      wins: 0,
-      losses: 0,
-      elo: STARTING_ELO,
-    },
-    privateGames: {
-      wins: 0,
-      losses: 0,
-    },
-    aiGames: {
-      wins: 0,
-      losses: 0,
-    },
-    seasons: [],
+    games: {},
   };
 }
 
