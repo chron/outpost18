@@ -2,7 +2,7 @@ import { isThresholdMet, findCard } from '../utils';
 import drawCards from './drawCards';
 import log from './log';
 
-export default function attack(state, playerId, cardName, choices) {
+export default function attack(state, playerId, cardName, choices = []) {
   if (state.gameState !== 'main') { return state; }
   if (state.activePlayer !== playerId) { return state; }
 
@@ -32,7 +32,7 @@ export default function attack(state, playerId, cardName, choices) {
     // more interesting effects - but this probably needs a rethink!
 
     const effectResult = effect.function
-      ? effect.function(state, player, opponent, choices)
+      ? effect.function(state, player, opponent, ...choices)
       : effect;
 
     // Some effects might mutate state directly and not return any result.

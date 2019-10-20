@@ -5,7 +5,7 @@ import UpgradeCard from '../UpgradeCard';
 
 // TODO: refactor out some "dumb" display components that don't use context etc
 function Upgrade({ cardName, friendly = false, owner, inPlay = true }) {
-  const { player, cards, dispatch, uiMode, setChoice, readonly, toggleZoom } = useGameState();
+  const { player, cards, dispatch, uiMode, readonly, toggleSelection, toggleZoom } = useGameState();
   const card = cards.find(c => c.name === cardName);
   const { shields, defender } = card;
 
@@ -20,10 +20,7 @@ function Upgrade({ cardName, friendly = false, owner, inPlay = true }) {
   if (destroyable && !readonly) {
     onClick = () => dispatch({ type: 'destroy', cardName });
   } else if (selectable && !readonly) {
-    onClick = () => {
-      uiMode.callback(cardName);
-      setChoice(null);
-    };
+    onClick = () => toggleSelection(cardName);
   } else {
     onClick = () => {
       if (cardName !== 'Station Core') { toggleZoom(cardName); }

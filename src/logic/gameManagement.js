@@ -53,7 +53,7 @@ export function initialGameState(publicGame, settings = {}, ruleset = null, exis
   const deck = shuffle(cards.map(c => c.name).filter(c => c !== 'Station Core'), `${seed}_startingdeck`);
 
   // For testing you might want to force a particular card into your starting hand
-  // deck = ['Sparkwraith'].concat(deck.filter(c => c.name !== 'Sparkwraith'));
+  // deck = ['Ionblazer'].concat(deck.filter(c => c.name !== 'Ionblazer'));
 
   return {
     createdAt: new Date().toISOString(),
