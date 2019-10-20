@@ -3,11 +3,13 @@ export default function playerPresenter(playerData, season) {
     name,
     playerId,
     games,
+    tags,
   } = playerData;
 
   return {
     name,
     playerId,
     games: games[season],
+    tags,
   };
 }

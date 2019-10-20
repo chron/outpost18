@@ -70,3 +70,7 @@ export async function recentFinishedGames(playerId, token) {
 export async function getLeaderboard(season, token) {
   return get('leaderboard', { season }, token);
 }
+
+export async function getPlayer(playerName, token) {
+  return get('player', { playerName }, token);
+}

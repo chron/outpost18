@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from '@reach/router';
 import { useApi, useAuth } from '../../hooks';
 import BackBar from '../../components/BackBar';
 import Loading from '../../components/Loading';
@@ -24,11 +25,12 @@ export default function LeaderboardPage() {
 
   return (
     <div className="page page--leaderboard center-children">
-    <div className="panel">
+      <div className="panel">
         <h1>Leaderboard</h1>
         {availableSeasons && season ? (
           <p>
             Season:
+            {' '}
             <select value={season} onChange={e => setSeason(e.target.value)}>
               {availableSeasons.map(s => (
                 <option key={s} value={s}>{s}</option>
@@ -71,7 +73,9 @@ export default function LeaderboardPage() {
                   </div>
 
                   <div className="leaderboard__name">
-                    {player.name}
+                    <Link to={`/player/${player.name}`}>
+                      {player.name}
+                    </Link>
                   </div>
 
                   <div className="leaderboard__wins">

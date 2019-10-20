@@ -5,7 +5,7 @@ import { useApi, useAuth } from '../../hooks';
 import Loading from '../../components/Loading';
 import './ReplayListPage.scss';
 
-export default function ReplayPage({ location: { search } }) {
+export default function ReplayListPage({ location: { search } }) {
   const { authToken } = useAuth();
   const { recentFinishedGames } = useApi();
   const [games, setGames] = useState(null);
