@@ -25,14 +25,17 @@ export function createPlayer(playerId, name, email) {
 }
 
 export function recordGameResult(playerState, gameType, won, eloChange) {
-  const { [gameType]: oldGames, ...rest } = playerState;
+  const { games: { [gameType]: oldGames, ...otherGames }, ...rest } = playerState;
 
   return {
     ...rest,
-    [gameType]: {
-      wins: oldGames.wins + (won ? 1 : 0),
-      losses: oldGames.losses + (won ? 0 : 1),
-      elo: oldGames.elo + (won ? 1 : -1) * eloChange,
+    games: {
+      ...otherGames,
+      [gameType]: {
+        wins: oldGames.wins + (won ? 1 : 0),
+        losses: oldGames.losses + (won ? 0 : 1),
+        elo: oldGames.elo + (won ? 1 : -1) * eloChange,
+      },
     },
     lastUpdatedAt: new Date().toISOString(),
   };

@@ -1,4 +1,4 @@
-export default function playerPresenter(playerData) {
+export default function playerPresenter(playerData, season) {
   const {
     name,
     playerId,
@@ -8,6 +8,6 @@ export default function playerPresenter(playerData) {
   return {
     name,
     playerId,
-    games,
+    games: games[season],
   };
 }

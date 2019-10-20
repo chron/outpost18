@@ -100,19 +100,34 @@ export async function loadPlayerByName(name) {
   }
 }
 
-export async function loadLeaderboard(num) {
+export async function loadLeaderboard(season, num) {
   try {
+    // const r = await client.query(
+    //   Map(
+    //     Paginate(
+    //       Match(Index('players_by_overall_elo_desc')),
+    //       { size: num }
+    //     ),
+    //     Lambda(['elo', 'ref'], Get(Var('ref')))
+    //   )
+    // );
+    //
+    // return r.data.map(player => player.data);
+
     const r = await client.query(
       Map(
         Paginate(
-          Match(Index('players_by_overall_elo_desc')),
-          { size: num }
+          Match(Index('all_players'))
         ),
-        Lambda(['elo', 'ref'], Get(Var('ref')))
+        Lambda(['ref'], Get(Var('ref')))
       )
     );
 
-    return r.data.map(player => player.data);
+    return r.data
+      .map(player => player.data)
+      .filter(p => p.games[season])
+      .sort((a, b) => b.games[season].elo - a.games[season].elo)
+      .slice(0, num);
   } catch (e) {
     reportError(e);
     return [];

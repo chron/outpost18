@@ -1,6 +1,6 @@
 import { shuffle } from 'shuffle-seed';
 import allCards from '../cards';
-import { ACTIVE_VERSION } from '../constants';
+import { ACTIVE_VERSION, RANKED_GAME_SETTINGS } from '../constants';
 
 function startGame(gameState, noShuffle = false) {
   const deck = gameState.deck.slice();
@@ -47,6 +47,7 @@ export function validPlayerId(playerId) {
   return playerId.match(/^[a-zA-Z0-9]+$/) && playerId !== 'AUTOMA';
 }
 
+// Gotcha: settings is totally ignored for public (ranked) games
 export function initialGameState(publicGame, settings = {}, ruleset = null, existingSeed = null) {
   const cards = allCards[ruleset || ACTIVE_VERSION];
   const seed = existingSeed || generateSeed();
@@ -62,7 +63,7 @@ export function initialGameState(publicGame, settings = {}, ruleset = null, exis
     settings: {
       turnLength: undefined,
       reportResult: false,
-      ...settings,
+      ...(publicGame ? RANKED_GAME_SETTINGS : settings),
     },
     gameState: 'waiting',
     joinCode: generateJoinCode(),

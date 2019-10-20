@@ -13,7 +13,10 @@ function CreateGamePage({ joinGameFunc, gameType }) {
   const nextGamePublic = gameType === 'public';
 
   const createGame = () => {
-    const settings = { turnLength: nextGameTimed ? 60 : 0, reportResult: nextGameReportResult };
+    const settings = nextGamePublic
+      ? {}
+      : { turnLength: nextGameTimed ? 60 : 0, reportResult: nextGameReportResult };
+      
     joinGameFunc(null, null, nextGamePublic, false, settings).then(() => navigate('/game'));
   };
 
@@ -27,6 +30,7 @@ function CreateGamePage({ joinGameFunc, gameType }) {
             <input
               id="nextGameTimed"
               type="checkbox"
+              disabled={nextGamePublic}
               onChange={e => setNextGameTimed(e.target.checked)}
               checked={nextGameTimed}
             />
@@ -40,6 +44,7 @@ function CreateGamePage({ joinGameFunc, gameType }) {
             <input
               id="nextGameReportResult"
               type="checkbox"
+              disabled={nextGamePublic}
               onChange={e => setNextGameReportResult(e.target.checked)}
               checked={nextGameReportResult}
             />

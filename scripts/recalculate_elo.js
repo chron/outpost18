@@ -21,9 +21,11 @@ function calculateEloChange(winnerElo, loserElo) {
   return Math.round(K * (1 - prob));
 }
 
+const season = 'preseason';
+
 // Reset all player wins/losses/Elo to starting values
 players.forEach(p => {
-  p.games = { wins: 0, losses: 0, elo: 1000 };
+  p.games[season] = { wins: 0, losses: 0, elo: 1000 };
 });
 
 const matchingGames = games
@@ -38,17 +40,17 @@ matchingGames.forEach(g => {
   const winner = players.find(p => p.playerId === winnerId);
   const loser = players.find(p => p.playerId === loserId);
 
-  const winnerElo = winner.games.elo;
-  const loserElo = loser.games.elo;
+  const winnerElo = winner.games[season].elo;
+  const loserElo = loser.games[season].elo;
 
   const eloDelta = calculateEloChange(winnerElo, loserElo);
 
   console.log(`${winner.name} (${winnerElo}+${eloDelta}) defeated ${loser.name} (${loserElo}-${eloDelta})`);
 
-  winner.games.wins += 1;
-  loser.games.losses += 1;
-  winner.games.elo = winnerElo + eloDelta;
-  loser.games.elo = loserElo - eloDelta;
+  winner.games[season].wins += 1;
+  loser.games[season].losses += 1;
+  winner.games[season].elo = winnerElo + eloDelta;
+  loser.games[season].elo = loserElo - eloDelta;
 });
 
 // Persist player data back to database
@@ -59,7 +61,7 @@ console.log('Writing updates back to database...');
 
 Promise.all(players.map(async (data) => {
   const playerRecord = await client.query(Get(Match(Index('players_by_playerid'), data.playerId)));
-  const newPlayerData = { ...playerRecord.data, games: data.games };
+  const newPlayerData = { ...playerRecord.data, games: { ...playerRecord.data.games, [season]: data.games } };
   await client.query(Replace(Ref(Collection('players'), playerRecord.ref.id), { data: newPlayerData }));
 })).catch(e => {
   console.error(JSON.stringify(e.requestResult.requestContent.raw));
