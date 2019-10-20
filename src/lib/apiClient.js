@@ -67,6 +67,6 @@ export async function recentFinishedGames(playerId, token) {
   return get('replays', { playerId }, token);
 }
 
-export async function getLeaderboard(token) {
-  return get('leaderboard', {}, token);
+export async function getLeaderboard(season, token) {
+  return get('leaderboard', { season }, token);
 }

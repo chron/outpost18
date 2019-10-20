@@ -11,7 +11,11 @@ async function handler(event, _context) {
 
   return {
     statusCode: 200,
-    body: JSON.stringify(players.map(g => playerPresenter(g, seasonToShow))),
+    body: JSON.stringify({
+      season: seasonToShow,
+      leaderboard: players.map(g => playerPresenter(g, seasonToShow)),
+      availableSeasons: ['preseason'],
+    }),
   };
 }
 
