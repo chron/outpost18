@@ -48,7 +48,11 @@ function MainMenuPage({ joinGameFunc }) {
       {isLoggedIn
         ? (
           <div className="current-user__panel">
-            Playing as <strong>{name}</strong>
+            Playing as
+            {' '}
+            <Link to={`/player/${name}`}>
+              <strong>{name}</strong>
+            </Link>
             {isConfirmedUser ? '' : '(Unconfirmed email)'}
             {' '}(<a onClick={logoutUser}>Logout</a>)
           </div>
