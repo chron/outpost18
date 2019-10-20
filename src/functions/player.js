@@ -1,20 +1,21 @@
-import { loadLeaderboard } from '../lib/database';
+import { loadPlayerByName } from '../lib/database';
 import { currentSeason } from '../logic/seasonManagement';
 import playerPresenter from './utils/playerPresenter';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
+import { renderError } from './utils/apiResponses';
 
 async function handler(event, _context) {
-  const { season } = event.queryStringParameters;
+  const { playerName, season } = event.queryStringParameters;
+  if (!playerName) { return renderError('Player Name must be specified.'); }
 
+  const [_ref, playerData] = await loadPlayerByName(playerName);
   const seasonToShow = season || currentSeason();
-  const players = await loadLeaderboard(seasonToShow, 10);
 
   return {
     statusCode: 200,
     body: JSON.stringify({
+      player: playerPresenter(playerData, seasonToShow),
       season: seasonToShow,
-      leaderboard: players.map(g => playerPresenter(g, seasonToShow)),
-      availableSeasons: ['preseason'],
     }),
   };
 }

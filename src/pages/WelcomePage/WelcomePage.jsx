@@ -18,7 +18,7 @@ function WelcomePage({ playerName, setPlayerName }) {
   };
 
   return (
-    <div className="page page--welcome">
+    <div className="page page--welcome center-children">
       <div className="panel">
         <div className="game-title">Outpost 18</div>
 

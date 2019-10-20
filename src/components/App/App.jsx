@@ -21,6 +21,7 @@ import { useApi, useAuth, useLocalStorage, useWebsocket, useWindowSize } from '.
 import generatePlayerId from '../../generatePlayerId';
 import './App.scss';
 import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage';
+import PlayerInfoPage from '../../pages/PlayerInfoPage/PlayerInfoPage';
 
 function App() {
   const [gameState, setGameState] = useState(null);
@@ -127,6 +128,7 @@ function App() {
       <SignupPage path="signup" />
       <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
       <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
+      <PlayerInfoPage path="player/:playerName" />
       <ReplayPage path="replay/:gameId" />
       <ReplayListPage path="replays" />
       <LeaderboardPage path="leaderboard" />

@@ -14,6 +14,7 @@ function Ship({ cardName, friendly, owner, attacking, canAttack, attackAdded }) 
     gameState,
     uiMode,
     setChoice,
+    toggleSelection,
     toggleZoom,
     readonly,
   } = state;
@@ -30,15 +31,12 @@ function Ship({ cardName, friendly, owner, attacking, canAttack, attackAdded }) 
   if (availableToAttack && !readonly) {
     if (abilityWithChoice) {
       const callback = (choices) => dispatch({ type: 'attack', cardName, choices });
-      onClick = () => setChoice({ callback, ...abilityWithChoice.effect.choice });
+      onClick = () => setChoice({ callback, choices: abilityWithChoice.effect.choice });
     } else {
       onClick = () => dispatch({ type: 'attack', cardName });
     }
   } else if (availableToChoose && !readonly) {
-    onClick = () => {
-      uiMode.callback(cardName);
-      setChoice(null);
-    };
+    onClick = () => toggleSelection(cardName);
   } else {
     onClick = () => toggleZoom(cardName);
   }

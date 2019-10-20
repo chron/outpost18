@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from '@reach/router';
 import { useApi, useAuth } from '../../hooks';
 import BackBar from '../../components/BackBar';
 import Loading from '../../components/Loading';
 import './LeaderboardPage.scss';
 
 export default function LeaderboardPage() {
+  const [season, setSeason] = useState('preseason'); // TODO: make this dynamic
   const [leaderboard, setLeaderboard] = useState(null);
+  const [availableSeasons, setAvailableSeasons] = useState(null);
+
   const { getLeaderboard } = useApi();
   const { authToken } = useAuth();
 
   useEffect(() => {
-    getLeaderboard(authToken).then(result => setLeaderboard(result));
-  }, []);
+    getLeaderboard(season, authToken).then(result => {
+      if (season === null) { setSeason(result.season); }
+      setLeaderboard(result.leaderboard);
+      setAvailableSeasons(result.availableSeasons);
+    });
+  }, [season]);
 
   if (leaderboard === null) { return <Loading />; }
 
@@ -19,6 +27,17 @@ export default function LeaderboardPage() {
     <div className="page page--leaderboard center-children">
       <div className="panel">
         <h1>Leaderboard</h1>
+        {availableSeasons && season ? (
+          <p>
+            Season:
+            {' '}
+            <select value={season} onChange={e => setSeason(e.target.value)}>
+              {availableSeasons.map(s => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </p>
+        ) : null}
 
         {leaderboard.length ? (
           <div className="leaderboard">
@@ -54,7 +73,9 @@ export default function LeaderboardPage() {
                   </div>
 
                   <div className="leaderboard__name">
-                    {player.name}
+                    <Link to={`/player/${player.name}`}>
+                      {player.name}
+                    </Link>
                   </div>
 
                   <div className="leaderboard__wins">

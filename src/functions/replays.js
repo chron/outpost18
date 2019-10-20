@@ -1,9 +1,13 @@
-import { recentFinishedGames } from '../lib/database';
+import { recentFinishedGames, recentFinishedGamesForPlayer } from '../lib/database';
 import lobbyGamePresenter from './utils/lobbyGamePresenter';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
-async function handler(_event, _context) {
-  const games = await recentFinishedGames();
+async function handler(event, _context) {
+  const { playerId } = event.queryStringParameters;
+
+  const games = playerId
+    ? await recentFinishedGamesForPlayer(playerId)
+    : await recentFinishedGames();
 
   return {
     statusCode: 200,

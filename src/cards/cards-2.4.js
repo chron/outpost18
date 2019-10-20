@@ -36,20 +36,26 @@ const cards = [
     abilities: [
       {
         threshold: { ion: 2 },
-        // TODO: let people opt out of this (and NOT discard if they don't destroy)
         effect: {
-          choice: { type: 'ship' },
+          choice: [
+            {
+              type: 'ship',
+              description: 'Choose an enemy ship to destroy'
+            },
+            { type: 'card' },
+          ],
           description: 'Destroy any ship, then discard a card.',
-          function: (state, player, opponent, targetShip) => {
-            if (!targetShip) { return; }
+          function: (state, player, opponent, targetShip, cardToDiscard) => {
+            if (!targetShip || !cardToDiscard) { return; }
+
             const inPlayIndex = opponent.inPlay.findIndex(i => i.cardName === targetShip);
+            const discardIndex = player.hand.indexOf(cardToDiscard);
 
-            if (inPlayIndex) {
+            if (inPlayIndex > -1 && discardIndex > -1) {
               opponent.inPlay.splice(inPlayIndex, 1);
-              // TODO: player should choose the discarded card!
-              const cardToDiscard = player.hand.splice(0, 1);
+              const discardedCard = player.hand.splice(discardIndex, 1);
 
-              state.discards = state.discards.concat([targetShip, ...cardToDiscard]);
+              state.discards = state.discards.concat([targetShip, ...discardedCard]);
             }
           },
         },

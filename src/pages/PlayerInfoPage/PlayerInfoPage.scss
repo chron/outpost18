@@ -1,0 +1,19 @@
+@import "../../stylesheets/variables.scss";
+
+.player-tag-list {
+  display: flex;
+
+  > * + * {
+    margin-left: 1vh;
+  }
+}
+.player-tag {
+  padding: 0.5vh 1.5vh;
+  background-color: $power-color;
+  border-radius: 1vh;
+  font-family: $title-font-stack;
+
+  &--creator {
+    background-color: $discard-color;
+  }
+}

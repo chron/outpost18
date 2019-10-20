@@ -100,19 +100,34 @@ export async function loadPlayerByName(name) {
   }
 }
 
-export async function loadLeaderboard(num) {
+export async function loadLeaderboard(season, num) {
   try {
+    // const r = await client.query(
+    //   Map(
+    //     Paginate(
+    //       Match(Index('players_by_overall_elo_desc')),
+    //       { size: num }
+    //     ),
+    //     Lambda(['elo', 'ref'], Get(Var('ref')))
+    //   )
+    // );
+    //
+    // return r.data.map(player => player.data);
+
     const r = await client.query(
       Map(
         Paginate(
-          Match(Index('players_by_overall_elo_desc')),
-          { size: num }
+          Match(Index('all_players'))
         ),
-        Lambda(['elo', 'ref'], Get(Var('ref')))
+        Lambda(['ref'], Get(Var('ref')))
       )
     );
 
-    return r.data.map(player => player.data);
+    return r.data
+      .map(player => player.data)
+      .filter(p => p.games[season])
+      .sort((a, b) => b.games[season].elo - a.games[season].elo)
+      .slice(0, num);
   } catch (e) {
     reportError(e);
     return [];
@@ -205,7 +220,7 @@ export async function allOpenGames() {
   }
 }
 
-export async function recentFinishedGames() {
+export async function recentFinishedGames(num = 10) {
   try {
     const r = await client.query(
       Map(
@@ -221,7 +236,32 @@ export async function recentFinishedGames() {
             ),
             Index('games_sort_by_finished_at_desc')
           ),
-          { size: 10 }
+          { size: num }
+        ), Lambda(['game', 'ref'], Get(Var('ref')))
+      )
+    );
+
+
+    return r.data.map(game => [game.ref.id, game.data]);
+  } catch (e) {
+    reportError(e);
+    return [];
+  }
+}
+
+export async function recentFinishedGamesForPlayer(playerId, num = 10) {
+  try {
+    const r = await client.query(
+      Map(
+        Paginate(
+          Join(
+            Filter(
+              Match(Index('active_games_for_player'), playerId, 'finished'),
+              Lambda('ref', Not(Equals(null, Select(['data', 'finishedAt'], Get(Var('ref')), null))))
+            ),
+            Index('games_sort_by_finished_at_desc')
+          ),
+          { size: num }
         ), Lambda(['game', 'ref'], Get(Var('ref')))
       )
     );

@@ -25,7 +25,7 @@ function Waiting() {
               .
               {' '}
               Your opponent will need to enter this code in the "Game code" field
-              on the main screen and then click "Join Game" to play against you.
+              on the "Play a private game" screen and then click "Join" to play against you.
             </p>
             <p>
               You can also send them this link:

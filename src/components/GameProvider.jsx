@@ -21,14 +21,48 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, readonly,
     }
   };
 
-  const setChoice = (choice) => {
-    if (choice === null) {
+  const submitChoice = (selected) => {
+    if (!uiMode || !uiMode.mode === 'choice') {
+      throw new Error('Submitting with no choice set up');
+    }
+
+    const { choices, choiceIndex, callback, lockedIn } = uiMode;
+
+    // Gotcha: right now if you select NULL for any choice it will NULL them all
+    // That works for the current cards that exist but might need rethinking later.
+    // This is done through the UI via the "skip" button.
+    if (selected === null) {
+      callback([]);
+      setChoice(null);
+      return;
+    }
+
+    const newLockedIn = lockedIn.slice();
+    newLockedIn.splice(choiceIndex, 1, selected);
+
+    if (choiceIndex + 1 >= choices.length) {
+      // We've made all choices, lock them in
+      callback(newLockedIn);
+      setChoice(null);
+    } else {
+      setChoice({ callback, choices, choiceIndex: choiceIndex + 1, lockedIn: newLockedIn });
+    }
+  };
+
+  const setChoice = (choiceDefinition) => {
+    if (choiceDefinition === null) {
       setUiMode(null);
       return;
     }
 
-    const { type, callback, ...choiceArgs } = choice;
+    const { callback, choices, choiceIndex = 0, lockedIn = [] } = choiceDefinition;
 
+    const choiceArray = Array.isArray(choices)
+      ? choices
+      : [choices];
+
+    // TODO: Future refactor - remove the index and just pop things off the choices array as we go
+    const { type, ...choiceParams } = choiceArray[choiceIndex];
     let validTargets = [];
 
     if (type === 'ship') {
@@ -41,22 +75,31 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, readonly,
     }
 
     if (validTargets.length === 0) {
-      callback();
+      submitChoice(null);
     } else {
-      setUiMode({ mode: 'choice', type, selected: [], callback, ...choiceArgs });
+      setUiMode({
+        mode: 'choice',
+        type,
+        ...choiceParams,
+        selected: [],
+        lockedIn,
+        callback,
+        choiceIndex,
+        choices: choiceArray,
+      });
     }
   };
 
   const toggleSelection = (choice) => {
     // Special case if we are only picking one thing.
-    // In that case instantly commit the choice instead of toggling selection.
+    // In that case instantly commit the choice instead of waiting for a manual submission.
     if (!uiMode.max) {
-      uiMode.callback(choice);
-      setChoice(null);
+      submitChoice(choice);
       return;
     }
 
     let selected = uiMode.selected.slice();
+
     const choiceIndex = selected.indexOf(choice);
 
     if (choiceIndex >= 0) {
@@ -94,6 +137,7 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, readonly,
     uiMode,
     setChoice,
     toggleSelection,
+    submitChoice,
     resignAndQuit,
     rematch,
     zoomedCard,

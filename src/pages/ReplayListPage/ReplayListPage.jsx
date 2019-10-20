@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@reach/router';
+import queryString from 'query-string';
 import { useApi, useAuth } from '../../hooks';
 import Loading from '../../components/Loading';
 import './ReplayListPage.scss';
 
-export default function ReplayPage() {
+export default function ReplayListPage({ location: { search } }) {
   const { authToken } = useAuth();
   const { recentFinishedGames } = useApi();
   const [games, setGames] = useState(null);
+  const { playerId } = queryString.parse(search);
 
   useEffect(() => {
-    recentFinishedGames(authToken).then(result => setGames(result));
+    recentFinishedGames(playerId, authToken).then(result => setGames(result));
   }, []);
 
   if (games === null) { return <Loading />; }

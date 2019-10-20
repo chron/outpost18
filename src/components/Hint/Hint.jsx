@@ -16,7 +16,14 @@ function pluralize(number, noun) {
 }
 
 function Hint() {
-  const { myTurn, gameState, uiMode, setChoice, player: { plays, attackPool, globalAttackBonus } } = useGameState();
+  const {
+    myTurn,
+    gameState,
+    uiMode,
+    setChoice,
+    submitChoice,
+    player: { plays, attackPool, globalAttackBonus }
+  } = useGameState();
   let message;
 
   if (!myTurn) {
@@ -24,7 +31,7 @@ function Hint() {
   } else if (gameState === 'begin') {
     message = 'Discard down to 3 cards.';
   } else if (gameState === 'main') {
-    if (uiMode) {
+    if (uiMode && uiMode.mode === 'choice') {
       const showConfirm = uiMode.max && uiMode.max > 1;
 
       let choiceText;
@@ -53,10 +60,7 @@ function Hint() {
             {' '}
 
             <Button
-              onClick={() => {
-                uiMode.callback(uiMode.selected);
-                setChoice(null);
-              }}
+              onClick={() => submitChoice(null)}
             >
               Skip ability
             </Button>
@@ -64,10 +68,7 @@ function Hint() {
             {' '}
             {showConfirm && (
               <Button
-                onClick={() => {
-                  uiMode.callback(uiMode.selected);
-                  setChoice(null);
-                }}
+                onClick={() => submitChoice(uiMode.selected)}
               >
                 Confirm
               </Button>
