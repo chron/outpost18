@@ -32,11 +32,22 @@ export function errorWrapper(handler) {
   return async function (_event, context) {
     context.callbackWaitsForEmptyEventLoop = false;
 
-    try {
-      return await handler.call(this, ...arguments);
-    } catch (e) {
-      await reportError(e);
-      throw e;
+    await Sentry.configureScope(async function(scope) {
+      if (context.clientContext.user) {
+        scope.setUser({
+          id: context.clientContext.user.sub,
+          // username:
+          // email:
+          // ip_address:
+        });
+      }
+
+      try {
+        return await handler.call(this, ...arguments);
+      } catch (e) {
+        await reportError(e);
+        throw e;
+      }
     }
   };
 }
