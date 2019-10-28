@@ -17,6 +17,10 @@ function MainMenuPage({ joinGameFunc }) {
       </div>
 
       <div className="menu">
+        <Link to="/tutorial" className="menu-item">
+          Play the tutorial
+        </Link>
+
         <a tabIndex="0" onClick={launchAiGame} className="menu-item">
           Play against the AI
         </a>

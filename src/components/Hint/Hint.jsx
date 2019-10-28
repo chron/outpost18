@@ -22,7 +22,7 @@ function Hint() {
     uiMode,
     setChoice,
     submitChoice,
-    player: { plays, attackPool, globalAttackBonus }
+    player: { plays, attackPool, globalAttackBonus },
   } = useGameState();
   let message;
 
