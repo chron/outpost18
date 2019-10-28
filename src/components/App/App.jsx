@@ -15,7 +15,6 @@ import JoinPrivateGamePage from '../../pages/JoinPrivateGamePage';
 import ErrorPage from '../../pages/ErrorPage';
 import ReplayPage from '../../pages/ReplayPage';
 import ReplayListPage from '../../pages/ReplayListPage';
-import Loading from '../Loading';
 import Error from '../Error';
 import JoinGame from '../JoinGame';
 import { useApi, useAuth, useLocalStorage, useWebsocket, useWindowSize } from '../../hooks';
@@ -25,12 +24,13 @@ import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage';
 import PlayerInfoPage from '../../pages/PlayerInfoPage/PlayerInfoPage';
 
 function App() {
-  const [gameState, setGameState] = useState(null);
+  const [initialCheck, setInitialCheck] = useState(false);
+  const [gameState, setGameState] = useState({});
   const [error, setError] = useState(null);
   const [oldPlayerId, setOldPlayerId] = useLocalStorage('playerId');
   const [playerName, setPlayerName] = useLocalStorage('playerName', null);
   const { name, id, authToken } = useAuth();
-  const { createGame, joinGame, loadGame } = useApi();
+  const { createGame, joinGame } = useApi();
 
   if (!oldPlayerId) { setOldPlayerId(generatePlayerId()); }
 
@@ -48,20 +48,6 @@ function App() {
 
     setGameState(newState);
   });
-
-  // TODO: move this into the game page not here
-  useEffect(() => {
-    if (id && !authToken) { return; }
-
-    loadGame(playerId, undefined, authToken).then(newState => {
-      setGameState(newState);
-      if (newState.gameId) { navigate('/game'); }
-    });
-  }, [playerId, authToken]);
-
-  if (!gameState) {
-    return <Loading />;
-  }
 
   // Reach router doesn't work with location.hash so we'll hand-roll it!
   const tokenMatch = window.location.hash.match(/confirmation_token=(\w+)/);
@@ -112,6 +98,10 @@ function App() {
         path="menu"
         playerName={playerName}
         joinGameFunc={joinGameFunc}
+        setGameState={setGameState} // FIXME: feels weird to pass these things in here
+        playerId={playerId}
+        initialCheck={initialCheck}
+        setInitialCheck={setInitialCheck}
       />
       <GamePage
         path="game"

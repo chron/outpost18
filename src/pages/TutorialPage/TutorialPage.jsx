@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { navigate } from '@reach/router';
 import { GameProvider } from '../../components/GameProvider';
 import Game from '../../components/Game';
 import TUTORIAL_DATA from '../../logic/tutorial';
@@ -34,6 +35,11 @@ export default function TutorialPage() {
   }, [currentStep]);
 
   const dispatch = (playerId, _gameId, action) => {
+    if (action.type === 'resign') {
+      navigate('/menu');
+      return;
+    }
+
     if (JSON.stringify(action) === JSON.stringify(currentStep)) {
       const nextStep = script[tutorialStep + 1];
 
