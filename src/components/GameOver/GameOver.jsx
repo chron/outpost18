@@ -13,7 +13,6 @@ function GameOver() {
     player,
     opponent,
     rematch,
-    resignAndQuit,
     readonly,
   } = useGameState();
 
@@ -52,18 +51,22 @@ function GameOver() {
         }
 
         <Controls>
-          <Link className="button" to={`/replay/${gameId}`}>
-            View replay
-          </Link>
+          {gameId && gameId !== 'tutorial'
+            ? (
+              <Link className="button" to={`/replay/${gameId}`}>
+                View replay
+              </Link>
+            ) : null
+          }
 
-          {publicGame
+          {publicGame || gameId === 'tutorial'
             ? null
             : <Button onClick={rematch}>Rematch</Button>
           }
 
-          <Button onClick={resignAndQuit}>
+          <Link className="button" to="/menu">
             Main Menu
-          </Button>
+          </Link>
         </Controls>
       </div>
     </div>

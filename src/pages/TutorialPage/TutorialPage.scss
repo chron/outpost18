@@ -1,7 +1,18 @@
+@import "../../stylesheets/variables.scss";
+
 .tutorial-page {
   &__help-button {
     position: fixed;
     bottom: 1vh;
     left: 1vh;
+    width: 5vh;
+    height: 5vh;
+    border: 0;
+    border-radius: 50%;
+    font-size: 3vh;
+    line-height: 1.7;
+    color: $card-foreground-color;
+    background-color: $card-background-color;
+    cursor: pointer;
   }
 }
