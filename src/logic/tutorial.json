@@ -1,0 +1,78 @@
+{
+  "script": [
+    { "message": "Welcome to Outpost 18!\nyeah\ncool" },
+    { "message": "On your turn you can play a card" },
+    { "message": "Try playing the Freighter card as a ship by dragging it from your hand to the green ship row." },
+    { "type": "play", "cardName": "Freighter", "mode": "ship" },
+    { "message": "Great! Ships cannot attack the turn you put them into play unless they have the Hyperdrive passive." },
+    { "message": "You're out of plays for now.\nClick the End Turn button to end your turn and draw a card." },
+    { "type": "endTurn" },
+    { "message" : "Opponent will play a card" },
+    { "enemy": true, "type": "play", "cardName": "Helix", "mode": "ship" },
+    { "message" : "Opponent played a Helix!" },
+    { "enemy": true, "type": "endTurn" },
+    { "message" : "Your turn again" }
+  ],
+  "ruleset": "2.4.4",
+  "publicGame": false,
+  "settings": {
+    "reportResult": false
+  },
+  "gameState": "main",
+  "activePlayer": "tutorial-player",
+  "deck": [
+    "Destroyer",
+    "Magnet",
+    "Junkrig",
+    "Rockbreaker",
+    "Battlestar",
+    "Epoch",
+    "Vessel",
+    "Lotus",
+    "Centurion",
+    "Falcon"
+  ],
+  "discards": [],
+  "players": [
+    {
+      "playerId": "tutorial-player",
+      "name": "Chron",
+      "plays": 1,
+      "attackPool": 0,
+      "hand": [
+        "Freighter",
+        "Sparkwraith"
+      ],
+      "inPlay": [
+        {
+          "cardName": "Station Core",
+          "mode": "base",
+          "canAttack": true
+        }
+      ]
+    },
+    {
+      "playerId": "tutorial-enemy",
+      "name": "Test Pilot",
+      "plays": 0,
+      "attackPool": 0,
+      "hand": [
+        "Ionblazer",
+        "Helix",
+        "Dreadnought"
+      ],
+      "inPlay": [
+        {
+          "cardName": "Station Core",
+          "mode": "base"
+        }
+      ]
+    }
+  ],
+  "log": [],
+  "tick": 3,
+  "turn": 2,
+  "seed": "w748qq01wa",
+  "startedAt": "2019-10-27T22:55:13.273Z",
+  "turnStartedAt": "2019-10-27T22:55:13.289Z"
+}

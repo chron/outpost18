@@ -6,6 +6,7 @@ import GamePage from '../../pages/GamePage';
 import AllCardsPage from '../../pages/AllCardsPage';
 import LobbyPage from '../../pages/LobbyPage';
 import AboutPage from '../../pages/AboutPage';
+import TutorialPage from '../../pages/TutorialPage';
 import CreateGamePage from '../../pages/CreateGamePage';
 import LoginPage from '../../pages/LoginPage';
 import SignupPage from '../../pages/SignupPage';
@@ -126,6 +127,7 @@ function App() {
       <ConfirmAccountPage path="confirm/:token" />
       <ConfirmAccountPage path="confirm" />
       <SignupPage path="signup" />
+      <TutorialPage path="tutorial" />
       <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
       <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
       <PlayerInfoPage path="player/:playerName" />

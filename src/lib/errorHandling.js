@@ -32,7 +32,7 @@ export function errorWrapper(handler) {
   return async function (_event, context) {
     context.callbackWaitsForEmptyEventLoop = false;
 
-    await Sentry.configureScope(async function(scope) {
+    await Sentry.configureScope(async function (scope) {
       if (context.clientContext.user) {
         scope.setUser({
           id: context.clientContext.user.sub,
@@ -48,6 +48,6 @@ export function errorWrapper(handler) {
         await reportError(e);
         throw e;
       }
-    }
+    });
   };
 }
