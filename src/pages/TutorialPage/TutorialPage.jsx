@@ -73,8 +73,13 @@ export default function TutorialPage() {
         : null
       }
       { currentStep && currentStep.message
-        ? <TutorialMessage message={currentStep.message} onClick={() => setTutorialStep(tutorialStep + 1)} />
-        : null
+        ? (
+          <TutorialMessage
+            highlight={currentStep.highlight}
+            message={currentStep.message}
+            onClick={() => setTutorialStep(tutorialStep + 1)}
+          />
+        ) : null
       }
       <Game />
       <button type="button" className="tutorial-page__help-button" onClick={showInstructions}>
