@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, navigate } from '@reach/router';
-import { useAuth } from '../../hooks';
+import Loading from '../../components/Loading';
+import { useAuth, useApi } from '../../hooks';
 import './MainMenuPage.scss';
 
-function MainMenuPage({ joinGameFunc }) {
-  const { isLoggedIn, isConfirmedUser, name, logoutUser } = useAuth();
+function MainMenuPage({ joinGameFunc, setGameState, initialCheck, setInitialCheck }) {
+  const { isLoggedIn, isConfirmedUser, id, name, logoutUser, authToken, playerId } = useAuth();
+  const { loadGame } = useApi();
 
   const launchAiGame = () => {
     joinGameFunc(null, null, false, true, {}).then(() => navigate('/game'));
   };
+
+  useEffect(() => {
+    if (id && !authToken) { return; }
+
+    loadGame(playerId, undefined, authToken).then(newState => {
+      setGameState(newState);
+      if (newState.gameId) { navigate('/game'); }
+      setInitialCheck(true);
+    });
+  }, [playerId, authToken]);
+
+  if (!initialCheck) {
+    return <Loading />;
+  }
 
   return (
     <div className="page page--main-menu">
@@ -17,9 +33,13 @@ function MainMenuPage({ joinGameFunc }) {
       </div>
 
       <div className="menu">
-        <a tabIndex="0" onClick={launchAiGame} className="menu-item">
+        <Link to="/tutorial" className="menu-item">
+          Play the tutorial
+        </Link>
+
+        <button type="button" onClick={launchAiGame} className="menu-item">
           Play against the AI
-        </a>
+        </button>
 
         <Link
           to="/lobby"

@@ -6,9 +6,10 @@ import { renderError } from './utils/apiResponses';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
 async function handler(event, context) {
-  const { playerId: oldPlayerId, playerName, joinCode } = JSON.parse(event.body);
+  const { playerId: oldPlayerId, playerName: oldPlayerName, joinCode } = JSON.parse(event.body);
   const loggedIn = context.clientContext.user;
   const playerId = loggedIn ? context.clientContext.user.sub : oldPlayerId;
+  const playerName = loggedIn ? context.clientContext.user.user_metadata.name : oldPlayerName;
 
   if (!playerId) { return renderError('PlayerId must be provided.'); }
   if (!loggedIn && !validPlayerId(playerId)) { return renderError('PlayerId is not valid.'); }

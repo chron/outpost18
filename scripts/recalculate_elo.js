@@ -61,7 +61,7 @@ console.log('Writing updates back to database...');
 
 Promise.all(players.map(async (data) => {
   const playerRecord = await client.query(Get(Match(Index('players_by_playerid'), data.playerId)));
-  const newPlayerData = { ...playerRecord.data, games: { ...playerRecord.data.games, [season]: data.games } };
+  const newPlayerData = { ...playerRecord.data, games: { ...playerRecord.data.games, ...data.games } };
   await client.query(Replace(Ref(Collection('players'), playerRecord.ref.id), { data: newPlayerData }));
 })).catch(e => {
   console.error(JSON.stringify(e.requestResult.requestContent.raw));

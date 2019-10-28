@@ -11,7 +11,11 @@ export const resources = {
 export function findCard(state, cardName) {
   const cards = allCards[state.ruleset];
 
-  return cards.find(c => c.name === cardName);
+  const card = cards.find(c => c.name === cardName);
+
+  if (!card) { throw new Error(`Failed to find card '${cardName}' in ruleset '${state.ruleSet}'`); }
+
+  return card;
 }
 
 export function inPlayCardsOfType(state, inPlayCards, modes) {

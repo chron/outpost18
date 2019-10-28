@@ -5,7 +5,14 @@ import Waiting from './Waiting';
 
 const GameContext = React.createContext();
 
-function GameProvider({ gameState, rematch, updateGameState, playerId, readonly, children }) {
+function GameProvider({ gameState,
+  rematch,
+  updateGameState,
+  playerId,
+  readonly,
+  children,
+  gameStateReducer,
+}) {
   const { gameId, player, opponent, ruleset } = gameState;
   const { authToken } = useAuth();
   const { gameAction } = useApi();
@@ -112,9 +119,15 @@ function GameProvider({ gameState, rematch, updateGameState, playerId, readonly,
   };
 
   const dispatch = (action) => {
-    gameAction(playerId, gameId, action, authToken)
-      .then(updateGameState)
-      .catch(e => e); // TODO: silently ignoring dup requests, but we need to handle actual errors
+    // If a reducer is provided, use that (e.g for the tutorial or local play)
+    // Otherwise use the API call so the server plays the role of reducer here.
+    if (gameStateReducer) {
+      gameStateReducer(playerId, gameId, action);
+    } else {
+      gameAction(playerId, gameId, action, authToken)
+        .then(updateGameState)
+        .catch(e => e); // TODO: silently ignoring dup requests, but we need to handle actual errors
+    }
   };
 
   const resignAndQuit = () => {

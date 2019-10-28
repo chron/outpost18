@@ -21,8 +21,8 @@
 
   &__title {
     position: absolute;
-    top: calc(var(--ship-height) * 0.02);
-    left: calc(var(--ship-width) * 0.02);
+    top: calc(var(--ship-height) * 0.03);
+    left: calc(var(--ship-width) * 0.03);
     width: calc(var(--ship-width) * 0.77);
     padding: calc(var(--ship-width) * 0.03) 0;
 
@@ -35,8 +35,8 @@
 
   &__power {
     position: absolute;
-    top: calc(var(--ship-height) * 0.02);
-    right: calc(var(--ship-width) * 0.02);
+    top: calc(var(--ship-height) * 0.03);
+    right: calc(var(--ship-width) * 0.03);
     width: calc(var(--ship-width) * 0.23);
     height: calc(var(--ship-height) * 0.19);
 
@@ -50,7 +50,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: var(--ship-width);
+    width: 100%;
     height: calc(var(--ship-height) * 0.63);
 
     border: var(--border-thickness) solid $card-border-color;
@@ -65,7 +65,7 @@
   &__passive {
     position: relative;
     width: 85%;
-    top: calc(var(--ship-height) * -0.07);
+    top: calc(var(--ship-height) * -0.09);
     margin-left: 7.5%;
     border: var(--border-thickness) solid $card-border-color;
     border-radius: var(--border-radius);
@@ -84,7 +84,7 @@
     justify-content: center;
 
     height: calc(var(--ship-height) * 0.42);
-    margin: calc(var(--ship-height) * -0.04) calc(var(--ship-width) * -0.02) 0 calc(var(--ship-width) * -0.02);
+    margin: calc(var(--ship-height) * -0.04) calc(var(--ship-width) * -0.01) 0 calc(var(--ship-width) * -0.01);
     padding: calc(var(--ship-width) * 0.04);
     border: var(--border-thickness) solid $card-border-color;
     border-radius: var(--border-radius);
@@ -106,7 +106,7 @@
   }
 
   &__passive + &__abilities {
-    margin-top: calc(var(--ship-height) * -0.14);
+    margin-top: calc(var(--ship-height) * -0.156);
     padding-top: calc(var(--ship-height) * 0.06);
   }
 }

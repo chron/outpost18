@@ -5,7 +5,7 @@ import { renderError } from './utils/apiResponses';
 import { initializeErrorHandling, errorWrapper } from '../lib/errorHandling';
 
 async function handler(event, context) {
-  let { playerId: oldPlayerId, gameId } = event.queryStringParameters;
+  let { playerId: oldPlayerId, gameId } = event;
   const loggedIn = context.clientContext.user;
   const playerId = loggedIn ? context.clientContext.user.sub : oldPlayerId;
 

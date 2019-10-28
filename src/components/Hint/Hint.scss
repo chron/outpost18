@@ -21,6 +21,10 @@
   z-index: 1;
 
   > p {
+    margin: 0;
+  }
+
+  > p + p {
     margin: 1vh 0 0 0;
   }
 
