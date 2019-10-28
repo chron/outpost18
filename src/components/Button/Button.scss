@@ -14,8 +14,9 @@
   }
 
   &:hover:not([disabled]) {
-    background-color: #333;
     cursor: pointer;
+    color: crimson;
+    box-shadow: $interactable-glow;
   }
 
   &--reversed {

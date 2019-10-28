@@ -37,9 +37,9 @@ function MainMenuPage({ joinGameFunc, setGameState, initialCheck, setInitialChec
           Play the tutorial
         </Link>
 
-        <a tabIndex="0" onClick={launchAiGame} className="menu-item">
+        <button type="button" onClick={launchAiGame} className="menu-item">
           Play against the AI
-        </a>
+        </button>
 
         <Link
           to="/lobby"

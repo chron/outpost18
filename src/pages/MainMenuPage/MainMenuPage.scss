@@ -35,6 +35,12 @@
   text-align: center;
   box-shadow: $card-shadow;
 
+  &:hover {
+    color: crimson;
+    cursor: pointer;
+    box-shadow: $interactable-glow;
+  }
+
   &--disabled {
     pointer-events: none;
     color: $button-disabled-color;
