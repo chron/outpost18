@@ -15,7 +15,7 @@ function pluralize(number, noun) {
   return `${number} ${noun}${number === 1 ? '' : 's'}`;
 }
 
-function Hint() {
+function Hint({ hintOverride }) {
   const {
     myTurn,
     gameState,
@@ -26,7 +26,9 @@ function Hint() {
   } = useGameState();
   let message;
 
-  if (!myTurn) {
+  if (hintOverride !== undefined) {
+    message = hintOverride ? hintOverride.split('\n').map((p, i) => <p key={i}>{p}</p>) : '';
+  } else if (!myTurn) {
     message = 'Waiting for opponent...';
   } else if (gameState === 'begin') {
     message = 'Discard down to 3 cards.';

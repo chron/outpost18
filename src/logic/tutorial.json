@@ -1,52 +1,52 @@
 {
   "script": [
-    { "message": "Welcome to Outpost 18!\nIn this game you are trying to destroy the enemy with your fleet of starships." },
+    { "message": "Welcome to Outpost 18!\nIn this game you are trying to destroy the enemy base with your fleet of starships." },
     { "highlight": "hand", "message": "At the bottom of the screen you can see your hand.\nYou start with 2 cards if you're the first player, or 3 if you're going second." },
     { "highlight": "base", "message": "This is your base.  You can play upgrade cards to protect it and generate more resources." },
     { "highlight": "stats", "message": "This panel shows your current stats and the resources you are generating.\nThe three resources are ion, ore, and labour, and these are used to enhance your ships." },
     { "highlight": "ships", "message": "This section is where you will play your ships to attack the enemy base." },
     { "highlight": "deck-discard", "message": "This area shows the deck and discard pile." },
-    { "highlight": "enemy-base", "message": "This is the enemy's base.  You need to destroy this to win the game!" },
-    { "message": "It's your turn now.\nOn your turn you can play a card in one of two ways." },
-    { "message": "Playing it as a ship will let you use its power and abilities to attack the enemy base.\nPlaying it as an upgrade will generate resources that unlock your ship abilities." },
+    { "highlight": "enemy-base", "message": "This is the enemy's base. You need to destroy this to win the game!" },
+    { "overlay": "card", "message": "Now let's take a look at a card.\nYou can play each card in one of two ways." },
+    { "overlay": "card", "message": "Playing it as a ship (the top white section) will let you use its power and abilities to attack the enemy base.\nPlaying it as an upgrade (the bottom yellow section) will generate resources that unlock your ship abilities." },
+    { "overlay": "card", "message": "This card has a passive ability in the central box which will be active while it is in play as a ship.\nIt also has an attack ability which will trigger when you attack with it — as long as the resource threhsolds are met." },
     { "message": "Try playing the Freighter card as a ship by dragging it from your hand to the green ship row." },
     { "type": "play", "cardName": "Freighter", "mode": "ship" },
-    { "message": "Great! Ships cannot attack the turn you put them into play.\n(unless they have the Hyperdrive passive.)" },
-    { "message": "You're out of plays for now.\nClick the End Turn button to end your turn and draw a card." },
+    { "message": "Great! Now we have a Freighter.\nNote that ships cannot attack the turn you put them into play.\n(unless they have the Hyperdrive passive.)" },
+    { "message": "You're out of plays for now.  Unless you get more from abilities, you just get one per turn.\nClick the End Turn button to end your turn and draw a card." },
     { "type": "endTurn" },
     { "enemy": true, "type": "play", "cardName": "Helix", "mode": "ship" },
     { "enemy": true, "type": "endTurn" },
-    { "message" : "You need to generate 5 power to destroy the enemy base.\nThe freighter has 1 power, but it has an ability that will add another 2 power once the threshold is met." },
-    { "message" : "The Centurion in your hand can generate the 1 labour and 1 ion you need.\nDrag the Centrurion onto the blue base row to play it as an upgrade." },
+    { "message": "You need to generate 5 power to destroy the enemy base.\nThe freighter has 1 power, but it has an ability that will add another 2 power once the threshold is met." },
+    { "highlight": "hand", "message": "The Centurion in your hand can generate the 1 labour and 1 ion you need.\nDrag the Centrurion onto the blue base row to play it as an upgrade." },
     { "type": "play", "cardName": "Centurion", "mode": "upgrade" },
     { "message": "Now the Freighter's ability is active!\nClick the End Turn button to end your turn and draw another card." },
     { "type": "endTurn" },
     { "enemy": true, "type": "play", "cardName": "Magnet", "mode": "upgrade" },
     { "enemy": true, "type": "endTurn" },
-    { "message": "Your opponent played an upgrade with the DEF power!\nYou can't target his base or non-DEF upgrades until you destroy it." },
-    { "message": "Tap your Freighter to attack with it, adding 3 power to your power pool." },
+    { "highlight": "enemy-base", "message": "Your opponent played an upgrade with the DEF power! You can identify it by the blue shield number and exclamation mark.\nYou can't target his base or non-DEF upgrades until you destroy it." },
+    { "highlight": "enemy-base", "message": "Let's take it out.\nClick your Freighter to attack with it, which will add 3 power to your pool." },
     { "type": "attack", "cardName": "Freighter" },
-    { "message": "The DEF upgrade is highlighted since you have enough attack to destroy it.\nTap the upgrade to destroy it!" },
+    { "highlight": "enemy-base", "message": "The DEF upgrade is highlighted in red since you have enough attack to destroy it.\nClick the upgrade to spend 3 power from our pool and destroy it!" },
     { "type": "destroy", "cardName": "Magnet" },
-    { "message": "When you destroy an enemy upgrade you take that card into your hand.\nYou can use it immediately if you have enough plays." },
-    { "message": "Now let's play the Destroyer as a ship.\nThe Destroyer has two abilities with different thresholds." },
+    { "highlight": "hand", "message": "When you destroy an enemy upgrade you take that card into your hand. You just took the Magnet card from your opponent.\nYou can use it immediately if you have enough plays." },
+    { "highlight": "hand", "message": "Now let's play the Destroyer as a ship.\nThe Destroyer has two abilities with different thresholds." },
     { "type": "play", "cardName": "Destroyer", "mode": "ship" },
-    { "message": "Now click End Turn.\nYour ships that attacked this turn will be put into the discard pile." },
+    { "message": "Now click End Turn.\nAt the end of yout turn your ships that attacked   will be put into the discard pile." },
     { "type": "endTurn" },
     { "enemy": true, "type": "discard", "cardNames": ["Ionblazer"] },
     { "enemy": true, "type": "play", "cardName": "Dreadnought", "mode": "ship" },
     { "enemy": true, "type": "endTurn" },
-    { "message": "We can activate both Destroyer abilities by playing our Vessel as an upgrade.\nThat will give us enough power to destroy the enemy base!" },
+    { "message": "We could activate both Destroyer abilities if we generated another ion and another labour. We could get this by playing our Vessel as an upgrade.\nThat will give us enough power to destroy the enemy base!" },
     { "type": "play", "cardName": "Vessel", "mode": "upgrade" },
-    { "message": "Now attack with the Destroyer by tapping it and use that power to destroy the enemy base!" },
+    { "highlight": "stats", "message": "You can see we have enough ion, ore, and labour to meet both of the ability thresholds." },
+    { "message": "Now attack with the Destroyer by clicking it and use that power to destroy the enemy base!" },
     { "type": "attack", "cardName": "Destroyer" },
     { "type": "destroy", "cardName": "Station Core" }
   ],
   "ruleset": "2.4.4",
   "publicGame": false,
-  "settings": {
-    "reportResult": false
-  },
+  "settings": {},
   "gameState": "main",
   "activePlayer": "tutorial-player",
   "deck": [
@@ -75,8 +75,7 @@
       "inPlay": [
         {
           "cardName": "Station Core",
-          "mode": "base",
-          "canAttack": true
+          "mode": "base"
         }
       ]
     },
@@ -99,9 +98,7 @@
     }
   ],
   "log": [],
-  "tick": 3,
-  "turn": 2,
-  "seed": "w748qq01wa",
-  "startedAt": "2019-10-27T22:55:13.273Z",
-  "turnStartedAt": "2019-10-27T22:55:13.289Z"
+  "tick": 1,
+  "turn": 1,
+  "seed": "w748qq01wa"
 }

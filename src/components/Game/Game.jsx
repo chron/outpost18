@@ -20,7 +20,7 @@ import GameLog from '../GameLog';
 import Button from '../Button';
 import './Game.scss';
 
-const Game = () => {
+const Game = ({ hintOverride }) => {
   const {
     player,
     opponent,
@@ -53,7 +53,7 @@ const Game = () => {
       <div className="game" tabIndex={-1} onClick={onBackgroundClick}>
         <DragLayer />
         {!readonly && myTurn && gameState !== 'finished' ? <Alert>Your turn.</Alert> : null}
-        {readonly ? null : <Hint />}
+        {readonly ? null : <Hint hintOverride={hintOverride} />}
         {showGameLog ? <GameLog /> : null}
         {gameState === 'finished' ? <GameOver /> : null}
         {zoomedCard ? (

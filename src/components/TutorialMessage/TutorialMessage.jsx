@@ -1,9 +1,10 @@
 import React from 'react';
 import Controls from '../Controls';
 import Button from '../Button';
+import StaticCard from '../StaticCard';
 import './TutorialMessage.scss';
 
-function TutorialMessage({ message, buttonText = 'Continue', onClick, highlight }) {
+function TutorialMessage({ message, buttonText = 'Continue', onClick, highlight, overlay }) {
   const bodyText = message.split('\n').map((p, i) => <p key={i}>{p}</p>);
 
   let top, left, width, height;
@@ -45,8 +46,19 @@ function TutorialMessage({ message, buttonText = 'Continue', onClick, highlight 
     height = '15vh';
   }
 
+  if (overlay) { marginTop = '-80%'; }
+
   return (
     <div className="tutorial-message__wrapper">
+      { overlay === 'card'
+        ? (
+          <StaticCard
+            cardName="Freighter"
+            className="card card--zoomed"
+            style={{ top: '60vh' }}
+          />
+        ) : null
+      }
       <div
         className="tutorial-message__hole"
         style={{ top, left, width, height }}

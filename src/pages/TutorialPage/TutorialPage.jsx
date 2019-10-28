@@ -76,12 +76,13 @@ export default function TutorialPage() {
         ? (
           <TutorialMessage
             highlight={currentStep.highlight}
+            overlay={currentStep.overlay}
             message={currentStep.message}
             onClick={() => setTutorialStep(tutorialStep + 1)}
           />
         ) : null
       }
-      <Game />
+      <Game hintOverride={currentStep && currentStep.message ? null : lastMessage} />
       <button type="button" className="tutorial-page__help-button" onClick={showInstructions}>
         ?
       </button>
