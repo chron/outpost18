@@ -8,7 +8,7 @@ function TutorialMessage({ message, buttonText = 'Continue', onClick, highlight,
   const bodyText = message.split('\n').map((p, i) => <p key={i}>{p}</p>);
 
   let top, left, width, height;
-  let marginTop;
+  let messageTop;
 
   if (highlight === 'hand') {
     top = '78vh';
@@ -20,33 +20,34 @@ function TutorialMessage({ message, buttonText = 'Continue', onClick, highlight,
     left = 0;
     width = '50vw';
     height = '15vh';
-    marginTop = '-20%';
+    messageTop = '-10vh';
   } else if (highlight === 'stats') {
     top = '61vh';
     left = '49vw';
     width = '51vw';
     height = '15vh';
-    marginTop = '-20%';
+    messageTop = '-15vh';
   } else if (highlight === 'ships') {
     top = '40vh';
     left = '15vh';
     width = '100vw';
     height = '20vh';
-    marginTop = '-60%';
+    messageTop = '-30vh';
   } else if (highlight === 'deck-discard') {
     top = '18vh';
     left = 0;
     width = '15vh';
     height = '41vh';
-    marginTop = '50%';
+    messageTop = '25vh';
   } else if (highlight === 'enemy-base') {
     top = '1vh';
     left = 0;
     width = '100vw';
     height = '15vh';
+    messageTop = '-15vh';
   }
 
-  if (overlay) { marginTop = '-80%'; }
+  if (overlay) { messageTop = '-30vh'; }
 
   return (
     <div className="tutorial-message__wrapper">
@@ -63,7 +64,7 @@ function TutorialMessage({ message, buttonText = 'Continue', onClick, highlight,
         className="tutorial-message__hole"
         style={{ top, left, width, height }}
       />
-      <div className="tutorial-message" style={{ marginTop }}>
+      <div className="tutorial-message" style={{ top: messageTop }}>
         {bodyText}
 
         <Controls>

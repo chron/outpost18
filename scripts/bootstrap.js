@@ -34,6 +34,18 @@ async function bootstrapDatabase(secret) {
 
   try {
     await client.query(
+      CreateCollection({
+        name: 'user_events',
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
       CreateIndex({
         name: 'all_games',
         source: Collection('games'),
@@ -181,6 +193,19 @@ async function bootstrapDatabase(secret) {
           { field: ['data', 'finishedAt'], reverse: true },
           { field: ['ref'] },
         ],
+      })
+    );
+  } catch (e) {
+    if (e.message !== 'instance already exists') {
+      console.error(e);
+    }
+  }
+
+  try {
+    await client.query(
+      CreateIndex({
+        name: 'all_user_events',
+        source: Collection('user_events'),
       })
     );
   } catch (e) {

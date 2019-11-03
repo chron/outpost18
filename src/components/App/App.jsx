@@ -117,7 +117,7 @@ function App() {
       <ConfirmAccountPage path="confirm/:token" />
       <ConfirmAccountPage path="confirm" />
       <SignupPage path="signup" />
-      <TutorialPage path="tutorial" />
+      <TutorialPage path="tutorial" playerId={playerId} />
       <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
       <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
       <PlayerInfoPage path="player/:playerName" />

@@ -4,6 +4,11 @@ export const ItemTypes = {
   CARD: 'card',
 };
 
+export const VALID_EVENTS = new Set([
+  'START_TUTORIAL',
+  'FINISH_TUTORIAL',
+]);
+
 // New games will be created using this ruleset
 export const ACTIVE_VERSION = '2.4.4';
 export const IDENTITY_URL = 'https://outpost18.netlify.com';

@@ -6,6 +6,7 @@ import TUTORIAL_DATA from '../../logic/tutorial';
 import reducer from '../../logic/reducer';
 import gameStatePresenter from '../../functions/utils/gameStatePresenter';
 import TutorialMessage from '../../components/TutorialMessage/TutorialMessage';
+import { useApi, useAuth } from '../../hooks';
 import './TutorialPage.scss';
 
 const { script, ...INITIAL_GAME_STATE } = TUTORIAL_DATA;
@@ -14,13 +15,25 @@ const TUTORIAL_PLAYER_ID = 'tutorial-player';
 const TUTORIAL_ENEMY_ID = 'tutorial-enemy';
 const MESSAGE_DELAY = 1000; // ms
 
-export default function TutorialPage() {
+export default function TutorialPage({ playerId }) {
+  const { logEvent } = useApi();
+  const { authToken } = useAuth();
   const [tutorialStep, setTutorialStep] = useState(0);
   const [lastMessage, setLastMessage] = useState(null);
   const [showLastMessage, setShowLastMessage] = useState(false);
   const [errors, setErrors] = useState(0);
   const [gameState, setGameState] = useState(INITIAL_GAME_STATE);
   const currentStep = script[tutorialStep];
+
+  useEffect(() => {
+    logEvent(playerId, 'START_TUTORIAL', authToken);
+  }, []);
+
+  useEffect(() => {
+    if (tutorialStep === script.length) {
+      logEvent(playerId, 'FINISH_TUTORIAL', authToken);
+    }
+  }, [tutorialStep]);
 
   // Auto-apply script steps with `enemy: true` without any user input
   useEffect(() => {

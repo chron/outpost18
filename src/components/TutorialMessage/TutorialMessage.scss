@@ -2,6 +2,7 @@
 @import "../../stylesheets/responsive.scss";
 
 .tutorial-message {
+  position: relative;
   padding: 2vh;
   border-radius: $panel-border-radius;
   color: $panel-foreground-color;

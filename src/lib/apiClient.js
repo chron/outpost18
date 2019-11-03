@@ -24,7 +24,11 @@ async function post(action, payload, token) {
     body: payload,
   });
 
-  return response.json();
+  if (response.status === 204) {
+    return true;
+  } else {
+    return response.json();
+  }
 }
 
 export async function createGame(playerId, playerName, publicGame, soloGame, settings, rematchGameId, token) {
@@ -47,6 +51,14 @@ export async function gameAction(playerId, gameId, action, token) {
   return post(
     'game-action',
     JSON.stringify({ playerId, gameId, action }),
+    token
+  );
+}
+
+export async function logEvent(playerId, type, token) {
+  return post(
+    'event',
+    JSON.stringify({ playerId, type }),
     token
   );
 }

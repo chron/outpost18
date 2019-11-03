@@ -303,3 +303,15 @@ export async function saveGame(gameId, data) {
     return false;
   }
 }
+
+export async function createEvent(type, playerId, timestamp, metadata) {
+  const data = {
+    type,
+    playerId,
+    timestamp: timestamp.toISOString(),
+    metadata,
+  };
+
+  const response = await client.query(Create(Collection('user_events'), { data }));
+  return response.ref.id;
+}
