@@ -92,46 +92,48 @@ function App() {
   }
 
   return (
-    <Router>
-      <WelcomePage path="user" playerName={playerName} setPlayerName={setPlayerName} />
-      <MainMenuPage
-        path="menu"
-        playerName={playerName}
-        joinGameFunc={joinGameFunc}
-        setGameState={setGameState} // FIXME: feels weird to pass these things in here
-        playerId={playerId}
-        initialCheck={initialCheck}
-        setInitialCheck={setInitialCheck}
-      />
-      <GamePage
-        path="game"
-        gameId={gameId}
-        playerId={playerId}
-        gameState={gameState}
-        updateGameState={updateGameState}
-        joinGameFunc={joinGameFunc}
-        rematch={rematch}
-      />
-      <AboutPage path="about" />
-      <LoginPage path="login" />
-      <ConfirmAccountPage path="confirm/:token" />
-      <ConfirmAccountPage path="confirm" />
-      <SignupPage path="signup" />
-      <TutorialPage path="tutorial" playerId={playerId} />
-      <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
-      <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
-      <PlayerInfoPage path="player/:playerName" />
-      <ReplayPage path="replay/:gameId" />
-      <ReplayListPage path="replays" />
-      <LeaderboardPage path="leaderboard" />
-      <AllCardsPage path="cards" />
-      <LobbyPage path="lobby" />
-      <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />
-      <ErrorPage default />
-      <Redirect from="/" to={gameId ? 'game' : 'menu'} />
+    <React.StrictMode>
+      <Router>
+        <WelcomePage path="user" playerName={playerName} setPlayerName={setPlayerName} />
+        <MainMenuPage
+          path="menu"
+          playerName={playerName}
+          joinGameFunc={joinGameFunc}
+          setGameState={setGameState} // FIXME: feels weird to pass these things in here
+          playerId={playerId}
+          initialCheck={initialCheck}
+          setInitialCheck={setInitialCheck}
+        />
+        <GamePage
+          path="game"
+          gameId={gameId}
+          playerId={playerId}
+          gameState={gameState}
+          updateGameState={updateGameState}
+          joinGameFunc={joinGameFunc}
+          rematch={rematch}
+        />
+        <AboutPage path="about" />
+        <LoginPage path="login" />
+        <ConfirmAccountPage path="confirm/:token" />
+        <ConfirmAccountPage path="confirm" />
+        <SignupPage path="signup" />
+        <TutorialPage path="tutorial" playerId={playerId} />
+        <CreateGamePage path="create/:gameType" joinGameFunc={joinGameFunc} />
+        <JoinPrivateGamePage path="private" joinGameFunc={joinGameFunc} />
+        <PlayerInfoPage path="player/:playerName" />
+        <ReplayPage path="replay/:gameId" />
+        <ReplayListPage path="replays" />
+        <LeaderboardPage path="leaderboard" />
+        <AllCardsPage path="cards" />
+        <LobbyPage path="lobby" />
+        <JoinGame gameId={gameId} joinGameFunc={joinGameFunc} path="join/:joinCode" />
+        <ErrorPage default />
+        <Redirect from="/" to={gameId ? 'game' : 'menu'} />
 
-      {error && <Error>{error}</Error>}
-    </Router>
+        {error && <Error>{error}</Error>}
+      </Router>
+    </React.StrictMode>
   );
 }
 export default App;

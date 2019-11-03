@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Link, navigate } from '@reach/router';
-import Loading from '../../components/Loading';
 import { useAuth, useApi } from '../../hooks';
 import './MainMenuPage.scss';
 
@@ -14,17 +13,14 @@ function MainMenuPage({ joinGameFunc, setGameState, initialCheck, setInitialChec
 
   useEffect(() => {
     if (id && !authToken) { return; }
+    if (initialCheck) { return; }
 
     loadGame(playerId, undefined, authToken).then(newState => {
       setGameState(newState);
       if (newState.gameId) { navigate('/game'); }
       setInitialCheck(true);
     });
-  }, [playerId, authToken]);
-
-  if (!initialCheck) {
-    return <Loading />;
-  }
+  }, [playerId, authToken, initialCheck]);
 
   return (
     <div className="page page--main-menu">
