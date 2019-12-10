@@ -5,4 +5,5 @@ yarn-error.log
 .env
 games.json
 players.json
+user_events.json
 .netlify

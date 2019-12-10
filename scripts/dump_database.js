@@ -30,4 +30,5 @@ if (!secret) {
 }
 
 dump(secret, 'all_games', 'games.json');
+dump(secret, 'all_user_events', 'user_events.json');
 dump(secret, 'all_players', 'players.json');
