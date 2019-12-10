@@ -53,7 +53,8 @@ function cardPlayFrequencies(playerData) {
 function gameCountByDay(games) {
   return games.filter(g => g.finishedAt).map(g => {
     const d = new Date(g.finishedAt);
-    return `${d.getFullYear()}-${d.getMonth() <= 9 ? '0' : ''}${d.getMonth()}-${d.getDate() <= 9 ? '0' : ''}${d.getDate()}`;
+    const month = d.getMonth() + 1;
+    return `${d.getFullYear()}-${month <= 9 ? '0' : ''}${month}-${d.getDate() <= 9 ? '0' : ''}${d.getDate()}`;
   }).filter(g => g);
 }
 
