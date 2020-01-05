@@ -10,7 +10,8 @@ function seasonAt(time) {
   if (time < new Date(SEASON_START)) {
     return 'preseason';
   } else {
-    return `season-${time.getFullYear()}-w${getWeek(time)}`;
+    const fortnight = Math.ceil(getWeek(time) / 2);
+    return `season-${time.getFullYear()}-f${fortnight}`;
   }
 }
 

@@ -14,7 +14,7 @@ async function handler(event, _context) {
     body: JSON.stringify({
       season: seasonToShow,
       leaderboard: players.map(g => playerPresenter(g, seasonToShow)),
-      availableSeasons: ['preseason'],
+      availableSeasons: ['preseason', 'season-2020-f1'],
     }),
   };
 }
