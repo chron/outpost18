@@ -43,7 +43,7 @@
     "react-dnd-touch-backend": "^9.4.0",
     "react-dom": ">= 16.8",
     "react-hotkeys": "^2.0.0",
-    "react-netlify-identity": "^0.1.9",
+    "react-netlify-identity": "^0.2.3",
     "react-transition-group": "^4.3.0",
     "shuffle-seed": "^1.1.6",
     "src": "^1.1.2"

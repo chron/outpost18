@@ -11,7 +11,7 @@ export const VALID_EVENTS = new Set([
 
 // New games will be created using this ruleset
 export const ACTIVE_VERSION = '2.4.4';
-export const IDENTITY_URL = 'https://outpost18.netlify.com';
+export const IDENTITY_URL = 'https://outpost18.netlify.app';
 export const STARTING_ELO = 1000;
 export const RANKED_GAME_SETTINGS = { turnLength: 60, reportResult: true };
 export const SEASON_START = '2020-01-01 00:00:00';
